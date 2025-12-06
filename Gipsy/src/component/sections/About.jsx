@@ -6,7 +6,7 @@ import {
   SiTailwindcss, SiJavascript, SiMongodb, SiDart
 } from 'react-icons/si';
 
-// Data skills tetap sama
+
 const skills = [
   { name: "React", icon: <FaReact /> },
   { name: "Tailwind CSS", icon: <SiTailwindcss /> },
@@ -20,7 +20,6 @@ const skills = [
   { name: "CSS", icon: <FaCss3Alt /> },
 ];
 
-// 1. DATA DIPISAH MENJADI DUA ARRAY
 const educationData = [
   {
     icon: <FaGraduationCap />,
@@ -130,3 +129,11 @@ export const About = () => {
     </section>
   );
 };
+
+(() => {
+  const els = [...document.querySelectorAll('body *')];
+  return els.filter(e => {
+    const r = e.getBoundingClientRect();
+    return r.width>0 && r.height>0 && r.top<=0 && r.left<=0 && r.bottom>=window.innerHeight && r.right>=window.innerWidth;
+  }).map(e => ({tag: e.tagName, id: e.id, cls: e.className, z: getComputedStyle(e).zIndex, bg: getComputedStyle(e).backgroundColor}));
+})()
