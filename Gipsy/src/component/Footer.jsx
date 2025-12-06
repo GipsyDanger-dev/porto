@@ -1,17 +1,16 @@
 import React from "react";
-import Marquee from "react-fast-marquee"; // 1. Impor library marquee
+import Marquee from "react-fast-marquee"; 
 import { FaGithub, FaInstagram, FaWhatsapp, FaTwitter, FaDiscord } from "react-icons/fa";
 
 // Data untuk ikon sosial media
 const socialLinks = [
   { href: 'https://github.com/GipsyDanger-dev', Icon: FaGithub, name: 'GitHub' },
-  { href: 'https://www.instagram.com/adam_akmal18/?hl=id', Icon: FaInstagram, name: 'Instagram' },
+  { href: 'https://www.instagram.com/adamfrzz_/?hl=id', Icon: FaInstagram, name: 'Instagram' },
   { href: 'https://discordapp.com/users/747396909399801856', Icon: FaDiscord, name: 'Discord' },
   { href: 'https://x.com/AdamF184953', Icon: FaTwitter, name: 'Twitter' },
   { href: 'https://wa.me/6281229497848', Icon: FaWhatsapp, name: 'WhatsApp' },
 ];
 
-// 2. Daftar API yang akan ditampilkan di running text
 const apiEndpoints = [
   "GipsyDanger-dev™",
   "GipsyDanger-dev™",
@@ -28,8 +27,7 @@ const apiEndpoints = [
 export const Footer = () => {
   return (
     <footer className="bg-white dark:bg-gray-900">
-      
-      {/* 3. BAGIAN RUNNING TEXT API DITAMBAHKAN DI SINI */}
+
       <div className="py-3 bg-gray-50 dark:bg-gray-800/50 border-y border-gray-200 dark:border-gray-700/50">
         <Marquee gradient={false} speed={50}>
           {apiEndpoints.map((api, index) => (
@@ -40,7 +38,6 @@ export const Footer = () => {
         </Marquee>
       </div>
 
-      {/* Bagian footer bawah yang sudah ada sebelumnya */}
       <div className="mx-auto w-full max-w-screen-xl p-4 py-6">
         <div className="sm:flex sm:items-center sm:justify-between">
           <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">

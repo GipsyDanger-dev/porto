@@ -42,7 +42,6 @@ export const Project = () => {
           <h2 className="text-3xl font-bold mb-8 bg-gradient-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent text-center">
             Featured Projects
           </h2>
-          {/* 1. Jarak antar kartu dikurangi menjadi gap-6 */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {projectsData.map((project, index) => (
               <div 
@@ -54,10 +53,8 @@ export const Project = () => {
                   alt={project.title}
                   className="rounded-t-xl w-full h-48 object-cover bg-gray-700"
                 />
-                {/* 2. Padding dikecilkan kembali ke p-6 */}
                 <div className="p-6 flex flex-col flex-grow">
                   <h3 className="text-xl font-bold mb-2">{project.title}</h3>
-                  {/* 3. Margin bawah deskripsi kembali ke mb-4 */}
                   <p className="text-gray-400 mb-4 flex-grow">{project.description}</p>
                   <div className="flex flex-wrap gap-2 mb-4">
                     {project.tags.map((tech, key) => (
