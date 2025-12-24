@@ -15,9 +15,9 @@ export const Contact = () => {
         e.preventDefault();
         setIsSending(true);
 
-        const serviceId = service_yvu9jcv; // Ganti dengan Service ID Anda
-        const templateId = template_2gjdaag; // Ganti dengan Template ID Anda
-        const publicKey = KX1R1GJSFpWD3O97B; // Ganti dengan Public Key Anda
+        const serviceId = "service_yvu9jcv"; 
+        const templateId = "template_2gjdaag"; 
+        const publicKey = "KX1R1GJSFpWD3O97B"; 
 
         emailjs
             .send(
@@ -25,7 +25,7 @@ export const Contact = () => {
                 templateId,
                 {
                     from_name: formData.name,
-                    to_name: "Adam Fairuz", // Ganti dengan nama Anda
+                    to_name: "Adam Fairuz", 
                     from_email: formData.email,
                     message: formData.message,
                 },
@@ -35,11 +35,11 @@ export const Contact = () => {
                 alert("Pesan berhasil dikirim!");
                 setFormData({ name: "", email: "", message: "" });
             })
-            .catch((error) => { // Menangani error jika pengiriman gagal
+            .catch((error) => { 
                 console.log(error);
                 alert("Terjadi kesalahan saat mengirim pesan. Silakan coba lagi.");
             })
-            .finally(() => { //  Menjalankan kode setelah request selesai (baik berhasil maupun gagal)
+            .finally(() => { 
                 setIsSending(false);
             });
     };
