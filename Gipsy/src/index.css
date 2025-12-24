@@ -9,6 +9,10 @@ body {
   color: #f3f4f6;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 @layer utilities {
   @keyframes blink {
     0%,
@@ -59,4 +63,13 @@ body {
   filter: blur(80px); 
   z-index: -1; 
   pointer-events: none; 
+}
+
+/* Background Grid */
+.bg-grid {
+  background-size: 50px 50px;
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  mask-image: radial-gradient(ellipse at center, black 40%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 70%);
 }

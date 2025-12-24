@@ -21,14 +21,14 @@ export const FeaturedProject = () => {
             {/* Left Content */}
             <div className="md:w-1/2 p-8 md:p-12 z-10">
               <p className="text-gray-300 mb-6 text-lg leading-relaxed">
-                PasarNgalam is a web app for visualizing personalized Spotify data. View your
-                top artists, top tracks, recently played tracks, and detailed
-                audio information about each track. Create and save new playlists
-                of recommended tracks based on your existing playlists and more.
+                PasarNgalam is a web-based platform designed to digitalize local market information in Malang.
+                It enables users to explore market products and
+                providing accessible data presentation for vendors and customers.
+                PasarNgalam focuses on usability, scalability, and supporting digital transformation for traditional markets.
               </p>
               
               <div className="flex flex-wrap gap-4 mb-8">
-                 {["React", "Node.js", "Spotify API", "TailwindCSS"].map((tech, key) => (
+                 {["React", "Node.js", "Laravel", "Tailwind", "JavaScript", "HTML", "CSS", "Component-Based Architecture"].map((tech, key) => (
                     <span 
                         key={key}
                         className="bg-blue-500/10 text-blue-500 py-1 px-3 rounded-full text-sm hover:bg-blue-500/20 hover:shadow-[0_2px_8px_rgba(59,130,246,0.1)] transition-all"
