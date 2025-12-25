@@ -77,7 +77,7 @@ export const Contact = () => {
                   <div className="w-10 h-10 bg-blue-500/10 rounded-full flex items-center justify-center text-blue-500">
                     <FaEnvelope className="w-5 h-5" />
                   </div>
-                  <span className="text-lg">adamfairuz7@student.ub.ac.id</span>
+                  <span className="text-lg">aryagunaadam@gmail.com</span>
                 </div>
                 <div className="flex items-center space-x-4 text-gray-300 hover:text-blue-400 transition-colors">
                   <div className="w-10 h-10 bg-blue-500/10 rounded-full flex items-center justify-center text-blue-500">

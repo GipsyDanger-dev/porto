@@ -2,6 +2,7 @@ import { RevealOnScroll } from "../RevealOnScroll";
 import fruitCheckImg from "../../pct/FruitCheck.png";
 import itSolutionImg from "../../pct/IT-Solution.png";
 import remindMeImg from "../../pct/RemindMe.png";
+import gipsyDevImg from "../../pct/Porto (2).png";
 
 const projectsData = [
   {
@@ -29,7 +30,7 @@ const projectsData = [
     title: "Gipsy.Dev",
     description: "Platform personal branding dan showcase portofolio interaktif dengan efek visual memukau.",
     tags: ["React", "Three.js", "GSAP", "TailwindCSS"],
-    imageUrl: "https://placehold.co/600x400/000000/ffffff/png", // Placeholder as requested
+    imageUrl: gipsyDevImg,
     projectUrl: "#",
   },
 ];
@@ -38,7 +39,7 @@ export const Project = () => {
   return (
     <section
       id="projects"
-      className="min-h-screen flex flex-col justify-center py-20"
+      className="py-20"
     >
       <RevealOnScroll>
         <div className="max-w-6xl mx-auto px-4">
@@ -49,13 +50,14 @@ export const Project = () => {
             {projectsData.map((project, index) => (
               <div
                 key={index}
-                className="group relative h-[300px] border border-white/10 rounded-2xl overflow-hidden cursor-pointer hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-300"
+                className="group relative border border-white/10 rounded-2xl overflow-hidden cursor-pointer hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-300"
               >
-                {/* Background Image */}
-                <div
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
-                  style={{ backgroundImage: `url(${project.imageUrl})` }}
-                ></div>
+                {/* Image */}
+                <img 
+                  src={project.imageUrl} 
+                  alt={project.title}
+                  className="w-full aspect-[3/2] object-cover transition-transform duration-500 group-hover:scale-110"
+                />
 
                 {/* Overlay gradient */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent opacity-90 transition-opacity duration-300"></div>
