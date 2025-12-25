@@ -1,4 +1,5 @@
 import { RevealOnScroll } from "../RevealOnScroll";
+import pasarNgalamImg from "../../pct/PasarNgalam.png";
 
 export const FeaturedProject = () => {
   return (
@@ -55,14 +56,13 @@ export const FeaturedProject = () => {
             </div>
 
             {/* Right Image Placeholder */}
-            <div className="md:w-1/2 h-full min-h-[300px] bg-gradient-to-br from-blue-900/20 to-purple-900/20 relative group">
+            <div className="md:w-1/2 h-full min-h-[300px] relative group">
+                <div 
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
+                  style={{ backgroundImage: `url(${pasarNgalamImg})` }}
+                ></div>
                 {/* Overlay effect */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent z-10 opacity-60"></div>
-                
-                {/* Placeholder content for visualization */}
-                <div className="absolute inset-0 flex items-center justify-center z-0">
-                    <span className="text-6xl animate-pulse">⚡</span>
-                </div>
             </div>
           </div>
         </div>

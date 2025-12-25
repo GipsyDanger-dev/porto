@@ -1,46 +1,35 @@
 import { RevealOnScroll } from "../RevealOnScroll";
+import fruitCheckImg from "../../pct/FruitCheck.png";
+import itSolutionImg from "../../pct/IT-Solution.png";
+import remindMeImg from "../../pct/RemindMe.png";
 
 const projectsData = [
   {
-    title: "AI-Powered Inventory System",
-    description: "Sistem manajemen gudang berbasis AI untuk optimasi inventaris dan perkiraan permintaan.",
-    tags: ["React", "Python", "FastAPI", "MongoDB"],
-    imageUrl: "https://placehold.co/600x400/1E293B/9CA3AF/png",
+    title: "Freshness FruitCheck",
+    description: "Deteksi kesegaran buah berbasis AI dengan akurasi tinggi menggunakan Convolutional Neural Network (CNN).",
+    tags: ["Python", "TensorFlow", "Keras", "Flask"],
+    imageUrl: fruitCheckImg,
     projectUrl: "#",
   },
   {
-    title: "Cinematic Short — Echoes",
-    description: "Editor utama untuk film pendek, menangani editing, grading, dan motion graphics.",
-    tags: ["Premiere Pro", "After Effects", "Davinci Resolve"],
-    imageUrl: "https://placehold.co/600x400/374151/E5E7EB/png",
+    title: "RemindMe App",
+    description: "Aplikasi pengingat tugas pintar dengan notifikasi real-time dan sinkronisasi lintas perangkat.",
+    tags: ["Kotlin", "Jetpack Compose", "Firebase", "Room"],
+    imageUrl: remindMeImg,
     projectUrl: "#",
   },
   {
-    title: "E-Commerce Platform",
-    description: "Platform penjualan online dengan fitur katalog, keranjang, dan checkout.",
-    tags: ["Vue.js", "Node.js", "PostgreSQL", "Redis"],
-    imageUrl: "https://placehold.co/600x400/111827/F9FAFB/png",
+    title: "IT Solution Website",
+    description: "Website profil perusahaan modern dengan desain responsif dan optimasi performa tinggi.",
+    tags: ["React", "TailwindCSS", "Framer Motion", "Vite"],
+    imageUrl: itSolutionImg,
     projectUrl: "#",
   },
   {
-    title: "Realtime Chat App",
-    description: "Aplikasi chat real-time dengan autentikasi dan storage pesan terpusat.",
-    tags: ["Angular", "Firebase", "TypeScript"],
-    imageUrl: "https://placehold.co/600x400/0F172A/64748B/png",
-    projectUrl: "#",
-  },
-    {
-    title: "Landing Page Modern",
-    description: "Landing page produk responsif dengan animasi halus dan CTA kuat.",
-    tags: ["Svelte", "TailwindCSS", "Framer Motion"],
-    imageUrl: "https://placehold.co/600x400/1e1e1e/ffffff/png",
-    projectUrl: "#",
-  },
-    {
-    title: "Personal Portfolio",
-    description: "Website portfolio untuk menampilkan proyek, blog kecil, dan kontak.",
-    tags: ["HTML", "CSS", "JavaScript"],
-    imageUrl: "https://placehold.co/600x400/000000/ffffff/png",
+    title: "Gipsy.Dev",
+    description: "Platform personal branding dan showcase portofolio interaktif dengan efek visual memukau.",
+    tags: ["React", "Three.js", "GSAP", "TailwindCSS"],
+    imageUrl: "https://placehold.co/600x400/000000/ffffff/png", // Placeholder as requested
     projectUrl: "#",
   },
 ];
