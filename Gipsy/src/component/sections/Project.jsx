@@ -4,13 +4,22 @@ import itSolutionImg from "../../pct/IT-Solution.png";
 import remindMeImg from "../../pct/RemindMe.png";
 import gipsyDevImg from "../../pct/Porto (2).png";
 
+import pasarNgalamImg from "../../pct/PasarNgalam.png";
+
 const projectsData = [
+  {
+    title: "PasarNgalam",
+    description: "Marketplace inovatif yang menghubungkan penjual lokal dengan pelanggan, mendukung pertumbuhan UMKM.",
+    tags: ["React", "Laravel", "TailwindCSS", "MySQL"],
+    imageUrl: pasarNgalamImg,
+    projectUrl: "https://pasarngalam-production.up.railway.app/",
+  },
   {
     title: "Freshness FruitCheck",
     description: "Deteksi kesegaran buah berbasis AI dengan akurasi tinggi menggunakan Convolutional Neural Network (CNN).",
     tags: ["Python", "TensorFlow", "Keras", "Flask"],
     imageUrl: fruitCheckImg,
-    projectUrl: "#",
+    projectUrl: "https://fruitcheck.up.railway.app/",
   },
   {
     title: "RemindMe App",
@@ -24,14 +33,14 @@ const projectsData = [
     description: "Website profil perusahaan modern dengan desain responsif dan optimasi performa tinggi.",
     tags: ["React", "TailwindCSS", "Framer Motion", "Vite"],
     imageUrl: itSolutionImg,
-    projectUrl: "#",
+    projectUrl: "https://it-solution-malang.up.railway.app/",
   },
   {
     title: "Gipsy.Dev",
     description: "Platform personal branding dan showcase portofolio interaktif dengan efek visual memukau.",
     tags: ["React", "Three.js", "GSAP", "TailwindCSS"],
     imageUrl: gipsyDevImg,
-    projectUrl: "#",
+    projectUrl: "https://gipsydanger-dev.github.io/porto/#",
   },
 ];
 
