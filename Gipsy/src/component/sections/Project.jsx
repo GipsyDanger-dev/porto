@@ -24,7 +24,7 @@ const projectsData = [
   {
     title: "RemindMe App",
     description: "Aplikasi pengingat tugas pintar dengan notifikasi real-time dan sinkronisasi lintas perangkat.",
-    tags: ["Kotlin", "Jetpack Compose", "Firebase", "Room"],
+    tags: ["Kotlin", "Dart", "Firebase", "Room"],
     imageUrl: remindMeImg,
     projectUrl: "#",
   },
