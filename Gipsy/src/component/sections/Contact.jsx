@@ -12,13 +12,19 @@ export const Contact = () => {
 
   const [isSending, setIsSending] = useState(false);
 
+  const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+  const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+  const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    setIsSending(true);
 
-    const serviceId = "service_yvu9jcv";
-    const templateId = "template_2gjdaag";
-    const publicKey = "KX1R1GJSFpWD3O97B";
+    if (!serviceId || !templateId || !publicKey) {
+      alert("Konfigurasi email belum lengkap. Silakan set environment variables EmailJS.");
+      return;
+    }
+
+    setIsSending(true);
 
     emailjs
       .send(
@@ -62,7 +68,7 @@ export const Contact = () => {
             <div className="space-y-8">
               <div>
                 <h2 className="text-4xl md:text-5xl font-bold leading-tight text-white mb-2">
-                  Let's Build <br />
+                  Let&apos;s Build <br />
                   <span className="text-blue-500">Something Great.</span>
                 </h2>
                 <p className="text-gray-400 text-lg mt-6 leading-relaxed w-5/6">

@@ -41,13 +41,17 @@ export const FeaturedProject = () => {
 
               <div className="flex gap-4">
                 <a
-                  href="#"
+                  href="https://pasarngalam-production.up.railway.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="bg-blue-600 text-white py-2 px-6 rounded-lg font-medium transition hover:-translate-y-0.5 hover:shadow-[0_0_15px_rgba(59,130,246,0.4)]"
                 >
                   View Project
                 </a>
                 <a
-                  href="#"
+                  href="https://github.com/GipsyDanger-dev"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="border border-white/30 text-white hover:border-white/50 py-2 px-6 rounded-lg font-medium transition hover:-translate-y-0.5 hover:bg-white/5"
                 >
                   Github Code

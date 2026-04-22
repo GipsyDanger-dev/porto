@@ -1,4 +1,3 @@
-import React from "react";
 import Marquee from "react-fast-marquee"; 
 import { FaGithub, FaInstagram, FaWhatsapp, FaTwitter, FaDiscord } from "react-icons/fa";
 
