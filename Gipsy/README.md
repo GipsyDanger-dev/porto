@@ -22,7 +22,17 @@ copy .env.example .env
 VITE_EMAILJS_SERVICE_ID=your_service_id
 VITE_EMAILJS_TEMPLATE_ID=your_template_id
 VITE_EMAILJS_PUBLIC_KEY=your_public_key
+VITE_CONTACT_TO_EMAIL=your_email@example.com
+VITE_CONTACT_TO_NAME=Your Name
 ```
+
+4. In EmailJS template content, make sure these variables are used so message is routed to your inbox:
+
+- `To`: `{{to_email}}`
+- `Reply-To`: `{{reply_to}}`
+- Message body can use: `{{from_name}}`, `{{from_email}}`, and `{{message}}`
+
+If you skip `{{to_email}}`, EmailJS may still use default template recipient settings instead of the address from your app.
 
 ## Scripts
 

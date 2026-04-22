@@ -12,17 +12,19 @@ export const Contact = () => {
 
   const [isSending, setIsSending] = useState(false);
 
-  const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-  const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-  const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+  const serviceId =
+    import.meta.env.VITE_EMAILJS_SERVICE_ID || "service_yvu9jcv";
+  const templateId =
+    import.meta.env.VITE_EMAILJS_TEMPLATE_ID || "template_2gjdaag";
+  const publicKey =
+    import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "KX1R1GJSFpWD3O97B";
+  const toEmail =
+    import.meta.env.VITE_CONTACT_TO_EMAIL || "aryagunaadam@gmail.com";
+  const toName =
+    import.meta.env.VITE_CONTACT_TO_NAME || "Adam Fairuz";
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    if (!serviceId || !templateId || !publicKey) {
-      alert("Konfigurasi email belum lengkap. Silakan set environment variables EmailJS.");
-      return;
-    }
 
     setIsSending(true);
 
@@ -32,8 +34,10 @@ export const Contact = () => {
         templateId,
         {
           from_name: formData.name,
-          to_name: "Adam Fairuz",
+          to_name: toName,
+          to_email: toEmail,
           from_email: formData.email,
+          reply_to: formData.email,
           message: formData.message,
         },
         publicKey
@@ -43,8 +47,12 @@ export const Contact = () => {
         setFormData({ name: "", email: "", message: "" });
       })
       .catch((error) => {
-        console.log(error);
-        alert("Terjadi kesalahan saat mengirim pesan. Silakan coba lagi.");
+        console.error("EmailJS error:", error);
+        alert(
+          `Terjadi kesalahan saat mengirim pesan. ${
+            error?.text || "Silakan cek konfigurasi EmailJS Anda."
+          }`
+        );
       })
       .finally(() => {
         setIsSending(false);
