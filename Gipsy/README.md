@@ -1,8 +1,33 @@
-# React + Vite
+# Gipsy Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Portfolio website built with React + Vite.
 
-Currently, two official plugins are available:
+## Setup
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1. Install dependencies:
+
+```bash
+npm install
+```
+
+2. Create local env file from the example:
+
+```bash
+copy .env.example .env
+```
+
+3. Fill EmailJS variables in `.env`:
+
+```env
+VITE_EMAILJS_SERVICE_ID=your_service_id
+VITE_EMAILJS_TEMPLATE_ID=your_template_id
+VITE_EMAILJS_PUBLIC_KEY=your_public_key
+```
+
+## Scripts
+
+- `npm run dev` - Run local development server
+- `npm run lint` - Run ESLint
+- `npm run build` - Build production assets
+- `npm run preview` - Preview production build locally
+- `npm run deploy` - Deploy `dist` to GitHub Pages

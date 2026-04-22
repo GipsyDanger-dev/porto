@@ -26,7 +26,7 @@ const projectsData = [
     description: "Aplikasi pengingat tugas pintar dengan notifikasi real-time dan sinkronisasi lintas perangkat.",
     tags: ["Kotlin", "Dart", "Firebase", "Room"],
     imageUrl: remindMeImg,
-    projectUrl: "#",
+    projectUrl: "",
   },
   {
     title: "IT Solution Website",
@@ -92,12 +92,20 @@ export const Project = () => {
                       ))}
                     </div>
 
-                    <a
-                      href={project.projectUrl}
-                      className="inline-block w-full bg-blue-600 text-white py-2 rounded-lg font-medium text-center hover:bg-blue-700 transition duration-300"
-                    >
-                      View Project
-                    </a>
+                    {project.projectUrl ? (
+                      <a
+                        href={project.projectUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-block w-full bg-blue-600 text-white py-2 rounded-lg font-medium text-center hover:bg-blue-700 transition duration-300"
+                      >
+                        View Project
+                      </a>
+                    ) : (
+                      <span className="inline-block w-full bg-gray-700/80 text-gray-300 py-2 rounded-lg font-medium text-center cursor-not-allowed">
+                        Coming Soon
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>
