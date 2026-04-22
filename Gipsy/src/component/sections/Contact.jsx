@@ -1,30 +1,74 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RevealOnScroll } from "../RevealOnScroll";
 import emailjs from "@emailjs/browser";
 import { FaEnvelope, FaMapMarkerAlt, FaPaperPlane } from "react-icons/fa";
+
+const COOLDOWN_SECONDS = 15;
+const MESSAGE_MIN_LENGTH = 10;
+const COOLDOWN_STORAGE_KEY = "contact_last_sent_at";
 
 export const Contact = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     message: "",
+    website: "",
   });
 
   const [isSending, setIsSending] = useState(false);
+  const [cooldownLeft, setCooldownLeft] = useState(0);
 
-  const serviceId =
-    import.meta.env.VITE_EMAILJS_SERVICE_ID || "service_yvu9jcv";
-  const templateId =
-    import.meta.env.VITE_EMAILJS_TEMPLATE_ID || "template_2gjdaag";
-  const publicKey =
-    import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "KX1R1GJSFpWD3O97B";
-  const toEmail =
-    import.meta.env.VITE_CONTACT_TO_EMAIL || "aryagunaadam@gmail.com";
-  const toName =
-    import.meta.env.VITE_CONTACT_TO_NAME || "Adam Fairuz";
+  const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+  const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+  const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+  const toEmail = import.meta.env.VITE_CONTACT_TO_EMAIL;
+  const toName = import.meta.env.VITE_CONTACT_TO_NAME || "Website Contact";
+
+  const isInCooldown = cooldownLeft > 0;
+
+  useEffect(() => {
+    const rawTimestamp = window.localStorage.getItem(COOLDOWN_STORAGE_KEY);
+    const lastSentAt = Number(rawTimestamp);
+
+    if (!lastSentAt) return;
+
+    const elapsedSeconds = Math.floor((Date.now() - lastSentAt) / 1000);
+    const remaining = Math.max(0, COOLDOWN_SECONDS - elapsedSeconds);
+    setCooldownLeft(remaining);
+  }, []);
+
+  useEffect(() => {
+    if (cooldownLeft <= 0) return;
+
+    const timer = setInterval(() => {
+      setCooldownLeft((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [cooldownLeft]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!serviceId || !templateId || !publicKey || !toEmail) {
+      alert("Konfigurasi email belum lengkap. Isi VITE_EMAILJS_* dan VITE_CONTACT_TO_EMAIL di file .env.");
+      return;
+    }
+
+    // Honeypot field: bots often fill hidden inputs.
+    if (formData.website.trim()) {
+      return;
+    }
+
+    if (isInCooldown) {
+      alert(`Tunggu ${cooldownLeft} detik sebelum mengirim pesan lagi.`);
+      return;
+    }
+
+    if (formData.message.trim().length < MESSAGE_MIN_LENGTH) {
+      alert(`Pesan minimal ${MESSAGE_MIN_LENGTH} karakter.`);
+      return;
+    }
 
     setIsSending(true);
 
@@ -44,7 +88,9 @@ export const Contact = () => {
       )
       .then(() => {
         alert("Pesan berhasil dikirim!");
-        setFormData({ name: "", email: "", message: "" });
+        setFormData({ name: "", email: "", message: "", website: "" });
+        setCooldownLeft(COOLDOWN_SECONDS);
+        window.localStorage.setItem(COOLDOWN_STORAGE_KEY, String(Date.now()));
       })
       .catch((error) => {
         console.error("EmailJS error:", error);
@@ -138,10 +184,25 @@ export const Contact = () => {
                 </div>
 
                 <div className="relative group">
+                  <input
+                    type="text"
+                    id="website"
+                    name="website"
+                    value={formData.website}
+                    onChange={(e) =>
+                      setFormData({ ...formData, website: e.target.value })
+                    }
+                    className="hidden"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    aria-hidden="true"
+                  />
+
                   <textarea
                     id="message"
                     name="message"
                     required
+                    minLength={MESSAGE_MIN_LENGTH}
                     rows={5}
                     value={formData.message}
                     onChange={(e) =>
@@ -154,10 +215,14 @@ export const Contact = () => {
 
                 <button
                   type="submit"
-                  disabled={isSending}
+                  disabled={isSending || isInCooldown}
                   className="w-full bg-blue-600 text-white py-4 px-6 rounded-lg font-bold text-lg transition-all hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(37,99,235,0.5)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
-                  {isSending ? "Sending..." : "Send Inquiry"}
+                  {isSending
+                    ? "Sending..."
+                    : isInCooldown
+                      ? `Wait ${cooldownLeft}s`
+                      : "Send Inquiry"}
                   {!isSending && <FaPaperPlane className="w-4 h-4" />}
                 </button>
               </form>

@@ -34,6 +34,27 @@ VITE_CONTACT_TO_NAME=Your Name
 
 If you skip `{{to_email}}`, EmailJS may still use default template recipient settings instead of the address from your app.
 
+5. Restart the dev server after changing `.env` so Vite can reload environment values.
+
+## Editor Formatting
+
+This workspace now includes VS Code settings in `.vscode/settings.json` to keep files clean automatically:
+
+- Format on save enabled
+- ESLint autofix on save (explicit)
+- ESLint as default formatter for JavaScript and React files
+
+Recommended extension:
+
+- `dbaeumer.vscode-eslint`
+
+## Contact Form Hardening
+
+- No hardcoded EmailJS credentials in source code
+- Hidden honeypot field to reduce bot submissions
+- 15-second cooldown between successful sends (persists after page refresh)
+- Minimum message length validation (10 characters)
+
 ## Scripts
 
 - `npm run dev` - Run local development server
