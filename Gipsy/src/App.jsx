@@ -7,6 +7,7 @@ import { Home } from './component/sections/Home';
 import { About } from './component/sections/About';
 import { FeaturedProject } from './component/sections/FeaturedProject';
 import { Project } from './component/sections/Project';
+import { Certification } from './component/sections/Certification';
 import { Footer } from './component/Footer';
 import { Contact } from './component/sections/Contact';
 import "./index.css";
@@ -32,6 +33,7 @@ function App() {
         <About />
         <FeaturedProject />
         <Project />
+        <Certification />
         <Contact />
         <Footer />
       </div>

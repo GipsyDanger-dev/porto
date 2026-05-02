@@ -24,7 +24,7 @@ export const MobileMenu = ({ menuOpen, setMenuOpen }) => {
                         ${
                           menuOpen
                             ? "opacity-100 translate-y-0"
-                            : "opacity-0 -translate-y-0"
+                            : "opacity-0 translate-y-0"
                         }`}
       >
         Home
@@ -34,7 +34,7 @@ export const MobileMenu = ({ menuOpen, setMenuOpen }) => {
         onClick={() => setMenuOpen(false)}
         className={`text-2xl font-semibold text-white my-4 transform transition-transform duration-300
           ${
-            menuOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-0"
+            menuOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-0"
           }`}
       >
         About
@@ -44,17 +44,27 @@ export const MobileMenu = ({ menuOpen, setMenuOpen }) => {
         onClick={() => setMenuOpen(false)}
         className={`text-2xl font-semibold text-white my-4 transform transition-transform duration-300
           ${
-            menuOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-0"
+            menuOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-0"
           }`}
       >
         Projects
+      </a>
+      <a
+        href="#certifications"
+        onClick={() => setMenuOpen(false)}
+        className={`text-2xl font-semibold text-white my-4 transform transition-transform duration-300
+          ${
+            menuOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-0"
+          }`}
+      >
+        Certifications
       </a>
       <a
         href="#contact"
         onClick={() => setMenuOpen(false)}
         className={`text-2xl font-semibold text-white my-4 transform transition-transform duration-300
           ${
-            menuOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-0"
+            menuOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-0"
           }`}
       >
         Contact

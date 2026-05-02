@@ -1,9 +1,9 @@
 import { RevealOnScroll } from "../RevealOnScroll";
 import {
-  FaReact, FaPython, FaJava, FaHtml5, FaCss3Alt, FaRust, FaBriefcase, FaGraduationCap
+  FaReact, FaPython, FaJava, FaHtml5, FaCss3Alt, FaBriefcase, FaGraduationCap
 } from 'react-icons/fa';
 import { 
-  SiTailwindcss, SiJavascript, SiMongodb, SiDart
+  SiTailwindcss, SiJavascript, SiDart, SiAdobeaftereffects, SiAdobepremierepro
 } from 'react-icons/si';
 
 
@@ -13,9 +13,9 @@ const skills = [
   { name: "JavaScript", icon: <SiJavascript /> },
   { name: "Python", icon: <FaPython /> },
   { name: "Java", icon: <FaJava /> },
-  { name: "MongoDB", icon: <SiMongodb /> },
+  { name: "Premiere Pro", icon: <SiAdobepremierepro /> },
   { name: "Dart", icon: <SiDart /> },
-  { name: "Rust", icon: <FaRust /> },
+  { name: "After Effects", icon: <SiAdobeaftereffects /> },
   { name: "HTML", icon: <FaHtml5 /> },
   { name: "CSS", icon: <FaCss3Alt /> },
 ];
@@ -74,7 +74,7 @@ export const About = () => {
     <section id="about" className="min-h-screen flex items-center justify-center py-20">
       <RevealOnScroll>
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-4xl font-bold mb-12 bg-gradient-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent text-center">
+          <h2 className="text-4xl font-bold mb-12 bg-linear-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent text-center">
             About Me
           </h2>
 

@@ -1,7 +1,15 @@
 import { useEffect, useState } from "react";
 import { RevealOnScroll } from "../RevealOnScroll";
 import emailjs from "@emailjs/browser";
-import { FaEnvelope, FaMapMarkerAlt, FaPaperPlane } from "react-icons/fa";
+import {
+  FaCheckCircle,
+  FaEnvelope,
+  FaExclamationCircle,
+  FaInfoCircle,
+  FaMapMarkerAlt,
+  FaPaperPlane,
+  FaTimes,
+} from "react-icons/fa";
 
 const COOLDOWN_SECONDS = 15;
 const MESSAGE_MIN_LENGTH = 10;
@@ -17,6 +25,7 @@ export const Contact = () => {
 
   const [isSending, setIsSending] = useState(false);
   const [cooldownLeft, setCooldownLeft] = useState(0);
+  const [notice, setNotice] = useState({ type: "", message: "" });
 
   const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
   const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
@@ -25,6 +34,16 @@ export const Contact = () => {
   const toName = import.meta.env.VITE_CONTACT_TO_NAME || "Website Contact";
 
   const isInCooldown = cooldownLeft > 0;
+
+  useEffect(() => {
+    if (!notice.message) return;
+
+    const timer = setTimeout(() => {
+      setNotice({ type: "", message: "" });
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, [notice.message]);
 
   useEffect(() => {
     const rawTimestamp = window.localStorage.getItem(COOLDOWN_STORAGE_KEY);
@@ -51,7 +70,11 @@ export const Contact = () => {
     e.preventDefault();
 
     if (!serviceId || !templateId || !publicKey || !toEmail) {
-      alert("Konfigurasi email belum lengkap. Isi VITE_EMAILJS_* dan VITE_CONTACT_TO_EMAIL di file .env.");
+      setNotice({
+        type: "error",
+        message:
+          "Konfigurasi email belum lengkap. Isi VITE_EMAILJS_* dan VITE_CONTACT_TO_EMAIL di file .env.",
+      });
       return;
     }
 
@@ -61,12 +84,18 @@ export const Contact = () => {
     }
 
     if (isInCooldown) {
-      alert(`Tunggu ${cooldownLeft} detik sebelum mengirim pesan lagi.`);
+      setNotice({
+        type: "info",
+        message: `Tunggu ${cooldownLeft} detik sebelum mengirim pesan lagi.`,
+      });
       return;
     }
 
     if (formData.message.trim().length < MESSAGE_MIN_LENGTH) {
-      alert(`Pesan minimal ${MESSAGE_MIN_LENGTH} karakter.`);
+      setNotice({
+        type: "error",
+        message: `Pesan minimal ${MESSAGE_MIN_LENGTH} karakter.`,
+      });
       return;
     }
 
@@ -87,22 +116,39 @@ export const Contact = () => {
         publicKey
       )
       .then(() => {
-        alert("Pesan berhasil dikirim!");
         setFormData({ name: "", email: "", message: "", website: "" });
         setCooldownLeft(COOLDOWN_SECONDS);
         window.localStorage.setItem(COOLDOWN_STORAGE_KEY, String(Date.now()));
+        setNotice({
+          type: "success",
+          message:
+            "Pesan berhasil dikirim. Saya akan membalas secepatnya ke email kamu.",
+        });
       })
       .catch((error) => {
         console.error("EmailJS error:", error);
-        alert(
-          `Terjadi kesalahan saat mengirim pesan. ${
+        setNotice({
+          type: "error",
+          message: `Terjadi kesalahan saat mengirim pesan. ${
             error?.text || "Silakan cek konfigurasi EmailJS Anda."
-          }`
-        );
+          }`,
+        });
       })
       .finally(() => {
         setIsSending(false);
       });
+  };
+
+  const noticeStyles = {
+    success: "border-emerald-500/30 bg-emerald-500/10 text-emerald-200",
+    error: "border-rose-500/30 bg-rose-500/10 text-rose-200",
+    info: "border-sky-500/30 bg-sky-500/10 text-sky-200",
+  };
+
+  const noticeIcons = {
+    success: <FaCheckCircle className="shrink-0" />,
+    error: <FaExclamationCircle className="shrink-0" />,
+    info: <FaInfoCircle className="shrink-0" />,
   };
 
   return (
@@ -150,6 +196,25 @@ export const Contact = () => {
 
             {/* Right Column: Form */}
             <div className="bg-white/5 backdrop-blur-xl p-8 md:p-10 rounded-2xl border border-white/10 shadow-2xl relative z-10 transition-all hover:border-white/20">
+              {notice.message && (
+                <div
+                  role="status"
+                  aria-live="polite"
+                  className={`mb-6 flex items-start gap-3 rounded-xl border px-4 py-3 text-sm leading-relaxed ${noticeStyles[notice.type] || noticeStyles.info}`}
+                >
+                  <div className="mt-0.5 text-base">{noticeIcons[notice.type] || noticeIcons.info}</div>
+                  <p className="flex-1">{notice.message}</p>
+                  <button
+                    type="button"
+                    onClick={() => setNotice({ type: "", message: "" })}
+                    className="shrink-0 text-current/80 transition hover:text-current"
+                    aria-label="Dismiss notification"
+                  >
+                    <FaTimes className="text-sm" />
+                  </button>
+                </div>
+              )}
+
               <form className="space-y-8" onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="relative group">

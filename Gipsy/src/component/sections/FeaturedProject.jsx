@@ -13,7 +13,7 @@ export const FeaturedProject = () => {
             <h2 className="text-4xl font-bold mb-2 text-purple-400">
               Featured Project
             </h2>
-            <h3 className="text-5xl font-bold bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
+            <h3 className="text-5xl font-bold bg-linear-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
               PasarNgalam
             </h3>
           </div>

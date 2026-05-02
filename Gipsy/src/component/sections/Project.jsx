@@ -52,7 +52,7 @@ export const Project = () => {
     >
       <RevealOnScroll>
         <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-12 bg-gradient-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent text-center">
+          <h2 className="text-3xl font-bold mb-12 bg-linear-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent text-center">
             Featured Projects
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -65,11 +65,11 @@ export const Project = () => {
                 <img 
                   src={project.imageUrl} 
                   alt={project.title}
-                  className="w-full aspect-[3/2] object-cover transition-transform duration-500 group-hover:scale-110"
+                  className="w-full aspect-3/2 object-cover transition-transform duration-500 group-hover:scale-110"
                 />
 
                 {/* Overlay gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent opacity-90 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/60 to-transparent opacity-90 transition-opacity duration-300"></div>
 
                 {/* Content */}
                 <div className="absolute bottom-0 p-6 w-full flex flex-col text-left">
@@ -80,7 +80,7 @@ export const Project = () => {
                     {project.description}
                   </p>
 
-                  <div className="opacity-0 group-hover:opacity-100 max-h-0 group-hover:max-h-[200px] overflow-hidden transition-all duration-500 ease-in-out">
+                  <div className="opacity-0 group-hover:opacity-100 max-h-0 group-hover:max-h-50 overflow-hidden transition-all duration-500 ease-in-out">
                     <div className="flex flex-wrap gap-2 mb-4">
                       {project.tags.map((tech, key) => (
                         <span
