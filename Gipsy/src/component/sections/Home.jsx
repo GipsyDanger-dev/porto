@@ -46,7 +46,7 @@ export const Home = () => {
             </div>
 
             <div className="order-1 lg:order-2 relative flex items-center justify-center lg:justify-end xl:translate-x-12 2xl:translate-x-16">
-              <div className="relative w-full max-w-[360px] lg:max-w-[430px] xl:max-w-[470px] aspect-[3/4] overflow-hidden rounded-[2rem]">
+              <div className="relative w-full max-w-90 lg:max-w-107.5 xl:max-w-117.5 aspect-3/4 overflow-hidden rounded-4xl">
                 <img
                   src={fotoHomeImg}
                   alt="Foto Home"

@@ -2,6 +2,7 @@ import { RevealOnScroll } from "../RevealOnScroll";
 import { FaAward, FaExternalLinkAlt } from "react-icons/fa";
 import sertif1Img from "../../pct/sertif/Sertif1.jpg";
 import sertif2Img from "../../pct/sertif/sertif2.jpg";
+import sertif3Img from "../../pct/sertif/Sertif3.png";
 
 const certifications = [
   {
@@ -25,6 +26,17 @@ const certifications = [
     imageUrl: sertif2Img,
     description:
       "Declaration of Completion untuk kursus online Innovating with Google Cloud AI dari Simplilearn SkillUp, didukung Google Cloud.",
+  },
+  {
+    title: "Dive Deeper into GA4 Data and Reports",
+    issuer: "Skillshop",
+    issuedDate: "20th April 2026",
+    certificateNumber: "91b4ee1f-055f-4837-b66b-de64328ef20e",
+    isVerified: true,
+    credentialUrl: "https://www.credential.net/91b4ee1f-055f-4837-b66b-de64328ef20e",
+    imageUrl: sertif3Img,
+    description:
+      "Course covering Google Analytics 4 reports, explorations, segments, and integrations with Google Ads.",
   },
 ];
 

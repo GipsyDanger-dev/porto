@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://gipsydanger-dev.github.io/porto",
+  "homepage": "[https://gipsy-dev.me](https://gipsy-dev.me)",
   "scripts": {
     "dev": "vite",
     "build": "npx vite build",
