@@ -5,6 +5,7 @@ import { MobileMenu } from './component/MobileMenu';
 import { Home } from './component/sections/Home';
 import { About } from './component/sections/About';
 import { FeaturedProject } from './component/sections/FeaturedProject';
+import { CurrentlyBuilding } from './component/sections/CurrentlyBuilding';
 import { Project } from './component/sections/Project';
 import { Certification } from './component/sections/Certification';
 import { Footer } from './component/Footer';
@@ -26,6 +27,7 @@ function App() {
         <Home />
         <About />
         <FeaturedProject />
+        <CurrentlyBuilding />
         <Project />
         <Certification />
         <Contact />
