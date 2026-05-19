@@ -1,4 +1,5 @@
 import { RevealOnScroll } from "../RevealOnScroll";
+import { FaGithub } from "react-icons/fa";
 import fruitCheckImg from "../../pct/FruitCheck.png";
 import itSolutionImg from "../../pct/IT-Solution.png";
 import remindMeImg from "../../pct/RemindMe.png";
@@ -13,6 +14,7 @@ const projectsData = [
     tags: ["React", "Laravel", "TailwindCSS", "MySQL"],
     imageUrl: pasarNgalamImg,
     projectUrl: "https://pasarngalam-production.up.railway.app/",
+    githubUrl: "https://github.com/GipsyDanger-dev/PasarNgalam",
   },
   {
     title: "Freshness FruitCheck",
@@ -20,6 +22,7 @@ const projectsData = [
     tags: ["Python", "TensorFlow", "Keras", "Flask"],
     imageUrl: fruitCheckImg,
     projectUrl: "https://fruitcheck.up.railway.app/",
+    githubUrl: "https://github.com/GipsyDanger-dev/AIprojectUAS",
   },
   {
     title: "RemindMe App",
@@ -27,6 +30,7 @@ const projectsData = [
     tags: ["Kotlin", "Dart", "Firebase", "Room"],
     imageUrl: remindMeImg,
     projectUrl: "",
+    githubUrl: "https://github.com/GipsyDanger-dev/remind_new",
   },
   {
     title: "IT Solution Website",
@@ -34,6 +38,7 @@ const projectsData = [
     tags: ["React", "TailwindCSS", "Framer Motion", "Vite"],
     imageUrl: itSolutionImg,
     projectUrl: "https://it-solution-malang.up.railway.app/",
+    githubUrl: "https://github.com/GipsyDanger-dev/it-solution-malang",
   },
   {
     title: "Gipsy.Dev",
@@ -41,6 +46,7 @@ const projectsData = [
     tags: ["React", "Three.js", "GSAP", "TailwindCSS"],
     imageUrl: gipsyDevImg,
     projectUrl: "https://gipsydanger-dev.github.io/porto/#",
+    githubUrl: "https://github.com/GipsyDanger-dev/porto",
   },
 ];
 
@@ -92,20 +98,33 @@ export const Project = () => {
                       ))}
                     </div>
 
-                    {project.projectUrl ? (
-                      <a
-                        href={project.projectUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-block w-full bg-blue-600 text-white py-2 rounded-lg font-medium text-center hover:bg-blue-700 transition duration-300"
-                      >
-                        View Project
-                      </a>
-                    ) : (
-                      <span className="inline-block w-full bg-gray-700/80 text-gray-300 py-2 rounded-lg font-medium text-center cursor-not-allowed">
-                        Coming Soon
-                      </span>
-                    )}
+                    <div className="flex gap-2">
+                      {project.projectUrl ? (
+                        <a
+                          href={project.projectUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex-1 bg-blue-600 text-white py-2 rounded-lg font-medium text-center hover:bg-blue-700 transition duration-300"
+                        >
+                          View Project
+                        </a>
+                      ) : (
+                        <span className="flex-1 bg-gray-700/80 text-gray-300 py-2 rounded-lg font-medium text-center cursor-not-allowed">
+                          Coming Soon
+                        </span>
+                      )}
+                      {project.githubUrl && (
+                        <a
+                          href={project.githubUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-center w-10 border border-white/30 text-white rounded-lg hover:border-white/50 hover:bg-white/10 transition duration-300"
+                          title="View Source"
+                        >
+                          <FaGithub className="w-4 h-4" />
+                        </a>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
