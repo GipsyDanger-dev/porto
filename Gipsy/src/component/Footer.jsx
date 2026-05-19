@@ -20,15 +20,6 @@ const socialLinks = [
 
 const apiEndpoints = [
   "GipsyDanger-dev™",
-  "GipsyDanger-dev™",
-  "GipsyDanger-dev™",
-  "GipsyDanger-dev™",
-  "GipsyDanger-dev™",
-  "GipsyDanger-dev™",
-  "GipsyDanger-dev™",
-  "GipsyDanger-dev™",
-  "GipsyDanger-dev™",
-  "GipsyDanger-dev™",
 ];
 
 export const Footer = () => {
@@ -47,7 +38,7 @@ export const Footer = () => {
       <div className="mx-auto w-full max-w-7xl p-4 py-6">
         <div className="sm:flex sm:items-center sm:justify-between">
           <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
-            © 2025{" "}
+            © {new Date().getFullYear()}{" "}
             <a href="https://github.com/GipsyDanger-dev" className="hover:underline">
               GipsyDanger-dev™
             </a>
