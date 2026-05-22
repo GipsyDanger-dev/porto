@@ -53,29 +53,7 @@ const LightRays = ({
   const animationIdRef = useRef(null);
   const meshRef = useRef(null);
   const cleanupFunctionRef = useRef(null);
-  const [isVisible, setIsVisible] = useState(false);
-  const observerRef = useRef(null);
-
-  useEffect(() => {
-    if (!containerRef.current) return;
-
-    observerRef.current = new IntersectionObserver(
-      entries => {
-        const entry = entries[0];
-        setIsVisible(entry.isIntersecting);
-      },
-      { threshold: 0.1 }
-    );
-
-    observerRef.current.observe(containerRef.current);
-
-    return () => {
-      if (observerRef.current) {
-        observerRef.current.disconnect();
-        observerRef.current = null;
-      }
-    };
-  }, []);
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
     if (!isVisible || !containerRef.current) return;
@@ -93,15 +71,21 @@ const LightRays = ({
       if (!containerRef.current) return;
 
       try {
+      console.log('LightRays: initializing WebGL...');
       const renderer = new Renderer({
         dpr: Math.min(window.devicePixelRatio, 2),
         alpha: true
       });
       rendererRef.current = renderer;
+      console.log('LightRays: renderer created');
 
       const gl = renderer.gl;
+      gl.canvas.style.position = 'absolute';
+      gl.canvas.style.top = '0';
+      gl.canvas.style.left = '0';
       gl.canvas.style.width = '100%';
       gl.canvas.style.height = '100%';
+      gl.canvas.style.pointerEvents = 'none';
 
       while (containerRef.current.firstChild) {
         containerRef.current.removeChild(containerRef.current.firstChild);
@@ -282,6 +266,7 @@ void main() {
 
       window.addEventListener('resize', updatePlacement);
       updatePlacement();
+      console.log('LightRays: starting render loop');
       animationIdRef.current = requestAnimationFrame(loop);
 
       cleanupFunctionRef.current = () => {
@@ -397,7 +382,7 @@ void main() {
   return (
     <div
       ref={containerRef}
-      className={`w-full h-full pointer-events-none z-[3] overflow-hidden relative ${className}`.trim()}
+      className={`w-full h-full pointer-events-none overflow-hidden relative ${className}`.trim()}
     />
   );
 };
