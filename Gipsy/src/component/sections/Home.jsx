@@ -1,7 +1,26 @@
+import { Component, lazy, Suspense } from "react";
 import { RevealOnScroll } from "../RevealOnScroll";
 import TextType from "../TextType";
-import LightRays from "../LightRays";
 import fotoHomeImg from "../../pct/Foto_Home.png";
+
+const LightRays = lazy(() => import("../LightRays"));
+
+class WebGLBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+  componentDidCatch(error) {
+    console.warn("WebGL error caught:", error);
+  }
+  render() {
+    if (this.state.hasError) return null;
+    return this.props.children;
+  }
+}
 
 export const Home = () => {
   return (
@@ -11,19 +30,23 @@ export const Home = () => {
     >
       {/* Light Rays Background Effect */}
       <div className="absolute inset-0 z-0">
-        <LightRays
-          raysOrigin="top-center"
-          raysColor="#3b82f6"
-          raysSpeed={1.2}
-          lightSpread={0.6}
-          rayLength={1.5}
-          followMouse={true}
-          mouseInfluence={0.15}
-          noiseAmount={0.05}
-          distortion={0.03}
-          fadeDistance={1.2}
-          saturation={0.9}
-        />
+        <WebGLBoundary>
+          <Suspense fallback={null}>
+            <LightRays
+              raysOrigin="top-center"
+              raysColor="#3b82f6"
+              raysSpeed={1.2}
+              lightSpread={0.6}
+              rayLength={1.5}
+              followMouse={true}
+              mouseInfluence={0.15}
+              noiseAmount={0.05}
+              distortion={0.03}
+              fadeDistance={1.2}
+              saturation={0.9}
+            />
+          </Suspense>
+        </WebGLBoundary>
       </div>
       <RevealOnScroll>
         <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 w-full">

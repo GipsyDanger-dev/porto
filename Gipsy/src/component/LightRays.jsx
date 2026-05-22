@@ -92,6 +92,7 @@ const LightRays = ({
 
       if (!containerRef.current) return;
 
+      try {
       const renderer = new Renderer({
         dpr: Math.min(window.devicePixelRatio, 2),
         alpha: true
@@ -311,9 +312,14 @@ void main() {
         uniformsRef.current = null;
         meshRef.current = null;
       };
+      } catch (error) {
+        console.warn('LightRays WebGL setup error:', error);
+      }
     };
 
-    initializeWebGL();
+    initializeWebGL().catch(error => {
+      console.warn('LightRays WebGL initialization failed:', error);
+    });
 
     return () => {
       if (cleanupFunctionRef.current) {
