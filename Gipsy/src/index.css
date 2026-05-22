@@ -27,6 +27,12 @@ html {
   scroll-behavior: smooth;
 }
 
+@media (min-width: 768px) {
+  html {
+    font-size: 14.4px;
+  }
+}
+
 @layer utilities {
   @keyframes blink {
     0%,
