@@ -1,4 +1,5 @@
 import { RevealOnScroll } from "../RevealOnScroll";
+import TextType from "../TextType";
 import fotoHomeImg from "../../pct/Foto_Home.png";
 
 export const Home = () => {
@@ -11,9 +12,19 @@ export const Home = () => {
         <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] items-center gap-12 lg:gap-10 min-h-[calc(100vh-6rem)] py-8 lg:py-0">
             <div className="order-2 lg:order-1 text-center lg:text-left max-w-2xl mx-auto lg:mx-0">
-              {/* <p className="inline-flex items-center rounded-full border border-blue-400/30 bg-blue-500/10 px-4 py-2 text-xs md:text-sm font-medium tracking-[0.2em] uppercase text-blue-300 mb-6">
-                Portfolio / Video Editor / Developer
-              </p> */}
+              <div className="inline-flex items-center rounded-full border border-blue-400/30 bg-blue-500/10 px-4 py-2 text-xs md:text-sm font-medium tracking-[0.2em] uppercase text-blue-300 mb-6">
+                <TextType
+                  text={["Full Stack Developer", "Video Editor", "Blockchain Enthusiast", "Creative Technologist"]}
+                  typingSpeed={70}
+                  pauseDuration={1700}
+                  deletingSpeed={40}
+                  showCursor={true}
+                  cursorCharacter="|"
+                  cursorClassName="text-blue-400"
+                  variableSpeed={{ min: 50, max: 100 }}
+                  textColors={["#60A5FA", "#22D3EE", "#A78BFA", "#34D399"]}
+                />
+              </div>
 
               <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.95] mb-6 bg-linear-to-r from-blue-400 via-cyan-300 to-white bg-clip-text text-transparent">
                 Hi, I&apos;m Gipsy.Dev
