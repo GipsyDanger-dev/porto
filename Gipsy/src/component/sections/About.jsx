@@ -92,18 +92,17 @@ export const About = () => {
                 {skills.map((skill) => (
                   <div
                     key={skill.name}
-                    className="group flex flex-col items-center justify-center text-center p-3 rounded-xl transition-all duration-300 hover:-translate-y-2 cursor-default"
-                    style={{
-                      '--skill-color': skill.color,
-                    }}
+                    className="group/skill flex flex-col items-center justify-center text-center p-3 rounded-xl transition-all duration-300 hover:-translate-y-2 cursor-default"
                   >
                     <div
-                      className="text-4xl transition-all duration-300 group-hover:scale-125 group-hover:drop-shadow-[0_0_12px_var(--skill-color)]"
-                      style={{ color: skill.color }}
+                      className="text-4xl transition-all duration-300 group-hover/skill:scale-125"
+                      style={{ color: skill.color, filter: 'none' }}
+                      onMouseEnter={(e) => { e.currentTarget.style.filter = `drop-shadow(0 0 12px ${skill.color})`; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.filter = 'none'; }}
                     >
                         {skill.icon}
                     </div>
-                    <span className="mt-2 font-medium text-gray-400 group-hover:text-white text-sm transition-colors duration-300">
+                    <span className="mt-2 font-medium text-gray-400 group-hover/skill:text-white text-sm transition-colors duration-300">
                       {skill.name}
                     </span>
                   </div>
