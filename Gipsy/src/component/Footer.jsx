@@ -20,6 +20,15 @@ const socialLinks = [
 
 const apiEndpoints = [
   "GipsyDanger-dev™",
+  "Full Stack Developer",
+  "React • Laravel • Python",
+  "Open to Collaborate",
+  "Based in Indonesia",
+  "GipsyDanger-dev™",
+  "Full Stack Developer",
+  "React • Laravel • Python",
+  "Open to Collaborate",
+  "Based in Indonesia",
 ];
 
 export const Footer = () => {
