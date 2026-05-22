@@ -1,5 +1,6 @@
 import { RevealOnScroll } from "../RevealOnScroll";
 import TextType from "../TextType";
+import LightRays from "../LightRays";
 import fotoHomeImg from "../../pct/Foto_Home.png";
 
 export const Home = () => {
@@ -8,6 +9,22 @@ export const Home = () => {
       id="home"
       className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20"
     >
+      {/* Light Rays Background Effect */}
+      <div className="absolute inset-0 z-0">
+        <LightRays
+          raysOrigin="top-center"
+          raysColor="#3b82f6"
+          raysSpeed={1.2}
+          lightSpread={0.6}
+          rayLength={1.5}
+          followMouse={true}
+          mouseInfluence={0.15}
+          noiseAmount={0.05}
+          distortion={0.03}
+          fadeDistance={1.2}
+          saturation={0.9}
+        />
+      </div>
       <RevealOnScroll>
         <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] items-center gap-12 lg:gap-10 min-h-[calc(100vh-6rem)] py-8 lg:py-0">
