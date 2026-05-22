@@ -8,16 +8,16 @@ import {
 
 
 const skills = [
-  { name: "React", icon: <FaReact /> },
-  { name: "Tailwind CSS", icon: <SiTailwindcss /> },
-  { name: "JavaScript", icon: <SiJavascript /> },
-  { name: "Python", icon: <FaPython /> },
-  { name: "Java", icon: <FaJava /> },
-  { name: "Premiere Pro", icon: <SiAdobepremierepro /> },
-  { name: "Dart", icon: <SiDart /> },
-  { name: "After Effects", icon: <SiAdobeaftereffects /> },
-  { name: "HTML", icon: <FaHtml5 /> },
-  { name: "CSS", icon: <FaCss3Alt /> },
+  { name: "React", icon: <FaReact />, color: "#61DAFB" },
+  { name: "Tailwind CSS", icon: <SiTailwindcss />, color: "#06B6D4" },
+  { name: "JavaScript", icon: <SiJavascript />, color: "#F7DF1E" },
+  { name: "Python", icon: <FaPython />, color: "#3776AB" },
+  { name: "Java", icon: <FaJava />, color: "#ED8B00" },
+  { name: "Premiere Pro", icon: <SiAdobepremierepro />, color: "#9999FF" },
+  { name: "Dart", icon: <SiDart />, color: "#0175C2" },
+  { name: "After Effects", icon: <SiAdobeaftereffects />, color: "#9999FF" },
+  { name: "HTML", icon: <FaHtml5 />, color: "#E34F26" },
+  { name: "CSS", icon: <FaCss3Alt />, color: "#1572B6" },
 ];
 
 const educationData = [
@@ -90,11 +90,22 @@ export const About = () => {
               <h3 className="text-2xl font-bold text-white mb-8 text-center">My Skillset</h3>
               <div className="grid grid-cols-3 sm:grid-cols-5 gap-6">
                 {skills.map((skill) => (
-                  <div key={skill.name} className="group flex flex-col items-center justify-center text-center p-3 transition-all duration-300">
-                    <div className="text-4xl text-gray-400 group-hover:text-cyan-400 group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-300">
+                  <div
+                    key={skill.name}
+                    className="group flex flex-col items-center justify-center text-center p-3 rounded-xl transition-all duration-300 hover:-translate-y-2 cursor-default"
+                    style={{
+                      '--skill-color': skill.color,
+                    }}
+                  >
+                    <div
+                      className="text-4xl transition-all duration-300 group-hover:scale-125 group-hover:drop-shadow-[0_0_12px_var(--skill-color)]"
+                      style={{ color: skill.color }}
+                    >
                         {skill.icon}
                     </div>
-                    <span className="mt-2 font-medium text-gray-400 group-hover:text-white text-sm transition-colors duration-300">{skill.name}</span>
+                    <span className="mt-2 font-medium text-gray-400 group-hover:text-white text-sm transition-colors duration-300">
+                      {skill.name}
+                    </span>
                   </div>
                 ))}
               </div>
