@@ -81,7 +81,7 @@ export const About = () => {
           {/* Kartu Perkenalan */}
           <div className="bg-gray-800/20 border border-white/10 rounded-2xl p-8 mb-12">
             <p className="text-gray-300 text-lg leading-relaxed text-center">
-              Halo! Saya Adam, seorang video editor, developer, dan blockchain enthusiast dengan minat besar dalam dunia teknologi dan kreativitas. Saya selalu terbuka untuk kolaborasi dan proyek baru yang menantang. 🚀
+              I'm Adam — a full stack developer, video editor, and blockchain enthusiast. I enjoy the process from writing code to editing footage. Open for collaboration and new projects, let's connect.
             </p>
           </div>
           

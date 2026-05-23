@@ -71,12 +71,7 @@ export const Home = () => {
               </h1>
 
               <p className="text-gray-300 text-base md:text-lg leading-relaxed max-w-xl mx-auto lg:mx-0">
-                Halo, saya Adam Fairuz Akmal Aryaguna seorang video editor,
-                developer, dan blockchain enthusiast yang menggabungkan
-                kreativitas dan teknologi dalam setiap proyek. Berpengalaman di
-                Adobe Premiere Pro, After Effects, pengembangan web, dan
-                blockchain. Saya selalu tertarik untuk menciptakan solusi
-                digital inovatif. 🚀
+                Full stack developer and video editor focused on React, Laravel, and the Adobe Creative Suite. Combining technical skill and visual sense to build digital products that make an impact.
               </p>
 
               <div className="mt-8 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">

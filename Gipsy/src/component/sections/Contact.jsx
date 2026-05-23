@@ -73,7 +73,7 @@ export const Contact = () => {
       setNotice({
         type: "error",
         message:
-          "Konfigurasi email belum lengkap. Isi VITE_EMAILJS_* dan VITE_CONTACT_TO_EMAIL di file .env.",
+          "Email configuration is incomplete. Fill in VITE_EMAILJS_* and VITE_CONTACT_TO_EMAIL in your .env file.",
       });
       return;
     }
@@ -86,7 +86,7 @@ export const Contact = () => {
     if (isInCooldown) {
       setNotice({
         type: "info",
-        message: `Tunggu ${cooldownLeft} detik sebelum mengirim pesan lagi.`,
+        message: `Please wait ${cooldownLeft}s before sending another message.`,
       });
       return;
     }
@@ -94,7 +94,7 @@ export const Contact = () => {
     if (formData.message.trim().length < MESSAGE_MIN_LENGTH) {
       setNotice({
         type: "error",
-        message: `Pesan minimal ${MESSAGE_MIN_LENGTH} karakter.`,
+        message: `Message must be at least ${MESSAGE_MIN_LENGTH} characters.`,
       });
       return;
     }
@@ -122,15 +122,15 @@ export const Contact = () => {
         setNotice({
           type: "success",
           message:
-            "Pesan berhasil dikirim. Saya akan membalas secepatnya ke email kamu.",
+            "Message sent successfully. I'll get back to you as soon as possible.",
         });
       })
       .catch((error) => {
         console.error("EmailJS error:", error);
         setNotice({
           type: "error",
-          message: `Terjadi kesalahan saat mengirim pesan. ${
-            error?.text || "Silakan cek konfigurasi EmailJS Anda."
+          message: `Failed to send message. ${
+            error?.text || "Please check your EmailJS configuration."
           }`,
         });
       })
@@ -172,9 +172,7 @@ export const Contact = () => {
                   <span className="text-blue-500">Something Great.</span>
                 </h2>
                 <p className="text-gray-400 text-lg mt-6 leading-relaxed w-5/6">
-                  Punya ide brilian atau butuh bantuan untuk proyek Anda? Saya
-                  siap membantu mewujudkannya. Hubungi saya melalui form di
-                  samping.
+                  Got a project in mind or need help with development or editing? Drop me a message through the form.
                 </p>
               </div>
 

@@ -10,7 +10,7 @@ import pasarNgalamImg from "../../pct/PasarNgalam.png";
 const projectsData = [
   {
     title: "PasarNgalam",
-    description: "Marketplace inovatif yang menghubungkan penjual lokal dengan pelanggan, mendukung pertumbuhan UMKM.",
+    description: "An innovative marketplace connecting local sellers with customers, supporting small business growth.",
     tags: ["React", "Laravel", "TailwindCSS", "MySQL"],
     imageUrl: pasarNgalamImg,
     projectUrl: "https://pasarngalam-production.up.railway.app/",
@@ -18,7 +18,7 @@ const projectsData = [
   },
   {
     title: "Freshness FruitCheck",
-    description: "Deteksi kesegaran buah berbasis AI dengan akurasi tinggi menggunakan Convolutional Neural Network (CNN).",
+    description: "AI-powered fruit freshness detection with high accuracy using Convolutional Neural Network (CNN).",
     tags: ["Python", "TensorFlow", "Keras", "Flask"],
     imageUrl: fruitCheckImg,
     projectUrl: "https://fruitcheck.up.railway.app/",
@@ -26,7 +26,7 @@ const projectsData = [
   },
   {
     title: "RemindMe App",
-    description: "Aplikasi pengingat tugas pintar dengan notifikasi real-time dan sinkronisasi lintas perangkat.",
+    description: "Smart task reminder app with real-time notifications and cross-device synchronization.",
     tags: ["Kotlin", "Dart", "Firebase", "Room"],
     imageUrl: remindMeImg,
     projectUrl: "",
@@ -34,7 +34,7 @@ const projectsData = [
   },
   {
     title: "IT Solution Website",
-    description: "Website profil perusahaan modern dengan desain responsif dan optimasi performa tinggi.",
+    description: "Modern company profile website with responsive design and high performance optimization.",
     tags: ["React", "TailwindCSS", "Framer Motion", "Vite"],
     imageUrl: itSolutionImg,
     projectUrl: "https://it-solution-malang.up.railway.app/",
@@ -42,7 +42,7 @@ const projectsData = [
   },
   {
     title: "Gipsy.Dev",
-    description: "Platform personal branding dan showcase portofolio interaktif dengan efek visual memukau.",
+    description: "Personal branding platform and interactive portfolio showcase with stunning visual effects.",
     tags: ["React", "Three.js", "GSAP", "TailwindCSS"],
     imageUrl: gipsyDevImg,
     projectUrl: "https://gipsydanger-dev.github.io/porto/#",
