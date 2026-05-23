@@ -3,6 +3,11 @@ import { FaAward, FaExternalLinkAlt } from "react-icons/fa";
 import sertif1Img from "../../pct/sertif/Sertif1.jpg";
 import sertif2Img from "../../pct/sertif/sertif2.jpg";
 import sertif3Img from "../../pct/sertif/Sertif3.png";
+import sertif4Img from "../../pct/sertif/Sertif4.png";
+import sertif5Img from "../../pct/sertif/Sertif5.png";
+import sertif6Img from "../../pct/sertif/Sertif6.png";
+import sertif7Img from "../../pct/sertif/Sertif7.png";
+import sertif8Img from "../../pct/sertif/Sertif8.png";
 
 const certifications = [
   {
@@ -37,6 +42,61 @@ const certifications = [
     imageUrl: sertif3Img,
     description:
       "Course covering Google Analytics 4 reports, explorations, segments, and integrations with Google Ads.",
+  },
+  {
+    title: "Belajar Penerapan Data Science dengan Microsoft Fabric",
+    issuer: "Dicoding Indonesia",
+    issuedDate: "20th May 2026",
+    certificateNumber: "JMZVOLOJNXN9",
+    isVerified: true,
+    credentialUrl: "https://www.dicoding.com/certificates/JMZVOLOJNXN9",
+    imageUrl: sertif4Img,
+    description:
+      "Certificate of Completion for implementing end-to-end data science processes using Microsoft Fabric, covering data exploration, ML model training, deployment, and monitoring.",
+  },
+  {
+    title: "Introduction to Artificial Intelligence",
+    issuer: "IBM SkillsBuild",
+    issuedDate: "20th May 2026",
+    certificateNumber: "-",
+    isVerified: true,
+    credentialUrl: "https://skills.yourlearning.ibm.com/certificate/share/1ace2f45b6ewogICJvYmplY3RJZCIgOiAiQUxNLUNPVVJTRV80MDU4OTE4IiwKICAibGVhcm5lckNOVU0iIDogIjc2NjExMjVSRUciLAogICJvYmplY3RUeXBlIiA6ICJBQ1RJVklUWSIKfQ0ef9d5fa08-10",
+    imageUrl: sertif5Img,
+    description:
+      "eLearning course covering AI history, machine learning fundamentals, structured vs unstructured data, and probabilistic methods for data analysis.",
+  },
+  {
+    title: "AI Ethics",
+    issuer: "IBM SkillsBuild",
+    issuedDate: "24th May 2026",
+    certificateNumber: "-",
+    isVerified: true,
+    credentialUrl: "https://skills.yourlearning.ibm.com/certificate/share/0f14650bd7ewogICJsZWFybmVyQ05VTSIgOiAiNzY2MTEyNVJFRyIsCiAgIm9iamVjdFR5cGUiIDogIkFDVElWSVRZIiwKICAib2JqZWN0SWQiIDogIkFMTS1DT1VSU0VfNDA1ODkyNyIKfQ3a9df93d8e-10",
+    imageUrl: sertif6Img,
+    description:
+      "eLearning course covering the five pillars of AI ethics: fairness, robustness, explainability, transparency, and privacy, with real-world examples.",
+  },
+  {
+    title: "Introduction to Generative AI",
+    issuer: "IBM SkillsBuild",
+    issuedDate: "24th May 2026",
+    certificateNumber: "-",
+    isVerified: true,
+    credentialUrl: "https://skills.yourlearning.ibm.com/certificate/share/23925c9565ewogICJvYmplY3RUeXBlIiA6ICJBQ1RJVklUWSIsCiAgImxlYXJuZXJDTlVNIiA6ICI3NjYxMTI1UkVHIiwKICAib2JqZWN0SWQiIDogIkFMTS1DT1VSU0VfNDA1ODg1OSIKfQ3395ddce87-10",
+    imageUrl: sertif7Img,
+    description:
+      "eLearning course covering generative AI fundamentals, deep learning, foundation models, transformers, prompt engineering, and Python programming.",
+  },
+  {
+    title: "Membangun Aplikasi Gen AI dengan Microsoft Azure",
+    issuer: "Dicoding Indonesia",
+    issuedDate: "24th May 2026",
+    certificateNumber: "NVP7N3YRGZR0",
+    isVerified: true,
+    credentialUrl: "https://www.dicoding.com/certificates/NVP7N3YRGZR0",
+    imageUrl: sertif8Img,
+    description:
+      "Intermediate course covering AI solution development on Azure, including LLM deployment, RAG implementation, fine-tuning, Prompt Flow, and Responsible AI practices.",
   },
 ];
 
