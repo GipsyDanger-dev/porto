@@ -53,6 +53,8 @@ export const CurrentlyBuilding = () => {
                     <img
                       src={project.imageUrl}
                       alt={project.title}
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover"
                     />
                   ) : (
@@ -100,7 +102,7 @@ export const CurrentlyBuilding = () => {
                     </div>
                     <div className="w-full h-2 bg-gray-700/50 rounded-full overflow-hidden">
                       <div
-                        className="h-full bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full transition-all duration-1000 ease-out"
+                        className="h-full bg-linear-to-r from-blue-500 to-cyan-400 rounded-full transition-all duration-1000 ease-out"
                         style={{ width: `${project.progress}%` }}
                       />
                     </div>

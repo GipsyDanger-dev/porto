@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useCallback } from 'react';
 import { Renderer, Program, Triangle, Mesh } from 'ogl';
 
 const DEFAULT_COLOR = '#ffffff';
@@ -54,6 +54,17 @@ const LightRays = ({
   const meshRef = useRef(null);
   const cleanupFunctionRef = useRef(null);
   const [isVisible, setIsVisible] = useState(true);
+
+  // IntersectionObserver to pause render loop when off-screen
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { threshold: 0.01 }
+    );
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     if (!isVisible || !containerRef.current) return;
@@ -365,17 +376,29 @@ void main() {
   ]);
 
   useEffect(() => {
+    let cachedRect = null;
+
+    const updateRect = () => {
+      if (containerRef.current) {
+        cachedRect = containerRef.current.getBoundingClientRect();
+      }
+    };
+    updateRect();
+    window.addEventListener('resize', updateRect);
+
     const handleMouseMove = e => {
-      if (!containerRef.current || !rendererRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width;
-      const y = (e.clientY - rect.top) / rect.height;
+      if (!cachedRect || !rendererRef.current) return;
+      const x = (e.clientX - cachedRect.left) / cachedRect.width;
+      const y = (e.clientY - cachedRect.top) / cachedRect.height;
       mouseRef.current = { x, y };
     };
 
     if (followMouse) {
       window.addEventListener('mousemove', handleMouseMove);
-      return () => window.removeEventListener('mousemove', handleMouseMove);
+      return () => {
+        window.removeEventListener('mousemove', handleMouseMove);
+        window.removeEventListener('resize', updateRect);
+      };
     }
   }, [followMouse]);
 

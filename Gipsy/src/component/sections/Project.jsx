@@ -68,9 +68,11 @@ export const Project = () => {
                 className="group relative border border-white/10 rounded-2xl overflow-hidden cursor-pointer hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-300"
               >
                 {/* Image */}
-                <img 
-                  src={project.imageUrl} 
+                <img
+                  src={project.imageUrl}
                   alt={project.title}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full aspect-3/2 object-cover transition-transform duration-500 group-hover:scale-110"
                 />
 

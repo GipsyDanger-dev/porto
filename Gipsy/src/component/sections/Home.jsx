@@ -96,6 +96,8 @@ export const Home = () => {
                 <img
                   src={fotoHomeImg}
                   alt="Foto Home"
+                  loading="eager"
+                  decoding="async"
                   className="h-full w-full object-cover object-center"
                 />
                 <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-linear-to-t from-black via-black/65 to-transparent" />

@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { RevealOnScroll } from "../RevealOnScroll";
 import { FaAward, FaExternalLinkAlt } from "react-icons/fa";
 import sertif1Img from "../../pct/sertif/Sertif1.jpg";
@@ -110,7 +111,7 @@ const getIssuedTimestamp = (issuedDate) => {
 };
 
 export const Certification = () => {
-  const sortedCertifications = [...certifications].sort((a, b) => {
+  const sortedCertifications = useMemo(() => [...certifications].sort((a, b) => {
     const dateA = getIssuedTimestamp(a.issuedDate);
     const dateB = getIssuedTimestamp(b.issuedDate);
 
@@ -119,7 +120,7 @@ export const Certification = () => {
     if (dateB == null) return -1;
 
     return dateB - dateA;
-  });
+  }), []);
 
   return (
     <section id="certifications" className="py-20">
@@ -140,6 +141,8 @@ export const Certification = () => {
                     <img
                       src={item.imageUrl}
                       alt={item.title}
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover"
                     />
                   ) : (

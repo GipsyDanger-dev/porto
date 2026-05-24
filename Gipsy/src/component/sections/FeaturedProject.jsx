@@ -61,9 +61,11 @@ export const FeaturedProject = () => {
 
             {/* Right Image */}
             <div className="md:w-1/2 h-full p-4 relative group">
-                <img 
-                  src={pasarNgalamImg} 
+                <img
+                  src={pasarNgalamImg}
                   alt="PasarNgalam"
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-auto object-cover rounded-2xl shadow-2xl border border-white/10 transition-all duration-500 group-hover:scale-[1.02] group-hover:shadow-blue-500/20"
                 />
 

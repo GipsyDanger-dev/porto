@@ -23,12 +23,13 @@ const TextType = ({
   ...props
 }) => {
   const [displayedText, setDisplayedText] = useState('');
-  const [currentCharIndex, setCurrentCharIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(!startOnVisible);
   const cursorRef = useRef(null);
   const containerRef = useRef(null);
+  const gsapTweenRef = useRef(null);
+  const charIndexRef = useRef(0);
 
   const textArray = useMemo(() => (Array.isArray(text) ? text : [text]), [text]);
 
@@ -51,6 +52,7 @@ const TextType = ({
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             setIsVisible(true);
+            observer.disconnect();
           }
         });
       },
@@ -61,24 +63,32 @@ const TextType = ({
     return () => observer.disconnect();
   }, [startOnVisible]);
 
+  // GSAP cursor blink with proper cleanup
   useEffect(() => {
-    if (showCursor && cursorRef.current) {
-      gsap.set(cursorRef.current, { opacity: 1 });
-      gsap.to(cursorRef.current, {
-        opacity: 0,
-        duration: cursorBlinkDuration,
-        repeat: -1,
-        yoyo: true,
-        ease: 'power2.inOut'
-      });
-    }
+    if (!showCursor || !cursorRef.current) return;
+
+    gsap.set(cursorRef.current, { opacity: 1 });
+    gsapTweenRef.current = gsap.to(cursorRef.current, {
+      opacity: 0,
+      duration: cursorBlinkDuration,
+      repeat: -1,
+      yoyo: true,
+      ease: 'power2.inOut'
+    });
+
+    return () => {
+      if (gsapTweenRef.current) {
+        gsapTweenRef.current.kill();
+        gsapTweenRef.current = null;
+      }
+    };
   }, [showCursor, cursorBlinkDuration]);
 
+  // Typing animation using refs to minimize re-renders
   useEffect(() => {
     if (!isVisible) return;
 
     let timeout;
-
     const currentText = textArray[currentTextIndex];
     const processedText = reverseMode ? currentText.split('').reverse().join('') : currentText;
 
@@ -86,16 +96,14 @@ const TextType = ({
       if (isDeleting) {
         if (displayedText === '') {
           setIsDeleting(false);
-          if (currentTextIndex === textArray.length - 1 && !loop) {
-            return;
-          }
+          if (currentTextIndex === textArray.length - 1 && !loop) return;
 
           if (onSentenceComplete) {
             onSentenceComplete(textArray[currentTextIndex], currentTextIndex);
           }
 
           setCurrentTextIndex(prev => (prev + 1) % textArray.length);
-          setCurrentCharIndex(0);
+          charIndexRef.current = 0;
           timeout = setTimeout(() => {}, pauseDuration);
         } else {
           timeout = setTimeout(() => {
@@ -103,11 +111,11 @@ const TextType = ({
           }, deletingSpeed);
         }
       } else {
-        if (currentCharIndex < processedText.length) {
+        if (charIndexRef.current < processedText.length) {
           timeout = setTimeout(
             () => {
-              setDisplayedText(prev => prev + processedText[currentCharIndex]);
-              setCurrentCharIndex(prev => prev + 1);
+              setDisplayedText(prev => prev + processedText[charIndexRef.current]);
+              charIndexRef.current++;
             },
             variableSpeed ? getRandomSpeed() : typingSpeed
           );
@@ -120,7 +128,7 @@ const TextType = ({
       }
     };
 
-    if (currentCharIndex === 0 && !isDeleting && displayedText === '') {
+    if (charIndexRef.current === 0 && !isDeleting && displayedText === '') {
       timeout = setTimeout(executeTypingAnimation, initialDelay);
     } else {
       executeTypingAnimation();
@@ -128,25 +136,10 @@ const TextType = ({
 
     return () => clearTimeout(timeout);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    currentCharIndex,
-    displayedText,
-    isDeleting,
-    typingSpeed,
-    deletingSpeed,
-    pauseDuration,
-    textArray,
-    currentTextIndex,
-    loop,
-    initialDelay,
-    isVisible,
-    reverseMode,
-    variableSpeed,
-    onSentenceComplete
-  ]);
+  }, [displayedText, isDeleting, currentTextIndex, isVisible]);
 
   const shouldHideCursor =
-    hideCursorWhileTyping && (currentCharIndex < textArray[currentTextIndex].length || isDeleting);
+    hideCursorWhileTyping && (charIndexRef.current < textArray[currentTextIndex].length || isDeleting);
 
   return createElement(
     Component,
