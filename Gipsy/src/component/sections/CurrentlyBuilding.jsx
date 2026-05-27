@@ -1,6 +1,7 @@
 import { RevealOnScroll } from "../RevealOnScroll";
 import { FaGithub, FaHammer } from "react-icons/fa";
 import stockPPImg from "../../pct/StockPP.png";
+import sentinelImg from "../../pct/SentinelIot.png";
 
 const ongoingProjects = [
   {
@@ -13,13 +14,13 @@ const ongoingProjects = [
     progress: 55,
   },
   {
-    title: "Coming Soon",
+    title: "SentinelIoT",
     description:
-      "Another exciting project in the pipeline. Stay tuned for updates!",
-    tags: ["TBD"],
-    imageUrl: "",
-    githubUrl: "",
-    progress: 10,
+      "Real-time IoT monitoring dashboard for fire and gas hazard detection using ESP32 microcontroller. Built with Laravel 13 backend, React frontend, and Fuzzy Logic (Sugeno) engine for intelligent threat assessment.",
+    tags: ["Laravel 13", "React", "Tailwind CSS", "MySQL", "ESP32", "Fuzzy Logic"],
+    imageUrl: sentinelImg,
+    githubUrl: "https://github.com/GipsyDanger-dev/MiniProjectCC",
+    progress: 80,
   },
 ];
 
