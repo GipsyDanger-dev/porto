@@ -1,7 +1,7 @@
 import { Suspense, lazy, useEffect, useRef } from "react";
 import { GsapReveal } from "../GsapReveal";
 import TextType from "../TextType";
-import fotoHomeImg from "../../pct/Foto_Home.png";
+import fotoHomeImg from "../../pct/Foto_Home2.png";
 import gsap from "gsap";
 
 const HeroScene = lazy(() => import("../HeroScene"));
