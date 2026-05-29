@@ -296,7 +296,8 @@ class App {
       scrollSpeed = 2,
       scrollEase = 0.05,
       planeWidth = 700,
-      planeHeight = 900
+      planeHeight = 900,
+      onClick = null
     } = {}
   ) {
     document.documentElement.classList.remove('no-js');
@@ -304,6 +305,7 @@ class App {
     this.scrollSpeed = scrollSpeed;
     this.planeWidth = planeWidth;
     this.planeHeight = planeHeight;
+    this.onClick = onClick;
     this.scroll = { ease: scrollEase, current: 0, target: 0, last: 0 };
     this.onCheckDebounce = debounce(this.onCheck, 200);
     this.createRenderer();
@@ -356,6 +358,7 @@ class App {
     ];
     const galleryItems = items && items.length ? items : defaultItems;
     this.mediasImages = galleryItems.concat(galleryItems);
+    this.galleryItems = galleryItems;
     this.medias = this.mediasImages.map((data, index) => {
       return new Media({
         geometry: this.planeGeometry,
@@ -381,6 +384,7 @@ class App {
     this.isDown = true;
     this.scroll.position = this.scroll.current;
     this.start = e.touches ? e.touches[0].clientX : e.clientX;
+    this.startX = this.start;
   }
   onTouchMove(e) {
     if (!this.isDown) return;
@@ -388,9 +392,30 @@ class App {
     const distance = (this.start - x) * (this.scrollSpeed * 0.025);
     this.scroll.target = this.scroll.position + distance;
   }
-  onTouchUp() {
+  onTouchUp(e) {
+    const endX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
+    const dragDistance = Math.abs(endX - this.startX);
     this.isDown = false;
     this.onCheck();
+
+    // If click (minimal drag), find closest item and trigger onClick
+    if (dragDistance < 10 && this.onClick && this.medias && this.medias[0]) {
+      const centerX = 0;
+      let closest = null;
+      let closestDist = Infinity;
+      const uniqueLength = this.galleryItems ? this.galleryItems.length : this.medias.length / 2;
+      this.medias.forEach((media) => {
+        const dist = Math.abs(media.plane.position.x - centerX);
+        if (dist < closestDist) {
+          closestDist = dist;
+          closest = media;
+        }
+      });
+      if (closest) {
+        const itemIndex = closest.index % uniqueLength;
+        this.onClick(itemIndex);
+      }
+    }
   }
   onWheel(e) {
     const delta = e.deltaY || e.wheelDelta || e.detail;
@@ -473,14 +498,15 @@ export default function CircularGallery({
   scrollSpeed = 2,
   scrollEase = 0.05,
   planeWidth = 700,
-  planeHeight = 900
+  planeHeight = 900,
+  onClick = null
 }) {
   const containerRef = useRef(null);
   useEffect(() => {
-    const app = new App(containerRef.current, { items, bend, textColor, borderRadius, font, scrollSpeed, scrollEase, planeWidth, planeHeight });
+    const app = new App(containerRef.current, { items, bend, textColor, borderRadius, font, scrollSpeed, scrollEase, planeWidth, planeHeight, onClick });
     return () => {
       app.destroy();
     };
-  }, [items, bend, textColor, borderRadius, font, scrollSpeed, scrollEase, planeWidth, planeHeight]);
+  }, [items, bend, textColor, borderRadius, font, scrollSpeed, scrollEase, planeWidth, planeHeight, onClick]);
   return <div className="circular-gallery" ref={containerRef} />;
 }
