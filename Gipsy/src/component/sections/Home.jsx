@@ -14,7 +14,6 @@ const ScrollIndicator = () => {
     const tl = gsap.timeline({ repeat: -1, yoyo: true });
     tl.to(svgRef.current, { y: 8, duration: 1.2, ease: "power2.inOut" });
 
-    // Draw-in animation for the arrow path
     const path = lineRef.current;
     if (path) {
       const length = path.getTotalLength();
@@ -40,38 +39,61 @@ export const Home = () => {
   return (
     <section
       id="home"
-      className="relative"
-      style={{ minHeight: '100vh', paddingTop: '6rem', paddingBottom: '4rem' }}
+      className="relative overflow-hidden"
+      style={{ minHeight: '100vh', height: '100vh' }}
     >
       {/* 3D Background */}
       <Suspense fallback={null}>
         <HeroScene />
       </Suspense>
 
-      {/* Photo - desktop only, right column */}
-      <div className="hidden lg:flex absolute inset-y-0 right-0 items-center justify-end z-10" style={{ width: 'calc(38vw + var(--gutter))', paddingRight: 'var(--gutter)' }}>
-        <div
-          className="relative overflow-hidden h-[75vh] max-h-150"
-          style={{ boxShadow: '0 4px 30px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(255,255,255,0.04)', width: '38vw', maxWidth: '480px' }}
+      {/* Orange glow behind photo */}
+      <div
+        className="hidden lg:block absolute z-1 pointer-events-none"
+        style={{
+          right: '0',
+          bottom: '0',
+          width: '50vw',
+          height: '100%',
+          background: 'radial-gradient(ellipse at 75% 60%, rgba(242,100,15,0.22) 0%, transparent 60%)',
+        }}
+      />
+
+      {/* Orb — SVG circle with burnt orange stroke */}
+      <div className="hidden lg:flex absolute inset-0 items-center justify-center z-1 pointer-events-none">
+        <svg
+          viewBox="0 0 500 500"
+          style={{ width: '42vw', maxWidth: '520px', height: 'auto', opacity: 0.18 }}
         >
-          <img
-            src={fotoHomeImg}
-            alt="Gipsy.Dev"
-            loading="eager"
-            decoding="async"
-            className="w-full h-full object-cover"
-          />
-          <div
-            className="pointer-events-none absolute inset-x-0 bottom-0 h-28"
-            style={{ background: 'linear-gradient(to top, var(--bg), transparent)' }}
-          />
-        </div>
+          <ellipse cx="250" cy="250" rx="220" ry="220" fill="none" stroke="#f2640f" strokeWidth="1" />
+          <ellipse cx="250" cy="250" rx="180" ry="180" fill="none" stroke="#f2640f" strokeWidth="0.5" opacity="0.5" />
+          <ellipse cx="250" cy="250" rx="140" ry="140" fill="none" stroke="#f2640f" strokeWidth="0.5" opacity="0.3" />
+        </svg>
       </div>
 
+      {/* Photo — absolute, anchored from bottom right */}
+      <img
+        src={fotoHomeImg}
+        alt="Gipsy.Dev"
+        loading="eager"
+        decoding="async"
+        className="hidden lg:block absolute z-2 pointer-events-none"
+        style={{
+          right: '2%',
+          bottom: '0',
+          height: '95vh',
+          width: 'auto',
+          objectFit: 'contain',
+          filter: 'grayscale(25%) brightness(0.9) contrast(1.05)',
+          maskImage: 'linear-gradient(to top, transparent 0%, black 12%, black 100%)',
+          WebkitMaskImage: 'linear-gradient(to top, transparent 0%, black 12%, black 100%)',
+        }}
+      />
+
       {/* Text content */}
-      <div className="relative z-10 w-full flex items-center" style={{ minHeight: 'calc(100vh - 8rem)' }}>
+      <div className="relative z-10 w-full flex items-center" style={{ height: '100vh', paddingTop: '6rem' }}>
         <div className="max-w-7xl mx-auto px-6 md:px-16 w-full">
-          <div className="lg:pr-[42vw] text-center lg:text-left">
+          <div className="lg:max-w-[55%] text-center lg:text-left">
             <GsapReveal delay={0.2}>
               <div
                 className="inline-flex items-center mb-8"
@@ -146,23 +168,19 @@ export const Home = () => {
       </div>
 
       {/* Mobile photo */}
-      <div className="lg:hidden flex justify-center mt-10 px-6 relative z-10">
-        <div
-          className="relative overflow-hidden w-full max-w-sm"
-          style={{ boxShadow: '0 4px 30px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(255,255,255,0.04)', aspectRatio: '3/4' }}
-        >
-          <img
-            src={fotoHomeImg}
-            alt="Gipsy.Dev"
-            loading="eager"
-            decoding="async"
-            className="w-full h-full object-cover"
-          />
-          <div
-            className="pointer-events-none absolute inset-x-0 bottom-0 h-28"
-            style={{ background: 'linear-gradient(to top, var(--bg), transparent)' }}
-          />
-        </div>
+      <div className="lg:hidden flex justify-center mt-6 px-6 relative z-10">
+        <img
+          src={fotoHomeImg}
+          alt="Gipsy.Dev"
+          loading="eager"
+          decoding="async"
+          className="w-full max-w-sm object-contain"
+          style={{
+            filter: 'grayscale(25%) brightness(0.9) contrast(1.05)',
+            maskImage: 'linear-gradient(to top, transparent 0%, black 10%, black 100%)',
+            WebkitMaskImage: 'linear-gradient(to top, transparent 0%, black 10%, black 100%)',
+          }}
+        />
       </div>
 
       {/* Scroll indicator */}
