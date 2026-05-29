@@ -93,7 +93,7 @@ const ProjectEntry = ({ project, index }) => {
           className={`proj-visual relative overflow-hidden ${isReverse ? 'order-2' : 'order-1'}`}
           style={{
             borderRadius: '4px',
-            border: '1px solid rgba(255, 255, 255, 0.06)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
             aspectRatio: '16 / 10',
             background: 'var(--surface-high)',
           }}
@@ -130,7 +130,7 @@ const ProjectEntry = ({ project, index }) => {
         </div>
 
         {/* Info */}
-        <div className={`${isReverse ? 'order-1 pl-0 lg:pl-18' : 'order-2 pr-0 lg:pr-18'}`}>
+        <div className={`proj-info ${isReverse ? 'order-1 pl-0 lg:pl-18' : 'order-2 pr-0 lg:pr-18'}`}>
           <div
             style={{
               fontFamily: 'var(--mono)',
@@ -318,7 +318,7 @@ export const Project = () => {
                   className="proj-visual relative overflow-hidden mb-6"
                   style={{
                     borderRadius: '4px',
-                    border: '1px solid rgba(255, 255, 255, 0.06)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
                     aspectRatio: '16 / 10',
                     background: 'var(--surface-high)',
                   }}
