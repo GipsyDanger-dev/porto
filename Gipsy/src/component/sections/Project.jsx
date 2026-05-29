@@ -94,8 +94,8 @@ const ProjectEntry = ({ project, index }) => {
           style={{
             borderRadius: '4px',
             border: '1px solid rgba(255, 255, 255, 0.1)',
-            aspectRatio: '16 / 10',
             background: 'var(--surface-high)',
+            lineHeight: 0,
           }}
         >
           <img
@@ -106,8 +106,7 @@ const ProjectEntry = ({ project, index }) => {
             style={{
               width: '100%',
               height: '100%',
-              objectFit: 'cover',
-              objectPosition: 'center top',
+              objectFit: 'contain',
               display: 'block',
               filter: 'saturate(0.82) brightness(0.88)',
               transition: 'filter 0.55s ease, transform 0.65s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -319,8 +318,8 @@ export const Project = () => {
                   style={{
                     borderRadius: '4px',
                     border: '1px solid rgba(255, 255, 255, 0.1)',
-                    aspectRatio: '16 / 10',
                     background: 'var(--surface-high)',
+                    lineHeight: 0,
                   }}
                 >
                   <img
@@ -331,8 +330,7 @@ export const Project = () => {
                     style={{
                       width: '100%',
                       height: '100%',
-                      objectFit: 'cover',
-                      objectPosition: 'center top',
+                      objectFit: 'contain',
                       display: 'block',
                       filter: 'saturate(0.82) brightness(0.88)',
                     }}
