@@ -108,7 +108,9 @@ class Media {
     bend,
     textColor,
     borderRadius = 0,
-    font
+    font,
+    planeWidth = 700,
+    planeHeight = 900
   }) {
     this.extra = 0;
     this.geometry = geometry;
@@ -125,6 +127,8 @@ class Media {
     this.textColor = textColor;
     this.borderRadius = borderRadius;
     this.font = font;
+    this.planeWidth = planeWidth;
+    this.planeHeight = planeHeight;
     this.createShader();
     this.createMesh();
     this.createTitle();
@@ -270,8 +274,8 @@ class Media {
       }
     }
     this.scale = this.screen.height / 1500;
-    this.plane.scale.y = (this.viewport.height * (900 * this.scale)) / this.screen.height;
-    this.plane.scale.x = (this.viewport.width * (700 * this.scale)) / this.screen.width;
+    this.plane.scale.y = (this.viewport.height * (this.planeHeight * this.scale)) / this.screen.height;
+    this.plane.scale.x = (this.viewport.width * (this.planeWidth * this.scale)) / this.screen.width;
     this.plane.program.uniforms.uPlaneSizes.value = [this.plane.scale.x, this.plane.scale.y];
     this.padding = 2;
     this.width = this.plane.scale.x + this.padding;
@@ -290,12 +294,16 @@ class App {
       borderRadius = 0,
       font = 'bold 30px JetBrains Mono',
       scrollSpeed = 2,
-      scrollEase = 0.05
+      scrollEase = 0.05,
+      planeWidth = 700,
+      planeHeight = 900
     } = {}
   ) {
     document.documentElement.classList.remove('no-js');
     this.container = container;
     this.scrollSpeed = scrollSpeed;
+    this.planeWidth = planeWidth;
+    this.planeHeight = planeHeight;
     this.scroll = { ease: scrollEase, current: 0, target: 0, last: 0 };
     this.onCheckDebounce = debounce(this.onCheck, 200);
     this.createRenderer();
@@ -363,7 +371,9 @@ class App {
         bend,
         textColor,
         borderRadius,
-        font
+        font,
+        planeWidth: this.planeWidth,
+        planeHeight: this.planeHeight
       });
     });
   }
@@ -461,14 +471,16 @@ export default function CircularGallery({
   borderRadius = 0.05,
   font = 'bold 30px JetBrains Mono',
   scrollSpeed = 2,
-  scrollEase = 0.05
+  scrollEase = 0.05,
+  planeWidth = 700,
+  planeHeight = 900
 }) {
   const containerRef = useRef(null);
   useEffect(() => {
-    const app = new App(containerRef.current, { items, bend, textColor, borderRadius, font, scrollSpeed, scrollEase });
+    const app = new App(containerRef.current, { items, bend, textColor, borderRadius, font, scrollSpeed, scrollEase, planeWidth, planeHeight });
     return () => {
       app.destroy();
     };
-  }, [items, bend, textColor, borderRadius, font, scrollSpeed, scrollEase]);
+  }, [items, bend, textColor, borderRadius, font, scrollSpeed, scrollEase, planeWidth, planeHeight]);
   return <div className="circular-gallery" ref={containerRef} />;
 }

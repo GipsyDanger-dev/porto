@@ -67,6 +67,8 @@ export const Certification = () => {
           scrollSpeed={2.6}
           scrollEase={0.08}
           font="bold 24px JetBrains Mono"
+          planeWidth={900}
+          planeHeight={640}
         />
       </div>
     </section>
