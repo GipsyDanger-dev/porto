@@ -91,7 +91,7 @@ export const Home = () => {
       />
 
       {/* Text content */}
-      <div className="relative z-10 w-full flex items-center" style={{ height: '100vh', paddingTop: '6rem' }}>
+      <div className="relative z-10 w-full flex items-center" style={{ minHeight: '100vh', paddingTop: '6rem' }}>
         <div className="max-w-7xl mx-auto px-6 md:px-16 w-full">
           <div className="lg:max-w-[55%] text-center lg:text-left">
             <GsapReveal delay={0.2}>
@@ -164,23 +164,23 @@ export const Home = () => {
               </div>
             </GsapReveal>
           </div>
-        </div>
-      </div>
 
-      {/* Mobile photo */}
-      <div className="lg:hidden flex justify-center mt-6 px-6 relative z-10">
-        <img
-          src={fotoHomeImg}
-          alt="Gipsy.Dev"
-          loading="eager"
-          decoding="async"
-          className="w-full max-w-sm object-contain"
-          style={{
-            filter: 'grayscale(25%) brightness(0.9) contrast(1.05)',
-            maskImage: 'linear-gradient(to top, transparent 0%, black 10%, black 100%)',
-            WebkitMaskImage: 'linear-gradient(to top, transparent 0%, black 10%, black 100%)',
-          }}
-        />
+          {/* Mobile photo — inside flow */}
+          <div className="lg:hidden flex justify-center mt-8 pb-8">
+            <img
+              src={fotoHomeImg}
+              alt="Gipsy.Dev"
+              loading="eager"
+              decoding="async"
+              className="w-full max-w-sm object-contain"
+              style={{
+                filter: 'grayscale(25%) brightness(0.9) contrast(1.05)',
+                maskImage: 'linear-gradient(to top, transparent 0%, black 10%, black 100%)',
+                WebkitMaskImage: 'linear-gradient(to top, transparent 0%, black 10%, black 100%)',
+              }}
+            />
+          </div>
+        </div>
       </div>
 
       {/* Scroll indicator */}

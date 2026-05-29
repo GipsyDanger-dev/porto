@@ -397,7 +397,7 @@ export const Contact = () => {
 
               <form onSubmit={handleSubmit}>
                 <GsapReveal delay={0.1}>
-                  <div className="grid gap-8" style={{ gridTemplateColumns: '1fr 1fr', marginBottom: '32px' }}>
+                  <div className="grid gap-8 grid-cols-1 sm:grid-cols-2" style={{ marginBottom: '32px' }}>
                     <div className="flex flex-col">
                       <label className="field-label" htmlFor="name" style={labelStyle}>Name</label>
                       <input
@@ -479,7 +479,7 @@ export const Contact = () => {
 
                 <GsapReveal delay={0.3}>
                   <div
-                    className="flex items-center justify-between"
+                    className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-0"
                     style={{ marginTop: '40px', paddingTop: '32px', borderTop: '1px solid var(--outline-variant)' }}
                   >
                     <span style={{ fontFamily: 'var(--mono)', fontSize: '10px', letterSpacing: '0.05em', color: 'var(--outline)' }}>

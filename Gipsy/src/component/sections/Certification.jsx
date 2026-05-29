@@ -135,7 +135,7 @@ export const Certification = () => {
       </div>
 
       {/* Circular Gallery */}
-      <div style={{ height: '600px', position: 'relative' }}>
+      <div style={{ height: 'min(600px, 70vh)', position: 'relative' }}>
         <CircularGallery
           items={galleryItems}
           bend={1}
@@ -181,7 +181,7 @@ export const Certification = () => {
             </div>
 
             {/* Content */}
-            <div style={{ padding: '28px 32px 32px' }}>
+            <div className="px-5 py-6 sm:px-8 sm:py-7">
               <span
                 style={{
                   fontFamily: 'var(--mono)',
@@ -234,12 +234,10 @@ export const Certification = () => {
               </p>
 
               <div
+                className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-0"
                 style={{
                   borderTop: '1px solid var(--outline-variant)',
                   paddingTop: '20px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
                 }}
               >
                 <button

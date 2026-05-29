@@ -113,7 +113,7 @@ export const About = () => {
 
           {/* Timeline */}
           <GsapReveal delay={0.2}>
-            <div className="grid gap-16 lg:gap-24" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' }}>
+            <div className="grid gap-16 lg:gap-24" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))' }}>
               <div>
                 <h3 style={{ fontFamily: 'var(--mono)', fontSize: '11px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--secondary)', marginBottom: '24px' }}>
                   Education
@@ -143,7 +143,7 @@ export const About = () => {
               <h3 style={{ fontFamily: 'var(--mono)', fontSize: '11px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--secondary)', marginBottom: '32px' }}>
                 Arsenal
               </h3>
-              <GsapStagger className="grid gap-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }} stagger={0.08}>
+              <GsapStagger className="grid gap-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))' }} stagger={0.08}>
                 {skills.map((skill) => (
                   <SkillBar key={skill.name} {...skill} />
                 ))}

@@ -22,8 +22,8 @@ export const MobileMenu = ({ menuOpen, setMenuOpen }) => {
     >
       <button
         onClick={() => setMenuOpen(false)}
-        className="absolute top-6 right-6 cursor-pointer bg-transparent border-none"
-        style={{ color: 'var(--on-surface)', fontSize: '28px', fontFamily: 'var(--mono)' }}
+        className="absolute cursor-pointer bg-transparent border-none"
+        style={{ top: 'calc(1.5rem + env(safe-area-inset-top, 0px))', right: '1.5rem', color: 'var(--on-surface)', fontSize: '28px', fontFamily: 'var(--mono)' }}
         aria-label="Close menu"
       >
         &times;
