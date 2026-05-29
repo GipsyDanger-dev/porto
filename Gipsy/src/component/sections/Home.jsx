@@ -1,9 +1,40 @@
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useEffect, useRef } from "react";
 import { GsapReveal } from "../GsapReveal";
 import TextType from "../TextType";
 import fotoHomeImg from "../../pct/Foto_Home.png";
+import gsap from "gsap";
 
 const HeroScene = lazy(() => import("../HeroScene"));
+
+const ScrollIndicator = () => {
+  const svgRef = useRef(null);
+  const lineRef = useRef(null);
+
+  useEffect(() => {
+    const tl = gsap.timeline({ repeat: -1, yoyo: true });
+    tl.to(svgRef.current, { y: 8, duration: 1.2, ease: "power2.inOut" });
+
+    // Draw-in animation for the arrow path
+    const path = lineRef.current;
+    if (path) {
+      const length = path.getTotalLength();
+      gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
+      gsap.to(path, { strokeDashoffset: 0, duration: 1.5, ease: "power2.inOut", delay: 1 });
+    }
+
+    return () => tl.kill();
+  }, []);
+
+  return (
+    <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 hidden md:block">
+      <a href="#about" style={{ color: 'var(--outline)', display: 'block' }}>
+        <svg ref={svgRef} xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path ref={lineRef} strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+        </svg>
+      </a>
+    </div>
+  );
+};
 
 export const Home = () => {
   return (
@@ -96,7 +127,7 @@ export const Home = () => {
                 }}
                 className="mx-auto lg:mx-0"
               >
-                Full stack developer and video editor focused on React, Laravel, and the Adobe Creative Suite. Combining technical skill and visual sense to build digital products that make an impact.
+                A meticulous approach to software engineering and interface design. Building robust, scalable systems with high-end aesthetic precision.
               </p>
             </GsapReveal>
 
@@ -135,13 +166,7 @@ export const Home = () => {
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce z-20 hidden md:block">
-        <a href="#about" style={{ color: 'var(--outline)' }}>
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-          </svg>
-        </a>
-      </div>
+      <ScrollIndicator />
     </section>
   );
 };
