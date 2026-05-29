@@ -1,4 +1,4 @@
-import { FaAward, FaExternalLinkAlt } from "react-icons/fa";
+import { RevealOnScroll } from "../RevealOnScroll";
 import sertif1Img from "../../pct/sertif/Sertif1.jpg";
 import sertif2Img from "../../pct/sertif/sertif2.jpg";
 import sertif3Img from "../../pct/sertif/Sertif3.png";
@@ -13,147 +13,190 @@ const certifications = [
     title: "Learn Power BI Data Modeling with DAX",
     issuer: "Simplilearn SkillUp",
     issuedDate: "23rd April 2026",
-    certificateNumber: "10145863",
-    isVerified: true,
     credentialUrl: "https://simpli-web.app.link/e/su0diV4wT2b",
     imageUrl: sertif1Img,
-    description: "Certificate of Completion for Power BI data modeling with DAX, verified by Simplilearn SkillUp.",
+    category: "Data",
   },
   {
     title: "Innovating with Google Cloud AI",
-    issuer: "Simplilearn SkillUp (Powered by Google Cloud)",
+    issuer: "Simplilearn SkillUp (Google Cloud)",
     issuedDate: "21st April 2026",
-    certificateNumber: "10135803",
-    isVerified: true,
     credentialUrl: "https://simpli-web.app.link/e/kBH5eFLrT2b",
     imageUrl: sertif2Img,
-    description: "Declaration of Completion for the Innovating with Google Cloud AI online course from Simplilearn SkillUp, powered by Google Cloud.",
+    category: "AI",
   },
   {
     title: "Dive Deeper into GA4 Data and Reports",
     issuer: "Skillshop",
     issuedDate: "20th April 2026",
-    certificateNumber: "91b4ee1f-055f-4837-b66b-de64328ef20e",
-    isVerified: true,
     credentialUrl: "https://www.credential.net/91b4ee1f-055f-4837-b66b-de64328ef20e",
     imageUrl: sertif3Img,
-    description: "Course covering Google Analytics 4 reports, explorations, segments, and integrations with Google Ads.",
+    category: "Analytics",
   },
   {
     title: "Belajar Penerapan Data Science dengan Microsoft Fabric",
     issuer: "Dicoding Indonesia",
     issuedDate: "20th May 2026",
-    certificateNumber: "JMZVOLOJNXN9",
-    isVerified: true,
     credentialUrl: "https://www.dicoding.com/certificates/JMZVOLOJNXN9",
     imageUrl: sertif4Img,
-    description: "Certificate of Completion for implementing end-to-end data science processes using Microsoft Fabric.",
+    category: "Data Science",
   },
   {
     title: "Introduction to Artificial Intelligence",
     issuer: "IBM SkillsBuild",
     issuedDate: "20th May 2026",
-    certificateNumber: "-",
-    isVerified: true,
     credentialUrl: "https://skills.yourlearning.ibm.com/certificate/share/1ace2f45b6ewogICJvYmplY3RJZCIgOiAiQUxNLUNPVVJTRV80MDU4OTE4IiwKICAibGVhcm5lckNOVU0iIDogIjc2NjExMjVSRUciLAogICJvYmplY3RUeXBlIiA6ICJBQ1RJVklUWSIKfQ0ef9d5fa08-10",
     imageUrl: sertif5Img,
-    description: "eLearning course covering AI history, machine learning fundamentals, structured vs unstructured data.",
+    category: "AI",
   },
   {
     title: "AI Ethics",
     issuer: "IBM SkillsBuild",
     issuedDate: "24th May 2026",
-    certificateNumber: "-",
-    isVerified: true,
     credentialUrl: "https://skills.yourlearning.ibm.com/certificate/share/0f14650bd7ewogICJsZWFybmVyQ05VTSIgOiAiNzY2MTEyNVJFRyIsCiAgIm9iamVjdFR5cGUiIDogIkFDVElWSVRZIiwKICAib2JqZWN0SWQiIDogIkFMTS1DT1VSU0VfNDA1ODkyNyIKfQ3a9df93d8e-10",
     imageUrl: sertif6Img,
-    description: "eLearning course covering the five pillars of AI ethics: fairness, robustness, explainability, transparency, and privacy.",
+    category: "AI",
   },
   {
     title: "Introduction to Generative AI",
     issuer: "IBM SkillsBuild",
     issuedDate: "24th May 2026",
-    certificateNumber: "-",
-    isVerified: true,
     credentialUrl: "https://skills.yourlearning.ibm.com/certificate/share/23925c9565ewogICJvYmplY3RUeXBlIiA6ICJBQ1RJVklUWSIsCiAgImxlYXJuZXJDTlVNIiA6ICI3NjYxMTI1UkVHIiwKICAib2JqZWN0SWQiIDogIkFMTS1DT1VSU0VfNDA1ODg1OSIKfQ3395ddce87-10",
     imageUrl: sertif7Img,
-    description: "eLearning course covering generative AI fundamentals, deep learning, foundation models, transformers, and prompt engineering.",
+    category: "AI",
   },
   {
     title: "Membangun Aplikasi Gen AI dengan Microsoft Azure",
     issuer: "Dicoding Indonesia",
     issuedDate: "24th May 2026",
-    certificateNumber: "NVP7N3YRGZR0",
-    isVerified: true,
     credentialUrl: "https://www.dicoding.com/certificates/NVP7N3YRGZR0",
     imageUrl: sertif8Img,
-    description: "Intermediate course covering AI solution development on Azure, including LLM deployment, RAG implementation, fine-tuning, and Prompt Flow.",
+    category: "Cloud / AI",
   },
 ];
 
 export const Certification = () => {
   return (
-    <section id="certifications" className="py-20">
-      <div className="max-w-6xl mx-auto px-4">
-        <h2 className="text-3xl font-bold mb-12 bg-linear-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent text-center">
-          Certifications
-        </h2>
+    <section id="certifications" style={{ padding: 'var(--section-gap) 0' }}>
+      <RevealOnScroll>
+        <div className="max-w-7xl mx-auto px-6 md:px-16">
+          <div className="section-label">Credentials</div>
+          <h2
+            style={{
+              fontFamily: 'var(--serif)',
+              fontSize: 'clamp(36px, 5vw, 52px)',
+              fontWeight: 700,
+              letterSpacing: '-0.015em',
+              color: 'var(--on-surface)',
+              marginBottom: '64px',
+            }}
+          >
+            Certifications<em style={{ fontStyle: 'italic', color: 'var(--on-surface-variant)' }}>.</em>
+          </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {certifications.map((item, index) => (
-            <article
-              key={index}
-              className="group rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden transition-all duration-300 hover:border-blue-500/40 hover:shadow-2xl hover:shadow-blue-500/10"
-            >
-              <div className="aspect-video w-full bg-linear-to-br from-blue-500/20 via-cyan-500/10 to-transparent border-b border-white/10">
-                <img
-                  src={item.imageUrl}
-                  alt={item.title}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-
-              <div className="p-6">
-                <div className="flex items-start justify-between gap-3 mb-2">
-                  <h3 className="text-xl font-semibold text-white">{item.title}</h3>
-                  {item.isVerified && (
-                    <span className="shrink-0 rounded-full border border-emerald-400/40 bg-emerald-500/10 px-2.5 py-1 text-[11px] font-medium tracking-wide text-emerald-300">
-                      VERIFIED
-                    </span>
-                  )}
+          <div
+            className="grid"
+            style={{
+              gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+              gap: '20px',
+            }}
+          >
+            {certifications.map((cert, index) => (
+              <a
+                key={index}
+                href={cert.credentialUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block group transition-all duration-500"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(28,32,36,0.6), rgba(16,20,23,0.9))',
+                  padding: '24px',
+                  textDecoration: 'none',
+                  boxShadow: '0 2px 16px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.02)',
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,0,0,0.35), 0 0 0 1px rgba(242,100,15,0.06), inset 0 1px 0 rgba(255,255,255,0.04)';
+                  e.currentTarget.style.transform = 'translateY(-3px)';
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.boxShadow = '0 2px 16px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.02)';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                }}
+              >
+                {/* Certificate image */}
+                <div
+                  className="overflow-hidden mb-5"
+                  style={{
+                    boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.04)',
+                  }}
+                >
+                  <img
+                    src={cert.imageUrl}
+                    alt={cert.title}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                  />
                 </div>
-                <p className="text-sm text-gray-300 mb-4">{item.description}</p>
 
-                <div className="space-y-2 text-sm text-gray-300 mb-5">
-                  <p>
-                    <span className="text-gray-400">Issuer:</span> {item.issuer}
-                  </p>
-                  <p>
-                    <span className="text-gray-400">Issued:</span> {item.issuedDate}
-                  </p>
-                  <p>
-                    <span className="text-gray-400">Certificate No:</span> {item.certificateNumber}
-                  </p>
-                </div>
+                <span
+                  style={{
+                    fontFamily: 'var(--mono)',
+                    fontSize: '10px',
+                    fontWeight: 500,
+                    letterSpacing: '0.1em',
+                    textTransform: 'uppercase',
+                    color: 'var(--secondary)',
+                    display: 'block',
+                    marginBottom: '8px',
+                  }}
+                >
+                  {cert.category}
+                </span>
 
-                {item.credentialUrl ? (
-                  <a
-                    href={item.credentialUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-sm font-medium text-blue-400 hover:text-blue-300"
+                <h3
+                  style={{
+                    fontFamily: 'var(--serif)',
+                    fontSize: '20px',
+                    fontWeight: 700,
+                    color: 'var(--on-surface)',
+                    marginBottom: '12px',
+                    lineHeight: 1.3,
+                  }}
+                >
+                  {cert.title}
+                </h3>
+
+                <div className="flex items-center justify-between mt-auto">
+                  <span
+                    style={{
+                      fontFamily: 'var(--mono)',
+                      fontSize: '10px',
+                      color: 'var(--outline)',
+                      letterSpacing: '0.05em',
+                    }}
                   >
-                    View Credential
-                    <FaExternalLinkAlt className="text-xs" />
-                  </a>
-                ) : (
-                  <span className="inline-block text-sm text-gray-500">Verification link not available yet</span>
-                )}
-              </div>
-            </article>
-          ))}
+                    {cert.issuedDate}
+                  </span>
+                  <span
+                    className="inline-flex items-center gap-1 transition-all duration-300"
+                    style={{
+                      fontFamily: 'var(--mono)',
+                      fontSize: '10px',
+                      fontWeight: 500,
+                      letterSpacing: '0.08em',
+                      textTransform: 'uppercase',
+                      color: 'var(--secondary)',
+                    }}
+                  >
+                    Verify &rarr;
+                  </span>
+                </div>
+              </a>
+            ))}
+          </div>
         </div>
-      </div>
+      </RevealOnScroll>
     </section>
   );
 };

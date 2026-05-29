@@ -1,28 +1,13 @@
 import { useEffect, useState } from "react";
 import { RevealOnScroll } from "../RevealOnScroll";
 import emailjs from "@emailjs/browser";
-import {
-  FaCheckCircle,
-  FaEnvelope,
-  FaExclamationCircle,
-  FaInfoCircle,
-  FaMapMarkerAlt,
-  FaPaperPlane,
-  FaTimes,
-} from "react-icons/fa";
 
 const COOLDOWN_SECONDS = 15;
 const MESSAGE_MIN_LENGTH = 10;
 const COOLDOWN_STORAGE_KEY = "contact_last_sent_at";
 
 export const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-    website: "",
-  });
-
+  const [formData, setFormData] = useState({ name: "", email: "", message: "", website: "" });
   const [isSending, setIsSending] = useState(false);
   const [cooldownLeft, setCooldownLeft] = useState(0);
   const [notice, setNotice] = useState({ type: "", message: "" });
@@ -37,259 +22,296 @@ export const Contact = () => {
 
   useEffect(() => {
     if (!notice.message) return;
-
-    const timer = setTimeout(() => {
-      setNotice({ type: "", message: "" });
-    }, 5000);
-
+    const timer = setTimeout(() => setNotice({ type: "", message: "" }), 5000);
     return () => clearTimeout(timer);
   }, [notice.message]);
 
   useEffect(() => {
-    const rawTimestamp = window.localStorage.getItem(COOLDOWN_STORAGE_KEY);
-    const lastSentAt = Number(rawTimestamp);
-
-    if (!lastSentAt) return;
-
-    const elapsedSeconds = Math.floor((Date.now() - lastSentAt) / 1000);
-    const remaining = Math.max(0, COOLDOWN_SECONDS - elapsedSeconds);
+    const raw = window.localStorage.getItem(COOLDOWN_STORAGE_KEY);
+    const last = Number(raw);
+    if (!last) return;
+    const remaining = Math.max(0, COOLDOWN_SECONDS - Math.floor((Date.now() - last) / 1000));
     setCooldownLeft(remaining);
   }, []);
 
   useEffect(() => {
     if (cooldownLeft <= 0) return;
-
-    const timer = setInterval(() => {
-      setCooldownLeft((prev) => (prev > 0 ? prev - 1 : 0));
-    }, 1000);
-
+    const timer = setInterval(() => setCooldownLeft(p => (p > 0 ? p - 1 : 0)), 1000);
     return () => clearInterval(timer);
   }, [cooldownLeft]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (!serviceId || !templateId || !publicKey || !toEmail) {
-      setNotice({
-        type: "error",
-        message:
-          "Email configuration is incomplete. Fill in VITE_EMAILJS_* and VITE_CONTACT_TO_EMAIL in your .env file.",
-      });
+      setNotice({ type: "error", message: "Email configuration is incomplete." });
       return;
     }
-
-    // Honeypot field: bots often fill hidden inputs.
-    if (formData.website.trim()) {
-      return;
-    }
-
+    if (formData.website.trim()) return;
     if (isInCooldown) {
-      setNotice({
-        type: "info",
-        message: `Please wait ${cooldownLeft}s before sending another message.`,
-      });
+      setNotice({ type: "info", message: `Please wait ${cooldownLeft}s before sending another message.` });
       return;
     }
-
     if (formData.message.trim().length < MESSAGE_MIN_LENGTH) {
-      setNotice({
-        type: "error",
-        message: `Message must be at least ${MESSAGE_MIN_LENGTH} characters.`,
-      });
+      setNotice({ type: "error", message: `Message must be at least ${MESSAGE_MIN_LENGTH} characters.` });
       return;
     }
 
     setIsSending(true);
-
-    emailjs
-      .send(
-        serviceId,
-        templateId,
-        {
-          from_name: formData.name,
-          to_name: toName,
-          to_email: toEmail,
-          from_email: formData.email,
-          reply_to: formData.email,
-          message: formData.message,
-        },
-        publicKey
-      )
+    emailjs.send(serviceId, templateId, {
+      from_name: formData.name,
+      to_name: toName,
+      to_email: toEmail,
+      from_email: formData.email,
+      reply_to: formData.email,
+      message: formData.message,
+    }, publicKey)
       .then(() => {
         setFormData({ name: "", email: "", message: "", website: "" });
         setCooldownLeft(COOLDOWN_SECONDS);
         window.localStorage.setItem(COOLDOWN_STORAGE_KEY, String(Date.now()));
-        setNotice({
-          type: "success",
-          message:
-            "Message sent successfully. I'll get back to you as soon as possible.",
-        });
+        setNotice({ type: "success", message: "Message sent successfully. I'll get back to you soon." });
       })
-      .catch((error) => {
-        console.error("EmailJS error:", error);
-        setNotice({
-          type: "error",
-          message: `Failed to send message. ${
-            error?.text || "Please check your EmailJS configuration."
-          }`,
-        });
+      .catch((err) => {
+        setNotice({ type: "error", message: `Failed to send. ${err?.text || "Check your EmailJS config."}` });
       })
-      .finally(() => {
-        setIsSending(false);
-      });
-  };
-
-  const noticeStyles = {
-    success: "border-emerald-500/30 bg-emerald-500/10 text-emerald-200",
-    error: "border-rose-500/30 bg-rose-500/10 text-rose-200",
-    info: "border-sky-500/30 bg-sky-500/10 text-sky-200",
-  };
-
-  const noticeIcons = {
-    success: <FaCheckCircle className="shrink-0" />,
-    error: <FaExclamationCircle className="shrink-0" />,
-    info: <FaInfoCircle className="shrink-0" />,
+      .finally(() => setIsSending(false));
   };
 
   return (
-    <section
-      id="contact"
-      className="min-h-screen flex items-center justify-center py-20 relative overflow-hidden"
-    >
-      {/* Background Glow for Glassmorphism Effect */}
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-blue-500/20 rounded-full blur-[100px] -z-10"></div>
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-500/10 rounded-full blur-[100px] -z-10"></div>
-
-
+    <section id="contact" style={{ padding: 'var(--section-gap) 0' }}>
       <RevealOnScroll>
-        <div className="max-w-6xl mx-auto px-4 md:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-            {/* Left Column: Text & Contact Info */}
-            <div className="space-y-8">
-              <div>
-                <h2 className="text-4xl md:text-5xl font-bold leading-tight text-white mb-2">
-                  Let&apos;s Build <br />
-                  <span className="text-blue-500">Something Great.</span>
-                </h2>
-                <p className="text-gray-400 text-lg mt-6 leading-relaxed w-5/6">
-                  Got a project in mind or need help with development or editing? Drop me a message through the form.
-                </p>
-              </div>
+        <div className="max-w-4xl mx-auto px-6 md:px-16 text-center">
+          <div className="section-label justify-center">
+            <span style={{ display: 'block', width: '32px', height: '1px', background: 'var(--secondary)' }} />
+            Get in Touch
+          </div>
 
-              <div className="space-y-4">
-                <div className="flex items-center space-x-4 text-gray-300 hover:text-blue-400 transition-colors">
-                  <div className="w-10 h-10 bg-blue-500/10 rounded-full flex items-center justify-center text-blue-500">
-                    <FaEnvelope className="w-5 h-5" />
-                  </div>
-                  <span className="text-lg">aryagunaadam@gmail.com</span>
-                </div>
-                <div className="flex items-center space-x-4 text-gray-300 hover:text-blue-400 transition-colors">
-                  <div className="w-10 h-10 bg-blue-500/10 rounded-full flex items-center justify-center text-blue-500">
-                     <FaMapMarkerAlt className="w-5 h-5" />
-                  </div>
-                  <span className="text-lg">Cilacap, Indonesia</span>
-                </div>
-              </div>
-            </div>
+          <h2
+            style={{
+              fontFamily: 'var(--serif)',
+              fontSize: 'clamp(36px, 5vw, 52px)',
+              fontWeight: 700,
+              letterSpacing: '-0.015em',
+              color: 'var(--on-surface)',
+              marginBottom: '48px',
+            }}
+          >
+            Let&apos;s Build Something<em style={{ fontStyle: 'italic', color: 'var(--on-surface-variant)' }}>.</em>
+          </h2>
 
-            {/* Right Column: Form */}
-            <div className="bg-white/5 backdrop-blur-xl p-8 md:p-10 rounded-2xl border border-white/10 shadow-2xl relative z-10 transition-all hover:border-white/20">
-              {notice.message && (
-                <div
-                  role="status"
-                  aria-live="polite"
-                  className={`mb-6 flex items-start gap-3 rounded-xl border px-4 py-3 text-sm leading-relaxed ${noticeStyles[notice.type] || noticeStyles.info}`}
-                >
-                  <div className="mt-0.5 text-base">{noticeIcons[notice.type] || noticeIcons.info}</div>
-                  <p className="flex-1">{notice.message}</p>
-                  <button
-                    type="button"
-                    onClick={() => setNotice({ type: "", message: "" })}
-                    className="shrink-0 text-current/80 transition hover:text-current"
-                    aria-label="Dismiss notification"
+          {/* Giant email link */}
+          <a
+            href="mailto:aryagunaadam@gmail.com"
+            className="block mb-8 group"
+            style={{
+              fontFamily: 'var(--serif)',
+              fontSize: 'clamp(32px, 6vw, 72px)',
+              fontWeight: 700,
+              color: 'var(--on-surface)',
+              textDecoration: 'none',
+              lineHeight: 1.2,
+              position: 'relative',
+              display: 'inline-block',
+            }}
+          >
+            <span className="relative">
+              aryagunaadam@gmail.com
+              <span
+                className="absolute left-0 bottom-0 w-full h-px origin-left transition-transform duration-500 group-hover:scale-x-100"
+                style={{ background: 'var(--secondary)', transform: 'scaleX(0)' }}
+              />
+            </span>
+          </a>
+
+          {/* Meta info */}
+          <div className="flex items-center justify-center gap-8 mb-12">
+            <span
+              style={{
+                fontFamily: 'var(--mono)',
+                fontSize: '11px',
+                fontWeight: 500,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                color: 'var(--outline)',
+              }}
+            >
+              Cilacap, Indonesia
+            </span>
+            <span style={{ color: 'var(--outline-variant)' }}>&middot;</span>
+            <span
+              style={{
+                fontFamily: 'var(--mono)',
+                fontSize: '11px',
+                fontWeight: 500,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                color: 'var(--secondary)',
+              }}
+            >
+              Available for Work
+            </span>
+          </div>
+
+          {/* Contact form */}
+          <div
+            className="max-w-2xl mx-auto text-left"
+            style={{ borderTop: '1px solid var(--outline-variant)', paddingTop: '48px' }}
+          >
+            {notice.message && (
+              <div
+                className="mb-6 px-4 py-3"
+                style={{
+                  border: `1px solid ${notice.type === 'success' ? '#10b981' : notice.type === 'error' ? '#ef4444' : '#3b82f6'}`,
+                  background: notice.type === 'success' ? 'rgba(16,185,129,0.1)' : notice.type === 'error' ? 'rgba(239,68,68,0.1)' : 'rgba(59,130,246,0.1)',
+                  color: notice.type === 'success' ? '#a7f3d0' : notice.type === 'error' ? '#fca5a5' : '#93c5fd',
+                  fontFamily: 'var(--sans)',
+                  fontSize: '14px',
+                }}
+              >
+                {notice.message}
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label
+                    htmlFor="name"
+                    style={{
+                      fontFamily: 'var(--mono)',
+                      fontSize: '10px',
+                      fontWeight: 500,
+                      letterSpacing: '0.1em',
+                      textTransform: 'uppercase',
+                      color: 'var(--outline)',
+                      display: 'block',
+                      marginBottom: '8px',
+                    }}
                   >
-                    <FaTimes className="text-sm" />
-                  </button>
-                </div>
-              )}
-
-              <form className="space-y-8" onSubmit={handleSubmit}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="relative group">
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      required
-                      value={formData.name}
-                      onChange={(e) =>
-                        setFormData({ ...formData, name: e.target.value })
-                      }
-                      className="w-full bg-transparent border-b border-gray-600 py-3 text-white transition focus:outline-none focus:border-blue-500 placeholder:text-gray-500"
-                      placeholder="Name"
-                    />
-                  </div>
-
-                  <div className="relative group">
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      required
-                      value={formData.email}
-                      onChange={(e) =>
-                        setFormData({ ...formData, email: e.target.value })
-                      }
-                      className="w-full bg-transparent border-b border-gray-600 py-3 text-white transition focus:outline-none focus:border-blue-500 placeholder:text-gray-500"
-                      placeholder="Email Address"
-                    />
-                  </div>
-                </div>
-
-                <div className="relative group">
+                    Name
+                  </label>
                   <input
                     type="text"
-                    id="website"
-                    name="website"
-                    value={formData.website}
-                    onChange={(e) =>
-                      setFormData({ ...formData, website: e.target.value })
-                    }
-                    className="hidden"
-                    tabIndex={-1}
-                    autoComplete="off"
-                    aria-hidden="true"
-                  />
-
-                  <textarea
-                    id="message"
-                    name="message"
+                    id="name"
                     required
-                    minLength={MESSAGE_MIN_LENGTH}
-                    rows={5}
-                    value={formData.message}
-                    onChange={(e) =>
-                      setFormData({ ...formData, message: e.target.value })
-                    }
-                    className="w-full bg-transparent border-b border-gray-600 py-3 text-white transition focus:outline-none focus:border-blue-500 placeholder:text-gray-500 resize-none"
-                    placeholder="Your Message"
+                    value={formData.name}
+                    onChange={e => setFormData({ ...formData, name: e.target.value })}
+                    className="w-full focus:outline-none"
+                    style={{
+                      background: 'transparent',
+                      border: 'none',
+                      borderBottom: '1px solid var(--outline-variant)',
+                      padding: '12px 0',
+                      fontFamily: 'var(--sans)',
+                      fontSize: '16px',
+                      color: 'var(--on-surface)',
+                      borderRadius: 0,
+                      transition: 'border-color 0.3s',
+                    }}
+                    onFocus={e => { e.currentTarget.style.borderBottomColor = 'var(--secondary)'; }}
+                    onBlur={e => { e.currentTarget.style.borderBottomColor = 'var(--outline-variant)'; }}
                   />
                 </div>
+                <div>
+                  <label
+                    htmlFor="email"
+                    style={{
+                      fontFamily: 'var(--mono)',
+                      fontSize: '10px',
+                      fontWeight: 500,
+                      letterSpacing: '0.1em',
+                      textTransform: 'uppercase',
+                      color: 'var(--outline)',
+                      display: 'block',
+                      marginBottom: '8px',
+                    }}
+                  >
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    required
+                    value={formData.email}
+                    onChange={e => setFormData({ ...formData, email: e.target.value })}
+                    className="w-full focus:outline-none"
+                    style={{
+                      background: 'transparent',
+                      border: 'none',
+                      borderBottom: '1px solid var(--outline-variant)',
+                      padding: '12px 0',
+                      fontFamily: 'var(--sans)',
+                      fontSize: '16px',
+                      color: 'var(--on-surface)',
+                      borderRadius: 0,
+                      transition: 'border-color 0.3s',
+                    }}
+                    onFocus={e => { e.currentTarget.style.borderBottomColor = 'var(--secondary)'; }}
+                    onBlur={e => { e.currentTarget.style.borderBottomColor = 'var(--outline-variant)'; }}
+                  />
+                </div>
+              </div>
 
-                <button
-                  type="submit"
-                  disabled={isSending || isInCooldown}
-                  className="w-full bg-blue-600 text-white py-4 px-6 rounded-lg font-bold text-lg transition-all hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(37,99,235,0.5)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              {/* Honeypot */}
+              <input
+                type="text"
+                name="website"
+                value={formData.website}
+                onChange={e => setFormData({ ...formData, website: e.target.value })}
+                className="hidden"
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+              />
+
+              <div>
+                <label
+                  htmlFor="message"
+                  style={{
+                    fontFamily: 'var(--mono)',
+                    fontSize: '10px',
+                    fontWeight: 500,
+                    letterSpacing: '0.1em',
+                    textTransform: 'uppercase',
+                    color: 'var(--outline)',
+                    display: 'block',
+                    marginBottom: '8px',
+                  }}
                 >
-                  {isSending
-                    ? "Sending..."
-                    : isInCooldown
-                      ? `Wait ${cooldownLeft}s`
-                      : "Send Inquiry"}
-                  {!isSending && <FaPaperPlane className="w-4 h-4" />}
-                </button>
-              </form>
-            </div>
+                  Message
+                </label>
+                <textarea
+                  id="message"
+                  required
+                  minLength={MESSAGE_MIN_LENGTH}
+                  rows={4}
+                  value={formData.message}
+                  onChange={e => setFormData({ ...formData, message: e.target.value })}
+                  className="w-full focus:outline-none resize-none"
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    borderBottom: '1px solid var(--outline-variant)',
+                    padding: '12px 0',
+                    fontFamily: 'var(--sans)',
+                    fontSize: '16px',
+                    color: 'var(--on-surface)',
+                    borderRadius: 0,
+                    transition: 'border-color 0.3s',
+                  }}
+                  onFocus={e => { e.currentTarget.style.borderBottomColor = 'var(--secondary)'; }}
+                  onBlur={e => { e.currentTarget.style.borderBottomColor = 'var(--outline-variant)'; }}
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={isSending || isInCooldown}
+                className="btn-primary w-full justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isSending ? "Sending..." : isInCooldown ? `Wait ${cooldownLeft}s` : "Send Message"}
+              </button>
+            </form>
           </div>
         </div>
       </RevealOnScroll>

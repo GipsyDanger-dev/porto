@@ -1,141 +1,157 @@
-import { RevealOnScroll } from "../RevealOnScroll";
-import {
-  FaReact, FaPython, FaJava, FaHtml5, FaCss3Alt, FaBriefcase, FaGraduationCap
-} from 'react-icons/fa';
-import { 
-  SiTailwindcss, SiJavascript, SiDart, SiAdobeaftereffects, SiAdobepremierepro
-} from 'react-icons/si';
-
+import { useEffect, useRef } from "react";
+import { GsapReveal, GsapStagger } from "../GsapReveal";
 
 const skills = [
-  { name: "React", icon: <FaReact />, color: "#61DAFB" },
-  { name: "Tailwind CSS", icon: <SiTailwindcss />, color: "#06B6D4" },
-  { name: "JavaScript", icon: <SiJavascript />, color: "#F7DF1E" },
-  { name: "Python", icon: <FaPython />, color: "#3776AB" },
-  { name: "Java", icon: <FaJava />, color: "#ED8B00" },
-  { name: "Premiere Pro", icon: <SiAdobepremierepro />, color: "#9999FF" },
-  { name: "Dart", icon: <SiDart />, color: "#0175C2" },
-  { name: "After Effects", icon: <SiAdobeaftereffects />, color: "#9999FF" },
-  { name: "HTML", icon: <FaHtml5 />, color: "#E34F26" },
-  { name: "CSS", icon: <FaCss3Alt />, color: "#1572B6" },
+  { name: "React", level: 90 },
+  { name: "JavaScript", level: 88 },
+  { name: "Tailwind CSS", level: 92 },
+  { name: "Python", level: 80 },
+  { name: "Laravel", level: 78 },
+  { name: "Java", level: 70 },
+  { name: "Premiere Pro", level: 85 },
+  { name: "After Effects", level: 75 },
+  { name: "Dart / Flutter", level: 65 },
+  { name: "TensorFlow", level: 60 },
 ];
 
 const educationData = [
-  {
-    icon: <FaGraduationCap />,
-    date: '2024 - 2026',
-    title: 'Associate Degree in Information Technology',
-    institution: 'Brawijaya University',
-  },
-  {
-    icon: <FaGraduationCap />,
-    date: '2021 - 2024',
-    title: 'Mathematics and Natural Sciences',
-    institution: 'State Senior High School 3 of Cilacap',
-  },
+  { date: "2024 - 2026", title: "Associate Degree in Information Technology", institution: "Brawijaya University" },
+  { date: "2021 - 2024", title: "Mathematics and Natural Sciences", institution: "State Senior High School 3 of Cilacap" },
 ];
 
 const experienceData = [
-  {
-    icon: <FaBriefcase />,
-    date: '2025 - Sekarang',
-    title: 'Staff Expert of Research and Technology',
-    institution: 'HMPSTI Brawijaya University',
-  },
-  {
-    icon: <FaBriefcase />,
-    date: '2024',
-    title: 'Editor & Script Assistant',
-    institution: 'State Senior High School 3 of Cilacap',
-  },
+  { date: "2025 - Present", title: "Staff Expert of Research and Technology", institution: "HMPSTI Brawijaya University" },
+  { date: "2024", title: "Editor & Script Assistant", institution: "State Senior High School 3 of Cilacap" },
 ];
 
-// Komponen bantu untuk Timeline Item agar rapi
-const TimelineItem = ({ icon, date, title, institution }) => (
-  <div className="relative pl-8 group">
-    {/* Lingkaran ikon di timeline */}
-    <div className="absolute left-0 top-1 flex items-center justify-center w-6 h-6 bg-gray-800 text-blue-400 rounded-full ring-4 ring-gray-900 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
-        {icon}
+const SkillBar = ({ name, level }) => {
+  const barRef = useRef(null);
+
+  useEffect(() => {
+    const el = barRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.style.width = `${level}%`;
+          observer.unobserve(el);
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [level]);
+
+  return (
+    <div>
+      <div className="flex justify-between mb-1">
+        <span style={{ fontFamily: 'var(--sans)', fontSize: '14px', color: 'var(--on-surface)' }}>{name}</span>
+        <span style={{ fontFamily: 'var(--mono)', fontSize: '11px', color: 'var(--outline)' }}>{level}%</span>
+      </div>
+      <div className="skill-track" style={{ height: '1px', background: 'var(--outline-variant)', position: 'relative' }}>
+        <div
+          ref={barRef}
+          style={{
+            height: '1px',
+            background: 'var(--secondary)',
+            width: 0,
+            transition: 'width 1.4s cubic-bezier(0.4,0,0.2,1)',
+          }}
+        />
+      </div>
     </div>
-    {/* Latar belakang yang menyala saat hover */}
-    <div className="absolute -inset-x-2 -inset-y-1 bg-white/5 opacity-0 group-hover:opacity-100 rounded-lg transition-opacity duration-300"></div>
-    {/* Konten teks */}
-    <div className="relative">
-        <p className="text-xs text-gray-400 mb-1">{date}</p>
-        <h4 className="font-semibold text-white">{title}</h4>
-        <p className="text-sm text-gray-400">{institution}</p>
-    </div>
+  );
+};
+
+const TimelineItem = ({ date, title, institution }) => (
+  <div className="relative pl-6 group" style={{ borderLeft: '1px solid var(--outline-variant)' }}>
+    <div
+      className="absolute left-0 top-1 w-2 h-2 translate-x-[-4.5px]"
+      style={{ background: 'var(--secondary)', borderRadius: 0 }}
+    />
+    <p style={{ fontFamily: 'var(--mono)', fontSize: '11px', color: 'var(--outline)', marginBottom: '4px', letterSpacing: '0.05em' }}>
+      {date}
+    </p>
+    <h4 style={{ fontFamily: 'var(--serif)', fontSize: '16px', fontWeight: 700, color: 'var(--on-surface)', marginBottom: '2px' }}>
+      {title}
+    </h4>
+    <p style={{ fontFamily: 'var(--sans)', fontSize: '14px', color: 'var(--on-surface-variant)' }}>
+      {institution}
+    </p>
   </div>
 );
 
-
 export const About = () => {
   return (
-    <section id="about" className="min-h-screen flex items-center justify-center py-20">
-      <RevealOnScroll>
-        <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-4xl font-bold mb-12 bg-linear-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent text-center">
-            About Me
-          </h2>
+    <section id="about" style={{ padding: 'var(--section-gap) 0' }}>
+      <div className="max-w-7xl mx-auto px-6 md:px-16">
+        <div className="grid gap-16 lg:gap-24" style={{ gridTemplateColumns: '1fr' }}>
+          {/* Bio */}
+          <GsapReveal>
+            <div className="max-w-3xl">
+              <div className="section-label">About</div>
+              <h2
+                style={{
+                  fontFamily: 'var(--serif)',
+                  fontSize: 'clamp(36px, 5vw, 52px)',
+                  fontWeight: 700,
+                  letterSpacing: '-0.015em',
+                  color: 'var(--on-surface)',
+                  marginBottom: '32px',
+                }}
+              >
+                Craft <em style={{ fontStyle: 'italic', color: 'var(--on-surface-variant)' }}>&amp; Code</em>
+              </h2>
+              <p style={{ fontFamily: 'var(--sans)', fontSize: '18px', lineHeight: '28px', color: 'var(--on-surface-variant)' }}>
+                I&apos;m Adam — a full stack developer, video editor, and blockchain enthusiast. I enjoy the process from writing code to editing footage. Open for collaboration and new projects, let&apos;s connect.
+              </p>
+            </div>
+          </GsapReveal>
 
-          {/* Kartu Perkenalan */}
-          <div className="bg-gray-800/20 border border-white/10 rounded-2xl p-8 mb-12">
-            <p className="text-gray-300 text-lg leading-relaxed text-center">
-              I'm Adam — a full stack developer, video editor, and blockchain enthusiast. I enjoy the process from writing code to editing footage. Open for collaboration and new projects, let's connect.
-            </p>
-          </div>
-          
-          {/* Kartu Skillset */}
-          <div className="bg-gray-800/20 border border-white/10 rounded-2xl p-8 mb-12">
-              <h3 className="text-2xl font-bold text-white mb-8 text-center">My Skillset</h3>
-              <div className="grid grid-cols-3 sm:grid-cols-5 gap-6">
-                {skills.map((skill) => (
-                  <div
-                    key={skill.name}
-                    className="group/skill flex flex-col items-center justify-center text-center p-3 rounded-xl transition-all duration-300 hover:-translate-y-2 cursor-default"
-                  >
-                    <div
-                      className="text-4xl transition-all duration-300 group-hover/skill:scale-125"
-                      style={{ color: skill.color, filter: 'none' }}
-                      onMouseEnter={(e) => { e.currentTarget.style.filter = `drop-shadow(0 0 12px ${skill.color})`; }}
-                      onMouseLeave={(e) => { e.currentTarget.style.filter = 'none'; }}
-                    >
-                        {skill.icon}
-                    </div>
-                    <span className="mt-2 font-medium text-gray-400 group-hover/skill:text-white text-sm transition-colors duration-300">
-                      {skill.name}
-                    </span>
-                  </div>
-                ))}
+          {/* Timeline */}
+          <GsapReveal delay={0.2}>
+            <div className="grid gap-16 lg:gap-24" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' }}>
+              <div>
+                <h3 style={{ fontFamily: 'var(--mono)', fontSize: '11px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--secondary)', marginBottom: '24px' }}>
+                  Education
+                </h3>
+                <GsapStagger className="space-y-8" stagger={0.15}>
+                  {educationData.map((item, i) => (
+                    <TimelineItem key={i} {...item} />
+                  ))}
+                </GsapStagger>
               </div>
-          </div>
-
-          {/* 2. LAYOUT BARU: Pendidikan dan Pengalaman berdampingan */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            
-            {/* KOLOM PENDIDIKAN */}
-            <div className="group relative bg-gray-800/20 p-8 rounded-2xl border border-white/10 hover:-translate-y-1 transition-all duration-300 hover:border-blue-500/30">
-                <h3 className="text-2xl font-bold text-white mb-8 text-center">Education</h3>
-                <div className="relative space-y-8 border-l-2 border-dashed border-white/10">
-                    {educationData.map((item, index) => (
-                        <TimelineItem key={index} {...item} />
-                    ))}
-                </div>
+              <div>
+                <h3 style={{ fontFamily: 'var(--mono)', fontSize: '11px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--secondary)', marginBottom: '24px' }}>
+                  Experience
+                </h3>
+                <GsapStagger className="space-y-8" stagger={0.15}>
+                  {experienceData.map((item, i) => (
+                    <TimelineItem key={i} {...item} />
+                  ))}
+                </GsapStagger>
+              </div>
             </div>
+          </GsapReveal>
 
-            {/* KOLOM PENGALAMAN */}
-            <div className="group relative bg-gray-800/20 p-8 rounded-2xl border border-white/10 hover:-translate-y-1 transition-all duration-300 hover:border-blue-500/30">
-                <h3 className="text-2xl font-bold text-white mb-8 text-center">Experience</h3>
-                <div className="relative space-y-8 border-l-2 border-dashed border-white/10">
-                    {experienceData.map((item, index) => (
-                        <TimelineItem key={index} {...item} />
-                    ))}
-                </div>
+          {/* Skills */}
+          <GsapReveal delay={0.3}>
+            <div>
+              <h3 style={{ fontFamily: 'var(--mono)', fontSize: '11px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--secondary)', marginBottom: '32px' }}>
+                Arsenal
+              </h3>
+              <GsapStagger className="grid gap-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }} stagger={0.08}>
+                {skills.map((skill) => (
+                  <SkillBar key={skill.name} {...skill} />
+                ))}
+              </GsapStagger>
             </div>
-
-          </div>
+          </GsapReveal>
         </div>
-      </RevealOnScroll>
+      </div>
     </section>
   );
 };

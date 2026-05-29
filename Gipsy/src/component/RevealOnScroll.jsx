@@ -13,7 +13,7 @@ export const RevealOnScroll = ({ children }) => {
           observer.unobserve(entry.target);
         }
       },
-      { threshold: 0.2, rootMargin: "0px 0px -50px 0px" }
+      { threshold: 0.08 }
     );
 
     observer.observe(ref.current);
