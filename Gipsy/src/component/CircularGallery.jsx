@@ -381,7 +381,10 @@ class App {
     });
   }
   onTouchDown(e) {
+    const target = e.target;
+    if (target !== this.gl.canvas && !this.container.contains(target)) return;
     this.isDown = true;
+    this.isGalleryClick = true;
     this.scroll.position = this.scroll.current;
     this.start = e.touches ? e.touches[0].clientX : e.clientX;
     this.startX = this.start;
@@ -398,8 +401,8 @@ class App {
     this.isDown = false;
     this.onCheck();
 
-    // If click (minimal drag), find closest item and trigger onClick
-    if (dragDistance < 10 && this.onClick && this.medias && this.medias[0]) {
+    // If click (minimal drag) AND interaction started on gallery, find closest item and trigger onClick
+    if (this.isGalleryClick && dragDistance < 10 && this.onClick && this.medias && this.medias[0]) {
       const centerX = 0;
       let closest = null;
       let closestDist = Infinity;
@@ -416,6 +419,7 @@ class App {
         this.onClick(itemIndex);
       }
     }
+    this.isGalleryClick = false;
   }
   onWheel(e) {
     const delta = e.deltaY || e.wheelDelta || e.detail;
