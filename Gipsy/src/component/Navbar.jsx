@@ -1,11 +1,4 @@
-import { useEffect } from "react";
-
-export const Navbar = ({ menuOpen, setMenuOpen }) => {
-  useEffect(() => {
-    document.body.style.overflow = menuOpen ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
-  }, [menuOpen]);
-
+export const Navbar = () => {
   const links = [
     { href: "#projects", label: "Projects" },
     { href: "#about", label: "About" },
@@ -15,7 +8,7 @@ export const Navbar = ({ menuOpen, setMenuOpen }) => {
 
   return (
     <nav
-      className="fixed top-0 w-full z-40"
+      className="hidden md:block fixed top-0 w-full z-40"
       style={{
         backdropFilter: 'blur(20px)',
         WebkitBackdropFilter: 'blur(20px)',
@@ -32,18 +25,7 @@ export const Navbar = ({ menuOpen, setMenuOpen }) => {
             Gipsy<span style={{ color: 'var(--secondary)' }}>.Dev</span>
           </a>
 
-          {/* Mobile hamburger */}
-          <button
-            onClick={() => setMenuOpen(prev => !prev)}
-            className="md:hidden flex flex-col gap-1.5 cursor-pointer bg-transparent border-none p-2"
-            aria-label="Toggle menu"
-          >
-            <span className="block w-6 h-px" style={{ background: 'var(--on-surface)' }} />
-            <span className="block w-6 h-px" style={{ background: 'var(--on-surface)' }} />
-          </button>
-
-          {/* Desktop links */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="flex items-center gap-8">
             {links.map(({ href, label }) => (
               <a
                 key={href}
