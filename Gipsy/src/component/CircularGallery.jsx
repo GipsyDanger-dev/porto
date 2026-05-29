@@ -381,8 +381,7 @@ class App {
     });
   }
   onTouchDown(e) {
-    const target = e.target;
-    if (target !== this.gl.canvas && !this.container.contains(target)) return;
+    if (!this.container.contains(e.target)) return;
     this.isDown = true;
     this.isGalleryClick = true;
     this.scroll.position = this.scroll.current;
@@ -391,6 +390,7 @@ class App {
   }
   onTouchMove(e) {
     if (!this.isDown) return;
+    if (e.cancelable) e.preventDefault();
     const x = e.touches ? e.touches[0].clientX : e.clientX;
     const distance = (this.start - x) * (this.scrollSpeed * 0.025);
     this.scroll.target = this.scroll.position + distance;
@@ -472,8 +472,8 @@ class App {
     window.addEventListener('mousedown', this.boundOnTouchDown);
     window.addEventListener('mousemove', this.boundOnTouchMove);
     window.addEventListener('mouseup', this.boundOnTouchUp);
-    window.addEventListener('touchstart', this.boundOnTouchDown);
-    window.addEventListener('touchmove', this.boundOnTouchMove);
+    window.addEventListener('touchstart', this.boundOnTouchDown, { passive: false });
+    window.addEventListener('touchmove', this.boundOnTouchMove, { passive: false });
     window.addEventListener('touchend', this.boundOnTouchUp);
   }
   destroy() {
