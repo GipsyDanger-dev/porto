@@ -81,7 +81,7 @@ export const Home = () => {
         style={{
           right: '2%',
           bottom: '0',
-          height: '95vh',
+          height: '88vh',
           width: 'auto',
           objectFit: 'contain',
           filter: 'grayscale(25%) brightness(0.9) contrast(1.05)',

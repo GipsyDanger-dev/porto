@@ -1,4 +1,4 @@
-import { RevealOnScroll } from "../RevealOnScroll";
+import { GsapReveal, GsapStagger } from "../GsapReveal";
 import sertif1Img from "../../pct/sertif/Sertif1.jpg";
 import sertif2Img from "../../pct/sertif/sertif2.jpg";
 import sertif3Img from "../../pct/sertif/Sertif3.png";
@@ -75,128 +75,205 @@ const certifications = [
   },
 ];
 
+const CertCard = ({ cert, index }) => {
+  const num = String(index + 1).padStart(2, '0');
+
+  return (
+    <a
+      href={cert.credentialUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="cert-card group block"
+      style={{
+        textDecoration: 'none',
+        background: 'var(--surface)',
+        border: '1px solid var(--outline-variant)',
+        overflow: 'hidden',
+        transition: 'border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease',
+      }}
+      onMouseEnter={e => {
+        e.currentTarget.style.borderColor = 'rgba(242,100,15,0.2)';
+        e.currentTarget.style.boxShadow = '0 12px 40px rgba(0,0,0,0.3), 0 0 24px rgba(242,100,15,0.06)';
+        e.currentTarget.style.transform = 'translateY(-4px)';
+      }}
+      onMouseLeave={e => {
+        e.currentTarget.style.borderColor = 'var(--outline-variant)';
+        e.currentTarget.style.boxShadow = 'none';
+        e.currentTarget.style.transform = 'translateY(0)';
+      }}
+    >
+      {/* Image */}
+      <div
+        className="relative overflow-hidden"
+        style={{ aspectRatio: '16 / 10', background: 'var(--surface-high)' }}
+      >
+        <img
+          src={cert.imageUrl}
+          alt={cert.title}
+          loading="lazy"
+          decoding="async"
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            display: 'block',
+            filter: 'saturate(0.85) brightness(0.9)',
+            transition: 'filter 0.5s ease, transform 0.6s cubic-bezier(0.4,0,0.2,1)',
+          }}
+          className="group-hover:scale-[1.04]"
+          onMouseEnter={e => { e.currentTarget.style.filter = 'saturate(1) brightness(1)'; }}
+          onMouseLeave={e => { e.currentTarget.style.filter = 'saturate(0.85) brightness(0.9)'; }}
+        />
+        {/* Bottom fade */}
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-1"
+          style={{ height: '50%', background: 'linear-gradient(to top, var(--surface), transparent)' }}
+        />
+      </div>
+
+      {/* Content */}
+      <div style={{ padding: '20px 22px 22px' }}>
+        {/* Number + Category */}
+        <div className="flex items-center justify-between" style={{ marginBottom: '12px' }}>
+          <span
+            style={{
+              fontFamily: 'var(--mono)',
+              fontSize: '9px',
+              letterSpacing: '0.1em',
+              textTransform: 'uppercase',
+              color: 'var(--outline)',
+            }}
+          >
+            {num}
+          </span>
+          <span
+            style={{
+              fontFamily: 'var(--mono)',
+              fontSize: '9px',
+              fontWeight: 500,
+              letterSpacing: '0.1em',
+              textTransform: 'uppercase',
+              color: 'var(--secondary)',
+              background: 'rgba(242,100,15,0.08)',
+              padding: '3px 8px',
+            }}
+          >
+            {cert.category}
+          </span>
+        </div>
+
+        {/* Title */}
+        <h3
+          className="transition-colors duration-300"
+          style={{
+            fontFamily: 'var(--serif)',
+            fontSize: '17px',
+            fontWeight: 700,
+            color: 'var(--on-surface)',
+            lineHeight: 1.3,
+            marginBottom: '8px',
+          }}
+        >
+          {cert.title}
+        </h3>
+
+        {/* Issuer */}
+        <p
+          style={{
+            fontFamily: 'var(--sans)',
+            fontSize: '13px',
+            color: 'var(--on-surface-variant)',
+            marginBottom: '16px',
+          }}
+        >
+          {cert.issuer}
+        </p>
+
+        {/* Footer divider */}
+        <div
+          style={{
+            borderTop: '1px solid var(--outline-variant)',
+            paddingTop: '14px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
+          <span
+            style={{
+              fontFamily: 'var(--mono)',
+              fontSize: '10px',
+              color: 'var(--outline)',
+              letterSpacing: '0.05em',
+            }}
+          >
+            {cert.issuedDate}
+          </span>
+          <span
+            className="inline-flex items-center gap-1 transition-all duration-300"
+            style={{
+              fontFamily: 'var(--mono)',
+              fontSize: '10px',
+              fontWeight: 500,
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              color: 'var(--secondary)',
+            }}
+          >
+            Verify <span className="inline-block group-hover:translate-x-0.5 transition-transform duration-200">&rarr;</span>
+          </span>
+        </div>
+      </div>
+    </a>
+  );
+};
+
 export const Certification = () => {
   return (
     <section id="certifications" style={{ padding: 'var(--section-gap) 0' }}>
-      <RevealOnScroll>
-        <div className="max-w-7xl mx-auto px-6 md:px-16">
-          <div className="section-label">Credentials</div>
-          <h2
-            style={{
-              fontFamily: 'var(--serif)',
-              fontSize: 'clamp(36px, 5vw, 52px)',
-              fontWeight: 700,
-              letterSpacing: '-0.015em',
-              color: 'var(--on-surface)',
-              marginBottom: '64px',
-            }}
-          >
-            Certifications<em style={{ fontStyle: 'italic', color: 'var(--on-surface-variant)' }}>.</em>
-          </h2>
-
-          <div
-            className="grid"
-            style={{
-              gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-              gap: '20px',
-            }}
-          >
-            {certifications.map((cert, index) => (
-              <a
-                key={index}
-                href={cert.credentialUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block group transition-all duration-500"
+      <div className="max-w-7xl mx-auto px-6 md:px-16">
+        <GsapReveal>
+          <div className="flex justify-between items-end" style={{ marginBottom: '64px' }}>
+            <div>
+              <div className="section-label">Credentials</div>
+              <h2
                 style={{
-                  background: 'linear-gradient(135deg, rgba(28,32,36,0.6), rgba(16,20,23,0.9))',
-                  padding: '24px',
-                  textDecoration: 'none',
-                  boxShadow: '0 2px 16px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.02)',
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,0,0,0.35), 0 0 0 1px rgba(242,100,15,0.06), inset 0 1px 0 rgba(255,255,255,0.04)';
-                  e.currentTarget.style.transform = 'translateY(-3px)';
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.boxShadow = '0 2px 16px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.02)';
-                  e.currentTarget.style.transform = 'translateY(0)';
+                  fontFamily: 'var(--serif)',
+                  fontSize: 'clamp(36px, 5vw, 52px)',
+                  fontWeight: 700,
+                  letterSpacing: '-0.015em',
+                  color: 'var(--on-surface)',
                 }}
               >
-                {/* Certificate image */}
-                <div
-                  className="overflow-hidden mb-5"
-                  style={{
-                    boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.04)',
-                  }}
-                >
-                  <img
-                    src={cert.imageUrl}
-                    alt={cert.title}
-                    loading="lazy"
-                    decoding="async"
-                    className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-                  />
-                </div>
-
-                <span
-                  style={{
-                    fontFamily: 'var(--mono)',
-                    fontSize: '10px',
-                    fontWeight: 500,
-                    letterSpacing: '0.1em',
-                    textTransform: 'uppercase',
-                    color: 'var(--secondary)',
-                    display: 'block',
-                    marginBottom: '8px',
-                  }}
-                >
-                  {cert.category}
-                </span>
-
-                <h3
-                  style={{
-                    fontFamily: 'var(--serif)',
-                    fontSize: '20px',
-                    fontWeight: 700,
-                    color: 'var(--on-surface)',
-                    marginBottom: '12px',
-                    lineHeight: 1.3,
-                  }}
-                >
-                  {cert.title}
-                </h3>
-
-                <div className="flex items-center justify-between mt-auto">
-                  <span
-                    style={{
-                      fontFamily: 'var(--mono)',
-                      fontSize: '10px',
-                      color: 'var(--outline)',
-                      letterSpacing: '0.05em',
-                    }}
-                  >
-                    {cert.issuedDate}
-                  </span>
-                  <span
-                    className="inline-flex items-center gap-1 transition-all duration-300"
-                    style={{
-                      fontFamily: 'var(--mono)',
-                      fontSize: '10px',
-                      fontWeight: 500,
-                      letterSpacing: '0.08em',
-                      textTransform: 'uppercase',
-                      color: 'var(--secondary)',
-                    }}
-                  >
-                    Verify &rarr;
-                  </span>
-                </div>
-              </a>
-            ))}
+                Certifications<em style={{ fontStyle: 'italic', color: 'var(--on-surface-variant)' }}>.</em>
+              </h2>
+            </div>
+            <p
+              className="hidden md:block"
+              style={{
+                maxWidth: '260px',
+                fontFamily: 'var(--sans)',
+                fontSize: '14px',
+                lineHeight: '23px',
+                color: 'var(--on-surface-variant)',
+                letterSpacing: '-0.01em',
+              }}
+            >
+              Verified credentials across data science, AI, cloud, and analytics.
+            </p>
           </div>
-        </div>
-      </RevealOnScroll>
+        </GsapReveal>
+
+        <GsapStagger
+          className="grid"
+          style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}
+          stagger={0.08}
+        >
+          {certifications.map((cert, index) => (
+            <CertCard key={index} cert={cert} index={index} />
+          ))}
+        </GsapStagger>
+      </div>
     </section>
   );
 };
