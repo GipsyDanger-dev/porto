@@ -366,7 +366,7 @@
   }
 
   .sm-panel-list[data-numbering] .sm-panel-item::after {
-    right: 0.6em;
+    right: 1.8em;
     font-size: 12px;
   }
 
