@@ -348,6 +348,15 @@
   .sm-prelayers {
     width: 100%;
   }
+
+  .sm-panel-list[data-numbering] .sm-panel-item {
+    padding-right: 3.5em !important;
+  }
+
+  .sm-panel-list[data-numbering] .sm-panel-item::after {
+    right: 3.4em !important;
+    font-size: 11px !important;
+  }
 }
 
 @media (max-width: 640px) {
@@ -359,15 +368,6 @@
 
   .sm-prelayers {
     width: 100%;
-  }
-
-  .sm-panel-list[data-numbering] .sm-panel-item {
-    padding-right: 2.2em !important;
-  }
-
-  .sm-panel-list[data-numbering] .sm-panel-item::after {
-    right: 1.8em !important;
-    font-size: 12px !important;
   }
 
   .staggered-menu-header {
