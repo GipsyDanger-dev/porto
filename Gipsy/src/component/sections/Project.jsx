@@ -9,6 +9,15 @@ import sentinelImg from "../../pct/SentinelIot.png";
 
 const projectsData = [
   {
+    title: "StockPP",
+    description: "Full-stack application using LSTM Deep Learning to predict stock prices. Real-time predictions, model versioning, and interactive charts.",
+    tags: ["React", "FastAPI", "TensorFlow", "LSTM", "Supabase", "Recharts"],
+    imageUrl: stockPPImg,
+    projectUrl: "",
+    githubUrl: "https://github.com/GipsyDanger-dev/StockPP",
+    status: "In Dev",
+  },
+  {
     title: "PasarNgalam",
     description: "Platform e-commerce berbasis web khusus Malang yang memberdayakan UMKM dan pelaku usaha lokal. Fokus pada usability, skalabilitas, dan transformasi digital pasar tradisional.",
     tags: ["React", "Laravel", "TailwindCSS", "MySQL"],
@@ -52,15 +61,6 @@ const projectsData = [
     projectUrl: "https://gipsydanger-dev.github.io/porto/#",
     githubUrl: "https://github.com/GipsyDanger-dev/porto",
     status: null,
-  },
-  {
-    title: "StockPP",
-    description: "Full-stack application using LSTM Deep Learning to predict stock prices. Real-time predictions, model versioning, and interactive charts.",
-    tags: ["React", "FastAPI", "TensorFlow", "LSTM", "Supabase", "Recharts"],
-    imageUrl: stockPPImg,
-    projectUrl: "",
-    githubUrl: "https://github.com/GipsyDanger-dev/StockPP",
-    status: "In Dev",
   },
   {
     title: "SentinelIoT",
