@@ -309,9 +309,9 @@
   content: counter(smItem, decimal-leading-zero);
   position: absolute;
   top: 0.1em;
-  right: 2.8em;
+  right: 0.8em;
   font-family: var(--mono, 'JetBrains Mono', monospace);
-  font-size: 14px;
+  font-size: 11px;
   font-weight: 400;
   color: var(--sm-accent, #f2640f);
   letter-spacing: 0;
