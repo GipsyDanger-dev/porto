@@ -2,6 +2,7 @@ export const Navbar = () => {
   const links = [
     { href: "#projects", label: "Projects" },
     { href: "#about", label: "About" },
+    { href: "#experience", label: "Experience" },
     { href: "#certifications", label: "Certs" },
     { href: "#contact", label: "Contact" },
   ];

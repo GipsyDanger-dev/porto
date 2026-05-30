@@ -1,0 +1,283 @@
+import { GsapReveal } from "../GsapReveal";
+
+const organizations = [
+  {
+    name: "HMPSTI VOKASI UB",
+    period: "Jan 2025 – Des 2025",
+    duration: "1 Tahun",
+    type: "Purnawaktu",
+    location: "Kota Malang, Jawa Timur",
+    roles: [
+      {
+        title: "Expert Staff of Research and Technology Department",
+        period: "Jan 2025 – Des 2025",
+        duration: "1 thn",
+        description:
+          "Contributed to the development and implementation of technology solutions to support organizational programs. Involved in project management, backend development, and team collaboration to improve system effectiveness and efficiency.",
+        skills: ["Manajemen Proyek", "Backend Developer"],
+      },
+      {
+        title: "Deputy Coordinator Project Planner – SAMBA TI",
+        period: "Sep 2025 – Des 2025",
+        duration: "4 bln",
+        description:
+          "Supervised the Project Planner division in planning and executing new student orientation programs. Managed event concepts, timelines, and cross-team coordination to ensure structured, efficient, and impactful program delivery.",
+        skills: ["SDM", "Koordinator Lapangan"],
+      },
+      {
+        title: "Project Manager – TechFair Vol. 2",
+        period: "Nov 2025",
+        duration: "1 bln",
+        description:
+          "Led overall planning, coordination, and execution of a flagship technology exhibition. Managed cross-functional teams, oversaw event timelines, and ensured smooth operations including participant flow and on-site activities.",
+        skills: ["SDM", "Manajemen Proyek"],
+      },
+      {
+        title: "Public Relations Coordinator – Think Solve Innovation",
+        period: "Okt 2025",
+        duration: "1 bln",
+        description:
+          "Managed communication, publication, and event branding for an IT seminar for 250+ new students. Coordinated with cross-functional teams to ensure consistent messaging and effective audience engagement.",
+        skills: ["SDM", "Hubungan Masyarakat"],
+      },
+      {
+        title: "Deputy Project Planner Coordinator – Techno Cup",
+        period: "Okt 2025",
+        duration: "1 bln",
+        description:
+          "Managed event planning and execution for a city-scale Mobile Legends tournament. Coordinated a team of 7 committee members, handled scheduling, and ensured smooth participation of 20 competing teams.",
+        skills: ["SDM", "Dukungan Teknis"],
+      },
+      {
+        title: "Project Manager – TechFair Vol. 1",
+        period: "Jun 2025",
+        duration: "1 bln",
+        description:
+          "Managed a student technology exhibition at Vocational UB. Led coordination across 7 organizing divisions and showcased over 100 innovative projects.",
+        skills: ["SDM", "Teknologi Informasi"],
+      },
+      {
+        title: "Project Planner Coordinator – Tech Bridge Academy",
+        period: "Mei 2025",
+        duration: "1 bln",
+        description:
+          "Coordinated project planning and execution in a cybersecurity bootcamp environment, ensuring structured program delivery and effective team collaboration.",
+        skills: ["Manajemen Proyek", "SDM"],
+      },
+      {
+        title: "Project Planner Staff – TechPlanner",
+        period: "Mei 2025",
+        duration: "1 bln",
+        description:
+          "Supported the planning and execution of IT-focused student programs by developing event concepts and timelines, coordinating with cross-functional teams.",
+        skills: ["Manajemen Proyek", "SDM"],
+      },
+    ],
+  },
+  {
+    name: "DPM Vokasi Universitas Brawijaya",
+    period: "Okt 2024 – Des 2024",
+    duration: "3 Bulan",
+    type: "Purnawaktu",
+    location: "Kota Malang, Jawa Timur",
+    roles: [
+      {
+        title: "Media, Information & Creative Bureau Intern",
+        period: "Okt 2024 – Des 2024",
+        duration: "3 bln",
+        description:
+          "Developed and edited organizational profile content to ensure accurate information, consistent language, and a strong professional representation of the Student Representative Council.",
+        skills: ["Adobe Premiere Pro", "Pengeditan Video"],
+      },
+      {
+        title: "Creative Design & Media Coordinator – BPPUM",
+        period: "Okt 2024 – Nov 2024",
+        duration: "2 bln",
+        description:
+          "Led the creative design and media division in developing visual content and communication materials to support student election activities. Managed branding, publication strategies, and digital media content.",
+        skills: ["Desain Kreatif", "Hubungan Masyarakat"],
+      },
+    ],
+  },
+];
+
+const RoleEntry = ({ role, isLast }) => (
+  <div style={{ paddingBottom: isLast ? 0 : '28px', marginBottom: isLast ? 0 : '28px', borderBottom: isLast ? 'none' : '1px solid var(--outline-variant)' }}>
+    <div className="flex flex-wrap items-center gap-2 mb-2">
+      <h4
+        style={{
+          fontFamily: 'var(--sans)',
+          fontSize: '15px',
+          fontWeight: 600,
+          color: 'var(--on-surface)',
+          lineHeight: 1.3,
+        }}
+      >
+        {role.title}
+      </h4>
+    </div>
+    <div className="flex flex-wrap items-center gap-2 mb-3">
+      <span
+        style={{
+          fontFamily: 'var(--mono)',
+          fontSize: '10px',
+          fontWeight: 500,
+          letterSpacing: '0.08em',
+          textTransform: 'uppercase',
+          color: 'var(--secondary)',
+          background: 'rgba(242,100,15,0.08)',
+          padding: '3px 10px',
+        }}
+      >
+        {role.period}
+      </span>
+      <span
+        style={{
+          fontFamily: 'var(--mono)',
+          fontSize: '10px',
+          letterSpacing: '0.08em',
+          textTransform: 'uppercase',
+          color: 'var(--outline)',
+        }}
+      >
+        {role.duration}
+      </span>
+    </div>
+    <p
+      style={{
+        fontFamily: 'var(--sans)',
+        fontSize: '13px',
+        lineHeight: '21px',
+        color: 'var(--on-surface-variant)',
+        marginBottom: '12px',
+      }}
+    >
+      {role.description}
+    </p>
+    <div className="flex flex-wrap gap-1.5">
+      {role.skills.map((skill) => (
+        <span
+          key={skill}
+          style={{
+            fontFamily: 'var(--mono)',
+            fontSize: '9px',
+            fontWeight: 500,
+            letterSpacing: '0.1em',
+            textTransform: 'uppercase',
+            color: 'var(--on-surface-variant)',
+            background: 'var(--surface-high)',
+            padding: '4px 8px',
+            border: '1px solid var(--outline-variant)',
+          }}
+        >
+          {skill}
+        </span>
+      ))}
+    </div>
+  </div>
+);
+
+const OrgCard = ({ org, index }) => (
+  <GsapReveal delay={0.1}>
+    <div
+      style={{
+        borderTop: index > 0 ? '1px solid var(--outline-variant)' : 'none',
+        paddingTop: index > 0 ? '56px' : 0,
+      }}
+    >
+      {/* Org Header */}
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-8">
+        <div>
+          <h3
+            style={{
+              fontFamily: 'var(--serif)',
+              fontSize: 'clamp(24px, 3vw, 32px)',
+              fontWeight: 700,
+              letterSpacing: '-0.015em',
+              color: 'var(--on-surface)',
+              marginBottom: '8px',
+            }}
+          >
+            {org.name}
+          </h3>
+          <div className="flex flex-wrap items-center gap-3">
+            <span
+              style={{
+                fontFamily: 'var(--mono)',
+                fontSize: '10px',
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                color: 'var(--outline)',
+              }}
+            >
+              {org.location}
+            </span>
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <span
+            style={{
+              fontFamily: 'var(--mono)',
+              fontSize: '10px',
+              fontWeight: 500,
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              color: 'var(--secondary)',
+              background: 'rgba(242,100,15,0.08)',
+              padding: '5px 12px',
+            }}
+          >
+            {org.type}
+          </span>
+          <span
+            style={{
+              fontFamily: 'var(--mono)',
+              fontSize: '10px',
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              color: 'var(--outline)',
+            }}
+          >
+            {org.duration}
+          </span>
+        </div>
+      </div>
+
+      {/* Roles */}
+      <div>
+        {org.roles.map((role, i) => (
+          <RoleEntry key={i} role={role} isLast={i === org.roles.length - 1} />
+        ))}
+      </div>
+    </div>
+  </GsapReveal>
+);
+
+export const Organization = () => {
+  return (
+    <section id="experience" style={{ padding: 'var(--section-gap) 0' }}>
+      <div className="max-w-5xl mx-auto px-6 md:px-16">
+        <GsapReveal>
+          <div style={{ marginBottom: '64px' }}>
+            <div className="section-label">Experience</div>
+            <h2
+              style={{
+                fontFamily: 'var(--serif)',
+                fontSize: 'clamp(36px, 5vw, 52px)',
+                fontWeight: 700,
+                letterSpacing: '-0.015em',
+                color: 'var(--on-surface)',
+              }}
+            >
+              Organizations<em style={{ fontStyle: 'italic', color: 'var(--on-surface-variant)' }}>.</em>
+            </h2>
+          </div>
+        </GsapReveal>
+
+        {organizations.map((org, i) => (
+          <OrgCard key={i} org={org} index={i} />
+        ))}
+      </div>
+    </section>
+  );
+};

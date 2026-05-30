@@ -8,6 +8,7 @@ import "./index.css";
 
 const About = lazy(() => import('./component/sections/About').then(m => ({ default: m.About })));
 const Project = lazy(() => import('./component/sections/Project').then(m => ({ default: m.Project })));
+const Organization = lazy(() => import('./component/sections/Organization').then(m => ({ default: m.Organization })));
 const Certification = lazy(() => import('./component/sections/Certification').then(m => ({ default: m.Certification })));
 const Contact = lazy(() => import('./component/sections/Contact').then(m => ({ default: m.Contact })));
 const Footer = lazy(() => import('./component/Footer').then(m => ({ default: m.Footer })));
@@ -16,6 +17,7 @@ const menuItems = [
   { label: 'Home', ariaLabel: 'Go to home section', link: '#home' },
   { label: 'About', ariaLabel: 'Learn about me', link: '#about' },
   { label: 'Projects', ariaLabel: 'View my projects', link: '#projects' },
+  { label: 'Experience', ariaLabel: 'View my experience', link: '#experience' },
   { label: 'Certs', ariaLabel: 'View certifications', link: '#certifications' },
   { label: 'Contact', ariaLabel: 'Get in touch', link: '#contact' },
 ];
@@ -63,6 +65,7 @@ function App() {
         <Suspense fallback={null}>
           <About />
           <Project />
+          <Organization />
           <Certification />
           <Contact />
           <Footer />
