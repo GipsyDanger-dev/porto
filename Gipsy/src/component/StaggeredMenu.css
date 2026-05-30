@@ -362,11 +362,11 @@
   }
 
   .sm-panel-item {
-    padding-right: 3em;
+    padding-right: 2.2em;
   }
 
   .sm-panel-list[data-numbering] .sm-panel-item::after {
-    right: 1.2em;
+    right: 0.6em;
     font-size: 12px;
   }
 
