@@ -361,13 +361,13 @@
     width: 100%;
   }
 
-  .sm-panel-item {
-    padding-right: 2.2em;
+  .sm-panel-list[data-numbering] .sm-panel-item {
+    padding-right: 2.2em !important;
   }
 
   .sm-panel-list[data-numbering] .sm-panel-item::after {
-    right: 1.8em;
-    font-size: 12px;
+    right: 1.8em !important;
+    font-size: 12px !important;
   }
 
   .staggered-menu-header {
