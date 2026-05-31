@@ -60,16 +60,27 @@ function App() {
           />
         </div>
 
+        {/* Skip to content for accessibility */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-9999 focus:px-4 focus:py-2 focus:bg-(--secondary) focus:text-white"
+          style={{ fontFamily: 'var(--mono)', fontSize: '12px' }}
+        >
+          Skip to content
+        </a>
+
         <Home />
         <Marquee />
-        <Suspense fallback={null}>
-          <About />
-          <Project />
-          <Organization />
-          <Certification />
-          <Contact />
-          <Footer />
-        </Suspense>
+        <main id="main-content">
+          <Suspense fallback={null}>
+            <About />
+            <Project />
+            <Organization />
+            <Certification />
+            <Contact />
+          </Suspense>
+        </main>
+        <Footer />
       </div>
     </>
   );
