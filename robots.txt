@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://gipsy-dev.me/sitemap.xml
