@@ -135,6 +135,18 @@ export const Home = () => {
               >
                 Hi, I&apos;m <em style={{ fontStyle: 'italic', color: 'var(--on-surface-variant)' }}>Gipsy.Dev</em>
               </h1>
+              <p
+                style={{
+                  fontFamily: 'var(--mono)',
+                  fontSize: '12px',
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
+                  color: 'var(--outline)',
+                  marginBottom: '24px',
+                }}
+              >
+                Adam Fairuz Akmal Aryaguna
+              </p>
             </GsapReveal>
 
             <GsapReveal delay={0.6}>
