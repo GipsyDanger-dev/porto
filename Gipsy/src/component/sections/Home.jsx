@@ -1,7 +1,7 @@
 import { Suspense, lazy, useEffect, useRef } from "react";
 import { GsapReveal } from "../GsapReveal";
 import TextType from "../TextType";
-import fotoHomeImg from "../../pct/Foto_Home2.png";
+import fotoHomeImg from "../../pct/Foto_Home2.webp";
 import gsap from "gsap";
 
 const HeroScene = lazy(() => import("../HeroScene"));
@@ -77,6 +77,8 @@ export const Home = () => {
         alt="Gipsy.Dev"
         loading="eager"
         decoding="async"
+        width={1200}
+        height={1500}
         className="hidden lg:block absolute z-2 pointer-events-none"
         style={{
           right: '2%',
@@ -184,6 +186,8 @@ export const Home = () => {
               alt="Gipsy.Dev"
               loading="eager"
               decoding="async"
+              width={1200}
+              height={1500}
               className="w-full max-w-sm object-contain"
               style={{
                 filter: 'grayscale(25%) brightness(0.9) contrast(1.05)',

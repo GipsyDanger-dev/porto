@@ -1,14 +1,14 @@
 import { useState, useCallback } from "react";
 import { GsapReveal } from "../GsapReveal";
 import CircularGallery from "../CircularGallery";
-import sertif1Img from "../../pct/sertif/Sertif1.jpg";
-import sertif2Img from "../../pct/sertif/sertif2.jpg";
-import sertif3Img from "../../pct/sertif/Sertif3.png";
-import sertif4Img from "../../pct/sertif/Sertif4.png";
-import sertif5Img from "../../pct/sertif/Sertif5.png";
-import sertif6Img from "../../pct/sertif/Sertif6.png";
-import sertif7Img from "../../pct/sertif/Sertif7.png";
-import sertif8Img from "../../pct/sertif/Sertif8.png";
+import sertif1Img from "../../pct/sertif/Sertif1.webp";
+import sertif2Img from "../../pct/sertif/sertif2.webp";
+import sertif3Img from "../../pct/sertif/Sertif3.webp";
+import sertif4Img from "../../pct/sertif/Sertif4.webp";
+import sertif5Img from "../../pct/sertif/Sertif5.webp";
+import sertif6Img from "../../pct/sertif/Sertif6.webp";
+import sertif7Img from "../../pct/sertif/Sertif7.webp";
+import sertif8Img from "../../pct/sertif/Sertif8.webp";
 
 const certifications = [
   {

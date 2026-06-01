@@ -1,11 +1,11 @@
 import { GsapReveal, GsapStagger } from "../GsapReveal";
-import fruitCheckImg from "../../pct/FruitCheck.png";
-import itSolutionImg from "../../pct/IT-Solution.png";
-import remindMeImg from "../../pct/RemindMe.png";
-import gipsyDevImg from "../../pct/Porto (2).png";
-import pasarNgalamImg from "../../pct/PasarNgalam.png";
-import stockPPImg from "../../pct/StockPP.png";
-import sentinelImg from "../../pct/SentinelIot.png";
+import fruitCheckImg from "../../pct/FruitCheck.webp";
+import itSolutionImg from "../../pct/IT-Solution.webp";
+import remindMeImg from "../../pct/RemindMe.webp";
+import gipsyDevImg from "../../pct/Porto (2).webp";
+import pasarNgalamImg from "../../pct/PasarNgalam.webp";
+import stockPPImg from "../../pct/StockPP.webp";
+import sentinelImg from "../../pct/SentinelIot.webp";
 
 const projectsData = [
   {
