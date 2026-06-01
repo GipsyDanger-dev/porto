@@ -39,8 +39,8 @@ export const Home = () => {
   return (
     <section
       id="home"
-      className="relative overflow-hidden"
-      style={{ minHeight: '100vh', height: '100vh' }}
+      className="relative overflow-hidden lg:overflow-hidden"
+      style={{ minHeight: '100vh' }}
     >
       {/* 3D Background */}
       <Suspense fallback={null}>
