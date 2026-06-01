@@ -24,7 +24,7 @@ const menuItems = [
 
 const socialItems = [
   { label: 'GitHub', link: 'https://github.com/GipsyDanger-dev' },
-  { label: 'LinkedIn', link: '#' },
+  { label: 'LinkedIn', link: 'https://www.linkedin.com/in/adamfairuz' },
   { label: 'Discord', link: '#' },
 ];
 
