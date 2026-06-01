@@ -152,14 +152,13 @@ export const Certification = () => {
 
       {/* Mobile: Horizontal scroll */}
       <div
-        className="md:hidden"
+        className="flex md:hidden"
         style={{
           overflowX: 'auto',
           overflowY: 'hidden',
           WebkitOverflowScrolling: 'touch',
           padding: '0 24px 24px',
           scrollSnapType: 'x mandatory',
-          display: 'flex',
           gap: '16px',
         }}
       >
