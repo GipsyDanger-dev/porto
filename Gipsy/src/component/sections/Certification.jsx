@@ -134,8 +134,8 @@ export const Certification = () => {
         </GsapReveal>
       </div>
 
-      {/* Circular Gallery */}
-      <div style={{ height: 'min(600px, 70vh)', position: 'relative' }}>
+      {/* Desktop: Circular Gallery */}
+      <div className="hidden md:block" style={{ height: 'min(600px, 70vh)', position: 'relative' }}>
         <CircularGallery
           items={galleryItems}
           bend={1}
@@ -148,6 +148,74 @@ export const Certification = () => {
           planeHeight={640}
           onClick={handleItemClick}
         />
+      </div>
+
+      {/* Mobile: Horizontal scroll */}
+      <div
+        className="md:hidden"
+        style={{
+          overflowX: 'auto',
+          overflowY: 'hidden',
+          WebkitOverflowScrolling: 'touch',
+          padding: '0 24px 24px',
+          scrollSnapType: 'x mandatory',
+          display: 'flex',
+          gap: '16px',
+        }}
+      >
+        {certifications.map((cert, i) => (
+          <div
+            key={i}
+            onClick={() => setSelected(cert)}
+            style={{
+              flex: '0 0 260px',
+              scrollSnapAlign: 'center',
+              background: 'var(--surface)',
+              border: '1px solid var(--outline-variant)',
+              overflow: 'hidden',
+              cursor: 'pointer',
+            }}
+          >
+            <img
+              src={cert.image}
+              alt={cert.title}
+              loading="lazy"
+              style={{
+                width: '100%',
+                height: '160px',
+                objectFit: 'cover',
+                display: 'block',
+                filter: 'saturate(0.9) brightness(0.95)',
+              }}
+            />
+            <div style={{ padding: '16px' }}>
+              <div
+                style={{
+                  fontFamily: 'var(--mono)',
+                  fontSize: '9px',
+                  fontWeight: 500,
+                  letterSpacing: '0.1em',
+                  textTransform: 'uppercase',
+                  color: 'var(--secondary)',
+                  marginBottom: '8px',
+                }}
+              >
+                {cert.category}
+              </div>
+              <h3
+                style={{
+                  fontFamily: 'var(--serif)',
+                  fontSize: '16px',
+                  fontWeight: 700,
+                  color: 'var(--on-surface)',
+                  lineHeight: 1.2,
+                }}
+              >
+                {cert.title}
+              </h3>
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* Detail Overlay */}
