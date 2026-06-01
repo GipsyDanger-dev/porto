@@ -52,7 +52,7 @@ function App() {
             displayItemNumbering
             logoText="Gipsy.Dev"
             menuButtonColor="#e0e2e8"
-            openMenuButtonColor="#101417"
+            openMenuButtonColor="#ffffff"
             changeMenuColorOnOpen
             colors={['#1c2024', '#272a2e']}
             accentColor="#f2640f"
