@@ -9,6 +9,10 @@ import sertif5Img from "../../pct/sertif/Sertif5.webp";
 import sertif6Img from "../../pct/sertif/Sertif6.webp";
 import sertif7Img from "../../pct/sertif/Sertif7.webp";
 import sertif8Img from "../../pct/sertif/Sertif8.webp";
+import sertif9Img from "../../pct/sertif/Sertif9.webp";
+import sertif10Img from "../../pct/sertif/Sertif10.webp";
+import sertif11Img from "../../pct/sertif/Sertif11.webp";
+import sertif12Img from "../../pct/sertif/Sertif12.webp";
 
 const certifications = [
   {
@@ -82,6 +86,42 @@ const certifications = [
     image: sertif8Img,
     text: "Azure Gen AI",
     category: "Cloud / AI",
+  },
+  {
+    title: "Microsoft Office Desktop Application",
+    issuer: "Trust Training Partners (Microsoft Learning Partner)",
+    issuedDate: "10th October 2024",
+    credentialUrl: null,
+    image: sertif9Img,
+    text: "MS Office",
+    category: "Office Productivity",
+  },
+  {
+    title: "AI Praktis untuk Produktivitas",
+    issuer: "Dicoding Indonesia",
+    issuedDate: "28th May 2026",
+    credentialUrl: "https://www.dicoding.com/certificates/L4PQ9YK9OPO1",
+    image: sertif10Img,
+    text: "AI Productivity",
+    category: "AI",
+  },
+  {
+    title: "Memulai Pemrograman dengan Python",
+    issuer: "Dicoding Indonesia",
+    issuedDate: "28th May 2026",
+    credentialUrl: "https://www.dicoding.com/certificates/JMZVOOW23XN9",
+    image: sertif11Img,
+    text: "Python",
+    category: "Programming",
+  },
+  {
+    title: "Belajar Machine Learning untuk Pemula",
+    issuer: "Dicoding Indonesia",
+    issuedDate: "28th May 2026",
+    credentialUrl: "https://www.dicoding.com/certificates/JMZVOOK13XN9",
+    image: sertif12Img,
+    text: "Machine Learning",
+    category: "Machine Learning",
   },
 ];
 
@@ -323,29 +363,45 @@ export const Certification = () => {
                 >
                   Close
                 </button>
-                <a
-                  href={selected.credentialUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2"
-                  style={{
-                    fontFamily: 'var(--mono)',
-                    fontSize: '11px',
-                    fontWeight: 500,
-                    letterSpacing: '0.08em',
-                    textTransform: 'uppercase',
-                    color: 'var(--secondary)',
-                    textDecoration: 'none',
-                    background: 'rgba(242,100,15,0.08)',
-                    padding: '12px 24px',
-                    border: 'none',
-                    transition: 'background 0.2s',
-                  }}
-                  onMouseEnter={e => { e.currentTarget.style.background = 'rgba(242,100,15,0.15)'; }}
-                  onMouseLeave={e => { e.currentTarget.style.background = 'rgba(242,100,15,0.08)'; }}
-                >
-                  Verify Credential &rarr;
-                </a>
+                {selected.credentialUrl && (
+                  <a
+                    href={selected.credentialUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2"
+                    style={{
+                      fontFamily: 'var(--mono)',
+                      fontSize: '11px',
+                      fontWeight: 500,
+                      letterSpacing: '0.08em',
+                      textTransform: 'uppercase',
+                      color: 'var(--secondary)',
+                      textDecoration: 'none',
+                      background: 'rgba(242,100,15,0.08)',
+                      padding: '12px 24px',
+                      border: 'none',
+                      transition: 'background 0.2s',
+                    }}
+                    onMouseEnter={e => { e.currentTarget.style.background = 'rgba(242,100,15,0.15)'; }}
+                    onMouseLeave={e => { e.currentTarget.style.background = 'rgba(242,100,15,0.08)'; }}
+                  >
+                    Verify Credential &rarr;
+                  </a>
+                )}
+                {!selected.credentialUrl && (
+                  <span
+                    style={{
+                      fontFamily: 'var(--mono)',
+                      fontSize: '10px',
+                      letterSpacing: '0.08em',
+                      textTransform: 'uppercase',
+                      color: 'var(--outline)',
+                      padding: '12px 24px',
+                    }}
+                  >
+                    Certificate No. 24UBC10106040
+                  </span>
+                )}
               </div>
             </div>
           </div>
