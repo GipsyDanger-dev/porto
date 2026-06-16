@@ -13,6 +13,10 @@ import sertif9Img from "../../pct/sertif/Sertif9.webp";
 import sertif10Img from "../../pct/sertif/Sertif10.webp";
 import sertif11Img from "../../pct/sertif/Sertif11.webp";
 import sertif12Img from "../../pct/sertif/Sertif12.webp";
+import sertif13Img from "../../pct/sertif/Sertif13.webp";
+import sertif14Img from "../../pct/sertif/Sertif14.webp";
+import sertif15Img from "../../pct/sertif/Sertif15.webp";
+import sertif16Img from "../../pct/sertif/Sertif16.webp";
 
 const certifications = [
   {
@@ -122,6 +126,42 @@ const certifications = [
     image: sertif12Img,
     text: "Machine Learning",
     category: "Machine Learning",
+  },
+  {
+    title: "Belajar Dasar AI",
+    issuer: "Dicoding Indonesia",
+    issuedDate: "28th May 2026",
+    credentialUrl: "https://www.dicoding.com/certificates/1OP8RVKYVZQK",
+    image: sertif13Img,
+    text: "Dasar AI",
+    category: "AI",
+  },
+  {
+    title: "Belajar Strategi Pengembangan Diri",
+    issuer: "Dicoding Indonesia",
+    issuedDate: "6th June 2026",
+    credentialUrl: "https://www.dicoding.com/certificates/MEPJOG3KWZ3V",
+    image: sertif14Img,
+    text: "Self Development",
+    category: "Personal Development",
+  },
+  {
+    title: "Belajar Fundamental Pemrosesan Data",
+    issuer: "Dicoding Indonesia",
+    issuedDate: "6th June 2026",
+    credentialUrl: "https://www.dicoding.com/certificates/4EXG1GOJDPRL",
+    image: sertif15Img,
+    text: "Data Processing",
+    category: "Data Science",
+  },
+  {
+    title: "Belajar Dasar Cloud dan Gen AI di AWS",
+    issuer: "Dicoding Indonesia",
+    issuedDate: "6th June 2026",
+    credentialUrl: "https://www.dicoding.com/certificates/N9ZONJQQ6XG5",
+    image: sertif16Img,
+    text: "AWS Cloud & Gen AI",
+    category: "Cloud / AI",
   },
 ];
 
