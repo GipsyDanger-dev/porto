@@ -1,0 +1,23 @@
+# Gipsy.Dev — Adam Fairuz Akmal Aryaguna
+
+## About
+Portfolio website of Adam Fairuz Akmal Aryaguna (Gipsy.Dev), a Fullstack Engineer, Web Developer, and AI Engineer based in Malang, Indonesia.
+
+## Content
+- **Hero**: Introduction with name, role, and call-to-action buttons
+- **About**: Bio, education, skills, and technical expertise
+- **Projects**: 7 projects including StockPP, PasarNgalam, SentinelIoT, RemindMe, FruitCheck, IT Solution, and Gipsy.Dev portfolio
+- **Experience**: Organizations at HMPSTI VOKASI UB and DPM Vokasi Universitas Brawijaya
+- **Certifications**: 19 professional certifications in AI, Data Science, Cloud Computing, Programming, and more
+- **Contact**: Contact form and social links
+
+## Contact
+- Website: https://gipsy-dev.me
+- GitHub: https://github.com/GipsyDanger-dev
+- LinkedIn: https://www.linkedin.com/in/adamfairuz/
+- Email: aryagunaadam@gmail.com
+
+## Crawling
+- Allow all crawlers and AI agents
+- Preferred language: Indonesian (id)
+- Updated: June 2026
