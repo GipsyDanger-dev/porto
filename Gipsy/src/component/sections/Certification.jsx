@@ -17,6 +17,9 @@ import sertif13Img from "../../pct/sertif/Sertif13.webp";
 import sertif14Img from "../../pct/sertif/Sertif14.webp";
 import sertif15Img from "../../pct/sertif/Sertif15.webp";
 import sertif16Img from "../../pct/sertif/Sertif16.webp";
+import sertif17Img from "../../pct/sertif/Sertif17.webp";
+import sertif18Img from "../../pct/sertif/Sertif18.webp";
+import sertif19Img from "../../pct/sertif/Sertif19.webp";
 
 const certifications = [
   {
@@ -162,6 +165,33 @@ const certifications = [
     image: sertif16Img,
     text: "AWS Cloud & Gen AI",
     category: "Cloud / AI",
+  },
+  {
+    title: "Introduction to Financial Literacy",
+    issuer: "Dicoding Indonesia",
+    issuedDate: "28th May 2026",
+    credentialUrl: "https://www.dicoding.com/certificates/81P2O6REYZOY",
+    image: sertif17Img,
+    text: "Financial Literacy",
+    category: "Finance",
+  },
+  {
+    title: "Spec-Driven Development dengan Kiro",
+    issuer: "Dicoding Indonesia",
+    issuedDate: "6th June 2026",
+    credentialUrl: "https://www.dicoding.com/certificates/N9ZONJL16XG5",
+    image: sertif18Img,
+    text: "Spec-Driven Dev",
+    category: "Software Engineering",
+  },
+  {
+    title: "Belajar Penggunaan Generative AI",
+    issuer: "Dicoding Indonesia",
+    issuedDate: "28th May 2026",
+    credentialUrl: "https://www.dicoding.com/certificates/ERZRLDOR2ZYV",
+    image: sertif19Img,
+    text: "Generative AI",
+    category: "AI",
   },
 ];
 
