@@ -186,6 +186,8 @@ export const Home = () => {
               alt="Gipsy.Dev"
               loading="eager"
               decoding="async"
+              width={1200}
+              height={1500}
               className="w-full h-auto max-w-65 object-contain"
               style={{
                 filter: 'grayscale(25%) brightness(0.9) contrast(1.05)',
