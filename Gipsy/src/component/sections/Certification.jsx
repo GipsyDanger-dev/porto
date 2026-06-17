@@ -93,16 +93,16 @@ const CertCard = ({ cert, onClick, large, delay = 0 }) => {
       }}
     >
       {/* Orange left accent */}
-      <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '2px', background: 'var(--secondary)', transform: hover ? 'scaleY(1)' : 'scaleY(0)', transformOrigin: 'bottom', transition: 'transform 0.5s cubic-bezier(0.16,1,0.3,1)' }} />
+      <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '2px', background: 'var(--secondary)', transform: hover ? 'scaleY(1)' : 'scaleY(0)', transformOrigin: 'bottom', transition: 'transform 0.8s cubic-bezier(0.16,1,0.3,1)' }} />
 
       <div>
         <div style={{ ...mono, fontSize: '9px', letterSpacing: '0.12em', color: 'var(--secondary)', marginBottom: '12px', fontWeight: 500 }}>{cert.category}</div>
-        <div style={{ fontFamily: 'var(--serif)', fontSize: large ? '30px' : '18px', fontWeight: 700, lineHeight: large ? 1.15 : 1.25, color: hover ? 'var(--secondary)' : 'var(--on-surface)', transition: 'color 0.25s', paddingBottom: large ? '24px' : '20px' }}>{cert.title}</div>
+        <div style={{ fontFamily: 'var(--serif)', fontSize: large ? '30px' : '18px', fontWeight: 700, lineHeight: large ? 1.15 : 1.25, color: hover ? 'var(--secondary)' : 'var(--on-surface)', transition: 'color 0.5s ease', paddingBottom: large ? '24px' : '20px' }}>{cert.title}</div>
       </div>
 
       {!large && cert.image && (
         <div style={{ position: 'relative', overflow: 'hidden', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.06)', marginBottom: '22px', aspectRatio: '16/10', background: 'var(--surface-high)' }}>
-          <img src={cert.image} alt={cert.title} loading="lazy" width={400} height={250} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block', filter: hover ? 'saturate(0.82) brightness(0.92)' : 'saturate(0.55) brightness(0.8)', transition: 'filter 0.55s ease, transform 0.65s cubic-bezier(0.16,1,0.3,1)', transform: hover ? 'scale(1.04)' : 'scale(1)' }} />
+          <img src={cert.image} alt={cert.title} loading="lazy" width={400} height={250} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block', filter: hover ? 'saturate(0.82) brightness(0.92)' : 'saturate(0.55) brightness(0.8)', transition: 'filter 0.8s ease, transform 0.9s cubic-bezier(0.16,1,0.3,1)', transform: hover ? 'scale(1.04)' : 'scale(1)' }} />
           <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', background: 'radial-gradient(ellipse at center, transparent 42%, rgba(16,20,23,0.45) 100%)' }} />
           <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 1, background: 'linear-gradient(to bottom, transparent 50%, rgba(16,20,23,0.4) 100%)' }} />
         </div>
@@ -141,11 +141,11 @@ const CertRow = ({ cert, onClick, delay = 0 }) => {
       }}
     >
       {/* Orange bottom line on hover */}
-      <div style={{ position: 'absolute', bottom: '-1px', left: 0, right: 0, height: '1px', background: 'var(--secondary)', transform: hover ? 'scaleX(1)' : 'scaleX(0)', transformOrigin: 'left', transition: 'transform 0.45s cubic-bezier(0.16,1,0.3,1)' }} />
+      <div style={{ position: 'absolute', bottom: '-1px', left: 0, right: 0, height: '1px', background: 'var(--secondary)', transform: hover ? 'scaleX(1)' : 'scaleX(0)', transformOrigin: 'left', transition: 'transform 0.7s cubic-bezier(0.16,1,0.3,1)' }} />
 
       <div>
         <div style={{ ...mono, fontSize: '9px', letterSpacing: '0.1em', color: 'var(--secondary)', marginBottom: '6px', fontWeight: 500 }}>{cert.category}</div>
-        <div style={{ fontFamily: 'var(--serif)', fontSize: '18px', fontWeight: 700, color: hover ? 'var(--secondary)' : 'var(--on-surface)', lineHeight: 1.2, letterSpacing: '-0.01em', transition: 'color 0.25s' }}>{cert.title}</div>
+        <div style={{ fontFamily: 'var(--serif)', fontSize: '18px', fontWeight: 700, color: hover ? 'var(--secondary)' : 'var(--on-surface)', lineHeight: 1.2, letterSpacing: '-0.01em', transition: 'color 0.5s ease' }}>{cert.title}</div>
       </div>
       <div>
         <div style={{ ...mono, fontSize: '9px', color: 'var(--outline)', marginBottom: '5px' }}>Issuer</div>
