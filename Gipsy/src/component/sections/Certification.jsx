@@ -1,5 +1,5 @@
-import { useState, useCallback, useMemo } from "react";
-import { GsapReveal, GsapStagger } from "../GsapReveal";
+import { useState, useCallback, useEffect, useRef } from "react";
+import { GsapReveal } from "../GsapReveal";
 import sertif1Img from "../../pct/sertif/Sertif1.webp";
 import sertif2Img from "../../pct/sertif/sertif2.webp";
 import sertif3Img from "../../pct/sertif/Sertif3.webp";
@@ -42,201 +42,206 @@ const certifications = [
   { title: "Belajar Penggunaan Generative AI", issuer: "Dicoding Indonesia", issuedDate: "28th May 2026", credentialUrl: "https://www.dicoding.com/certificates/ERZRLDOR2ZYV", image: sertif19Img, category: "AI" },
 ];
 
-const FILTER_TABS = ["All", "AI", "Data", "Cloud", "Programming", "Other"];
-
-function getFilterCategory(cert) {
-  const cat = cert.category.toLowerCase();
-  if (cat.includes("ai") || cat.includes("machine learning") || cat.includes("generative")) return "AI";
-  if (cat.includes("data")) return "Data";
-  if (cat.includes("cloud")) return "Cloud";
-  if (cat.includes("programming")) return "Programming";
-  return "Other";
-}
-
 const mono = { fontFamily: 'var(--mono)', letterSpacing: '0.08em', textTransform: 'uppercase' };
-const mono10 = { ...mono, fontSize: '10px' };
-const mono11 = { ...mono, fontSize: '11px' };
 
-const CertCard = ({ cert, onClick }) => (
-  <div
-    onClick={() => onClick(cert)}
-    style={{ background: 'var(--bg)', padding: '36px 28px', display: 'flex', flexDirection: 'column', cursor: 'pointer', transition: 'background 0.25s' }}
-    onMouseEnter={e => { e.currentTarget.style.background = 'var(--surface)'; }}
-    onMouseLeave={e => { e.currentTarget.style.background = 'var(--bg)'; }}
-  >
-    <div style={{ position: 'relative', overflow: 'hidden', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.06)', marginBottom: '24px', aspectRatio: '4/3', background: 'var(--surface-high)' }}>
-      <img
-        src={cert.image}
-        alt={cert.title}
-        loading="lazy"
-        width={400}
-        height={300}
-        style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block', filter: 'saturate(0.6) brightness(0.82)', transition: 'filter 0.4s ease' }}
-        onMouseEnter={e => { e.currentTarget.style.filter = 'saturate(0.8) brightness(0.9)'; }}
-        onMouseLeave={e => { e.currentTarget.style.filter = 'saturate(0.6) brightness(0.82)'; }}
-      />
-      <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', background: 'radial-gradient(ellipse at center, transparent 45%, rgba(16,20,23,0.4) 100%)' }} />
-      <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 1, background: 'linear-gradient(to bottom, transparent 50%, rgba(16,20,23,0.35) 100%)' }} />
-    </div>
-    <div style={{ ...mono10, color: 'var(--secondary)', marginBottom: '12px', fontWeight: 500, letterSpacing: '0.12em' }}>{cert.category}</div>
-    <div style={{ fontFamily: 'var(--serif)', fontSize: '18px', fontWeight: 700, lineHeight: '24px', color: 'var(--on-surface)', marginBottom: 'auto', paddingBottom: '24px' }}>{cert.title}</div>
-    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid var(--outline-variant)', paddingTop: '18px' }}>
-      <div style={{ ...mono, fontSize: '10px', letterSpacing: '0.05em', color: 'var(--outline)' }}>{cert.issuedDate}</div>
-      {cert.credentialUrl && <span style={{ ...mono11, color: 'var(--secondary)', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>Verify &rarr;</span>}
-    </div>
-  </div>
-);
+const CountUp = ({ target, suffix = '+' }) => {
+  const ref = useRef(null);
+  const [val, setVal] = useState(0);
+  const counted = useRef(false);
 
-const CertRow = ({ cert, onClick }) => (
-  <div
-    onClick={() => onClick(cert)}
-    style={{ display: 'grid', gridTemplateColumns: '3fr 1.5fr 1.2fr 1fr', alignItems: 'center', borderBottom: '1px solid var(--outline-variant)', padding: '28px 0', gap: '24px', cursor: 'pointer', position: 'relative', transition: 'background 0.2s' }}
-    className="cert-row-wrap"
-    onMouseEnter={e => { e.currentTarget.style.background = 'var(--surface)'; }}
-    onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
-  >
-    <div>
-      <div style={{ ...mono10, color: 'var(--secondary)', marginBottom: '8px', fontWeight: 500, letterSpacing: '0.1em' }}>{cert.category}</div>
-      <div style={{ fontFamily: 'var(--serif)', fontSize: '20px', fontWeight: 700, lineHeight: 1.2, color: 'var(--on-surface)', letterSpacing: '-0.01em' }}>{cert.title}</div>
-    </div>
-    <div>
-      <div style={{ ...mono, fontSize: '10px', color: 'var(--outline)', marginBottom: '6px' }}>Issuer</div>
-      <div style={{ fontSize: '14px', color: 'var(--on-surface-variant)' }}>{cert.issuer}</div>
-    </div>
-    <div>
-      <div style={{ ...mono, fontSize: '12px', letterSpacing: '0.05em', color: 'var(--on-surface-variant)' }}>{cert.issuedDate}</div>
-    </div>
-    <div style={{ textAlign: 'right' }}>
-      {cert.credentialUrl ? (
-        <span style={{ ...mono11, color: 'var(--secondary)', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>Verify &rarr;</span>
-      ) : (
-        <span style={{ ...mono, fontSize: '10px', color: 'var(--outline)' }}>No. 24UBC10106040</span>
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting && !counted.current) {
+        counted.current = true;
+        const start = performance.now();
+        const dur = 1400;
+        const tick = (now) => {
+          const t = Math.min((now - start) / dur, 1);
+          setVal(Math.round((1 - Math.pow(1 - t, 3)) * target));
+          if (t < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      }
+    }, { threshold: 0.5 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [target]);
+
+  return <span ref={ref}>{val}<span style={{ color: 'var(--secondary)' }}>{suffix}</span></span>;
+};
+
+const CertCard = ({ cert, onClick, large, delay = 0 }) => {
+  const [hover, setHover] = useState(false);
+  return (
+    <div
+      onClick={() => onClick(cert)}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      style={{
+        background: hover ? 'var(--surface)' : 'var(--bg)',
+        padding: large ? '40px 36px' : '32px 28px 28px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: large ? 'space-between' : 'flex-start',
+        position: 'relative',
+        overflow: 'hidden',
+        cursor: 'pointer',
+        transition: 'background 0.3s',
+        minHeight: large ? '360px' : undefined,
+      }}
+    >
+      {/* Orange left accent */}
+      <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '2px', background: 'var(--secondary)', transform: hover ? 'scaleY(1)' : 'scaleY(0)', transformOrigin: 'bottom', transition: 'transform 0.5s cubic-bezier(0.16,1,0.3,1)' }} />
+
+      <div>
+        <div style={{ ...mono, fontSize: '9px', letterSpacing: '0.12em', color: 'var(--secondary)', marginBottom: '12px', fontWeight: 500 }}>{cert.category}</div>
+        <div style={{ fontFamily: 'var(--serif)', fontSize: large ? '30px' : '18px', fontWeight: 700, lineHeight: large ? 1.15 : 1.25, color: hover ? 'var(--secondary)' : 'var(--on-surface)', transition: 'color 0.25s', paddingBottom: large ? '24px' : '20px' }}>{cert.title}</div>
+      </div>
+
+      {!large && cert.image && (
+        <div style={{ position: 'relative', overflow: 'hidden', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.06)', marginBottom: '22px', aspectRatio: '16/10', background: 'var(--surface-high)' }}>
+          <img src={cert.image} alt={cert.title} loading="lazy" width={400} height={250} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block', filter: hover ? 'saturate(0.82) brightness(0.92)' : 'saturate(0.55) brightness(0.8)', transition: 'filter 0.55s ease, transform 0.65s cubic-bezier(0.16,1,0.3,1)', transform: hover ? 'scale(1.04)' : 'scale(1)' }} />
+          <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', background: 'radial-gradient(ellipse at center, transparent 42%, rgba(16,20,23,0.45) 100%)' }} />
+          <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 1, background: 'linear-gradient(to bottom, transparent 50%, rgba(16,20,23,0.4) 100%)' }} />
+        </div>
       )}
+
+      {large && (
+        <div style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: '14px', color: 'var(--on-surface-variant)', lineHeight: 1.7, borderLeft: '2px solid var(--secondary)', paddingLeft: '16px', marginBottom: '28px' }}>
+          "Demonstrated initiative and commitment to deepening skills in advanced data modeling."
+        </div>
+      )}
+
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid var(--outline-variant)', paddingTop: '16px', marginTop: 'auto' }}>
+        <div style={{ ...mono, fontSize: '10px', color: 'var(--outline)' }}>{cert.issuedDate}</div>
+        {cert.credentialUrl && <span style={{ ...mono, fontSize: '10px', letterSpacing: '0.08em', color: 'var(--secondary)', display: 'inline-flex', alignItems: 'center', gap: '5px' }}>Verify &rarr;</span>}
+      </div>
     </div>
-  </div>
-);
+  );
+};
+
+const CertRow = ({ cert, onClick, delay = 0 }) => {
+  const [hover, setHover] = useState(false);
+  return (
+    <div
+      onClick={() => onClick(cert)}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      style={{
+        display: 'grid',
+        gridTemplateColumns: '3fr 1.4fr 1fr 0.8fr',
+        alignItems: 'center',
+        gap: '24px',
+        borderBottom: '1px solid var(--outline-variant)',
+        padding: '24px 0',
+        position: 'relative',
+        cursor: 'pointer',
+      }}
+    >
+      {/* Orange bottom line on hover */}
+      <div style={{ position: 'absolute', bottom: '-1px', left: 0, right: 0, height: '1px', background: 'var(--secondary)', transform: hover ? 'scaleX(1)' : 'scaleX(0)', transformOrigin: 'left', transition: 'transform 0.45s cubic-bezier(0.16,1,0.3,1)' }} />
+
+      <div>
+        <div style={{ ...mono, fontSize: '9px', letterSpacing: '0.1em', color: 'var(--secondary)', marginBottom: '6px', fontWeight: 500 }}>{cert.category}</div>
+        <div style={{ fontFamily: 'var(--serif)', fontSize: '18px', fontWeight: 700, color: hover ? 'var(--secondary)' : 'var(--on-surface)', lineHeight: 1.2, letterSpacing: '-0.01em', transition: 'color 0.25s' }}>{cert.title}</div>
+      </div>
+      <div>
+        <div style={{ ...mono, fontSize: '9px', color: 'var(--outline)', marginBottom: '5px' }}>Issuer</div>
+        <div style={{ fontSize: '13px', color: 'var(--on-surface-variant)' }}>{cert.issuer}</div>
+      </div>
+      <div style={{ ...mono, fontSize: '11px', color: 'var(--on-surface-variant)' }}>{cert.issuedDate}</div>
+      <div style={{ textAlign: 'right' }}>
+        {cert.credentialUrl ? (
+          <span style={{ ...mono, fontSize: '10px', letterSpacing: '0.08em', color: 'var(--secondary)', display: 'inline-flex', alignItems: 'center', gap: '5px' }}>Verify &rarr;</span>
+        ) : (
+          <span style={{ ...mono, fontSize: '10px', color: 'var(--outline)' }}>No. 24UBC10106040</span>
+        )}
+      </div>
+    </div>
+  );
+};
 
 export const Certification = () => {
   const [selected, setSelected] = useState(null);
-  const [activeFilter, setActiveFilter] = useState("All");
-
-  const filtered = useMemo(() => {
-    if (activeFilter === "All") return certifications;
-    return certifications.filter(c => getFilterCategory(c) === activeFilter);
-  }, [activeFilter]);
-
-  const featured = filtered.slice(0, 3);
-  const remaining = filtered.slice(3);
-
-  const categoryCounts = useMemo(() => {
-    const counts = { All: certifications.length };
-    FILTER_TABS.slice(1).forEach(tab => {
-      counts[tab] = certifications.filter(c => getFilterCategory(c) === tab).length;
-    });
-    return counts;
-  }, []);
-
+  const featured = certifications.slice(0, 3);
+  const remaining = certifications.slice(3);
   const closeOverlay = useCallback(() => setSelected(null), []);
 
   return (
-    <section id="certifications" style={{ padding: 'var(--section-gap) 0' }}>
-      <div className="max-w-6xl mx-auto px-6 md:px-16">
+    <section id="certifications" style={{ padding: 'var(--section-gap) 0', position: 'relative' }}>
+      <div className="max-w-6xl mx-auto px-6 md:px-16" style={{ position: 'relative' }}>
+        {/* Decorative number */}
+        <div className="hidden lg:block" style={{ position: 'absolute', right: '40px', top: '-20px', fontFamily: 'var(--serif)', fontSize: '220px', fontWeight: 700, lineHeight: 1, letterSpacing: '-0.05em', color: 'transparent', WebkitTextStroke: '1px rgba(68,71,72,0.25)', pointerEvents: 'none', userSelect: 'none', zIndex: 0 }}>
+          {String(certifications.length).padStart(2, '0')}
+        </div>
+
         {/* Header */}
         <GsapReveal>
-          <div className="certs-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', borderBottom: '1px solid var(--outline-variant)', paddingBottom: '40px', marginBottom: 0 }}>
-            <div>
-              <div className="section-label">Credentials</div>
-              <h2 style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(36px, 5vw, 52px)', fontWeight: 700, letterSpacing: '-0.015em', color: 'var(--on-surface)' }}>
-                Certifications<em style={{ fontStyle: 'italic', color: 'var(--on-surface-variant)' }}>.</em>
-              </h2>
+          <div style={{ position: 'relative', zIndex: 1, marginBottom: '72px' }}>
+            <div className="section-label">Credentials</div>
+            <h2 style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(40px, 6vw, 64px)', fontWeight: 700, letterSpacing: '-0.02em', lineHeight: 1, color: 'var(--on-surface)', overflow: 'hidden', marginBottom: '40px' }}>
+              Certifications<em style={{ fontStyle: 'italic', color: 'var(--on-surface-variant)' }}>.</em>
+            </h2>
+            <div className="flex flex-wrap gap-12 sm:gap-14" style={{ paddingTop: '40px', borderTop: '1px solid var(--outline-variant)' }}>
+              <div>
+                <div style={{ fontFamily: 'var(--serif)', fontSize: '44px', fontWeight: 700, letterSpacing: '-0.025em', lineHeight: 1 }}><CountUp target={certifications.length} /></div>
+                <div style={{ ...mono, fontSize: '10px', letterSpacing: '0.1em', color: 'var(--outline)', marginTop: '8px' }}>Total Credentials</div>
+              </div>
+              <div>
+                <div style={{ fontFamily: 'var(--serif)', fontSize: '44px', fontWeight: 700, letterSpacing: '-0.025em', lineHeight: 1 }}>4<span style={{ fontSize: '22px', color: 'var(--outline)' }}> fields</span></div>
+                <div style={{ ...mono, fontSize: '10px', letterSpacing: '0.1em', color: 'var(--outline)', marginTop: '8px' }}>AI · Data · Cloud · Analytics</div>
+              </div>
+              <div>
+                <div style={{ fontFamily: 'var(--serif)', fontSize: '44px', fontWeight: 700, letterSpacing: '-0.025em', lineHeight: 1 }}>2026</div>
+                <div style={{ ...mono, fontSize: '10px', letterSpacing: '0.1em', color: 'var(--outline)', marginTop: '8px' }}>Most Recent</div>
+              </div>
             </div>
-            <p className="hidden md:block" style={{ maxWidth: '260px', fontSize: '14px', lineHeight: '23px', color: 'var(--on-surface-variant)', textAlign: 'right' }}>
-              Verified credentials across data science, AI, cloud, and analytics.
-            </p>
           </div>
         </GsapReveal>
 
-        {/* Filter Tabs */}
+        {/* Featured Grid */}
         <GsapReveal delay={0.1}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '24px 0 32px', flexWrap: 'wrap', gap: '16px' }}>
-            <div style={{ display: 'flex', gap: 0, border: '1px solid var(--outline-variant)', width: 'fit-content' }}>
-              {FILTER_TABS.map(tab => (
-                <button
-                  key={tab}
-                  onClick={() => setActiveFilter(tab)}
-                  style={{
-                    ...mono10,
-                    color: activeFilter === tab ? 'var(--secondary)' : 'var(--outline)',
-                    background: activeFilter === tab ? 'var(--surface)' : 'transparent',
-                    border: 'none',
-                    borderRight: '1px solid var(--outline-variant)',
-                    padding: '10px 18px',
-                    cursor: 'pointer',
-                    transition: 'color 0.2s, background 0.2s',
-                  }}
-                >
-                  {tab}
-                </button>
-              ))}
-            </div>
-            <span style={{ ...mono10, color: 'var(--outline)' }}>{filtered.length} credentials</span>
+          <div className="grid gap-px" style={{ background: 'var(--outline-variant)', border: '1px solid var(--outline-variant)', marginBottom: '1px', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
+            {featured.map((cert, i) => (
+              <CertCard key={i} cert={cert} onClick={setSelected} large={i === 0} delay={i * 0.12} />
+            ))}
           </div>
         </GsapReveal>
 
-        {/* Featured Cards (top 3) */}
-        <GsapStagger stagger={0.15}>
-          <div
-            className="grid gap-px"
-            style={{ background: 'var(--outline-variant)', border: '1px solid var(--outline-variant)', marginBottom: '1px', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}
-          >
-            {featured.map((cert, i) => (
-              <CertCard key={i} cert={cert} onClick={setSelected} />
-            ))}
-          </div>
-        </GsapStagger>
-
-        {/* Table List (remaining) */}
-        <GsapStagger stagger={0.06}>
-          <div>
+        {/* Table Rows */}
+        <GsapReveal delay={0.2}>
+          <div style={{ borderTop: '1px solid var(--outline-variant)' }}>
             {remaining.map((cert, i) => (
-              <CertRow key={i} cert={cert} onClick={setSelected} />
+              <CertRow key={i} cert={cert} onClick={setSelected} delay={i * 0.06} />
             ))}
           </div>
-        </GsapStagger>
+        </GsapReveal>
       </div>
 
       {/* Detail Overlay */}
       {selected && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center"
-          style={{ background: 'rgba(10, 12, 14, 0.85)', backdropFilter: 'blur(8px)' }}
-          onClick={closeOverlay}
-        >
-          <div
-            className="relative max-w-lg w-full mx-4"
-            style={{ background: 'var(--surface)', border: '1px solid var(--outline-variant)' }}
-            onClick={e => e.stopPropagation()}
-          >
+        <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ background: 'rgba(10, 12, 14, 0.85)', backdropFilter: 'blur(8px)' }} onClick={closeOverlay}>
+          <div className="relative max-w-lg w-full mx-4" style={{ background: 'var(--surface)', border: '1px solid var(--outline-variant)' }} onClick={e => e.stopPropagation()}>
             <div style={{ overflow: 'hidden' }}>
               <img src={selected.image} alt={selected.title} style={{ width: '100%', height: 'auto', display: 'block', filter: 'saturate(0.9) brightness(0.95)' }} />
             </div>
             <div className="px-5 py-6 sm:px-8 sm:py-7">
-              <span style={{ ...mono10, fontWeight: 500, letterSpacing: '0.1em', color: 'var(--secondary)', display: 'block', marginBottom: '12px' }}>{selected.category}</span>
+              <span style={{ ...mono, fontSize: '10px', fontWeight: 500, letterSpacing: '0.1em', color: 'var(--secondary)', display: 'block', marginBottom: '12px' }}>{selected.category}</span>
               <h3 style={{ fontFamily: 'var(--serif)', fontSize: '24px', fontWeight: 700, color: 'var(--on-surface)', lineHeight: 1.25, marginBottom: '12px' }}>{selected.title}</h3>
               <p style={{ fontSize: '15px', color: 'var(--on-surface-variant)', marginBottom: '8px' }}>{selected.issuer}</p>
               <p style={{ ...mono, fontSize: '11px', color: 'var(--outline)', letterSpacing: '0.05em', marginBottom: '28px' }}>Issued {selected.issuedDate}</p>
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-0" style={{ borderTop: '1px solid var(--outline-variant)', paddingTop: '20px' }}>
-                <button onClick={closeOverlay} style={{ ...mono11, color: 'var(--outline)', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>Close</button>
+                <button onClick={closeOverlay} style={{ ...mono, fontSize: '11px', color: 'var(--outline)', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>Close</button>
                 {selected.credentialUrl && (
-                  <a href={selected.credentialUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2" style={{ ...mono11, fontWeight: 500, color: 'var(--secondary)', textDecoration: 'none', background: 'rgba(242,100,15,0.08)', padding: '12px 24px', border: 'none', transition: 'background 0.2s' }}
+                  <a href={selected.credentialUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2" style={{ ...mono, fontSize: '11px', fontWeight: 500, color: 'var(--secondary)', textDecoration: 'none', background: 'rgba(242,100,15,0.08)', padding: '12px 24px', border: 'none', transition: 'background 0.2s' }}
                     onMouseEnter={e => { e.currentTarget.style.background = 'rgba(242,100,15,0.15)'; }}
                     onMouseLeave={e => { e.currentTarget.style.background = 'rgba(242,100,15,0.08)'; }}
-                  >
-                    Verify Credential &rarr;
-                  </a>
+                  >Verify Credential &rarr;</a>
                 )}
                 {!selected.credentialUrl && (
-                  <span style={{ ...mono10, color: 'var(--outline)', padding: '12px 24px' }}>Certificate No. 24UBC10106040</span>
+                  <span style={{ ...mono, fontSize: '10px', color: 'var(--outline)', padding: '12px 24px' }}>Certificate No. 24UBC10106040</span>
                 )}
               </div>
             </div>
@@ -246,7 +251,7 @@ export const Certification = () => {
 
       <style>{`
         @media (max-width: 768px) {
-          .cert-row-wrap { grid-template-columns: 1fr !important; gap: 8px !important; }
+          #certifications .cert-row-wrap { grid-template-columns: 1fr !important; gap: 8px !important; }
         }
       `}</style>
     </section>
