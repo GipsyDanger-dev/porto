@@ -49,7 +49,7 @@ const projectsData = [
     description: "Modern company profile website with responsive design and high performance optimization. Smooth animations and clean component architecture.",
     tags: ["React", "TailwindCSS", "Framer Motion", "Vite"],
     imageUrl: itSolutionImg,
-    projectUrl: "https://it-solution-malang.up.railway.app/",
+    projectUrl: "https://itsolution.gipsy-dev.me/",
     githubUrl: "https://github.com/GipsyDanger-dev/it-solution-malang",
     status: null,
   },
