@@ -1,3 +1,4 @@
+import { useState, useCallback } from "react";
 import { GsapReveal, GsapStagger } from "../GsapReveal";
 import fruitCheckImg from "../../pct/FruitCheck.webp";
 import itSolutionImg from "../../pct/IT-Solution.webp";
@@ -16,6 +17,19 @@ const projectsData = [
     projectUrl: "",
     githubUrl: "https://github.com/GipsyDanger-dev/StockPP",
     status: "In Dev",
+    timeline: [
+      { date: "16 May 2026", title: "Project Started", desc: "Database setup, backend routes, first Analytics & Market pages, model testing." },
+      { date: "18 May 2026", title: "Authentication System", desc: "Login, signup, reset password. API data fixes and backend configuration." },
+      { date: "19 May 2026", title: "Premium Landing Page", desc: "Three.js 3D scene, GSAP scroll animations, glassmorphism navbar, magnetic buttons." },
+      { date: "22 May 2026", title: "Mobile & UI Polish", desc: "Mobile responsiveness, animated orbs, dot grid, glassmorphism light theme." },
+      { date: "24 May 2026", title: "Design System Overhaul", desc: "Intrepid design system, auth page redesign with Three.js canvas." },
+      { date: "27 May 2026", title: "Dashboard Preview", desc: "Three.js particle field, Canvas 2D charts, GSAP pinned scroll, branding." },
+      { date: "28 May 2026", title: "Security & Performance", desc: "Auth middleware, OTP rate limiting, password reset, accessibility fixes." },
+      { date: "29 May 2026", title: "ML Pipeline Optimization", desc: "ACO stock scoring, EWMA20 feature, SSE progress streaming, dark theme." },
+      { date: "30 May 2026", title: "Accuracy Improvements", desc: "Market context, dynamic ensemble, SMTP support, security hardening." },
+      { date: "31 May 2026", title: "UI & Model Refinements", desc: "Frontend updates, direction-aware loss, momentum features, Huber loss." },
+      { date: "3 Jun 2026", title: "Dark Theme Complete", desc: "All dashboard pages converted to dark theme matching landing page." },
+    ],
   },
   {
     title: "PasarNgalam",
@@ -73,7 +87,7 @@ const projectsData = [
   },
 ];
 
-const ProjectEntry = ({ project, index }) => {
+const ProjectEntry = ({ project, index, onSelect }) => {
   const isReverse = index % 2 === 1;
   const num = String(index + 1).padStart(2, '0');
 
@@ -91,8 +105,8 @@ const ProjectEntry = ({ project, index }) => {
         {/* Visual */}
         <div
           className={`proj-visual relative overflow-hidden ${isReverse ? 'order-2' : 'order-1'}`}
-          style={{
-            borderRadius: '4px',
+          onClick={() => project.timeline && onSelect?.(project)}
+          style={{ borderRadius: '4px', cursor: project.timeline ? 'pointer' : 'default',
             border: '1px solid rgba(255, 255, 255, 0.1)',
             background: 'var(--surface-high)',
             lineHeight: 0,
@@ -265,6 +279,8 @@ const ProjectEntry = ({ project, index }) => {
 };
 
 export const Project = () => {
+  const [selected, setSelected] = useState(null);
+
   return (
     <section id="projects" style={{ padding: 'var(--section-gap) 0' }}>
       <div className="max-w-6xl mx-auto px-6 md:px-16">
@@ -303,7 +319,7 @@ export const Project = () => {
         {/* Desktop */}
         <div className="hidden md:block">
           {projectsData.map((project, index) => (
-            <ProjectEntry key={index} project={project} index={index} />
+            <ProjectEntry key={index} project={project} index={index} onSelect={setSelected} />
           ))}
         </div>
 
@@ -477,6 +493,87 @@ export const Project = () => {
           ))}
         </div>
       </div>
+
+      {/* Project Detail Overlay */}
+      {selected && (
+        <div
+          className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto"
+          style={{ background: 'rgba(10, 12, 14, 0.9)', backdropFilter: 'blur(12px)', padding: '40px 16px' }}
+          onClick={() => setSelected(null)}
+        >
+          <div
+            className="relative max-w-4xl w-full"
+            style={{ background: 'var(--surface)', border: '1px solid var(--outline-variant)' }}
+            onClick={e => e.stopPropagation()}
+          >
+            {/* Header Image */}
+            <div style={{ overflow: 'hidden', position: 'relative' }}>
+              <img src={selected.imageUrl} alt={selected.title} style={{ width: '100%', height: '320px', objectFit: 'cover', display: 'block', filter: 'saturate(0.8) brightness(0.85)' }} />
+              <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '120px', background: 'linear-gradient(to top, var(--surface), transparent)' }} />
+            </div>
+
+            <div style={{ padding: '0 48px 48px' }}>
+              {/* Title */}
+              <div style={{ marginTop: '-40px', position: 'relative', zIndex: 1, marginBottom: '32px' }}>
+                <h2 style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(28px, 4vw, 40px)', fontWeight: 700, color: 'var(--on-surface)', marginBottom: '12px' }}>{selected.title}</h2>
+                <p style={{ fontSize: '15px', color: 'var(--on-surface-variant)', lineHeight: '24px', maxWidth: '600px' }}>{selected.description}</p>
+                <div className="flex flex-wrap gap-2 mt-4">
+                  {selected.tags.map(tag => (
+                    <span key={tag} style={{ fontFamily: 'var(--mono)', fontSize: '9px', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--on-surface-variant)', background: 'var(--surface-high)', padding: '4px 8px', border: '1px solid var(--outline-variant)' }}>{tag}</span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Timeline */}
+              <div style={{ borderTop: '1px solid var(--outline-variant)', paddingTop: '32px' }}>
+                <div className="flex items-center gap-3 mb-8">
+                  <span style={{ fontFamily: 'var(--mono)', fontSize: '11px', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--secondary)', fontWeight: 500 }}>Development Journey</span>
+                </div>
+
+                <div style={{ position: 'relative', paddingLeft: '28px' }}>
+                  {/* Vertical line */}
+                  <div style={{ position: 'absolute', left: '4px', top: '8px', bottom: '8px', width: '1px', background: 'var(--outline-variant)' }} />
+
+                  {selected.timeline.map((item, i) => (
+                    <div key={i} style={{ position: 'relative', marginBottom: i < selected.timeline.length - 1 ? '28px' : 0 }}>
+                      {/* Dot */}
+                      <div style={{ position: 'absolute', left: '-28px', top: '6px', width: '9px', height: '9px', borderRadius: '50%', background: i === selected.timeline.length - 1 ? 'var(--secondary)' : 'var(--outline-variant)', border: i === selected.timeline.length - 1 ? '2px solid var(--secondary)' : 'none' }} />
+
+                      <div style={{ fontFamily: 'var(--mono)', fontSize: '10px', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--outline)', marginBottom: '6px' }}>{item.date}</div>
+                      <div style={{ fontFamily: 'var(--serif)', fontSize: '16px', fontWeight: 700, color: 'var(--on-surface)', marginBottom: '4px' }}>{item.title}</div>
+                      <div style={{ fontSize: '13px', color: 'var(--on-surface-variant)', lineHeight: '20px' }}>{item.desc}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Close + Links */}
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 mt-8" style={{ borderTop: '1px solid var(--outline-variant)', paddingTop: '24px' }}>
+                <button onClick={() => setSelected(null)} style={{ fontFamily: 'var(--mono)', fontSize: '11px', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--outline)', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>Close</button>
+                <div className="flex gap-3">
+                  {selected.githubUrl && (
+                    <a href={selected.githubUrl} target="_blank" rel="noopener noreferrer" style={{ fontFamily: 'var(--mono)', fontSize: '11px', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--on-surface-variant)', textDecoration: 'none', border: '1px solid var(--outline-variant)', padding: '10px 20px', display: 'inline-flex', alignItems: 'center', gap: '6px', transition: 'all 0.2s' }}
+                      onMouseEnter={e => { e.currentTarget.style.color = '#fff'; e.currentTarget.style.borderColor = '#fff'; }}
+                      onMouseLeave={e => { e.currentTarget.style.color = 'var(--on-surface-variant)'; e.currentTarget.style.borderColor = 'var(--outline-variant)'; }}
+                    >
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                      GitHub
+                    </a>
+                  )}
+                  {selected.projectUrl && (
+                    <a href={selected.projectUrl} target="_blank" rel="noopener noreferrer" style={{ fontFamily: 'var(--mono)', fontSize: '11px', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#fff', textDecoration: 'none', background: 'var(--secondary)', padding: '10px 20px', display: 'inline-flex', alignItems: 'center', gap: '6px', transition: 'background 0.2s' }}
+                      onMouseEnter={e => { e.currentTarget.style.background = '#d95a0e'; }}
+                      onMouseLeave={e => { e.currentTarget.style.background = 'var(--secondary)'; }}
+                    >
+                      Live Demo &rarr;
+                    </a>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };
