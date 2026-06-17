@@ -558,7 +558,7 @@ export const Project = () => {
           >
             {/* Header Image */}
             <div style={{ overflow: 'hidden', position: 'relative' }}>
-              <img src={selected.imageUrl} alt={selected.title} style={{ width: '100%', height: '320px', objectFit: 'cover', objectPosition: 'center top', display: 'block', filter: 'saturate(0.8) brightness(0.85)' }} />
+              <img src={selected.imageUrl} alt={selected.title} style={{ width: '100%', height: '320px', objectFit: 'cover', objectPosition: selected.title === 'Gipsy.Dev' ? 'center top' : 'center', display: 'block', filter: 'saturate(0.8) brightness(0.85)' }} />
               <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '120px', background: 'linear-gradient(to top, var(--surface), transparent)' }} />
             </div>
 
