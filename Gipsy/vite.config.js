@@ -6,4 +6,16 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   base: "./",
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor-react': ['react', 'react-dom'],
+          'vendor-gsap': ['gsap'],
+          'vendor-three': ['three', '@react-three/fiber', '@react-three/drei'],
+          'vendor-ogl': ['ogl'],
+        },
+      },
+    },
+  },
 });
