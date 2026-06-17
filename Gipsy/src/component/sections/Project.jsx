@@ -126,6 +126,14 @@ const projectsData = [
     projectUrl: "",
     githubUrl: "https://github.com/GipsyDanger-dev/MiniProjectCC",
     status: "In Dev",
+    timeline: [
+      { date: "9 Apr 2026", title: "Project Started", desc: "First commit, Python simulator for sensor data generation, initial IoT architecture." },
+      { date: "10 Apr 2026", title: "Backend & Automation", desc: "Python worker, command system, automatic actions, worker status tracking in database." },
+      { date: "11 Apr 2026", title: "Dashboard & API", desc: "Admin dashboard, API key settings, UI styling across all components." },
+      { date: "3 Jun 2026", title: "Refinements", desc: "Sidebar cleanup, threshold settings improvements, config file organization." },
+      { date: "9 Jun 2026", title: "Major Features", desc: "ESP32 Serial bridge, API improvements, frontend real-time updates, admin login, emergency toggle, actuator fixes." },
+      { date: "14 Jun 2026", title: "Design & Testing", desc: "xAI design system, 3D room model with Three.js, 23 system tests (100% pass), X-Banner design, deployment." },
+    ],
   },
 ];
 
