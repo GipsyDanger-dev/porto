@@ -558,13 +558,13 @@ export const Project = () => {
           >
             {/* Header Image */}
             <div style={{ overflow: 'hidden', position: 'relative' }}>
-              <img src={selected.imageUrl} alt={selected.title} style={{ width: '100%', height: '240px', objectFit: 'cover', display: 'block', filter: 'saturate(0.8) brightness(0.85)' }} />
-              <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '80px', background: 'linear-gradient(to top, var(--surface), transparent)' }} />
+              <img src={selected.imageUrl} alt={selected.title} style={{ width: '100%', height: '320px', objectFit: 'cover', display: 'block', filter: 'saturate(0.8) brightness(0.85)' }} />
+              <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '120px', background: 'linear-gradient(to top, var(--surface), transparent)' }} />
             </div>
 
             <div style={{ padding: '0 48px 48px' }}>
               {/* Title */}
-              <div style={{ marginBottom: '32px' }}>
+              <div style={{ marginTop: '-40px', position: 'relative', zIndex: 1, marginBottom: '32px' }}>
                 <h2 style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(28px, 4vw, 40px)', fontWeight: 700, color: 'var(--on-surface)', marginBottom: '12px' }}>{selected.title}</h2>
                 <p style={{ fontSize: '15px', color: 'var(--on-surface-variant)', lineHeight: '24px', maxWidth: '600px' }}>{selected.description}</p>
                 <div className="flex flex-wrap gap-2 mt-4">
