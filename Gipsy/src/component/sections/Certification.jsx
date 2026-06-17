@@ -110,7 +110,7 @@ const CertCard = ({ cert, onClick, large, delay = 0 }) => {
 
       {large && (
         <div style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: '14px', color: 'var(--on-surface-variant)', lineHeight: 1.7, borderLeft: '2px solid var(--secondary)', paddingLeft: '16px', marginBottom: '28px' }}>
-          "Demonstrated initiative and commitment to deepening skills in advanced data modeling."
+          "Committed to mastering AI fundamentals, generative AI, and practical applications across multiple platforms."
         </div>
       )}
 
@@ -165,8 +165,10 @@ const CertRow = ({ cert, onClick, delay = 0 }) => {
 
 export const Certification = () => {
   const [selected, setSelected] = useState(null);
-  const featured = certifications.slice(0, 3);
-  const remaining = certifications.slice(3);
+  const aiCerts = certifications.filter(c => c.category === 'AI');
+  const otherCerts = certifications.filter(c => c.category !== 'AI');
+  const featured = [aiCerts[0], aiCerts[1], aiCerts[2]].filter(Boolean);
+  const remaining = [...aiCerts.slice(3), ...otherCerts];
   const closeOverlay = useCallback(() => setSelected(null), []);
 
   return (
@@ -190,8 +192,8 @@ export const Certification = () => {
                 <div style={{ ...mono, fontSize: '10px', letterSpacing: '0.1em', color: 'var(--outline)', marginTop: '8px' }}>Total Credentials</div>
               </div>
               <div>
-                <div style={{ fontFamily: 'var(--serif)', fontSize: '44px', fontWeight: 700, letterSpacing: '-0.025em', lineHeight: 1 }}>4<span style={{ fontSize: '22px', color: 'var(--outline)' }}> fields</span></div>
-                <div style={{ ...mono, fontSize: '10px', letterSpacing: '0.1em', color: 'var(--outline)', marginTop: '8px' }}>AI · Data · Cloud · Analytics</div>
+                <div style={{ fontFamily: 'var(--serif)', fontSize: '44px', fontWeight: 700, letterSpacing: '-0.025em', lineHeight: 1 }}>{aiCerts.length}<span style={{ fontSize: '22px', color: 'var(--outline)' }}> AI</span></div>
+                <div style={{ ...mono, fontSize: '10px', letterSpacing: '0.1em', color: 'var(--outline)', marginTop: '8px' }}>AI Engineer Focus</div>
               </div>
               <div>
                 <div style={{ fontFamily: 'var(--serif)', fontSize: '44px', fontWeight: 700, letterSpacing: '-0.025em', lineHeight: 1 }}>2026</div>
