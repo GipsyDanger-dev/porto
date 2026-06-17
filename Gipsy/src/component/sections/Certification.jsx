@@ -1,5 +1,5 @@
 import { useState, useCallback, useMemo } from "react";
-import { GsapReveal } from "../GsapReveal";
+import { GsapReveal, GsapStagger } from "../GsapReveal";
 import sertif1Img from "../../pct/sertif/Sertif1.webp";
 import sertif2Img from "../../pct/sertif/sertif2.webp";
 import sertif3Img from "../../pct/sertif/Sertif3.webp";
@@ -184,7 +184,7 @@ export const Certification = () => {
         </GsapReveal>
 
         {/* Featured Cards (top 3) */}
-        <GsapReveal delay={0.1}>
+        <GsapStagger stagger={0.15}>
           <div
             className="grid gap-px"
             style={{ background: 'var(--outline-variant)', border: '1px solid var(--outline-variant)', marginBottom: '1px', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}
@@ -193,16 +193,16 @@ export const Certification = () => {
               <CertCard key={i} cert={cert} onClick={setSelected} />
             ))}
           </div>
-        </GsapReveal>
+        </GsapStagger>
 
         {/* Table List (remaining) */}
-        <GsapReveal delay={0.2}>
+        <GsapStagger stagger={0.06}>
           <div>
             {remaining.map((cert, i) => (
               <CertRow key={i} cert={cert} onClick={setSelected} />
             ))}
           </div>
-        </GsapReveal>
+        </GsapStagger>
       </div>
 
       {/* Detail Overlay */}
