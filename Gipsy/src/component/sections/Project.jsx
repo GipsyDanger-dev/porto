@@ -39,6 +39,14 @@ const projectsData = [
     projectUrl: "https://pasarngalam-production.up.railway.app/",
     githubUrl: "https://github.com/GipsyDanger-dev/PasarNgalam",
     status: null,
+    timeline: [
+      { date: "1 Dec 2025", title: "Project Started", desc: "Login system, mitra (partner) integration, initial navigation structure." },
+      { date: "2 Dec 2025", title: "Merchant System", desc: "Merchant dashboard, partner management, order flow foundation." },
+      { date: "7 Dec 2025", title: "Core Features Built", desc: "Real-time order tracking with map, driver pickup confirmation, checkout system, profile editing for all actors." },
+      { date: "7 Dec 2025", title: "Merchant Dashboard", desc: "Financial recap, order history, order activities, confirm dialogs, access control." },
+      { date: "9 Dec 2025", title: "Dashboard Refinements", desc: "Customer profile, merchant dashboard polish, final adjustments." },
+      { date: "31 Dec 2025", title: "Production Ready", desc: "Security updates, payment method integration, final merge and deployment." },
+    ],
   },
   {
     title: "Freshness FruitCheck",
@@ -48,6 +56,12 @@ const projectsData = [
     projectUrl: "https://fruitcheck.up.railway.app/",
     githubUrl: "https://github.com/GipsyDanger-dev/AIprojectUAS",
     status: null,
+    timeline: [
+      { date: "9 Dec 2025", title: "Project Started", desc: "First commit, index setup, initial AI model integration for fruit freshness detection." },
+      { date: "11 Dec 2025", title: "Model & Deployment", desc: "Model improvements, ngrok configuration for external access, deployment preparation." },
+      { date: "13 Dec 2025", title: "UI Polish", desc: "Layout fixes and refinements across multiple iterations for better user experience." },
+      { date: "23 May 2026", title: "Rebranding", desc: "Project renamed from AIprojectUAS to Freshness FruitCheck for clearer branding." },
+    ],
   },
   {
     title: "RemindMe App",
@@ -57,6 +71,12 @@ const projectsData = [
     projectUrl: "",
     githubUrl: "https://github.com/GipsyDanger-dev/remind_new",
     status: null,
+    timeline: [
+      { date: "3 Dec 2025", title: "Project Started", desc: "Initial commit, core reminder functionality and data structure setup." },
+      { date: "7 Dec 2025", title: "Feature Development", desc: "Reminder scheduling, notification system, and UI components." },
+      { date: "8 Dec 2025", title: "First Complete Build", desc: "Functional reminder app with create, edit, and delete capabilities." },
+      { date: "9 Dec 2025", title: "Final Updates", desc: "Bug fixes, UI polish, and final refinements before submission." },
+    ],
   },
   {
     title: "IT Solution Website",
@@ -66,6 +86,15 @@ const projectsData = [
     projectUrl: "https://itsolution.gipsy-dev.me/",
     githubUrl: "https://github.com/GipsyDanger-dev/it-solution-malang",
     status: null,
+    timeline: [
+      { date: "26 Oct 2025", title: "Project Started", desc: "Initial commit, base project structure for IT Solution company profile." },
+      { date: "27 Oct 2025", title: "Navigation & Auth", desc: "Navbar routing, authentication pages (login, register, forgot password)." },
+      { date: "3 Nov 2025", title: "Dashboard & Chat", desc: "Technician and customer dashboards, service CRUD, real-time chat with AJAX polling." },
+      { date: "13 Nov 2025", title: "Service Management", desc: "Admin CRUD for services, customer service view, profile editing, chat bug fixes." },
+      { date: "23 Nov 2025", title: "Customer Features", desc: "Service ordering for customers, admin messaging system, sidebar fixes." },
+      { date: "27 Nov 2025", title: "Bug Fixes", desc: "Sidebar toggle fix, various UI bug fixes across the application." },
+      { date: "7 Dec 2025", title: "Deployed", desc: "Railway configuration, production deployment, final polish." },
+    ],
   },
   {
     title: "Gipsy.Dev",
@@ -75,6 +104,19 @@ const projectsData = [
     projectUrl: "https://gipsydanger-dev.github.io/porto/#",
     githubUrl: "https://github.com/GipsyDanger-dev/porto",
     status: null,
+    timeline: [
+      { date: "24 Dec 2025", title: "Project Started", desc: "Initial portfolio structure, project containers, and basic layout." },
+      { date: "26 Dec 2025", title: "Security & Deployment", desc: "Security updates, Node.js error fixes, deployment configuration." },
+      { date: "22 Apr 2026", title: "Contact & Email", desc: "Contact form with EmailJS, email config hardening, debug fixes." },
+      { date: "2 May 2026", title: "Certifications Added", desc: "Professional certification showcase with credential links." },
+      { date: "19 May 2026", title: "GitHub Links & Cleanup", desc: "Source links for projects, dead code cleanup, dependency updates." },
+      { date: "22 May 2026", title: "Visual Effects", desc: "LightRays WebGL, TextType typing effect, brand-colored skill icons, footer marquee." },
+      { date: "23 May 2026", title: "Content & Performance", desc: "5 new certifications, English copywriting, performance optimization." },
+      { date: "27 May 2026", title: "Mobile & Polish", desc: "Mobile tap-to-reveal, SentinelIoT project, TextType logic fix." },
+      { date: "29 May 2026", title: "Midnight Editorial Redesign", desc: "Complete design system overhaul with Three.js hero, GSAP animations, CircularGallery." },
+      { date: "30 May 2026", title: "Optimization & SEO", desc: "Image compression, code splitting, Lighthouse optimization, Google Search Console." },
+      { date: "16 Jun 2026", title: "Current State", desc: "19 certifications, project journey timelines, mobile responsive, fully optimized." },
+    ],
   },
   {
     title: "SentinelIoT",
