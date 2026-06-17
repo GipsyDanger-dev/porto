@@ -1,23 +1,24 @@
 # Gipsy.Dev — Adam Fairuz Akmal Aryaguna
 
-## About
-Portfolio website of Adam Fairuz Akmal Aryaguna (Gipsy.Dev), a Fullstack Engineer, Web Developer, and AI Engineer based in Malang, Indonesia.
+> Portfolio website of Adam Fairuz Akmal Aryaguna (Gipsy.Dev), a Fullstack Engineer, Web Developer, and AI Engineer based in Malang, Indonesia. Built with React, Vite, and Tailwind CSS featuring a Midnight Editorial design system.
 
-## Content
-- **Hero**: Introduction with name, role, and call-to-action buttons
-- **About**: Bio, education, skills, and technical expertise
-- **Projects**: 7 projects including StockPP, PasarNgalam, SentinelIoT, RemindMe, FruitCheck, IT Solution, and Gipsy.Dev portfolio
-- **Experience**: Organizations at HMPSTI VOKASI UB and DPM Vokasi Universitas Brawijaya
-- **Certifications**: 19 professional certifications in AI, Data Science, Cloud Computing, Programming, and more
-- **Contact**: Contact form and social links
+The site showcases projects, professional experience, certifications, and contact information. All content is in a single-page application format.
 
-## Contact
-- Website: https://gipsy-dev.me
-- GitHub: https://github.com/GipsyDanger-dev
-- LinkedIn: https://www.linkedin.com/in/adamfairuz/
-- Email: aryagunaadam@gmail.com
+## Main Sections
 
-## Crawling
-- Allow all crawlers and AI agents
-- Preferred language: Indonesian (id)
-- Updated: June 2026
+- [Home](https://gipsy-dev.me/#home): Hero section with name, role, and introduction
+- [About](https://gipsy-dev.me/#about): Bio, education timeline, skills, and technical expertise
+- [Projects](https://gipsy-dev.me/#projects): 7 software projects including StockPP, PasarNgalam, SentinelIoT, RemindMe, FruitCheck, IT Solution, and Gipsy.Dev portfolio
+- [Experience](https://gipsy-dev.me/#experience): Organizational roles at HMPSTI VOKASI UB and DPM Vokasi Universitas Brawijaya
+- [Certifications](https://gipsy-dev.me/#certifications): 19 professional certifications in AI, Data Science, Cloud Computing, Programming, and more
+- [Contact](https://gipsy-dev.me/#contact): Contact form and social links
+
+## Social Profiles
+
+- [GitHub](https://github.com/GipsyDanger-dev): Open source projects and repositories
+- [LinkedIn](https://www.linkedin.com/in/adamfairuz/): Professional profile and connections
+
+## Optional
+
+- [Sitemap](https://gipsy-dev.me/sitemap.xml): XML sitemap for search engine crawling
+- [Robots](https://gipsy-dev.me/robots.txt): Crawling permissions and rules
