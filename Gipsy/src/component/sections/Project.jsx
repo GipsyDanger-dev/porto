@@ -171,7 +171,7 @@ const ProjectEntry = ({ project, index, onSelect }) => {
             decoding="async"
             style={{
               width: '100%',
-              height: '100%',
+              height: 'auto',
               objectFit: 'contain',
               display: 'block',
               filter: 'saturate(0.82) brightness(0.88)',
@@ -423,7 +423,7 @@ export const Project = () => {
                     decoding="async"
                     style={{
                       width: '100%',
-                      height: '100%',
+                      height: 'auto',
                       objectFit: 'contain',
                       display: 'block',
                       filter: 'saturate(0.82) brightness(0.88)',
