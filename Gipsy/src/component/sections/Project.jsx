@@ -596,14 +596,13 @@ export const Project = () => {
             onClick={e => e.stopPropagation()}
           >
             {/* Header Image */}
-            <div style={{ overflow: 'hidden', position: 'relative' }}>
-              <img src={selected.imageUrl} alt={selected.title} style={{ width: '100%', height: '320px', objectFit: 'cover', objectPosition: selected.title === 'Gipsy.Dev' ? 'center top' : 'center', display: 'block', filter: 'saturate(0.8) brightness(0.85)' }} />
-              <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '120px', background: 'linear-gradient(to top, var(--surface), transparent)' }} />
+            <div style={{ overflow: 'hidden', position: 'relative', background: 'var(--surface-high)' }}>
+              <img src={selected.imageUrl} alt={selected.title} style={{ width: '100%', height: 'auto', objectFit: 'contain', display: 'block', filter: 'saturate(0.8) brightness(0.85)' }} />
             </div>
 
             <div className="px-5 py-6 sm:px-12">
               {/* Title */}
-              <div style={{ marginTop: '-40px', position: 'relative', zIndex: 1, marginBottom: '32px' }}>
+              <div style={{ marginBottom: '32px' }}>
                 <h2 style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(28px, 4vw, 40px)', fontWeight: 700, color: 'var(--on-surface)', marginBottom: '12px' }}>{selected.title}</h2>
                 <p style={{ fontSize: '15px', color: 'var(--on-surface-variant)', lineHeight: '24px', maxWidth: '600px' }}>{selected.description}</p>
                 <div className="flex flex-wrap gap-2 mt-4">
