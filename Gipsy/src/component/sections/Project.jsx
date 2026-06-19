@@ -1,4 +1,5 @@
 import { useState, useCallback } from "react";
+import { createPortal } from "react-dom";
 import { GsapReveal, GsapStagger } from "../GsapReveal";
 import fruitCheckImg from "../../pct/FruitCheck.webp";
 import itSolutionImg from "../../pct/IT-Solution.webp";
@@ -549,16 +550,28 @@ export const Project = () => {
         </div>
       </div>
 
-      {/* Project Detail Overlay */}
-      {selected && (
+      {/* Project Detail Overlay — rendered to body via portal */}
+      {selected && createPortal(
         <div
-          className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto"
-          style={{ background: 'rgba(10, 12, 14, 0.9)', backdropFilter: 'blur(12px)', padding: '40px 16px' }}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 99999,
+            display: 'flex',
+            alignItems: 'flex-start',
+            justifyContent: 'center',
+            overflowY: 'auto',
+            WebkitOverflowScrolling: 'touch',
+            background: 'rgba(10, 12, 14, 0.92)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
+            padding: '40px 16px',
+          }}
           onClick={() => setSelected(null)}
         >
           <div
             className="relative max-w-4xl w-full"
-            style={{ background: 'var(--surface)', border: '1px solid var(--outline-variant)' }}
+            style={{ background: 'var(--surface)', border: '1px solid var(--outline-variant)', marginBottom: '40px' }}
             onClick={e => e.stopPropagation()}
           >
             {/* Header Image */}
@@ -627,7 +640,8 @@ export const Project = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </section>
   );

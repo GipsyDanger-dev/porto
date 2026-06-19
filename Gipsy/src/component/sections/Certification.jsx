@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { GsapReveal } from "../GsapReveal";
 import sertif1Img from "../../pct/sertif/Sertif1.webp";
 import sertif2Img from "../../pct/sertif/sertif2.webp";
@@ -222,10 +223,10 @@ export const Certification = () => {
         </GsapReveal>
       </div>
 
-      {/* Detail Overlay */}
-      {selected && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ background: 'rgba(10, 12, 14, 0.85)', backdropFilter: 'blur(8px)' }} onClick={closeOverlay}>
-          <div className="relative max-w-lg w-full mx-4" style={{ background: 'var(--surface)', border: '1px solid var(--outline-variant)' }} onClick={e => e.stopPropagation()}>
+      {/* Detail Overlay — rendered to body via portal */}
+      {selected && createPortal(
+        <div style={{ position: 'fixed', inset: 0, zIndex: 99999, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(10, 12, 14, 0.85)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)', padding: '16px' }} onClick={closeOverlay}>
+          <div className="relative max-w-lg w-full" style={{ background: 'var(--surface)', border: '1px solid var(--outline-variant)' }} onClick={e => e.stopPropagation()}>
             <div style={{ overflow: 'hidden' }}>
               <img src={selected.image} alt={selected.title} style={{ width: '100%', height: 'auto', display: 'block', filter: 'saturate(0.9) brightness(0.95)' }} />
             </div>
@@ -248,7 +249,8 @@ export const Certification = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       <style>{`
