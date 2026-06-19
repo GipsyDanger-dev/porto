@@ -378,20 +378,21 @@ export const Project = () => {
           {projectsData.map((project, index) => (
             <GsapReveal key={index} delay={0.1}>
               <div
+                onClick={() => project.timeline && setSelected(project)}
                 style={{
                   borderTop: index > 0 ? '1px solid var(--outline-variant)' : 'none',
                   paddingTop: index > 0 ? '32px' : 0,
+                  cursor: project.timeline ? 'pointer' : 'default',
+                  WebkitTapHighlightColor: 'transparent',
                 }}
               >
                 <div
                   className="proj-visual relative overflow-hidden mb-6"
-                  onClick={() => project.timeline && setSelected(project)}
                   style={{
                     borderRadius: '4px',
                     border: '1px solid rgba(255, 255, 255, 0.1)',
                     background: 'var(--surface-high)',
                     lineHeight: 0,
-                    cursor: project.timeline ? 'pointer' : 'default',
                   }}
                 >
                   <img
@@ -501,6 +502,7 @@ export const Project = () => {
                       href={project.projectUrl}
                       target="_blank"
                       rel="noopener noreferrer"
+                      onClick={e => e.stopPropagation()}
                       style={{
                         fontFamily: 'var(--mono)',
                         fontSize: '11px',
@@ -519,6 +521,7 @@ export const Project = () => {
                       href={project.githubUrl}
                       target="_blank"
                       rel="noopener noreferrer"
+                      onClick={e => e.stopPropagation()}
                       className="inline-flex items-center gap-2"
                       style={{
                         fontFamily: 'var(--mono)',
@@ -564,7 +567,7 @@ export const Project = () => {
               <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '120px', background: 'linear-gradient(to top, var(--surface), transparent)' }} />
             </div>
 
-            <div style={{ padding: '0 48px 48px' }}>
+            <div className="px-5 py-6 sm:px-12">
               {/* Title */}
               <div style={{ marginTop: '-40px', position: 'relative', zIndex: 1, marginBottom: '32px' }}>
                 <h2 style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(28px, 4vw, 40px)', fontWeight: 700, color: 'var(--on-surface)', marginBottom: '12px' }}>{selected.title}</h2>
