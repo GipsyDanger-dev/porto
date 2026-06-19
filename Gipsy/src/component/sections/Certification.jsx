@@ -176,11 +176,35 @@ export const Certification = () => {
   const [selected, setSelected] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [fadeKey, setFadeKey] = useState(0);
+  const [featuredIdx, setFeaturedIdx] = useState(0);
+  const [featuredKey, setFeaturedKey] = useState(0);
   const overlayOpenTime = useRef(0);
   const aiCerts = certifications.filter(c => c.category === 'AI');
   const otherCerts = certifications.filter(c => c.category !== 'AI');
-  const featured = [aiCerts[0], aiCerts[1], aiCerts[2]].filter(Boolean);
   const remaining = [...aiCerts.slice(3), ...otherCerts];
+
+  // Build rotating featured groups from different categories
+  const featuredGroups = (() => {
+    const groups = [];
+    const cats = ['AI', 'Data Science', 'Cloud / AI', 'Machine Learning', 'Analytics', 'Data'];
+    for (const cat of cats) {
+      const group = certifications.filter(c => c.category === cat);
+      if (group.length >= 3) groups.push(group.slice(0, 3));
+    }
+    // Fallback: if not enough full groups, use first 3 AI certs
+    if (groups.length === 0) groups.push(aiCerts.slice(0, 3));
+    return groups;
+  })();
+  const featured = featuredGroups[featuredIdx] || featuredGroups[0];
+
+  // Auto-rotate featured every 5 seconds
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setFeaturedIdx(prev => (prev + 1) % featuredGroups.length);
+      setFeaturedKey(k => k + 1);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [featuredGroups.length]);
 
   const PER_PAGE = 8;
   const totalPages = Math.ceil(remaining.length / PER_PAGE);
@@ -242,10 +266,32 @@ export const Certification = () => {
 
         {/* Featured Grid */}
         <GsapReveal delay={0.1}>
-          <div className="grid gap-px" style={{ background: 'var(--outline-variant)', border: '1px solid var(--outline-variant)', marginBottom: '1px', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
-            {featured.map((cert, i) => (
-              <CertCard key={i} cert={cert} onClick={setSelected} large={i === 0} delay={i * 0.12} />
-            ))}
+          <div>
+            <div key={featuredKey} className="grid gap-px" style={{ background: 'var(--outline-variant)', border: '1px solid var(--outline-variant)', marginBottom: '1px', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', animation: 'certFadeIn 0.5s ease-out' }}>
+              {featured.map((cert, i) => (
+                <CertCard key={featuredKey + '-' + i} cert={cert} onClick={setSelected} large={i === 0} delay={i * 0.12} />
+              ))}
+            </div>
+            {/* Rotation indicators */}
+            <div className="flex items-center justify-end gap-2" style={{ padding: '12px 0' }}>
+              {featuredGroups.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => { setFeaturedIdx(i); setFeaturedKey(k => k + 1); }}
+                  style={{
+                    width: i === featuredIdx ? '20px' : '8px',
+                    height: '8px',
+                    borderRadius: '4px',
+                    background: i === featuredIdx ? 'var(--secondary)' : 'var(--outline-variant)',
+                    border: 'none',
+                    cursor: 'pointer',
+                    transition: 'all 0.35s cubic-bezier(0.16,1,0.3,1)',
+                    padding: 0,
+                    touchAction: 'manipulation',
+                  }}
+                />
+              ))}
+            </div>
           </div>
         </GsapReveal>
 
