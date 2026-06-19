@@ -385,11 +385,13 @@ export const Project = () => {
               >
                 <div
                   className="proj-visual relative overflow-hidden mb-6"
+                  onClick={() => project.timeline && setSelected(project)}
                   style={{
                     borderRadius: '4px',
                     border: '1px solid rgba(255, 255, 255, 0.1)',
                     background: 'var(--surface-high)',
                     lineHeight: 0,
+                    cursor: project.timeline ? 'pointer' : 'default',
                   }}
                 >
                   <img
