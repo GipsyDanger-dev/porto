@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { GsapReveal, GsapStagger } from "../GsapReveal";
 import fruitCheckImg from "../../pct/FruitCheck.webp";
@@ -161,6 +161,7 @@ const ProjectEntry = ({ project, index, onSelect }) => {
             border: '1px solid rgba(255, 255, 255, 0.1)',
             background: 'var(--surface-high)',
             lineHeight: 0,
+            touchAction: 'manipulation',
           }}
         >
           <img
@@ -331,6 +332,24 @@ const ProjectEntry = ({ project, index, onSelect }) => {
 
 export const Project = () => {
   const [selected, setSelected] = useState(null);
+  const overlayOpenTime = useRef(0);
+
+  // Lock body scroll when overlay is open
+  useEffect(() => {
+    if (selected) {
+      document.body.style.overflow = 'hidden';
+      overlayOpenTime.current = Date.now();
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [selected]);
+
+  const closeOverlay = useCallback(() => {
+    // Prevent closing if overlay just opened (mobile touch event bubbling)
+    if (Date.now() - overlayOpenTime.current < 300) return;
+    setSelected(null);
+  }, []);
 
   return (
     <section id="projects" style={{ padding: 'var(--section-gap) 0' }}>
@@ -385,6 +404,7 @@ export const Project = () => {
                   paddingTop: index > 0 ? '32px' : 0,
                   cursor: project.timeline ? 'pointer' : 'default',
                   WebkitTapHighlightColor: 'transparent',
+                  touchAction: 'manipulation',
                 }}
               >
                 <div
@@ -566,8 +586,9 @@ export const Project = () => {
             backdropFilter: 'blur(12px)',
             WebkitBackdropFilter: 'blur(12px)',
             padding: '40px 16px',
+            touchAction: 'pan-y',
           }}
-          onClick={() => setSelected(null)}
+          onClick={closeOverlay}
         >
           <div
             className="relative max-w-4xl w-full"
@@ -617,7 +638,7 @@ export const Project = () => {
 
               {/* Close + Links */}
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 mt-8" style={{ borderTop: '1px solid var(--outline-variant)', paddingTop: '24px' }}>
-                <button onClick={() => setSelected(null)} style={{ fontFamily: 'var(--mono)', fontSize: '11px', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--outline)', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>Close</button>
+                <button onClick={closeOverlay} style={{ fontFamily: 'var(--mono)', fontSize: '11px', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--outline)', background: 'none', border: 'none', cursor: 'pointer', padding: 0, touchAction: 'manipulation' }}>Close</button>
                 <div className="flex gap-3">
                   {selected.githubUrl && (
                     <a href={selected.githubUrl} target="_blank" rel="noopener noreferrer" style={{ fontFamily: 'var(--mono)', fontSize: '11px', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--on-surface-variant)', textDecoration: 'none', border: '1px solid var(--outline-variant)', padding: '10px 20px', display: 'inline-flex', alignItems: 'center', gap: '6px', transition: 'all 0.2s' }}

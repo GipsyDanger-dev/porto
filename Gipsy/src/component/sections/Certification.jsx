@@ -90,6 +90,7 @@ const CertCard = ({ cert, onClick, large, delay = 0 }) => {
         overflow: 'hidden',
         cursor: 'pointer',
         transition: 'background 0.3s',
+        touchAction: 'manipulation',
         minHeight: large ? '360px' : undefined,
       }}
     >
@@ -139,6 +140,7 @@ const CertRow = ({ cert, onClick, delay = 0 }) => {
         padding: '24px 0',
         position: 'relative',
         cursor: 'pointer',
+        touchAction: 'manipulation',
       }}
     >
       {/* Orange bottom line on hover */}
@@ -166,11 +168,28 @@ const CertRow = ({ cert, onClick, delay = 0 }) => {
 
 export const Certification = () => {
   const [selected, setSelected] = useState(null);
+  const overlayOpenTime = useRef(0);
   const aiCerts = certifications.filter(c => c.category === 'AI');
   const otherCerts = certifications.filter(c => c.category !== 'AI');
   const featured = [aiCerts[0], aiCerts[1], aiCerts[2]].filter(Boolean);
   const remaining = [...aiCerts.slice(3), ...otherCerts];
-  const closeOverlay = useCallback(() => setSelected(null), []);
+
+  // Lock body scroll when overlay is open
+  useEffect(() => {
+    if (selected) {
+      document.body.style.overflow = 'hidden';
+      overlayOpenTime.current = Date.now();
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [selected]);
+
+  const closeOverlay = useCallback(() => {
+    // Prevent closing if overlay just opened (mobile touch event bubbling)
+    if (Date.now() - overlayOpenTime.current < 300) return;
+    setSelected(null);
+  }, []);
 
   return (
     <section id="certifications" style={{ padding: 'var(--section-gap) 0', position: 'relative' }}>
@@ -225,7 +244,7 @@ export const Certification = () => {
 
       {/* Detail Overlay — rendered to body via portal */}
       {selected && createPortal(
-        <div style={{ position: 'fixed', inset: 0, zIndex: 99999, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(10, 12, 14, 0.85)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)', padding: '16px' }} onClick={closeOverlay}>
+        <div style={{ position: 'fixed', inset: 0, zIndex: 99999, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(10, 12, 14, 0.85)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)', padding: '16px', touchAction: 'pan-y' }} onClick={closeOverlay}>
           <div className="relative max-w-lg w-full" style={{ background: 'var(--surface)', border: '1px solid var(--outline-variant)' }} onClick={e => e.stopPropagation()}>
             <div style={{ overflow: 'hidden' }}>
               <img src={selected.image} alt={selected.title} style={{ width: '100%', height: 'auto', display: 'block', filter: 'saturate(0.9) brightness(0.95)' }} />
@@ -236,7 +255,7 @@ export const Certification = () => {
               <p style={{ fontSize: '15px', color: 'var(--on-surface-variant)', marginBottom: '8px' }}>{selected.issuer}</p>
               <p style={{ ...mono, fontSize: '11px', color: 'var(--outline)', letterSpacing: '0.05em', marginBottom: '28px' }}>Issued {selected.issuedDate}</p>
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-0" style={{ borderTop: '1px solid var(--outline-variant)', paddingTop: '20px' }}>
-                <button onClick={closeOverlay} style={{ ...mono, fontSize: '11px', color: 'var(--outline)', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>Close</button>
+                <button onClick={closeOverlay} style={{ ...mono, fontSize: '11px', color: 'var(--outline)', background: 'none', border: 'none', cursor: 'pointer', padding: 0, touchAction: 'manipulation' }}>Close</button>
                 {selected.credentialUrl && (
                   <a href={selected.credentialUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2" style={{ ...mono, fontSize: '11px', fontWeight: 500, color: 'var(--secondary)', textDecoration: 'none', background: 'rgba(242,100,15,0.08)', padding: '12px 24px', border: 'none', transition: 'background 0.2s' }}
                     onMouseEnter={e => { e.currentTarget.style.background = 'rgba(242,100,15,0.15)'; }}
