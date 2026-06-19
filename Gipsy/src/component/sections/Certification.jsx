@@ -128,6 +128,7 @@ const CertRow = ({ cert, onClick, delay = 0 }) => {
   const [hover, setHover] = useState(false);
   return (
     <div
+      className="cert-row"
       onClick={() => onClick(cert)}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
@@ -150,11 +151,11 @@ const CertRow = ({ cert, onClick, delay = 0 }) => {
         <div style={{ ...mono, fontSize: '9px', letterSpacing: '0.1em', color: 'var(--secondary)', marginBottom: '6px', fontWeight: 500 }}>{cert.category}</div>
         <div style={{ fontFamily: 'var(--serif)', fontSize: '18px', fontWeight: 700, color: hover ? 'var(--secondary)' : 'var(--on-surface)', lineHeight: 1.2, letterSpacing: '-0.01em', transition: 'color 0.5s ease' }}>{cert.title}</div>
       </div>
-      <div>
+      <div className="cert-row-meta">
         <div style={{ ...mono, fontSize: '9px', color: 'var(--outline)', marginBottom: '5px' }}>Issuer</div>
         <div style={{ fontSize: '13px', color: 'var(--on-surface-variant)' }}>{cert.issuer}</div>
       </div>
-      <div style={{ ...mono, fontSize: '11px', color: 'var(--on-surface-variant)' }}>{cert.issuedDate}</div>
+      <div className="cert-row-meta" style={{ ...mono, fontSize: '11px', color: 'var(--on-surface-variant)' }}>{cert.issuedDate}</div>
       <div style={{ textAlign: 'right' }}>
         {cert.credentialUrl ? (
           <span style={{ ...mono, fontSize: '10px', letterSpacing: '0.08em', color: 'var(--secondary)', display: 'inline-flex', alignItems: 'center', gap: '5px' }}>Verify &rarr;</span>
@@ -168,11 +169,22 @@ const CertRow = ({ cert, onClick, delay = 0 }) => {
 
 export const Certification = () => {
   const [selected, setSelected] = useState(null);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [fadeKey, setFadeKey] = useState(0);
   const overlayOpenTime = useRef(0);
   const aiCerts = certifications.filter(c => c.category === 'AI');
   const otherCerts = certifications.filter(c => c.category !== 'AI');
   const featured = [aiCerts[0], aiCerts[1], aiCerts[2]].filter(Boolean);
   const remaining = [...aiCerts.slice(3), ...otherCerts];
+
+  const PER_PAGE = 8;
+  const totalPages = Math.ceil(remaining.length / PER_PAGE);
+  const paginatedCerts = remaining.slice(currentPage * PER_PAGE, (currentPage + 1) * PER_PAGE);
+
+  const goToPage = useCallback((page) => {
+    setCurrentPage(page);
+    setFadeKey(k => k + 1);
+  }, []);
 
   // Lock body scroll when overlay is open
   useEffect(() => {
@@ -235,9 +247,81 @@ export const Certification = () => {
         {/* Table Rows */}
         <GsapReveal delay={0.2}>
           <div style={{ borderTop: '1px solid var(--outline-variant)' }}>
-            {remaining.map((cert, i) => (
-              <CertRow key={i} cert={cert} onClick={setSelected} delay={i * 0.06} />
-            ))}
+            <div key={fadeKey} style={{ animation: 'certFadeIn 0.35s ease-out' }}>
+              {paginatedCerts.map((cert, i) => (
+                <CertRow key={currentPage * PER_PAGE + i} cert={cert} onClick={setSelected} delay={i * 0.06} />
+              ))}
+            </div>
+
+            {/* Pagination Controls */}
+            {totalPages > 1 && (
+              <div className="flex items-center justify-between" style={{ padding: '28px 0 8px' }}>
+                <div style={{ ...mono, fontSize: '10px', color: 'var(--outline)' }}>
+                  {currentPage * PER_PAGE + 1}–{Math.min((currentPage + 1) * PER_PAGE, remaining.length)} of {remaining.length}
+                </div>
+                <div className="flex items-center gap-4">
+                  <button
+                    onClick={() => goToPage(currentPage - 1)}
+                    disabled={currentPage === 0}
+                    style={{
+                      ...mono,
+                      fontSize: '10px',
+                      letterSpacing: '0.08em',
+                      color: currentPage === 0 ? 'var(--surface-high)' : 'var(--on-surface)',
+                      background: 'none',
+                      border: '1px solid var(--outline-variant)',
+                      padding: '8px 16px',
+                      cursor: currentPage === 0 ? 'default' : 'pointer',
+                      transition: 'all 0.25s ease',
+                      opacity: currentPage === 0 ? 0.4 : 1,
+                      touchAction: 'manipulation',
+                    }}
+                    onMouseEnter={e => { if (currentPage > 0) { e.currentTarget.style.borderColor = 'var(--secondary)'; e.currentTarget.style.color = 'var(--secondary)'; } }}
+                    onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--outline-variant)'; e.currentTarget.style.color = currentPage === 0 ? 'var(--surface-high)' : 'var(--on-surface)'; }}
+                  >Prev</button>
+
+                  <div className="flex items-center gap-2">
+                    {Array.from({ length: totalPages }, (_, i) => (
+                      <button
+                        key={i}
+                        onClick={() => goToPage(i)}
+                        style={{
+                          width: i === currentPage ? '24px' : '8px',
+                          height: '8px',
+                          borderRadius: '4px',
+                          background: i === currentPage ? 'var(--secondary)' : 'var(--outline-variant)',
+                          border: 'none',
+                          cursor: 'pointer',
+                          transition: 'all 0.35s cubic-bezier(0.16,1,0.3,1)',
+                          padding: 0,
+                          touchAction: 'manipulation',
+                        }}
+                      />
+                    ))}
+                  </div>
+
+                  <button
+                    onClick={() => goToPage(currentPage + 1)}
+                    disabled={currentPage === totalPages - 1}
+                    style={{
+                      ...mono,
+                      fontSize: '10px',
+                      letterSpacing: '0.08em',
+                      color: currentPage === totalPages - 1 ? 'var(--surface-high)' : 'var(--on-surface)',
+                      background: 'none',
+                      border: '1px solid var(--outline-variant)',
+                      padding: '8px 16px',
+                      cursor: currentPage === totalPages - 1 ? 'default' : 'pointer',
+                      transition: 'all 0.25s ease',
+                      opacity: currentPage === totalPages - 1 ? 0.4 : 1,
+                      touchAction: 'manipulation',
+                    }}
+                    onMouseEnter={e => { if (currentPage < totalPages - 1) { e.currentTarget.style.borderColor = 'var(--secondary)'; e.currentTarget.style.color = 'var(--secondary)'; } }}
+                    onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--outline-variant)'; e.currentTarget.style.color = currentPage === totalPages - 1 ? 'var(--surface-high)' : 'var(--on-surface)'; }}
+                  >Next</button>
+                </div>
+              </div>
+            )}
           </div>
         </GsapReveal>
       </div>
@@ -275,6 +359,12 @@ export const Certification = () => {
       <style>{`
         @media (max-width: 768px) {
           #certifications .cert-row-wrap { grid-template-columns: 1fr !important; gap: 8px !important; }
+          #certifications .cert-row { grid-template-columns: 1fr !important; gap: 6px !important; padding: 18px 0 !important; }
+          #certifications .cert-row .cert-row-meta { display: none !important; }
+        }
+        @keyframes certFadeIn {
+          from { opacity: 0; transform: translateY(12px); }
+          to { opacity: 1; transform: translateY(0); }
         }
       `}</style>
     </section>
