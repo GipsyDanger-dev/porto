@@ -48,26 +48,31 @@ const mono = { fontFamily: 'var(--mono)', letterSpacing: '0.08em', textTransform
 const CountUp = ({ target, suffix = '+' }) => {
   const ref = useRef(null);
   const [val, setVal] = useState(0);
-  const counted = useRef(false);
+  const animRef = useRef(null);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
     const obs = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting && !counted.current) {
-        counted.current = true;
+      if (e.isIntersecting) {
+        // Cancel any running animation
+        if (animRef.current) cancelAnimationFrame(animRef.current);
         const start = performance.now();
         const dur = 1400;
         const tick = (now) => {
           const t = Math.min((now - start) / dur, 1);
           setVal(Math.round((1 - Math.pow(1 - t, 3)) * target));
-          if (t < 1) requestAnimationFrame(tick);
+          if (t < 1) animRef.current = requestAnimationFrame(tick);
         };
-        requestAnimationFrame(tick);
+        animRef.current = requestAnimationFrame(tick);
+      } else {
+        // Reset when scrolled out of view
+        if (animRef.current) cancelAnimationFrame(animRef.current);
+        setVal(0);
       }
-    }, { threshold: 0.5 });
+    }, { threshold: 0.3 });
     obs.observe(el);
-    return () => obs.disconnect();
+    return () => { obs.disconnect(); if (animRef.current) cancelAnimationFrame(animRef.current); };
   }, [target]);
 
   return <span ref={ref}>{val}<span style={{ color: 'var(--secondary)' }}>{suffix}</span></span>;
