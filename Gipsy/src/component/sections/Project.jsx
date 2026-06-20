@@ -317,7 +317,7 @@ const ProjectEntry = ({ project, index, onSelect }) => {
                 onMouseEnter={e => { e.currentTarget.style.color = 'var(--secondary)'; e.currentTarget.style.gap = '12px'; }}
                 onMouseLeave={e => { e.currentTarget.style.color = 'var(--on-surface)'; e.currentTarget.style.gap = '8px'; }}
               >
-                View Project <span>&rarr;</span>
+                Visit Website <span>&rarr;</span>
               </a>
             )}
             {project.githubUrl && (
@@ -556,7 +556,7 @@ export const Project = () => {
                         textDecoration: 'none',
                       }}
                     >
-                      View Project &rarr;
+                      Visit Website &rarr;
                     </a>
                   )}
                   {project.githubUrl && (
@@ -675,7 +675,7 @@ export const Project = () => {
                       onMouseEnter={e => { e.currentTarget.style.background = '#d95a0e'; }}
                       onMouseLeave={e => { e.currentTarget.style.background = 'var(--secondary)'; }}
                     >
-                      Live Demo &rarr;
+                      Visit Website &rarr;
                     </a>
                   )}
                 </div>
