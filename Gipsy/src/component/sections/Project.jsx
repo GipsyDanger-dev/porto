@@ -8,8 +8,8 @@ import gipsyDevImg from "../../pct/Porto (2).webp";
 import pasarNgalamImg from "../../pct/PasarNgalam.webp";
 import stockPPImg from "../../pct/StockPP.webp";
 import sentinelImg from "../../pct/SentinelIot.webp";
-import socrapperImg from "../../pct/Socrapper.png";
-import socrapperPopupImg from "../../pct/Scocrapper_PopUp.png";
+import socrapperImg from "../../pct/Socrapper.webp";
+import socrapperPopupImg from "../../pct/Scocrapper_PopUp.webp";
 
 const projectsData = [
   {
