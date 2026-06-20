@@ -183,26 +183,30 @@ export const Certification = () => {
   const otherCerts = certifications.filter(c => c.category !== 'AI');
   const remaining = [...aiCerts.slice(3), ...otherCerts];
 
-  // Build rotating featured groups from different categories
+  // Build rotating featured groups — mix certs from different categories
   const featuredGroups = (() => {
     const groups = [];
-    const cats = ['AI', 'Data Science', 'Cloud / AI', 'Machine Learning', 'Analytics', 'Data'];
-    for (const cat of cats) {
-      const group = certifications.filter(c => c.category === cat);
-      if (group.length >= 3) groups.push(group.slice(0, 3));
-    }
-    // Fallback: if not enough full groups, use first 3 AI certs
-    if (groups.length === 0) groups.push(aiCerts.slice(0, 3));
+    // Group 1: AI (first 3)
+    groups.push(certifications.filter(c => c.category === 'AI').slice(0, 3));
+    // Group 2: Data Science + Data
+    const dataGroup = certifications.filter(c => ['Data Science', 'Data'].includes(c.category));
+    if (dataGroup.length >= 3) groups.push(dataGroup.slice(0, 3));
+    // Group 3: Cloud / AI + Machine Learning + Analytics
+    const techGroup = certifications.filter(c => ['Cloud / AI', 'Machine Learning', 'Analytics'].includes(c.category));
+    if (techGroup.length >= 3) groups.push(techGroup.slice(0, 3));
+    // Group 4: Office + Personal Dev + Finance + Programming
+    const miscGroup = certifications.filter(c => ['Office Productivity', 'Personal Development', 'Finance', 'Programming', 'Software Engineering'].includes(c.category));
+    if (miscGroup.length >= 3) groups.push(miscGroup.slice(0, 3));
     return groups;
   })();
   const featured = featuredGroups[featuredIdx] || featuredGroups[0];
 
-  // Auto-rotate featured every 5 seconds
+  // Auto-rotate featured every 8 seconds
   useEffect(() => {
     const timer = setInterval(() => {
       setFeaturedIdx(prev => (prev + 1) % featuredGroups.length);
       setFeaturedKey(k => k + 1);
-    }, 5000);
+    }, 8000);
     return () => clearInterval(timer);
   }, [featuredGroups.length]);
 
