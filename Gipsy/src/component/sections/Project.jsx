@@ -8,8 +8,28 @@ import gipsyDevImg from "../../pct/Porto (2).webp";
 import pasarNgalamImg from "../../pct/PasarNgalam.webp";
 import stockPPImg from "../../pct/StockPP.webp";
 import sentinelImg from "../../pct/SentinelIot.webp";
+import socrapperImg from "../../pct/Socrapper.png";
 
 const projectsData = [
+  {
+    title: "Socrapper",
+    description: "Social media sentiment scraper covering 9 platforms — Twitter, Reddit, News, StackOverflow, GitHub, YouTube, Instagram, TikTok, and Facebook. Keyword-based sentiment analysis in Indonesian and English, with engagement statistics and CSV export.",
+    tags: ["Laravel", "React", "Vite", "Guzzle", "DOM Crawler"],
+    imageUrl: socrapperImg,
+    projectUrl: "https://www.socrapper.my.id/",
+    githubUrl: "https://github.com/GipsyDanger-dev/Socrapper",
+    status: null,
+    timeline: [
+      { date: "9 May 2026", title: "Project Started", desc: "Initial commit, Laravel backend setup, scraping service architecture." },
+      { date: "12 May 2026", title: "Scraping Engine", desc: "Caching, Bing fallback, noise removal, HTTP retry utilities, rate limiter." },
+      { date: "15 May 2026", title: "Frontend & UI", desc: "React + Vite frontend, animated loading screen, warm parchment design system." },
+      { date: "20 May 2026", title: "Analytics Dashboard", desc: "Sentiment gauge, word frequency chart, platform breakdown, engagement stats." },
+      { date: "25 May 2026", title: "Multi-Platform Expansion", desc: "9 platform support: Twitter, Reddit, News, GitHub, YouTube, Instagram, TikTok, Facebook, StackOverflow." },
+      { date: "1 Jun 2026", title: "SEO & Deployment", desc: "Google Search Console, sitemap, robots.txt, GitHub Actions auto-deploy." },
+      { date: "13 Jun 2026", title: "YouTube & Sentiment", desc: "YouTube Data API integration, sentiment data merge, CSV export." },
+      { date: "14 Jun 2026", title: "Testing & Polish", desc: "130 pytest tests with full API coverage, bug fixes, DuckDuckGo fallback." },
+    ],
+  },
   {
     title: "StockPP",
     description: "Full-stack application using LSTM Deep Learning to predict stock prices. Real-time predictions, model versioning, and interactive charts.",
