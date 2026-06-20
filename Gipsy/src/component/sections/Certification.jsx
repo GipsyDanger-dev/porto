@@ -271,7 +271,7 @@ export const Certification = () => {
         {/* Featured Grid */}
         <GsapReveal delay={0.1}>
           <div>
-            <div key={featuredKey} className="grid gap-px" style={{ background: 'var(--outline-variant)', border: '1px solid var(--outline-variant)', marginBottom: '1px', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', animation: 'certFadeIn 0.5s ease-out' }}>
+            <div key={featuredKey} className="grid gap-px" style={{ background: 'var(--outline-variant)', border: '1px solid var(--outline-variant)', marginBottom: '1px', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', animation: 'featuredFade 0.8s cubic-bezier(0.16,1,0.3,1)' }}>
               {featured.map((cert, i) => (
                 <CertCard key={featuredKey + '-' + i} cert={cert} onClick={setSelected} large={i === 0} delay={i * 0.12} />
               ))}
@@ -420,6 +420,10 @@ export const Certification = () => {
         @keyframes certFadeIn {
           from { opacity: 0; transform: translateY(12px); }
           to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes featuredFade {
+          0% { opacity: 0; transform: translateY(8px) scale(0.995); }
+          100% { opacity: 1; transform: translateY(0) scale(1); }
         }
       `}</style>
     </section>
