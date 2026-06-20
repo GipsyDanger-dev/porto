@@ -9,6 +9,7 @@ import pasarNgalamImg from "../../pct/PasarNgalam.webp";
 import stockPPImg from "../../pct/StockPP.webp";
 import sentinelImg from "../../pct/SentinelIot.webp";
 import socrapperImg from "../../pct/Socrapper.png";
+import socrapperPopupImg from "../../pct/Scocrapper_PopUp.png";
 
 const projectsData = [
   {
@@ -16,6 +17,7 @@ const projectsData = [
     description: "Social media sentiment scraper covering 9 platforms — Twitter, Reddit, News, StackOverflow, GitHub, YouTube, Instagram, TikTok, and Facebook. Keyword-based sentiment analysis in Indonesian and English, with engagement statistics and CSV export.",
     tags: ["Laravel", "React", "Vite", "Guzzle", "DOM Crawler"],
     imageUrl: socrapperImg,
+    popupImage: socrapperPopupImg,
     projectUrl: "https://www.socrapper.my.id/",
     githubUrl: "https://github.com/GipsyDanger-dev/Socrapper",
     status: null,
@@ -617,7 +619,7 @@ export const Project = () => {
           >
             {/* Header Image */}
             <div style={{ overflow: 'hidden', position: 'relative', background: 'var(--surface-high)' }}>
-              <img src={selected.imageUrl} alt={selected.title} style={{ width: '100%', height: 'auto', objectFit: 'contain', display: 'block', filter: 'saturate(0.8) brightness(0.85)' }} />
+              <img src={selected.popupImage || selected.imageUrl} alt={selected.title} style={{ width: '100%', height: 'auto', objectFit: 'contain', display: 'block', filter: 'saturate(0.8) brightness(0.85)' }} />
             </div>
 
             <div className="px-5 py-6 sm:px-12">
