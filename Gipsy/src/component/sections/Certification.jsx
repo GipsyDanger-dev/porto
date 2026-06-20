@@ -176,39 +176,11 @@ export const Certification = () => {
   const [selected, setSelected] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [fadeKey, setFadeKey] = useState(0);
-  const [featuredIdx, setFeaturedIdx] = useState(0);
-  const [featuredKey, setFeaturedKey] = useState(0);
   const overlayOpenTime = useRef(0);
   const aiCerts = certifications.filter(c => c.category === 'AI');
   const otherCerts = certifications.filter(c => c.category !== 'AI');
+  const featured = [aiCerts[0], aiCerts[1], aiCerts[2]].filter(Boolean);
   const remaining = [...aiCerts.slice(3), ...otherCerts];
-
-  // Build rotating featured groups — mix certs from different categories
-  const featuredGroups = (() => {
-    const groups = [];
-    // Group 1: AI (first 3)
-    groups.push(certifications.filter(c => c.category === 'AI').slice(0, 3));
-    // Group 2: Data Science + Data
-    const dataGroup = certifications.filter(c => ['Data Science', 'Data'].includes(c.category));
-    if (dataGroup.length >= 3) groups.push(dataGroup.slice(0, 3));
-    // Group 3: Cloud / AI + Machine Learning + Analytics
-    const techGroup = certifications.filter(c => ['Cloud / AI', 'Machine Learning', 'Analytics'].includes(c.category));
-    if (techGroup.length >= 3) groups.push(techGroup.slice(0, 3));
-    // Group 4: Office + Personal Dev + Finance + Programming
-    const miscGroup = certifications.filter(c => ['Office Productivity', 'Personal Development', 'Finance', 'Programming', 'Software Engineering'].includes(c.category));
-    if (miscGroup.length >= 3) groups.push(miscGroup.slice(0, 3));
-    return groups;
-  })();
-  const featured = featuredGroups[featuredIdx] || featuredGroups[0];
-
-  // Auto-rotate featured every 8 seconds
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setFeaturedIdx(prev => (prev + 1) % featuredGroups.length);
-      setFeaturedKey(k => k + 1);
-    }, 8000);
-    return () => clearInterval(timer);
-  }, [featuredGroups.length]);
 
   const PER_PAGE = 8;
   const totalPages = Math.ceil(remaining.length / PER_PAGE);
@@ -270,32 +242,10 @@ export const Certification = () => {
 
         {/* Featured Grid */}
         <GsapReveal delay={0.1}>
-          <div>
-            <div key={featuredKey} className="grid gap-px" style={{ background: 'var(--outline-variant)', border: '1px solid var(--outline-variant)', marginBottom: '1px', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', animation: 'featuredFade 0.8s cubic-bezier(0.16,1,0.3,1)' }}>
-              {featured.map((cert, i) => (
-                <CertCard key={featuredKey + '-' + i} cert={cert} onClick={setSelected} large={i === 0} delay={i * 0.12} />
-              ))}
-            </div>
-            {/* Rotation indicators */}
-            <div className="flex items-center justify-end gap-2" style={{ padding: '12px 0' }}>
-              {featuredGroups.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => { setFeaturedIdx(i); setFeaturedKey(k => k + 1); }}
-                  style={{
-                    width: i === featuredIdx ? '20px' : '8px',
-                    height: '8px',
-                    borderRadius: '4px',
-                    background: i === featuredIdx ? 'var(--secondary)' : 'var(--outline-variant)',
-                    border: 'none',
-                    cursor: 'pointer',
-                    transition: 'all 0.35s cubic-bezier(0.16,1,0.3,1)',
-                    padding: 0,
-                    touchAction: 'manipulation',
-                  }}
-                />
-              ))}
-            </div>
+          <div className="grid gap-px" style={{ background: 'var(--outline-variant)', border: '1px solid var(--outline-variant)', marginBottom: '1px', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
+            {featured.map((cert, i) => (
+              <CertCard key={i} cert={cert} onClick={setSelected} large={i === 0} delay={i * 0.12} />
+            ))}
           </div>
         </GsapReveal>
 
@@ -420,10 +370,6 @@ export const Certification = () => {
         @keyframes certFadeIn {
           from { opacity: 0; transform: translateY(12px); }
           to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes featuredFade {
-          0% { opacity: 0; transform: translateY(8px) scale(0.995); }
-          100% { opacity: 1; transform: translateY(0) scale(1); }
         }
       `}</style>
     </section>
