@@ -10,6 +10,7 @@ import stockPPImg from "../../pct/StockPP.webp";
 import sentinelImg from "../../pct/SentinelIot.webp";
 import socrapperImg from "../../pct/Socrapper.webp";
 import socrapperPopupImg from "../../pct/Scocrapper_PopUp.webp";
+import rtfImg from "../../pct/RTF.webp";
 
 const projectsData = [
   {
@@ -30,6 +31,25 @@ const projectsData = [
       { date: "1 Jun 2026", title: "SEO & Deployment", desc: "Google Search Console, sitemap, robots.txt, GitHub Actions auto-deploy." },
       { date: "13 Jun 2026", title: "YouTube & Sentiment", desc: "YouTube Data API integration, sentiment data merge, CSV export." },
       { date: "14 Jun 2026", title: "Testing & Polish", desc: "130 pytest tests with full API coverage, bug fixes, DuckDuckGo fallback." },
+    ],
+  },
+  {
+    title: "RightToBeForgotten",
+    description: "Blockchain-based consent management platform enabling privacy-preserving authorization and GDPR-inspired data rights through Zero-Knowledge Proofs (ZKPs). Users can prove consent ownership without exposing personal identities, featuring encrypted local data storage, irreversible consent revocation, and on-chain verification on Polygon Amoy Testnet.",
+    tags: ["Solidity", "Hardhat", "Circom", "SnarkJS", "Groth16", "Polygon", "Next.js", "React", "TypeScript", "Wagmi", "AES-GCM"],
+    imageUrl: rtfImg,
+    projectUrl: "",
+    githubUrl: "https://github.com/GipsyDanger-dev/RightToBeForgotten",
+    status: null,
+    timeline: [
+      { date: "3 Jun 2026", title: "Project Started", desc: "Monorepo setup with npm workspaces, TypeScript, Hardhat, ESLint, Husky git hooks." },
+      { date: "4 Jun 2026", title: "Smart Contract", desc: "ConsentRegistry contract with register, revoke, verify functions. 20 unit tests passing." },
+      { date: "5 Jun 2026", title: "ZKP Circuit", desc: "Consent circuit with Poseidon hashing, auto-generated Groth16 Verifier on-chain." },
+      { date: "7 Jun 2026", title: "ZK Integration", desc: "On-chain proof verification, nullifier replay attack prevention, 252k gas per verify." },
+      { date: "8 Jun 2026", title: "User Vault App", desc: "Next.js frontend with PBKDF2+AES-GCM encryption, IndexedDB storage, consent management." },
+      { date: "9 Jun 2026", title: "Service Provider App", desc: "Demo verification flow, wallet connection via Wagmi v2 + ConnectKit, session state." },
+      { date: "9 Jun 2026", title: "Release Audit", desc: "Phase 12 audit complete — 43/43 contract tests passing, security review passed." },
+      { date: "16 Jun 2026", title: "Design System", desc: "RTF design system, landing page with Three.js 3D background, full UI redesign." },
     ],
   },
   {
