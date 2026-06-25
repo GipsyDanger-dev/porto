@@ -198,7 +198,10 @@ const ProjectEntry = ({ project, index, onSelect }) => {
         {/* Visual */}
         <div
           className={`proj-visual relative overflow-hidden ${isReverse ? 'order-2' : 'order-1'}`}
+          role={project.timeline ? "button" : undefined}
+          tabIndex={project.timeline ? 0 : undefined}
           onClick={() => project.timeline && onSelect?.(project)}
+          onKeyDown={(e) => { if ((e.key === 'Enter' || e.key === ' ') && project.timeline) { e.preventDefault(); onSelect?.(project); } }}
           style={{ borderRadius: '4px', cursor: project.timeline ? 'pointer' : 'default',
             border: '1px solid rgba(255, 255, 255, 0.1)',
             background: 'var(--surface-high)',
@@ -376,16 +379,19 @@ export const Project = () => {
   const [selected, setSelected] = useState(null);
   const overlayOpenTime = useRef(0);
 
-  // Lock body scroll when overlay is open
+  // Lock body scroll when overlay is open + Escape key handler
   useEffect(() => {
     if (selected) {
       document.body.style.overflow = 'hidden';
       overlayOpenTime.current = Date.now();
+      const handleEsc = (e) => { if (e.key === 'Escape') closeOverlay(); };
+      window.addEventListener('keydown', handleEsc);
+      return () => { document.body.style.overflow = ''; window.removeEventListener('keydown', handleEsc); };
     } else {
       document.body.style.overflow = '';
     }
     return () => { document.body.style.overflow = ''; };
-  }, [selected]);
+  }, [selected, closeOverlay]);
 
   const closeOverlay = useCallback(() => {
     // Prevent closing if overlay just opened (mobile touch event bubbling)
@@ -440,7 +446,10 @@ export const Project = () => {
           {projectsData.map((project, index) => (
             <GsapReveal key={index} delay={0.1}>
               <div
+                role={project.timeline ? "button" : undefined}
+                tabIndex={project.timeline ? 0 : undefined}
                 onClick={() => project.timeline && setSelected(project)}
+                onKeyDown={(e) => { if ((e.key === 'Enter' || e.key === ' ') && project.timeline) { e.preventDefault(); setSelected(project); } }}
                 style={{
                   borderTop: index > 0 ? '1px solid var(--outline-variant)' : 'none',
                   paddingTop: index > 0 ? '32px' : 0,

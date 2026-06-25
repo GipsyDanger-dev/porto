@@ -1,46 +1,30 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { GsapReveal } from "../GsapReveal";
-import sertif1Img from "../../pct/sertif/Sertif1.webp";
-import sertif2Img from "../../pct/sertif/sertif2.webp";
-import sertif3Img from "../../pct/sertif/Sertif3.webp";
-import sertif4Img from "../../pct/sertif/Sertif4.webp";
-import sertif5Img from "../../pct/sertif/Sertif5.webp";
-import sertif6Img from "../../pct/sertif/Sertif6.webp";
-import sertif7Img from "../../pct/sertif/Sertif7.webp";
-import sertif8Img from "../../pct/sertif/Sertif8.webp";
-import sertif9Img from "../../pct/sertif/Sertif9.webp";
-import sertif10Img from "../../pct/sertif/Sertif10.webp";
-import sertif11Img from "../../pct/sertif/Sertif11.webp";
-import sertif12Img from "../../pct/sertif/Sertif12.webp";
-import sertif13Img from "../../pct/sertif/Sertif13.webp";
-import sertif14Img from "../../pct/sertif/Sertif14.webp";
-import sertif15Img from "../../pct/sertif/Sertif15.webp";
-import sertif16Img from "../../pct/sertif/Sertif16.webp";
-import sertif17Img from "../../pct/sertif/Sertif17.webp";
-import sertif18Img from "../../pct/sertif/Sertif18.webp";
-import sertif19Img from "../../pct/sertif/Sertif19.webp";
+
+// Images served from public/sertif/ — not bundled, loaded on demand
+const sertifImg = (name) => `./sertif/${name}.webp`;
 
 const certifications = [
-  { title: "Learn Power BI Data Modeling with DAX", issuer: "Simplilearn SkillUp", issuedDate: "23rd April 2026", credentialUrl: "https://simpli-web.app.link/e/su0diV4wT2b", image: sertif1Img, category: "Data" },
-  { title: "Innovating with Google Cloud AI", issuer: "Simplilearn SkillUp (Google Cloud)", issuedDate: "21st April 2026", credentialUrl: "https://simpli-web.app.link/e/kBH5eFLrT2b", image: sertif2Img, category: "AI" },
-  { title: "Dive Deeper into GA4 Data and Reports", issuer: "Skillshop", issuedDate: "20th April 2026", credentialUrl: "https://www.credential.net/91b4ee1f-055f-4837-b66b-de64328ef20e", image: sertif3Img, category: "Analytics" },
-  { title: "Belajar Penerapan Data Science dengan Microsoft Fabric", issuer: "Dicoding Indonesia", issuedDate: "20th May 2026", credentialUrl: "https://www.dicoding.com/certificates/JMZVOLOJNXN9", image: sertif4Img, category: "Data Science" },
-  { title: "Introduction to Artificial Intelligence", issuer: "IBM SkillsBuild", issuedDate: "20th May 2026", credentialUrl: "https://skills.yourlearning.ibm.com/certificate/share/1ace2f45b6ewogICJvYmplY3RJZCIgOiAiQUxNLUNPVVJTRV80MDU4OTE4IiwKICAibGVhcm5lckNOVU0iIDogIjc2NjExMjVSRUciLAogICJvYmplY3RUeXBlIiA6ICJBQ1RJVklUWSIKfQ0ef9d5fa08-10", image: sertif5Img, category: "AI" },
-  { title: "AI Ethics", issuer: "IBM SkillsBuild", issuedDate: "24th May 2026", credentialUrl: "https://skills.yourlearning.ibm.com/certificate/share/0f14650bd7ewogICJsZWFybmVyQ05VTSIgOiAiNzY2MTEyNVJFRyIsCiAgIm9iamVjdFR5cGUiIDogIkFDVElWSVRZIiwKICAib2JqZWN0SWQiIDogIkFMTS1DT1VSU0VfNDA1ODkyNyIKfQ3a9df93d8e-10", image: sertif6Img, category: "AI" },
-  { title: "Introduction to Generative AI", issuer: "IBM SkillsBuild", issuedDate: "24th May 2026", credentialUrl: "https://skills.yourlearning.ibm.com/certificate/share/23925c9565ewogICJvYmplY3RUeXBlIiA6ICJBQ1RJVklUWSIsCiAgImxlYXJuZXJDTlVNIiA6ICI3NjYxMTI1UkVHIiwKICAib2JqZWN0SWQiIDogIkFMTS1DT1VSU0VfNDA1ODg1OSIKfQ3395ddce87-10", image: sertif7Img, category: "AI" },
-  { title: "Membangun Aplikasi Gen AI dengan Microsoft Azure", issuer: "Dicoding Indonesia", issuedDate: "24th May 2026", credentialUrl: "https://www.dicoding.com/certificates/NVP7N3YRGZR0", image: sertif8Img, category: "Cloud / AI" },
-  { title: "Microsoft Office Desktop Application", issuer: "Trust Training Partners", issuedDate: "10th October 2024", credentialUrl: null, image: sertif9Img, category: "Office Productivity" },
-  { title: "AI Praktis untuk Produktivitas", issuer: "Dicoding Indonesia", issuedDate: "28th May 2026", credentialUrl: "https://www.dicoding.com/certificates/L4PQ9YK9OPO1", image: sertif10Img, category: "AI" },
-  { title: "Memulai Pemrograman dengan Python", issuer: "Dicoding Indonesia", issuedDate: "28th May 2026", credentialUrl: "https://www.dicoding.com/certificates/JMZVOOW23XN9", image: sertif11Img, category: "Programming" },
-  { title: "Belajar Machine Learning untuk Pemula", issuer: "Dicoding Indonesia", issuedDate: "28th May 2026", credentialUrl: "https://www.dicoding.com/certificates/JMZVOOK13XN9", image: sertif12Img, category: "Machine Learning" },
-  { title: "Belajar Dasar AI", issuer: "Dicoding Indonesia", issuedDate: "28th May 2026", credentialUrl: "https://www.dicoding.com/certificates/1OP8RVKYVZQK", image: sertif13Img, category: "AI" },
-  { title: "Belajar Strategi Pengembangan Diri", issuer: "Dicoding Indonesia", issuedDate: "6th June 2026", credentialUrl: "https://www.dicoding.com/certificates/MEPJOG3KWZ3V", image: sertif14Img, category: "Personal Development" },
-  { title: "Belajar Fundamental Pemrosesan Data", issuer: "Dicoding Indonesia", issuedDate: "6th June 2026", credentialUrl: "https://www.dicoding.com/certificates/4EXG1GOJDPRL", image: sertif15Img, category: "Data Science" },
-  { title: "Belajar Dasar Cloud dan Gen AI di AWS", issuer: "Dicoding Indonesia", issuedDate: "6th June 2026", credentialUrl: "https://www.dicoding.com/certificates/N9ZONJQQ6XG5", image: sertif16Img, category: "Cloud / AI" },
-  { title: "Introduction to Financial Literacy", issuer: "Dicoding Indonesia", issuedDate: "28th May 2026", credentialUrl: "https://www.dicoding.com/certificates/81P2O6REYZOY", image: sertif17Img, category: "Finance" },
-  { title: "Spec-Driven Development dengan Kiro", issuer: "Dicoding Indonesia", issuedDate: "6th June 2026", credentialUrl: "https://www.dicoding.com/certificates/N9ZONJL16XG5", image: sertif18Img, category: "Software Engineering" },
-  { title: "Belajar Penggunaan Generative AI", issuer: "Dicoding Indonesia", issuedDate: "28th May 2026", credentialUrl: "https://www.dicoding.com/certificates/ERZRLDOR2ZYV", image: sertif19Img, category: "AI" },
+  { title: "Learn Power BI Data Modeling with DAX", issuer: "Simplilearn SkillUp", issuedDate: "23rd April 2026", credentialUrl: "https://simpli-web.app.link/e/su0diV4wT2b", image: sertifImg("Sertif1"), category: "Data" },
+  { title: "Innovating with Google Cloud AI", issuer: "Simplilearn SkillUp (Google Cloud)", issuedDate: "21st April 2026", credentialUrl: "https://simpli-web.app.link/e/kBH5eFLrT2b", image: sertifImg("sertif2"), category: "AI" },
+  { title: "Dive Deeper into GA4 Data and Reports", issuer: "Skillshop", issuedDate: "20th April 2026", credentialUrl: "https://www.credential.net/91b4ee1f-055f-4837-b66b-de64328ef20e", image: sertifImg("Sertif3"), category: "Analytics" },
+  { title: "Belajar Penerapan Data Science dengan Microsoft Fabric", issuer: "Dicoding Indonesia", issuedDate: "20th May 2026", credentialUrl: "https://www.dicoding.com/certificates/JMZVOLOJNXN9", image: sertifImg("Sertif4"), category: "Data Science" },
+  { title: "Introduction to Artificial Intelligence", issuer: "IBM SkillsBuild", issuedDate: "20th May 2026", credentialUrl: "https://skills.yourlearning.ibm.com/certificate/share/1ace2f45b6ewogICJvYmplY3RJZCIgOiAiQUxNLUNPVVJTRV80MDU4OTE4IiwKICAibGVhcm5lckNOVU0iIDogIjc2NjExMjVSRUciLAogICJvYmplY3RUeXBlIiA6ICJBQ1RJVklUWSIKfQ0ef9d5fa08-10", image: sertifImg("Sertif5"), category: "AI" },
+  { title: "AI Ethics", issuer: "IBM SkillsBuild", issuedDate: "24th May 2026", credentialUrl: "https://skills.yourlearning.ibm.com/certificate/share/0f14650bd7ewogICJsZWFybmVyQ05VTSIgOiAiNzY2MTEyNVJFRyIsCiAgIm9iamVjdFR5cGUiIDogIkFDVElWSVRZIiwKICAib2JqZWN0SWQiIDogIkFMTS1DT1VSU0VfNDA1ODkyNyIKfQ3a9df93d8e-10", image: sertifImg("Sertif6"), category: "AI" },
+  { title: "Introduction to Generative AI", issuer: "IBM SkillsBuild", issuedDate: "24th May 2026", credentialUrl: "https://skills.yourlearning.ibm.com/certificate/share/23925c9565ewogICJvYmplY3RUeXBlIiA6ICJBQ1RJVklUWSIsCiAgImxlYXJuZXJDTlVNIiA6ICI3NjYxMTI1UkVHIiwKICAib2JqZWN0SWQiIDogIkFMTS1DT1VSU0VfNDA1ODg1OSIKfQ3395ddce87-10", image: sertifImg("Sertif7"), category: "AI" },
+  { title: "Membangun Aplikasi Gen AI dengan Microsoft Azure", issuer: "Dicoding Indonesia", issuedDate: "24th May 2026", credentialUrl: "https://www.dicoding.com/certificates/NVP7N3YRGZR0", image: sertifImg("Sertif8"), category: "Cloud / AI" },
+  { title: "Microsoft Office Desktop Application", issuer: "Trust Training Partners", issuedDate: "10th October 2024", credentialUrl: null, image: sertifImg("Sertif9"), category: "Office Productivity" },
+  { title: "AI Praktis untuk Produktivitas", issuer: "Dicoding Indonesia", issuedDate: "28th May 2026", credentialUrl: "https://www.dicoding.com/certificates/L4PQ9YK9OPO1", image: sertifImg("Sertif10"), category: "AI" },
+  { title: "Memulai Pemrograman dengan Python", issuer: "Dicoding Indonesia", issuedDate: "28th May 2026", credentialUrl: "https://www.dicoding.com/certificates/JMZVOOW23XN9", image: sertifImg("Sertif11"), category: "Programming" },
+  { title: "Belajar Machine Learning untuk Pemula", issuer: "Dicoding Indonesia", issuedDate: "28th May 2026", credentialUrl: "https://www.dicoding.com/certificates/JMZVOOK13XN9", image: sertifImg("Sertif12"), category: "Machine Learning" },
+  { title: "Belajar Dasar AI", issuer: "Dicoding Indonesia", issuedDate: "28th May 2026", credentialUrl: "https://www.dicoding.com/certificates/1OP8RVKYVZQK", image: sertifImg("Sertif13"), category: "AI" },
+  { title: "Belajar Strategi Pengembangan Diri", issuer: "Dicoding Indonesia", issuedDate: "6th June 2026", credentialUrl: "https://www.dicoding.com/certificates/MEPJOG3KWZ3V", image: sertifImg("Sertif14"), category: "Personal Development" },
+  { title: "Belajar Fundamental Pemrosesan Data", issuer: "Dicoding Indonesia", issuedDate: "6th June 2026", credentialUrl: "https://www.dicoding.com/certificates/4EXG1GOJDPRL", image: sertifImg("Sertif15"), category: "Data Science" },
+  { title: "Belajar Dasar Cloud dan Gen AI di AWS", issuer: "Dicoding Indonesia", issuedDate: "6th June 2026", credentialUrl: "https://www.dicoding.com/certificates/N9ZONJQQ6XG5", image: sertifImg("Sertif16"), category: "Cloud / AI" },
+  { title: "Introduction to Financial Literacy", issuer: "Dicoding Indonesia", issuedDate: "28th May 2026", credentialUrl: "https://www.dicoding.com/certificates/81P2O6REYZOY", image: sertifImg("Sertif17"), category: "Finance" },
+  { title: "Spec-Driven Development dengan Kiro", issuer: "Dicoding Indonesia", issuedDate: "6th June 2026", credentialUrl: "https://www.dicoding.com/certificates/N9ZONJL16XG5", image: sertifImg("Sertif18"), category: "Software Engineering" },
+  { title: "Belajar Penggunaan Generative AI", issuer: "Dicoding Indonesia", issuedDate: "28th May 2026", credentialUrl: "https://www.dicoding.com/certificates/ERZRLDOR2ZYV", image: sertifImg("Sertif19"), category: "AI" },
 ];
 
 const mono = { fontFamily: 'var(--mono)', letterSpacing: '0.08em', textTransform: 'uppercase' };
@@ -82,7 +66,10 @@ const CertCard = ({ cert, onClick, large, delay = 0 }) => {
   const [hover, setHover] = useState(false);
   return (
     <div
+      role="button"
+      tabIndex={0}
       onClick={() => onClick(cert)}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(cert); } }}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       style={{
@@ -134,7 +121,10 @@ const CertRow = ({ cert, onClick, delay = 0 }) => {
   return (
     <div
       className="cert-row"
+      role="button"
+      tabIndex={0}
       onClick={() => onClick(cert)}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(cert); } }}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       style={{
@@ -191,16 +181,19 @@ export const Certification = () => {
     setFadeKey(k => k + 1);
   }, []);
 
-  // Lock body scroll when overlay is open
+  // Lock body scroll when overlay is open + Escape key handler
   useEffect(() => {
     if (selected) {
       document.body.style.overflow = 'hidden';
       overlayOpenTime.current = Date.now();
+      const handleEsc = (e) => { if (e.key === 'Escape') closeOverlay(); };
+      window.addEventListener('keydown', handleEsc);
+      return () => { document.body.style.overflow = ''; window.removeEventListener('keydown', handleEsc); };
     } else {
       document.body.style.overflow = '';
     }
     return () => { document.body.style.overflow = ''; };
-  }, [selected]);
+  }, [selected, closeOverlay]);
 
   const closeOverlay = useCallback(() => {
     // Prevent closing if overlay just opened (mobile touch event bubbling)

@@ -1,12 +1,20 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 
+const prefersReducedMotion = typeof window !== 'undefined'
+  && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 export const GsapReveal = ({ children, className = '', delay = 0, direction = 'up' }) => {
   const ref = useRef(null);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+
+    if (prefersReducedMotion) {
+      gsap.set(el, { opacity: 1, y: 0, x: 0 });
+      return;
+    }
 
     const distance = direction === 'up' ? 40 : direction === 'down' ? -40 : direction === 'left' ? 40 : -40;
     const isVertical = direction === 'up' || direction === 'down';
@@ -50,6 +58,11 @@ export const GsapStagger = ({ children, className = '', stagger = 0.1 }) => {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+
+    if (prefersReducedMotion) {
+      gsap.set(el.children, { opacity: 1, y: 0 });
+      return;
+    }
 
     const childElements = el.children;
 

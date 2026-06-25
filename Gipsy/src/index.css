@@ -70,21 +70,6 @@ body::after {
   z-index: 9998;
 }
 
-/* ── Scroll Reveal ── */
-
-.reveal {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.75s cubic-bezier(0.4,0,0.2,1),
-              transform 0.75s cubic-bezier(0.4,0,0.2,1);
-  will-change: opacity, transform;
-}
-
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
 /* ── Section Label ── */
 
 .section-label {
@@ -238,4 +223,18 @@ body::after {
     --gutter: 24px;
     --section-gap: 80px;
   }
+}
+
+/* ── Reduced Motion ── */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .animate-marquee { animation: none !important; }
+  .animate-blink { animation: none !important; opacity: 1 !important; }
+  .animate-loading-bar { animation: none !important; }
 }

@@ -4,6 +4,7 @@ import { Navbar } from './component/Navbar';
 import StaggeredMenu from './component/StaggeredMenu';
 import { Home } from './component/sections/Home';
 import { Marquee } from './component/Marquee';
+import { ErrorBoundary } from './component/ErrorBoundary';
 import "./index.css";
 
 const About = lazy(() => import('./component/sections/About').then(m => ({ default: m.About })));
@@ -72,13 +73,15 @@ function App() {
         <Home />
         <Marquee />
         <main id="main-content">
-          <Suspense fallback={null}>
-            <About />
-            <Project />
-            <Organization />
-            <Certification />
-            <Contact />
-          </Suspense>
+          <ErrorBoundary>
+            <Suspense fallback={null}>
+              <About />
+              <Project />
+              <Organization />
+              <Certification />
+              <Contact />
+            </Suspense>
+          </ErrorBoundary>
         </main>
         <Footer />
       </div>
