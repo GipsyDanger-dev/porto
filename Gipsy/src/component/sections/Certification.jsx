@@ -172,7 +172,7 @@ export const Certification = () => {
   const featured = [aiCerts[0], aiCerts[1], aiCerts[2]].filter(Boolean);
   const remaining = [...aiCerts.slice(3), ...otherCerts];
 
-  const PER_PAGE = 8;
+  const PER_PAGE = 5;
   const totalPages = Math.ceil(remaining.length / PER_PAGE);
   const paginatedCerts = remaining.slice(currentPage * PER_PAGE, (currentPage + 1) * PER_PAGE);
 
