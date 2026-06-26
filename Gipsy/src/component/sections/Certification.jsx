@@ -181,6 +181,12 @@ export const Certification = () => {
     setFadeKey(k => k + 1);
   }, []);
 
+  const closeOverlay = useCallback(() => {
+    // Prevent closing if overlay just opened (mobile touch event bubbling)
+    if (Date.now() - overlayOpenTime.current < 300) return;
+    setSelected(null);
+  }, []);
+
   // Lock body scroll when overlay is open + Escape key handler
   useEffect(() => {
     if (selected) {
@@ -194,12 +200,6 @@ export const Certification = () => {
     }
     return () => { document.body.style.overflow = ''; };
   }, [selected, closeOverlay]);
-
-  const closeOverlay = useCallback(() => {
-    // Prevent closing if overlay just opened (mobile touch event bubbling)
-    if (Date.now() - overlayOpenTime.current < 300) return;
-    setSelected(null);
-  }, []);
 
   return (
     <section id="certifications" style={{ padding: 'var(--section-gap) 0', position: 'relative' }}>

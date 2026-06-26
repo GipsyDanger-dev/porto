@@ -379,6 +379,12 @@ export const Project = () => {
   const [selected, setSelected] = useState(null);
   const overlayOpenTime = useRef(0);
 
+  const closeOverlay = useCallback(() => {
+    // Prevent closing if overlay just opened (mobile touch event bubbling)
+    if (Date.now() - overlayOpenTime.current < 300) return;
+    setSelected(null);
+  }, []);
+
   // Lock body scroll when overlay is open + Escape key handler
   useEffect(() => {
     if (selected) {
@@ -392,12 +398,6 @@ export const Project = () => {
     }
     return () => { document.body.style.overflow = ''; };
   }, [selected, closeOverlay]);
-
-  const closeOverlay = useCallback(() => {
-    // Prevent closing if overlay just opened (mobile touch event bubbling)
-    if (Date.now() - overlayOpenTime.current < 300) return;
-    setSelected(null);
-  }, []);
 
   return (
     <section id="projects" style={{ padding: 'var(--section-gap) 0' }}>
