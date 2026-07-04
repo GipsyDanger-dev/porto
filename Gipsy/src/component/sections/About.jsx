@@ -20,7 +20,7 @@ const educationData = [
 ];
 
 const experienceData = [
-  { date: "2025 - Present", title: "Staff Expert of Research and Technology", institution: "HMPSTI Brawijaya University" },
+  { date: "2025 - 2026", title: "Staff Expert of Research and Technology", institution: "HMPSTI Brawijaya University" },
   { date: "2024", title: "Editor & Script Assistant", institution: "State Senior High School 3 of Cilacap" },
 ];
 
