@@ -25,6 +25,7 @@ const certifications = [
   { title: "Introduction to Financial Literacy", issuer: "Dicoding Indonesia", issuedDate: "28th May 2026", credentialUrl: "https://www.dicoding.com/certificates/81P2O6REYZOY", image: sertifImg("Sertif17"), category: "Finance" },
   { title: "Spec-Driven Development dengan Kiro", issuer: "Dicoding Indonesia", issuedDate: "6th June 2026", credentialUrl: "https://www.dicoding.com/certificates/N9ZONJL16XG5", image: sertifImg("Sertif18"), category: "Software Engineering" },
   { title: "Belajar Penggunaan Generative AI", issuer: "Dicoding Indonesia", issuedDate: "28th May 2026", credentialUrl: "https://www.dicoding.com/certificates/ERZRLDOR2ZYV", image: sertifImg("Sertif19"), category: "AI" },
+  { title: "LLM-Based Tools and Gemini API Integration for Data Scientists", issuer: "Hacktiv8 Indonesia (Maju Bareng AI Program)", issuedDate: "26th June 2026", credentialUrl: "https://students.hacktiv8.com/certificates/17531927-319e-4b79-a21b-00e9999c50fa", image: sertifImg("Sertif20"), category: "AI" },
 ];
 
 const mono = { fontFamily: 'var(--mono)', letterSpacing: '0.08em', textTransform: 'uppercase' };
