@@ -178,6 +178,23 @@ const projectsData = [
       { date: "14 Jun 2026", title: "Design & Testing", desc: "xAI design system, 3D room model with Three.js, 23 system tests (100% pass), X-Banner design, deployment." },
     ],
   },
+  {
+    title: "Threads Content Automation",
+    description: "AI-powered personal branding system with multi-agent pipeline (Strategist, Writer, Editor) for automated Threads content publishing. Features multi-persona content pillars, Telegram-based approval flow, and CLI tool for persona generation via Claude API.",
+    tags: ["n8n", "Google Gemini", "Supabase", "Telegram API", "Claude API", "Zernio API"],
+    imageUrl: null,
+    projectUrl: "",
+    githubUrl: "https://github.com/GipsyDanger-dev/Threads-Automation-JCP",
+    status: null,
+    timeline: [
+      { date: "20 Jun 2026", title: "Architecture Design", desc: "Multi-agent pipeline architecture, n8n orchestration setup, Supabase schema design." },
+      { date: "22 Jun 2026", title: "Content Generation", desc: "Gemini API integration, persona-driven content generation, topic deduplication system." },
+      { date: "24 Jun 2026", title: "Approval Flow", desc: "Telegram bot integration, two-way revision system, manual and AI-assisted editing." },
+      { date: "26 Jun 2026", title: "Multi-Persona System", desc: "Dynamic persona selection, content pillar rotation, proportional identity representation." },
+      { date: "28 Jun 2026", title: "CLI Tool & Automation", desc: "Claude API persona generator, structural validation, Zernio API Threads publishing." },
+      { date: "30 Jun 2026", title: "Production Hardening", desc: "Duplicate-publish prevention, cross-platform API validation, queuing and reminder mechanism." },
+    ],
+  },
 ];
 
 const ProjectEntry = ({ project, index, onSelect }) => {
