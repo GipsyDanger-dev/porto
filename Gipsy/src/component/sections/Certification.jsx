@@ -64,7 +64,7 @@ const CountUp = ({ target, suffix = '+' }) => {
   return <span ref={ref}>{val}<span style={{ color: 'var(--secondary)' }}>{suffix}</span></span>;
 };
 
-const CertCard = ({ cert, onClick, large, delay = 0 }) => {
+const CertCard = ({ cert, onClick, large }) => {
   const [hover, setHover] = useState(false);
   return (
     <div
@@ -106,7 +106,7 @@ const CertCard = ({ cert, onClick, large, delay = 0 }) => {
 
       {large && (
         <div style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: '14px', color: 'var(--on-surface-variant)', lineHeight: 1.7, borderLeft: '2px solid var(--secondary)', paddingLeft: '16px', marginBottom: '28px' }}>
-          "Committed to mastering AI fundamentals, generative AI, and practical applications across multiple platforms."
+          &quot;Committed to mastering AI fundamentals, generative AI, and practical applications across multiple platforms.&quot;
         </div>
       )}
 
@@ -118,7 +118,7 @@ const CertCard = ({ cert, onClick, large, delay = 0 }) => {
   );
 };
 
-const CertRow = ({ cert, onClick, delay = 0 }) => {
+const CertRow = ({ cert, onClick }) => {
   const [hover, setHover] = useState(false);
   return (
     <div

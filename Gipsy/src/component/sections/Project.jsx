@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import { GsapReveal, GsapStagger } from "../GsapReveal";
+import { GsapReveal } from "../GsapReveal";
 import fruitCheckImg from "../../pct/FruitCheck.webp";
 import itSolutionImg from "../../pct/IT-Solution.webp";
 import remindMeImg from "../../pct/RemindMe.webp";

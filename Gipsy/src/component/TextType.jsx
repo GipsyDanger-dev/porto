@@ -29,7 +29,6 @@ const TextType = ({
   const cursorRef = useRef(null);
   const containerRef = useRef(null);
   const gsapTweenRef = useRef(null);
-  const animFrameRef = useRef(null);
 
   const textArray = useMemo(() => (Array.isArray(text) ? text : [text]), [text]);
 
