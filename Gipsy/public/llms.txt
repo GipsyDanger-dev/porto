@@ -8,10 +8,30 @@ The site showcases projects, professional experience, certifications, and contac
 
 - [Home](https://gipsy-dev.me/#home): Hero section with name, role, and introduction
 - [About](https://gipsy-dev.me/#about): Bio, education timeline, skills, and technical expertise
-- [Projects](https://gipsy-dev.me/#projects): 7 software projects including StockPP, PasarNgalam, SentinelIoT, RemindMe, FruitCheck, IT Solution, and Gipsy.Dev portfolio
+- [Projects](https://gipsy-dev.me/#projects): 9 software projects including Socrapper, RightToBeForgotten, Threads Content Automation, StockPP, PasarNgalam, SentinelIoT, FruitCheck, RemindMe, IT Solution, and Gipsy.Dev portfolio
 - [Experience](https://gipsy-dev.me/#experience): Organizational roles at HMPSTI VOKASI UB and DPM Vokasi Universitas Brawijaya
-- [Certifications](https://gipsy-dev.me/#certifications): 19 professional certifications in AI, Data Science, Cloud Computing, Programming, and more
+- [Certifications](https://gipsy-dev.me/#certifications): 21 professional certifications in AI, Data Science, Cloud Computing, Programming, and more
 - [Contact](https://gipsy-dev.me/#contact): Contact form and social links
+
+## Projects
+
+- **Socrapper**: Social media sentiment scraper covering 9 platforms with keyword-based sentiment analysis
+- **RightToBeForgotten**: Blockchain-based consent management with Zero-Knowledge Proofs on Polygon
+- **Threads Content Automation**: AI-powered personal branding system with multi-agent pipeline
+- **StockPP**: LSTM Deep Learning stock price prediction with real-time charts
+- **PasarNgalam**: E-commerce platform for local MSMEs in Malang
+- **SentinelIoT**: Real-time IoT monitoring dashboard for fire/gas hazard detection
+- **FruitCheck**: AI-powered fruit freshness detection using CNN
+- **RemindMe App**: Smart task reminder with cross-device sync
+- **IT Solution Website**: Modern company profile with responsive design
+
+## Technical Skills
+
+- Frontend: React, Vue, Next.js, Tailwind CSS, Three.js, GSAP
+- Backend: Node.js, Laravel, Python, FastAPI
+- AI/ML: TensorFlow, PyTorch, Gemini API, Claude API
+- Database: MySQL, PostgreSQL, Supabase, MongoDB
+- DevOps: Docker, GitHub Actions, Railway, Vercel
 
 ## Social Profiles
 
