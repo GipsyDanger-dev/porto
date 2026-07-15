@@ -1,17 +1,37 @@
 import { useEffect, useRef } from "react";
 import { GsapReveal, GsapStagger } from "../GsapReveal";
+import {
+  SiReact,
+  SiJavascript,
+  SiTailwindcss,
+  SiPython,
+  SiLaravel,
+  SiNodedotjs,
+  SiThreedotjs,
+  SiTensorflow,
+  SiDocker,
+  SiSupabase,
+  SiGit,
+  SiTypescript,
+} from "react-icons/si";
+import { FaRobot } from "react-icons/fa";
+import { TbAutomation } from "react-icons/tb";
 
 const skills = [
-  { name: "React", level: 90 },
-  { name: "JavaScript", level: 88 },
-  { name: "Tailwind CSS", level: 92 },
-  { name: "Python", level: 80 },
-  { name: "Laravel", level: 78 },
-  { name: "Java", level: 70 },
-  { name: "Premiere Pro", level: 85 },
-  { name: "After Effects", level: 75 },
-  { name: "Dart / Flutter", level: 65 },
-  { name: "TensorFlow", level: 60 },
+  { name: "React", level: 92, icon: SiReact, color: "#61DAFB" },
+  { name: "JavaScript", level: 90, icon: SiJavascript, color: "#F7DF1E" },
+  { name: "TypeScript", level: 78, icon: SiTypescript, color: "#3178C6" },
+  { name: "Python", level: 85, icon: SiPython, color: "#3776AB" },
+  { name: "Node.js", level: 82, icon: SiNodedotjs, color: "#339933" },
+  { name: "Laravel", level: 80, icon: SiLaravel, color: "#FF2D20" },
+  { name: "Tailwind CSS", level: 93, icon: SiTailwindcss, color: "#06B6D4" },
+  { name: "Three.js", level: 70, icon: SiThreedotjs, color: "#FFFFFF" },
+  { name: "TensorFlow", level: 65, icon: SiTensorflow, color: "#FF6F00" },
+  { name: "Docker", level: 72, icon: SiDocker, color: "#2496ED" },
+  { name: "Supabase", level: 75, icon: SiSupabase, color: "#3ECF8E" },
+  { name: "Git", level: 88, icon: SiGit, color: "#F05032" },
+  { name: "n8n / Automation", level: 70, icon: TbAutomation, color: "#EA4B71" },
+  { name: "AI / ML", level: 78, icon: FaRobot, color: "#FF640F" },
 ];
 
 const educationData = [
@@ -24,17 +44,23 @@ const experienceData = [
   { date: "2024", title: "Editor & Script Assistant", institution: "State Senior High School 3 of Cilacap" },
 ];
 
-const SkillBar = ({ name, level }) => {
+const SkillBar = ({ name, level, icon: Icon, color }) => {
   const barRef = useRef(null);
+  const iconRef = useRef(null);
 
   useEffect(() => {
     const el = barRef.current;
+    const icon = iconRef.current;
     if (!el) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           el.style.width = `${level}%`;
+          if (icon) {
+            icon.style.opacity = '1';
+            icon.style.transform = 'scale(1) rotate(0deg)';
+          }
           observer.unobserve(el);
         }
       },
@@ -46,19 +72,37 @@ const SkillBar = ({ name, level }) => {
   }, [level]);
 
   return (
-    <div>
-      <div className="flex justify-between mb-1">
-        <span style={{ fontFamily: 'var(--sans)', fontSize: '14px', color: 'var(--on-surface)' }}>{name}</span>
+    <div className="group">
+      <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center gap-2.5">
+          <div
+            ref={iconRef}
+            style={{
+              opacity: 0,
+              transform: 'scale(0.5) rotate(-180deg)',
+              transition: 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)',
+              color: color,
+              fontSize: '18px',
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            {Icon && <Icon />}
+          </div>
+          <span style={{ fontFamily: 'var(--sans)', fontSize: '14px', color: 'var(--on-surface)' }}>{name}</span>
+        </div>
         <span style={{ fontFamily: 'var(--mono)', fontSize: '11px', color: 'var(--outline)' }}>{level}%</span>
       </div>
-      <div className="skill-track" style={{ height: '1px', background: 'var(--outline-variant)', position: 'relative' }}>
+      <div className="skill-track" style={{ height: '2px', background: 'var(--outline-variant)', position: 'relative', borderRadius: '1px' }}>
         <div
           ref={barRef}
           style={{
-            height: '1px',
-            background: 'var(--secondary)',
+            height: '2px',
+            background: `linear-gradient(90deg, ${color}88, ${color})`,
             width: 0,
             transition: 'width 1.4s cubic-bezier(0.4,0,0.2,1)',
+            borderRadius: '1px',
+            boxShadow: `0 0 8px ${color}44`,
           }}
         />
       </div>
@@ -155,7 +199,7 @@ export const About = () => {
               <h3 style={{ fontFamily: 'var(--mono)', fontSize: '11px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--secondary)', marginBottom: '32px' }}>
                 Arsenal
               </h3>
-              <GsapStagger className="grid gap-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))' }} stagger={0.08}>
+              <GsapStagger className="grid gap-5" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))' }} stagger={0.06}>
                 {skills.map((skill) => (
                   <SkillBar key={skill.name} {...skill} />
                 ))}
