@@ -195,6 +195,16 @@ const projectsData = [
       { date: "30 Jun 2026", title: "Production Hardening", desc: "Duplicate-publish prevention, cross-platform API validation, queuing and reminder mechanism." },
     ],
   },
+  {
+    title: "FlowsIT",
+    description: "Instagram feed content carousel automation system for streamlined social media content publishing and scheduling.",
+    tags: ["n8n", "Instagram API", "Automation"],
+    imageUrl: null,
+    projectUrl: "",
+    githubUrl: "",
+    status: "In Dev",
+    timeline: [],
+  },
 ];
 
 const ProjectEntry = ({ project, index, onSelect }) => {
