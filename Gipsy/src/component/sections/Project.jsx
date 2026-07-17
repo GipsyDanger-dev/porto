@@ -11,6 +11,7 @@ import sentinelImg from "../../pct/SentinelIot.webp";
 import socrapperImg from "../../pct/Socrapper.webp";
 import socrapperPopupImg from "../../pct/Scocrapper_PopUp.webp";
 import rtfImg from "../../pct/RTF.webp";
+import threadsImg from "../../pct/ThreadsAutomation.webp";
 
 const projectsData = [
   {
@@ -182,7 +183,7 @@ const projectsData = [
     title: "Threads Content Automation",
     description: "AI-powered personal branding system with multi-agent pipeline (Strategist, Writer, Editor) for automated Threads content publishing. Features multi-persona content pillars, Telegram-based approval flow, and CLI tool for persona generation via Claude API.",
     tags: ["n8n", "Google Gemini", "Supabase", "Telegram API", "Claude API", "Zernio API"],
-    imageUrl: null,
+    imageUrl: threadsImg,
     projectUrl: "",
     githubUrl: "https://github.com/GipsyDanger-dev/Threads-Automation-JCP",
     status: null,
