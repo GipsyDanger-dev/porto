@@ -19,7 +19,7 @@ import { FaRobot } from "react-icons/fa";
 const skills = [
   { name: "React", icon: SiReact, color: "#61DAFB", col: 0, row: 0, size: 48 },
   { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E", col: 1, row: 0, size: 46 },
-  { name: "Python", icon: SiPython, color: "#3776AB", col: 2, row: 0, size: 48 },
+  { name: "Python", icon: SiPython, color: "#FFD43B", col: 2, row: 0, size: 48 },
   { name: "Node.js", icon: SiNodedotjs, color: "#339933", col: 3, row: 0, size: 44 },
   { name: "Tailwind", icon: SiTailwindcss, color: "#06B6D4", col: 4, row: 0, size: 42 },
   { name: "TypeScript", icon: SiTypescript, color: "#3178C6", col: 0, row: 1, size: 40 },
