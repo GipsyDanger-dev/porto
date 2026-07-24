@@ -79,27 +79,23 @@ const SkillIcon = ({ name, icon: Icon, color, delay }) => {
     >
       <div
         style={{
-          width: '56px',
-          height: '56px',
+          width: '48px',
+          height: '48px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          border: '1px solid var(--outline-variant)',
-          background: 'var(--surface-high)',
           transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
         }}
         onMouseEnter={e => {
-          e.currentTarget.style.borderColor = color;
-          e.currentTarget.style.boxShadow = `0 0 20px ${color}22, inset 0 0 20px ${color}08`;
-          e.currentTarget.style.transform = 'translateY(-4px)';
+          e.currentTarget.style.transform = 'translateY(-4px) scale(1.15)';
+          e.currentTarget.style.filter = `drop-shadow(0 0 12px ${color}66)`;
         }}
         onMouseLeave={e => {
-          e.currentTarget.style.borderColor = 'var(--outline-variant)';
-          e.currentTarget.style.boxShadow = 'none';
-          e.currentTarget.style.transform = 'translateY(0)';
+          e.currentTarget.style.transform = 'translateY(0) scale(1)';
+          e.currentTarget.style.filter = 'none';
         }}
       >
-        <div style={{ color: color, fontSize: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ color: color, fontSize: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           {Icon && <Icon />}
         </div>
       </div>
@@ -107,11 +103,12 @@ const SkillIcon = ({ name, icon: Icon, color, delay }) => {
         style={{
           fontFamily: 'var(--mono)',
           fontSize: '9px',
-          letterSpacing: '0.1em',
+          letterSpacing: '0.08em',
           textTransform: 'uppercase',
           color: 'var(--outline)',
           textAlign: 'center',
           transition: 'color 0.3s ease',
+          marginTop: '-4px',
         }}
         onMouseEnter={e => e.currentTarget.style.color = 'var(--on-surface)'}
         onMouseLeave={e => e.currentTarget.style.color = 'var(--outline)'}
