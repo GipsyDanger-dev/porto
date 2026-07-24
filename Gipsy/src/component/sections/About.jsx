@@ -13,9 +13,9 @@ import {
   SiSupabase,
   SiGit,
   SiTypescript,
+  SiN8N,
 } from "react-icons/si";
 import { FaRobot } from "react-icons/fa";
-import { TbAutomation } from "react-icons/tb";
 
 const skills = [
   { name: "React", icon: SiReact, color: "#61DAFB", size: 42, rotate: -5, offsetY: 0 },
@@ -30,7 +30,7 @@ const skills = [
   { name: "Git", icon: SiGit, color: "#F05032", size: 24, rotate: 7, offsetY: -10 },
   { name: "Docker", icon: SiDocker, color: "#2496ED", size: 26, rotate: -4, offsetY: 12 },
   { name: "Supabase", icon: SiSupabase, color: "#3ECF8E", size: 25, rotate: 6, offsetY: -8 },
-  { name: "n8n", icon: TbAutomation, color: "#EA4B71", size: 28, rotate: -7, offsetY: 5 },
+  { name: "n8n", icon: SiN8N, color: "#EA4B71", size: 28, rotate: -7, offsetY: 5 },
   { name: "AI / ML", icon: FaRobot, color: "#FF640F", size: 34, rotate: 2, offsetY: -12 },
 ];
 
