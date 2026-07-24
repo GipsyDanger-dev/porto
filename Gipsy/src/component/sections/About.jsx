@@ -44,68 +44,80 @@ const experienceData = [
   { date: "2024", title: "Editor & Script Assistant", institution: "State Senior High School 3 of Cilacap" },
 ];
 
-const SkillBar = ({ name, level, icon: Icon, color }) => {
-  const barRef = useRef(null);
+const SkillIcon = ({ name, icon: Icon, color, delay }) => {
   const iconRef = useRef(null);
 
   useEffect(() => {
-    const el = barRef.current;
-    const icon = iconRef.current;
+    const el = iconRef.current;
     if (!el) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          el.style.width = `${level}%`;
-          if (icon) {
-            icon.style.opacity = '1';
-            icon.style.transform = 'scale(1) rotate(0deg)';
-          }
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0) scale(1)';
           observer.unobserve(el);
         }
       },
-      { threshold: 0.3 }
+      { threshold: 0.2 }
     );
 
     observer.observe(el);
     return () => observer.disconnect();
-  }, [level]);
+  }, []);
 
   return (
-    <div className="group">
-      <div className="flex items-center justify-between mb-2">
-        <div className="flex items-center gap-2.5">
-          <div
-            ref={iconRef}
-            style={{
-              opacity: 0,
-              transform: 'scale(0.5) rotate(-180deg)',
-              transition: 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)',
-              color: color,
-              fontSize: '18px',
-              display: 'flex',
-              alignItems: 'center',
-            }}
-          >
-            {Icon && <Icon />}
-          </div>
-          <span style={{ fontFamily: 'var(--sans)', fontSize: '14px', color: 'var(--on-surface)' }}>{name}</span>
+    <div
+      ref={iconRef}
+      className="group flex flex-col items-center gap-3"
+      style={{
+        opacity: 0,
+        transform: 'translateY(20px) scale(0.8)',
+        transition: `all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) ${delay}s`,
+        cursor: 'default',
+      }}
+    >
+      <div
+        style={{
+          width: '56px',
+          height: '56px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          border: '1px solid var(--outline-variant)',
+          background: 'var(--surface-high)',
+          transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+        }}
+        onMouseEnter={e => {
+          e.currentTarget.style.borderColor = color;
+          e.currentTarget.style.boxShadow = `0 0 20px ${color}22, inset 0 0 20px ${color}08`;
+          e.currentTarget.style.transform = 'translateY(-4px)';
+        }}
+        onMouseLeave={e => {
+          e.currentTarget.style.borderColor = 'var(--outline-variant)';
+          e.currentTarget.style.boxShadow = 'none';
+          e.currentTarget.style.transform = 'translateY(0)';
+        }}
+      >
+        <div style={{ color: color, fontSize: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          {Icon && <Icon />}
         </div>
-        <span style={{ fontFamily: 'var(--mono)', fontSize: '11px', color: 'var(--outline)' }}>{level}%</span>
       </div>
-      <div className="skill-track" style={{ height: '2px', background: 'var(--outline-variant)', position: 'relative', borderRadius: '1px' }}>
-        <div
-          ref={barRef}
-          style={{
-            height: '2px',
-            background: `linear-gradient(90deg, ${color}88, ${color})`,
-            width: 0,
-            transition: 'width 1.4s cubic-bezier(0.4,0,0.2,1)',
-            borderRadius: '1px',
-            boxShadow: `0 0 8px ${color}44`,
-          }}
-        />
-      </div>
+      <span
+        style={{
+          fontFamily: 'var(--mono)',
+          fontSize: '9px',
+          letterSpacing: '0.1em',
+          textTransform: 'uppercase',
+          color: 'var(--outline)',
+          textAlign: 'center',
+          transition: 'color 0.3s ease',
+        }}
+        onMouseEnter={e => e.currentTarget.style.color = 'var(--on-surface)'}
+        onMouseLeave={e => e.currentTarget.style.color = 'var(--outline)'}
+      >
+        {name}
+      </span>
     </div>
   );
 };
@@ -190,14 +202,21 @@ export const About = () => {
           {/* Skills */}
           <GsapReveal delay={0.3}>
             <div>
-              <h3 style={{ fontFamily: 'var(--mono)', fontSize: '11px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--secondary)', marginBottom: '32px' }}>
+              <h3 style={{ fontFamily: 'var(--mono)', fontSize: '11px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--secondary)', marginBottom: '40px' }}>
                 Arsenal
               </h3>
-              <GsapStagger className="grid gap-5" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))' }} stagger={0.06}>
-                {skills.map((skill) => (
-                  <SkillBar key={skill.name} {...skill} />
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fill, minmax(80px, 1fr))',
+                  gap: '32px 24px',
+                  justifyItems: 'center',
+                }}
+              >
+                {skills.map((skill, i) => (
+                  <SkillIcon key={skill.name} {...skill} delay={i * 0.05} />
                 ))}
-              </GsapStagger>
+              </div>
             </div>
           </GsapReveal>
         </div>
