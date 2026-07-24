@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { GsapReveal } from "../GsapReveal";
 
 const organizations = [
@@ -7,7 +8,7 @@ const organizations = [
     duration: "1 Tahun",
     type: "Purnawaktu",
     location: "Kota Malang, Jawa Timur",
-    roles: [
+    featuredRoles: [
       {
         title: "Expert Staff of Research and Technology Department",
         period: "Jan 2025 – Des 2025",
@@ -17,20 +18,30 @@ const organizations = [
         skills: ["Manajemen Proyek", "Backend Developer"],
       },
       {
-        title: "Deputy Coordinator Project Planner – SAMBA TI",
-        period: "Sep 2025 – Des 2025",
-        duration: "4 bln",
-        description:
-          "Supervised the Project Planner division in planning and executing new student orientation programs. Managed event concepts, timelines, and cross-team coordination to ensure structured, efficient, and impactful program delivery.",
-        skills: ["SDM", "Koordinator Lapangan"],
-      },
-      {
         title: "Project Manager – TechFair Vol. 2",
         period: "Nov 2025",
         duration: "1 bln",
         description:
           "Led overall planning, coordination, and execution of a flagship technology exhibition. Managed cross-functional teams, oversaw event timelines, and ensured smooth operations including participant flow and on-site activities.",
         skills: ["SDM", "Manajemen Proyek"],
+      },
+      {
+        title: "Project Manager – TechFair Vol. 1",
+        period: "Jun 2025",
+        duration: "1 bln",
+        description:
+          "Managed a student technology exhibition at Vocational UB. Led coordination across 7 organizing divisions and showcased over 100 innovative projects.",
+        skills: ["SDM", "Teknologi Informasi"],
+      },
+    ],
+    otherRoles: [
+      {
+        title: "Deputy Coordinator Project Planner – SAMBA TI",
+        period: "Sep 2025 – Des 2025",
+        duration: "4 bln",
+        description:
+          "Supervised the Project Planner division in planning and executing new student orientation programs. Managed event concepts, timelines, and cross-team coordination to ensure structured, efficient, and impactful program delivery.",
+        skills: ["SDM", "Koordinator Lapangan"],
       },
       {
         title: "Public Relations Coordinator – Think Solve Innovation",
@@ -47,14 +58,6 @@ const organizations = [
         description:
           "Managed event planning and execution for a city-scale Mobile Legends tournament. Coordinated a team of 7 committee members, handled scheduling, and ensured smooth participation of 20 competing teams.",
         skills: ["SDM", "Dukungan Teknis"],
-      },
-      {
-        title: "Project Manager – TechFair Vol. 1",
-        period: "Jun 2025",
-        duration: "1 bln",
-        description:
-          "Managed a student technology exhibition at Vocational UB. Led coordination across 7 organizing divisions and showcased over 100 innovative projects.",
-        skills: ["SDM", "Teknologi Informasi"],
       },
       {
         title: "Project Planner Coordinator – Tech Bridge Academy",
@@ -177,30 +180,63 @@ const RoleEntry = ({ role, isLast }) => (
   </div>
 );
 
-const OrgCard = ({ org, index }) => (
-  <GsapReveal delay={0.1}>
-    <div
-      style={{
-        borderTop: index > 0 ? '1px solid var(--outline-variant)' : 'none',
-        paddingTop: index > 0 ? '56px' : 0,
-      }}
-    >
-      {/* Org Header */}
-      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-8">
-        <div>
-          <h3
-            style={{
-              fontFamily: 'var(--serif)',
-              fontSize: 'clamp(24px, 3vw, 32px)',
-              fontWeight: 700,
-              letterSpacing: '-0.015em',
-              color: 'var(--on-surface)',
-              marginBottom: '8px',
-            }}
-          >
-            {org.name}
-          </h3>
-          <div className="flex flex-wrap items-center gap-3">
+const OrgCard = ({ org, index }) => {
+  const [expanded, setExpanded] = useState(false);
+  const hasOtherRoles = org.otherRoles && org.otherRoles.length > 0;
+  const featuredRoles = org.featuredRoles || org.roles;
+
+  return (
+    <GsapReveal delay={0.1}>
+      <div
+        style={{
+          borderTop: index > 0 ? '1px solid var(--outline-variant)' : 'none',
+          paddingTop: index > 0 ? '56px' : 0,
+        }}
+      >
+        {/* Org Header */}
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-8">
+          <div>
+            <h3
+              style={{
+                fontFamily: 'var(--serif)',
+                fontSize: 'clamp(24px, 3vw, 32px)',
+                fontWeight: 700,
+                letterSpacing: '-0.015em',
+                color: 'var(--on-surface)',
+                marginBottom: '8px',
+              }}
+            >
+              {org.name}
+            </h3>
+            <div className="flex flex-wrap items-center gap-3">
+              <span
+                style={{
+                  fontFamily: 'var(--mono)',
+                  fontSize: '10px',
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                  color: 'var(--outline)',
+                }}
+              >
+                {org.location}
+              </span>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <span
+              style={{
+                fontFamily: 'var(--mono)',
+                fontSize: '10px',
+                fontWeight: 500,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                color: 'var(--secondary)',
+                background: 'rgba(242,100,15,0.08)',
+                padding: '5px 12px',
+              }}
+            >
+              {org.type}
+            </span>
             <span
               style={{
                 fontFamily: 'var(--mono)',
@@ -210,48 +246,75 @@ const OrgCard = ({ org, index }) => (
                 color: 'var(--outline)',
               }}
             >
-              {org.location}
+              {org.duration}
             </span>
           </div>
         </div>
-        <div className="flex items-center gap-2">
-          <span
+
+        {/* Featured Roles */}
+        <div>
+          {featuredRoles.map((role, i) => (
+            <RoleEntry key={i} role={role} isLast={i === featuredRoles.length - 1 && !expanded} />
+          ))}
+        </div>
+
+        {/* Other Roles (expanded) */}
+        {hasOtherRoles && expanded && (
+          <div style={{ animation: 'slideDown 0.4s ease-out' }}>
+            {org.otherRoles.map((role, i) => (
+              <RoleEntry key={`other-${i}`} role={role} isLast={i === org.otherRoles.length - 1} />
+            ))}
+          </div>
+        )}
+
+        {/* Show More Button */}
+        {hasOtherRoles && (
+          <button
+            onClick={() => setExpanded(!expanded)}
             style={{
               fontFamily: 'var(--mono)',
-              fontSize: '10px',
+              fontSize: '11px',
               fontWeight: 500,
               letterSpacing: '0.08em',
               textTransform: 'uppercase',
               color: 'var(--secondary)',
-              background: 'rgba(242,100,15,0.08)',
-              padding: '5px 12px',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              padding: '16px 0',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              transition: 'all 0.3s ease',
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.gap = '12px';
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.gap = '8px';
             }}
           >
-            {org.type}
-          </span>
-          <span
-            style={{
-              fontFamily: 'var(--mono)',
-              fontSize: '10px',
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-              color: 'var(--outline)',
-            }}
-          >
-            {org.duration}
-          </span>
-        </div>
+            {expanded ? 'Show Less' : `Show All (${org.otherRoles.length + featuredRoles.length} roles)`}
+            <span style={{
+              display: 'inline-block',
+              transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
+              transition: 'transform 0.3s ease',
+            }}>
+              ↓
+            </span>
+          </button>
+        )}
       </div>
 
-      {/* Roles */}
-      <div>
-        {org.roles.map((role, i) => (
-          <RoleEntry key={i} role={role} isLast={i === org.roles.length - 1} />
-        ))}
-      </div>
-    </div>
-  </GsapReveal>
-);
+      <style>{`
+        @keyframes slideDown {
+          from { opacity: 0; max-height: 0; }
+          to { opacity: 1; max-height: 1000px; }
+        }
+      `}</style>
+    </GsapReveal>
+  );
+};
 
 export const Organization = () => {
   return (
