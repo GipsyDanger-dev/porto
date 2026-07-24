@@ -1,154 +1,154 @@
-/* eslint-disable react/no-unknown-property */
-import { useRef, useState, useMemo } from 'react';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { Float, MeshDistortMaterial } from '@react-three/drei';
-import * as THREE from 'three';
+import { useRef, useState, useEffect, useCallback } from 'react';
+import {
+  SiReact,
+  SiJavascript,
+  SiTailwindcss,
+  SiPython,
+  SiLaravel,
+  SiNodedotjs,
+  SiThreedotjs,
+  SiTensorflow,
+  SiDocker,
+  SiSupabase,
+  SiGit,
+  SiTypescript,
+  SiN8N,
+} from "react-icons/si";
+import { FaRobot } from "react-icons/fa";
 
 const skills = [
-  { name: "React", color: "#61DAFB", shape: "torusKnot", pos: [-5.5, 2, -1], scale: 0.7 },
-  { name: "JavaScript", color: "#F7DF1E", shape: "octahedron", pos: [-3, 2.5, 0.5], scale: 0.8 },
-  { name: "Python", color: "#3776AB", shape: "icosahedron", pos: [0, 2.2, -0.5], scale: 0.75 },
-  { name: "Node.js", color: "#339933", shape: "dodecahedron", pos: [3, 2.8, 0.3], scale: 0.7 },
-  { name: "Tailwind", color: "#06B6D4", shape: "torus", pos: [5.5, 2.1, -0.8], scale: 0.65 },
-  { name: "TypeScript", color: "#3178C6", shape: "box", pos: [-4.5, 0, 0.8], scale: 0.65 },
-  { name: "Laravel", color: "#FF2D20", shape: "cone", pos: [-1.5, -0.3, 0.2], scale: 0.7 },
-  { name: "Three.js", color: "#FFFFFF", shape: "sphere", pos: [1.5, 0.2, -0.3], scale: 0.6 },
-  { name: "TensorFlow", color: "#FF6F00", shape: "tetrahedron", pos: [4.5, -0.1, 0.5], scale: 0.7 },
-  { name: "Git", color: "#F05032", shape: "octahedron", pos: [-5, -2.2, 0.4], scale: 0.55 },
-  { name: "Docker", color: "#2496ED", shape: "cylinder", pos: [-2, -2.5, -0.6], scale: 0.6 },
-  { name: "Supabase", color: "#3ECF8E", shape: "torusKnot", pos: [1, -2, 0.7], scale: 0.55 },
-  { name: "n8n", color: "#EA4B71", shape: "dodecahedron", pos: [3.5, -2.3, -0.2], scale: 0.6 },
-  { name: "AI / ML", color: "#FF640F", shape: "icosahedron", pos: [5.8, -1.8, 0.3], scale: 0.7 },
+  { name: "React", icon: SiReact, color: "#61DAFB", x: -38, y: -28, z: 0, rot: -8, size: 52 },
+  { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E", x: -18, y: -32, z: 20, rot: 5, size: 48 },
+  { name: "Python", icon: SiPython, color: "#3776AB", x: 5, y: -26, z: -10, rot: -3, size: 50 },
+  { name: "Node.js", icon: SiNodedotjs, color: "#339933", x: 25, y: -30, z: 15, rot: 7, size: 46 },
+  { name: "Tailwind", icon: SiTailwindcss, color: "#06B6D4", x: 42, y: -24, z: -5, rot: -5, size: 44 },
+  { name: "TypeScript", icon: SiTypescript, color: "#3178C6", x: -35, y: 0, z: 12, rot: 6, size: 40 },
+  { name: "Laravel", icon: SiLaravel, color: "#FF2D20", x: -12, y: 5, z: -8, rot: -4, size: 42 },
+  { name: "Three.js", icon: SiThreedotjs, color: "#FFFFFF", x: 12, y: 2, z: 18, rot: 3, size: 38 },
+  { name: "TensorFlow", icon: SiTensorflow, color: "#FF6F00", x: 35, y: 4, z: -12, rot: -6, size: 40 },
+  { name: "Git", icon: SiGit, color: "#F05032", x: -40, y: 28, z: 8, rot: 4, size: 36 },
+  { name: "Docker", icon: SiDocker, color: "#2496ED", x: -18, y: 32, z: -15, rot: -7, size: 38 },
+  { name: "Supabase", icon: SiSupabase, color: "#3ECF8E", x: 8, y: 26, z: 10, rot: 5, size: 36 },
+  { name: "n8n", icon: SiN8N, color: "#EA4B71", x: 28, y: 30, z: -8, rot: -3, size: 38 },
+  { name: "AI / ML", icon: FaRobot, color: "#FF640F", x: 45, y: 27, z: 12, rot: 8, size: 44 },
 ];
 
-function InteractiveObject({ skill, mousePos }) {
-  const meshRef = useRef();
+function FloatingLogo({ skill, mousePos }) {
+  const ref = useRef();
   const [hovered, setHovered] = useState(false);
+  const basePos = useRef({ x: skill.x, y: skill.y, z: skill.z });
 
-  const geometry = useMemo(() => {
-    switch (skill.shape) {
-      case 'torusKnot':
-        return <torusKnotGeometry args={[1, 0.3, 128, 32]} />;
-      case 'octahedron':
-        return <octahedronGeometry args={[1, 0]} />;
-      case 'icosahedron':
-        return <icosahedronGeometry args={[1, 0]} />;
-      case 'dodecahedron':
-        return <dodecahedronGeometry args={[1, 0]} />;
-      case 'torus':
-        return <torusGeometry args={[1, 0.4, 32, 64]} />;
-      case 'box':
-        return <boxGeometry args={[1.2, 1.2, 1.2]} />;
-      case 'cone':
-        return <coneGeometry args={[0.8, 1.6, 6]} />;
-      case 'sphere':
-        return <sphereGeometry args={[1, 32, 32]} />;
-      case 'tetrahedron':
-        return <tetrahedronGeometry args={[1, 0]} />;
-      case 'cylinder':
-        return <cylinderGeometry args={[0.6, 0.6, 1.2, 32]} />;
-      default:
-        return <boxGeometry args={[1, 1, 1]} />;
-    }
-  }, [skill.shape]);
+  useEffect(() => {
+    let raf;
+    const animate = () => {
+      if (!ref.current) return;
+      const t = performance.now() * 0.001;
 
-  useFrame((state) => {
-    if (!meshRef.current) return;
-    const t = state.clock.getElapsedTime();
+      const floatY = Math.sin(t * 0.8 + skill.x * 0.1) * 8;
+      const floatX = Math.cos(t * 0.6 + skill.y * 0.1) * 4;
+      const rotY = Math.sin(t * 0.5 + skill.rot) * 15;
+      const rotX = Math.cos(t * 0.4 + skill.rot) * 10;
 
-    meshRef.current.rotation.x = t * 0.3 + skill.pos[0] * 0.2;
-    meshRef.current.rotation.y = t * 0.4 + skill.pos[1] * 0.15;
+      const mx = mousePos.current.x * 0.08;
+      const my = mousePos.current.y * 0.08;
 
-    const targetX = skill.pos[0] + mousePos.current.x * 0.3;
-    const targetY = skill.pos[1] + mousePos.current.y * 0.3;
-    meshRef.current.position.x += (targetX - meshRef.current.position.x) * 0.02;
-    meshRef.current.position.y += (targetY - meshRef.current.position.y) * 0.02;
+      const scale = hovered ? 1.3 : 1;
 
-    if (hovered) {
-      meshRef.current.scale.lerp(new THREE.Vector3(skill.scale * 1.5, skill.scale * 1.5, skill.scale * 1.5), 0.1);
-    } else {
-      meshRef.current.scale.lerp(new THREE.Vector3(skill.scale, skill.scale, skill.scale), 0.1);
-    }
-  });
+      ref.current.style.transform = `
+        translate3d(${basePos.current.x + floatX + mx}%, ${basePos.current.y + floatY + my}%, ${basePos.current.z}px)
+        rotateY(${skill.rot + rotY}deg)
+        rotateX(${rotX}deg)
+        scale(${scale})
+      `;
+
+      raf = requestAnimationFrame(animate);
+    };
+    raf = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(raf);
+  }, [skill, mousePos, hovered]);
+
+  const Icon = skill.icon;
 
   return (
-    <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.5}>
-      <mesh
-        ref={meshRef}
-        position={skill.pos}
-        onPointerOver={(e) => {
-          e.stopPropagation();
-          setHovered(true);
-          document.body.style.cursor = 'pointer';
+    <div
+      ref={ref}
+      style={{
+        position: 'absolute',
+        left: '50%',
+        top: '50%',
+        marginLeft: '-30px',
+        marginTop: '-30px',
+        width: '60px',
+        height: '60px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        transformStyle: 'preserve-3d',
+        cursor: 'pointer',
+        willChange: 'transform',
+      }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <Icon
+        style={{
+          fontSize: `${skill.size}px`,
+          color: skill.color,
+          filter: hovered
+            ? `drop-shadow(0 0 20px ${skill.color}) drop-shadow(0 0 40px ${skill.color}66)`
+            : `drop-shadow(0 0 8px ${skill.color}44)`,
+          transition: 'filter 0.4s ease',
         }}
-        onPointerOut={() => {
-          setHovered(false);
-          document.body.style.cursor = 'default';
+      />
+      <span
+        style={{
+          position: 'absolute',
+          bottom: '-24px',
+          fontFamily: 'var(--mono)',
+          fontSize: '9px',
+          letterSpacing: '0.1em',
+          textTransform: 'uppercase',
+          color: hovered ? skill.color : 'var(--outline)',
+          opacity: hovered ? 1 : 0.5,
+          transition: 'all 0.3s ease',
+          whiteSpace: 'nowrap',
+          textShadow: hovered ? `0 0 12px ${skill.color}88` : 'none',
         }}
       >
-        {geometry}
-        {hovered ? (
-          <MeshDistortMaterial
-            color={skill.color}
-            speed={2}
-            distort={0.3}
-            roughness={0.2}
-            metalness={0.8}
-            emissive={skill.color}
-            emissiveIntensity={0.5}
-          />
-        ) : (
-          <meshStandardMaterial
-            color={skill.color}
-            wireframe
-            transparent
-            opacity={0.85}
-            emissive={skill.color}
-            emissiveIntensity={0.15}
-          />
-        )}
-      </mesh>
-    </Float>
-  );
-}
-
-function Scene() {
-  const mousePos = useRef({ x: 0, y: 0 });
-  const { viewport } = useThree();
-
-  useFrame((state) => {
-    mousePos.current.x = (state.pointer.x * viewport.width) / 2;
-    mousePos.current.y = (state.pointer.y * viewport.height) / 2;
-  });
-
-  return (
-    <>
-      <ambientLight intensity={0.3} />
-      <directionalLight position={[10, 10, 5]} intensity={0.6} color="#ffffff" />
-      <pointLight position={[-10, 5, 5]} intensity={0.8} color="#f2640f" />
-      <pointLight position={[10, -5, 5]} intensity={0.5} color="#61DAFB" />
-      <pointLight position={[0, 0, 10]} intensity={0.3} color="#ffffff" />
-
-      {skills.map((skill) => (
-        <InteractiveObject
-          key={skill.name}
-          skill={skill}
-          mousePos={mousePos}
-        />
-      ))}
-    </>
+        {skill.name}
+      </span>
+    </div>
   );
 }
 
 export default function SkillScene() {
+  const containerRef = useRef();
+  const mousePos = useRef({ x: 0, y: 0 });
+
+  const handleMouseMove = useCallback((e) => {
+    const rect = containerRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+    mousePos.current = { x: x * 100, y: y * 100 };
+  }, []);
+
   return (
-    <Canvas
-      camera={{ position: [0, 0, 10], fov: 60 }}
-      dpr={[1, 1.5]}
-      gl={{ antialias: true, alpha: true }}
-      style={{ background: 'transparent' }}
+    <div
+      ref={containerRef}
+      onMouseMove={handleMouseMove}
+      style={{
+        width: '100%',
+        height: '420px',
+        position: 'relative',
+        perspective: '1200px',
+        perspectiveOrigin: '50% 50%',
+        overflow: 'visible',
+      }}
     >
-      <Scene />
-    </Canvas>
+      {skills.map((skill) => (
+        <FloatingLogo key={skill.name} skill={skill} mousePos={mousePos} />
+      ))}
+    </div>
   );
 }
