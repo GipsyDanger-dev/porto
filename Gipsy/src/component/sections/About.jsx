@@ -18,20 +18,20 @@ import { FaRobot } from "react-icons/fa";
 import { TbAutomation } from "react-icons/tb";
 
 const skills = [
-  { name: "React", icon: SiReact, color: "#61DAFB", featured: true },
-  { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E", featured: true },
-  { name: "Python", icon: SiPython, color: "#3776AB", featured: true },
-  { name: "Tailwind", icon: SiTailwindcss, color: "#06B6D4", featured: false },
-  { name: "TypeScript", icon: SiTypescript, color: "#3178C6", featured: false },
-  { name: "Node.js", icon: SiNodedotjs, color: "#339933", featured: true },
-  { name: "Laravel", icon: SiLaravel, color: "#FF2D20", featured: false },
-  { name: "Three.js", icon: SiThreedotjs, color: "#FFFFFF", featured: false },
-  { name: "TensorFlow", icon: SiTensorflow, color: "#FF6F00", featured: false },
-  { name: "Git", icon: SiGit, color: "#F05032", featured: false },
-  { name: "Docker", icon: SiDocker, color: "#2496ED", featured: false },
-  { name: "Supabase", icon: SiSupabase, color: "#3ECF8E", featured: false },
-  { name: "n8n", icon: TbAutomation, color: "#EA4B71", featured: false },
-  { name: "AI / ML", icon: FaRobot, color: "#FF640F", featured: true },
+  { name: "React", icon: SiReact, color: "#61DAFB", size: 42, rotate: -5, offsetY: 0 },
+  { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E", size: 38, rotate: 3, offsetY: 12 },
+  { name: "Python", icon: SiPython, color: "#3776AB", size: 40, rotate: -2, offsetY: -8 },
+  { name: "Tailwind", icon: SiTailwindcss, color: "#06B6D4", size: 28, rotate: 8, offsetY: 20 },
+  { name: "TypeScript", icon: SiTypescript, color: "#3178C6", size: 26, rotate: -6, offsetY: 5 },
+  { name: "Node.js", icon: SiNodedotjs, color: "#339933", size: 36, rotate: 4, offsetY: -15 },
+  { name: "Laravel", icon: SiLaravel, color: "#FF2D20", size: 30, rotate: -8, offsetY: 8 },
+  { name: "Three.js", icon: SiThreedotjs, color: "#FFFFFF", size: 28, rotate: 5, offsetY: -5 },
+  { name: "TensorFlow", icon: SiTensorflow, color: "#FF6F00", size: 27, rotate: -3, offsetY: 18 },
+  { name: "Git", icon: SiGit, color: "#F05032", size: 24, rotate: 7, offsetY: -10 },
+  { name: "Docker", icon: SiDocker, color: "#2496ED", size: 26, rotate: -4, offsetY: 12 },
+  { name: "Supabase", icon: SiSupabase, color: "#3ECF8E", size: 25, rotate: 6, offsetY: -8 },
+  { name: "n8n", icon: TbAutomation, color: "#EA4B71", size: 28, rotate: -7, offsetY: 5 },
+  { name: "AI / ML", icon: FaRobot, color: "#FF640F", size: 34, rotate: 2, offsetY: -12 },
 ];
 
 const educationData = [
@@ -44,7 +44,7 @@ const experienceData = [
   { date: "2024", title: "Editor & Script Assistant", institution: "State Senior High School 3 of Cilacap" },
 ];
 
-const SkillIcon = ({ name, icon: Icon, color, delay, featured }) => {
+const SkillIcon = ({ name, icon: Icon, color, delay, size = 32, rotate = 0, offsetY = 0 }) => {
   const iconRef = useRef(null);
 
   useEffect(() => {
@@ -55,67 +55,66 @@ const SkillIcon = ({ name, icon: Icon, color, delay, featured }) => {
       ([entry]) => {
         if (entry.isIntersecting) {
           el.style.opacity = '1';
-          el.style.transform = 'translateY(0) scale(1)';
+          el.style.transform = `translateY(0) rotate(0deg) scale(1)`;
           observer.unobserve(el);
         }
       },
-      { threshold: 0.2 }
+      { threshold: 0.1 }
     );
 
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
 
-  const size = featured ? 40 : 26;
-
   return (
     <div
       ref={iconRef}
-      className="group flex flex-col items-center"
+      className="group"
       style={{
         opacity: 0,
-        transform: 'translateY(24px) scale(0.8)',
-        transition: `all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) ${delay}s`,
+        transform: `translateY(30px) rotate(${rotate}deg) scale(0.7)`,
+        transition: `all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) ${delay}s`,
         cursor: 'default',
+        position: 'relative',
       }}
     >
       <div
         style={{
           display: 'flex',
+          flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'center',
+          gap: '8px',
           transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+          transform: `translateY(${offsetY}px)`,
         }}
         onMouseEnter={e => {
-          e.currentTarget.style.transform = 'translateY(-6px) scale(1.2)';
-          e.currentTarget.style.filter = `drop-shadow(0 8px 16px ${color}44)`;
+          e.currentTarget.style.transform = `translateY(${offsetY - 8}px) scale(1.1)`;
+          e.currentTarget.style.filter = `drop-shadow(0 12px 24px ${color}33)`;
         }}
         onMouseLeave={e => {
-          e.currentTarget.style.transform = 'translateY(0) scale(1)';
+          e.currentTarget.style.transform = `translateY(${offsetY}px) scale(1)`;
           e.currentTarget.style.filter = 'none';
         }}
       >
-        <div style={{ color: color, fontSize: `${size}px`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ color: color, fontSize: `${size}px`, lineHeight: 1 }}>
           {Icon && <Icon />}
         </div>
+        <span
+          style={{
+            fontFamily: 'var(--mono)',
+            fontSize: '8px',
+            letterSpacing: '0.12em',
+            textTransform: 'uppercase',
+            color: 'var(--outline)',
+            textAlign: 'center',
+            opacity: 0,
+            transition: 'opacity 0.3s ease',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {name}
+        </span>
       </div>
-      <span
-        style={{
-          fontFamily: 'var(--mono)',
-          fontSize: featured ? '9px' : '8px',
-          letterSpacing: '0.08em',
-          textTransform: 'uppercase',
-          color: 'var(--outline)',
-          textAlign: 'center',
-          transition: 'color 0.3s ease',
-          marginTop: '6px',
-          opacity: featured ? 1 : 0.7,
-        }}
-        onMouseEnter={e => e.currentTarget.style.color = 'var(--on-surface)'}
-        onMouseLeave={e => e.currentTarget.style.color = 'var(--outline)'}
-      >
-        {name}
-      </span>
     </div>
   );
 };
@@ -200,48 +199,53 @@ export const About = () => {
           {/* Skills */}
           <GsapReveal delay={0.3}>
             <div>
-              <h3 style={{ fontFamily: 'var(--mono)', fontSize: '11px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--secondary)', marginBottom: '48px' }}>
+              <h3 style={{ fontFamily: 'var(--mono)', fontSize: '11px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--secondary)', marginBottom: '56px' }}>
                 Arsenal
               </h3>
 
-              {/* Featured Row - larger icons */}
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  gap: '48px',
-                  marginBottom: '48px',
-                  paddingBottom: '40px',
-                  borderBottom: '1px solid var(--outline-variant)',
-                }}
-              >
-                {skills.filter(s => s.featured).map((skill, i) => (
-                  <SkillIcon key={skill.name} {...skill} delay={i * 0.1} />
-                ))}
-              </div>
-
-              {/* Secondary Row - smaller icons, scattered */}
+              {/* Organic scattered layout */}
               <div
                 style={{
                   display: 'flex',
                   flexWrap: 'wrap',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  gap: '36px 44px',
-                  paddingTop: '8px',
+                  gap: '32px 40px',
+                  padding: '20px 0',
+                  position: 'relative',
                 }}
               >
-                {skills.filter(s => !s.featured).map((skill, i) => (
-                  <div
-                    key={skill.name}
-                    style={{
-                      transform: `translateY(${i % 2 === 0 ? '0' : '12px'})`,
-                    }}
-                  >
-                    <SkillIcon {...skill} delay={0.4 + i * 0.06} />
-                  </div>
-                ))}
+                {skills.map((skill, i) => {
+                  const margins = [
+                    { marginLeft: '0', marginRight: '12px' },
+                    { marginLeft: '24px', marginRight: '0' },
+                    { marginLeft: '8px', marginRight: '20px' },
+                    { marginLeft: '32px', marginRight: '4px' },
+                    { marginLeft: '-8px', marginRight: '16px' },
+                    { marginLeft: '16px', marginRight: '8px' },
+                    { marginLeft: '-4px', marginRight: '24px' },
+                    { marginLeft: '20px', marginRight: '-4px' },
+                  ];
+                  const m = margins[i % margins.length];
+
+                  return (
+                    <div key={skill.name} style={{ ...m }}>
+                      <SkillIcon {...skill} delay={i * 0.07} />
+                    </div>
+                  );
+                })}
               </div>
+
+              {/* Subtle decorative line */}
+              <div
+                style={{
+                  width: '60px',
+                  height: '1px',
+                  background: 'linear-gradient(90deg, transparent, var(--secondary), transparent)',
+                  margin: '48px auto 0',
+                  opacity: 0.5,
+                }}
+              />
             </div>
           </GsapReveal>
         </div>
