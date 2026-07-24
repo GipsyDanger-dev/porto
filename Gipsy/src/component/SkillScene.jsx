@@ -17,54 +17,66 @@ import {
 import { FaRobot } from "react-icons/fa";
 
 const skills = [
-  { name: "React", icon: SiReact, color: "#61DAFB", x: -38, y: -28, z: 0, rot: -8, size: 52 },
-  { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E", x: -18, y: -32, z: 20, rot: 5, size: 48 },
-  { name: "Python", icon: SiPython, color: "#3776AB", x: 5, y: -26, z: -10, rot: -3, size: 50 },
-  { name: "Node.js", icon: SiNodedotjs, color: "#339933", x: 25, y: -30, z: 15, rot: 7, size: 46 },
-  { name: "Tailwind", icon: SiTailwindcss, color: "#06B6D4", x: 42, y: -24, z: -5, rot: -5, size: 44 },
-  { name: "TypeScript", icon: SiTypescript, color: "#3178C6", x: -35, y: 0, z: 12, rot: 6, size: 40 },
-  { name: "Laravel", icon: SiLaravel, color: "#FF2D20", x: -12, y: 5, z: -8, rot: -4, size: 42 },
-  { name: "Three.js", icon: SiThreedotjs, color: "#FFFFFF", x: 12, y: 2, z: 18, rot: 3, size: 38 },
-  { name: "TensorFlow", icon: SiTensorflow, color: "#FF6F00", x: 35, y: 4, z: -12, rot: -6, size: 40 },
-  { name: "Git", icon: SiGit, color: "#F05032", x: -40, y: 28, z: 8, rot: 4, size: 36 },
-  { name: "Docker", icon: SiDocker, color: "#2496ED", x: -18, y: 32, z: -15, rot: -7, size: 38 },
-  { name: "Supabase", icon: SiSupabase, color: "#3ECF8E", x: 8, y: 26, z: 10, rot: 5, size: 36 },
-  { name: "n8n", icon: SiN8N, color: "#EA4B71", x: 28, y: 30, z: -8, rot: -3, size: 38 },
-  { name: "AI / ML", icon: FaRobot, color: "#FF640F", x: 45, y: 27, z: 12, rot: 8, size: 44 },
+  { name: "React", icon: SiReact, color: "#61DAFB", col: 0, row: 0, size: 52 },
+  { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E", col: 1, row: 0, size: 50 },
+  { name: "Python", icon: SiPython, color: "#3776AB", col: 2, row: 0, size: 52 },
+  { name: "Node.js", icon: SiNodedotjs, color: "#339933", col: 3, row: 0, size: 48 },
+  { name: "Tailwind", icon: SiTailwindcss, color: "#06B6D4", col: 4, row: 0, size: 46 },
+  { name: "TypeScript", icon: SiTypescript, color: "#3178C6", col: 0.5, row: 1, size: 42 },
+  { name: "Laravel", icon: SiLaravel, color: "#FF2D20", col: 1.5, row: 1, size: 44 },
+  { name: "Three.js", icon: SiThreedotjs, color: "#FFFFFF", col: 2.5, row: 1, size: 40 },
+  { name: "TensorFlow", icon: SiTensorflow, color: "#FF6F00", col: 3.5, row: 1, size: 42 },
+  { name: "Git", icon: SiGit, color: "#F05032", col: 0, row: 2, size: 38 },
+  { name: "Docker", icon: SiDocker, color: "#2496ED", col: 1, row: 2, size: 40 },
+  { name: "Supabase", icon: SiSupabase, color: "#3ECF8E", col: 2, row: 2, size: 38 },
+  { name: "n8n", icon: SiN8N, color: "#EA4B71", col: 3, row: 2, size: 40 },
+  { name: "AI / ML", icon: FaRobot, color: "#FF640F", col: 4, row: 2, size: 46 },
 ];
 
-function FloatingLogo({ skill, mousePos }) {
+function FloatingLogo({ skill, mousePos, containerWidth, containerHeight }) {
   const ref = useRef();
   const [hovered, setHovered] = useState(false);
-  const basePos = useRef({ x: skill.x, y: skill.y, z: skill.z });
+  const animRef = useRef(null);
+
+  const cols = 5;
+  const rows = 3;
+  const spacingX = containerWidth / (cols + 1);
+  const spacingY = containerHeight / (rows + 1);
+
+  const baseX = spacingX * (skill.col + 1);
+  const baseY = spacingY * (skill.row + 1);
+  const zOffset = Math.sin(skill.col + skill.row) * 30;
 
   useEffect(() => {
-    let raf;
     const animate = () => {
       if (!ref.current) return;
       const t = performance.now() * 0.001;
 
-      const floatY = Math.sin(t * 0.8 + skill.x * 0.1) * 8;
-      const floatX = Math.cos(t * 0.6 + skill.y * 0.1) * 4;
-      const rotY = Math.sin(t * 0.5 + skill.rot) * 15;
-      const rotX = Math.cos(t * 0.4 + skill.rot) * 10;
+      const floatY = Math.sin(t * 0.7 + skill.col * 2) * 12;
+      const floatX = Math.cos(t * 0.5 + skill.row * 2) * 6;
+      const rotY = Math.sin(t * 0.4 + skill.col) * 20;
+      const rotX = Math.cos(t * 0.3 + skill.row) * 15;
 
-      const mx = mousePos.current.x * 0.08;
-      const my = mousePos.current.y * 0.08;
+      const mx = mousePos.current.x * 0.05;
+      const my = mousePos.current.y * 0.05;
 
-      const scale = hovered ? 1.3 : 1;
+      const scale = hovered ? 1.35 : 1;
 
       ref.current.style.transform = `
-        translate3d(${basePos.current.x + floatX + mx}%, ${basePos.current.y + floatY + my}%, ${basePos.current.z}px)
-        rotateY(${skill.rot + rotY}deg)
+        translate(${floatX + mx}px, ${floatY + my}px)
+        perspective(800px)
+        rotateY(${rotY}deg)
         rotateX(${rotX}deg)
         scale(${scale})
       `;
 
-      raf = requestAnimationFrame(animate);
+      animRef.current = requestAnimationFrame(animate);
     };
-    raf = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(raf);
+
+    animRef.current = requestAnimationFrame(animate);
+    return () => {
+      if (animRef.current) cancelAnimationFrame(animRef.current);
+    };
   }, [skill, mousePos, hovered]);
 
   const Icon = skill.icon;
@@ -74,18 +86,16 @@ function FloatingLogo({ skill, mousePos }) {
       ref={ref}
       style={{
         position: 'absolute',
-        left: '50%',
-        top: '50%',
-        marginLeft: '-30px',
-        marginTop: '-30px',
-        width: '60px',
-        height: '60px',
+        left: `${baseX}px`,
+        top: `${baseY}px`,
+        transform: `translateZ(${zOffset}px)`,
         display: 'flex',
+        flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center',
-        transformStyle: 'preserve-3d',
+        gap: '10px',
         cursor: 'pointer',
         willChange: 'transform',
+        zIndex: hovered ? 10 : 1,
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -95,15 +105,13 @@ function FloatingLogo({ skill, mousePos }) {
           fontSize: `${skill.size}px`,
           color: skill.color,
           filter: hovered
-            ? `drop-shadow(0 0 20px ${skill.color}) drop-shadow(0 0 40px ${skill.color}66)`
-            : `drop-shadow(0 0 8px ${skill.color}44)`,
+            ? `drop-shadow(0 0 24px ${skill.color}) drop-shadow(0 0 48px ${skill.color}66)`
+            : `drop-shadow(0 0 10px ${skill.color}55)`,
           transition: 'filter 0.4s ease',
         }}
       />
       <span
         style={{
-          position: 'absolute',
-          bottom: '-24px',
           fontFamily: 'var(--mono)',
           fontSize: '9px',
           letterSpacing: '0.1em',
@@ -124,13 +132,27 @@ function FloatingLogo({ skill, mousePos }) {
 export default function SkillScene() {
   const containerRef = useRef();
   const mousePos = useRef({ x: 0, y: 0 });
+  const [dimensions, setDimensions] = useState({ width: 900, height: 420 });
+
+  useEffect(() => {
+    const updateDimensions = () => {
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        setDimensions({ width: rect.width, height: rect.height });
+      }
+    };
+    updateDimensions();
+    window.addEventListener('resize', updateDimensions);
+    return () => window.removeEventListener('resize', updateDimensions);
+  }, []);
 
   const handleMouseMove = useCallback((e) => {
     const rect = containerRef.current?.getBoundingClientRect();
     if (!rect) return;
-    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
-    const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
-    mousePos.current = { x: x * 100, y: y * 100 };
+    mousePos.current = {
+      x: e.clientX - rect.left - rect.width / 2,
+      y: e.clientY - rect.top - rect.height / 2,
+    };
   }, []);
 
   return (
@@ -141,13 +163,17 @@ export default function SkillScene() {
         width: '100%',
         height: '420px',
         position: 'relative',
-        perspective: '1200px',
-        perspectiveOrigin: '50% 50%',
-        overflow: 'visible',
+        overflow: 'hidden',
       }}
     >
       {skills.map((skill) => (
-        <FloatingLogo key={skill.name} skill={skill} mousePos={mousePos} />
+        <FloatingLogo
+          key={skill.name}
+          skill={skill}
+          mousePos={mousePos}
+          containerWidth={dimensions.width}
+          containerHeight={dimensions.height}
+        />
       ))}
     </div>
   );
