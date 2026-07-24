@@ -36,7 +36,6 @@ const skills = [
 function FloatingLogo({ skill, mousePos, containerWidth, containerHeight }) {
   const ref = useRef();
   const [hovered, setHovered] = useState(false);
-  const animRef = useRef(null);
 
   const cols = 5;
   const rows = 3;
@@ -46,35 +45,6 @@ function FloatingLogo({ skill, mousePos, containerWidth, containerHeight }) {
 
   const baseX = spacingX * (skill.col + 0.5) + offsetX;
   const baseY = spacingY * (skill.row + 0.5);
-
-  useEffect(() => {
-    const animate = () => {
-      if (!ref.current) return;
-      const t = performance.now() * 0.001;
-
-      const floatY = Math.sin(t * 0.6 + skill.col * 1.5) * 8;
-      const floatX = Math.cos(t * 0.4 + skill.row * 1.5) * 4;
-      const rotY = Math.sin(t * 0.3 + skill.col) * 12;
-      const rotX = Math.cos(t * 0.25 + skill.row) * 8;
-
-      const mx = mousePos.current.x * 0.03;
-      const my = mousePos.current.y * 0.03;
-
-      const scale = hovered ? 1.25 : 1;
-
-      ref.current.style.transform = `
-        translate(${floatX + mx}px, ${floatY + my}px)
-        rotateY(${rotY}deg)
-        rotateX(${rotX}deg)
-        scale(${scale})
-      `;
-    };
-
-    animRef.current = requestAnimationFrame(animate);
-    return () => {
-      if (animRef.current) cancelAnimationFrame(animRef.current);
-    };
-  }, [skill, mousePos, hovered]);
 
   const Icon = skill.icon;
 
@@ -91,10 +61,8 @@ function FloatingLogo({ skill, mousePos, containerWidth, containerHeight }) {
         alignItems: 'center',
         gap: '10px',
         cursor: 'pointer',
-        willChange: 'transform',
-        perspective: '800px',
-        transformStyle: 'preserve-3d',
         zIndex: hovered ? 10 : 1,
+        transition: 'transform 0.3s ease',
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -106,7 +74,8 @@ function FloatingLogo({ skill, mousePos, containerWidth, containerHeight }) {
           filter: hovered
             ? `drop-shadow(0 0 16px ${skill.color}) drop-shadow(0 0 32px ${skill.color}55)`
             : `drop-shadow(0 0 6px ${skill.color}44)`,
-          transition: 'filter 0.4s ease',
+          transition: 'all 0.4s ease',
+          transform: hovered ? 'scale(1.2)' : 'scale(1)',
         }}
       />
       <span
@@ -129,7 +98,6 @@ function FloatingLogo({ skill, mousePos, containerWidth, containerHeight }) {
 
 export default function SkillScene() {
   const containerRef = useRef();
-  const mousePos = useRef({ x: 0, y: 0 });
   const [dimensions, setDimensions] = useState({ width: 800, height: 400 });
 
   useEffect(() => {
@@ -144,19 +112,9 @@ export default function SkillScene() {
     return () => window.removeEventListener('resize', updateDimensions);
   }, []);
 
-  const handleMouseMove = useCallback((e) => {
-    const rect = containerRef.current?.getBoundingClientRect();
-    if (!rect) return;
-    mousePos.current = {
-      x: e.clientX - rect.left - rect.width / 2,
-      y: e.clientY - rect.top - rect.height / 2,
-    };
-  }, []);
-
   return (
     <div
       ref={containerRef}
-      onMouseMove={handleMouseMove}
       style={{
         width: '100%',
         height: '400px',
@@ -167,7 +125,7 @@ export default function SkillScene() {
         <FloatingLogo
           key={skill.name}
           skill={skill}
-          mousePos={mousePos}
+          mousePos={{ current: { x: 0, y: 0 } }}
           containerWidth={dimensions.width}
           containerHeight={dimensions.height}
         />
