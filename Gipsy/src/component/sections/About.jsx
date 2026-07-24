@@ -1,4 +1,4 @@
-import { useState, Suspense, lazy } from "react";
+import { Suspense, lazy } from "react";
 import { GsapReveal, GsapStagger } from "../GsapReveal";
 
 const SkillScene = lazy(() => import("../SkillScene"));
@@ -32,8 +32,6 @@ const TimelineItem = ({ date, title, institution }) => (
 );
 
 export const About = () => {
-  const [hoveredSkill, setHoveredSkill] = useState(null);
-
   return (
     <section id="about" style={{ padding: 'var(--section-gap) 0' }}>
       <div className="max-w-7xl mx-auto px-6 md:px-16">
@@ -95,41 +93,15 @@ export const About = () => {
           {/* Skills */}
           <GsapReveal delay={0.3}>
             <div>
-              <h3 style={{ fontFamily: 'var(--mono)', fontSize: '11px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--secondary)', marginBottom: '32px' }}>
+              <h3 style={{ fontFamily: 'var(--mono)', fontSize: '11px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--secondary)', marginBottom: '24px' }}>
                 Arsenal
               </h3>
 
-              {/* Hovered skill name display */}
-              <div
-                style={{
-                  height: '32px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginBottom: '8px',
-                }}
-              >
-                {hoveredSkill && (
-                  <span
-                    style={{
-                      fontFamily: 'var(--serif)',
-                      fontSize: '24px',
-                      fontWeight: 700,
-                      color: 'var(--on-surface)',
-                      letterSpacing: '-0.01em',
-                      animation: 'fadeIn 0.2s ease-out',
-                    }}
-                  >
-                    {hoveredSkill}
-                  </span>
-                )}
-              </div>
-
-              {/* 3D Skill Icons */}
+              {/* 3D Interactive Skills */}
               <div
                 style={{
                   width: '100%',
-                  height: '400px',
+                  height: '450px',
                   position: 'relative',
                 }}
               >
@@ -138,19 +110,9 @@ export const About = () => {
                     <span style={{ fontFamily: 'var(--mono)', fontSize: '11px', color: 'var(--outline)' }}>Loading 3D...</span>
                   </div>
                 }>
-                  <SkillScene
-                    onHoverSkill={setHoveredSkill}
-                    onUnhoverSkill={() => setHoveredSkill(null)}
-                  />
+                  <SkillScene />
                 </Suspense>
               </div>
-
-              <style>{`
-                @keyframes fadeIn {
-                  from { opacity: 0; transform: translateY(8px); }
-                  to { opacity: 1; transform: translateY(0); }
-                }
-              `}</style>
             </div>
           </GsapReveal>
         </div>
