@@ -1,7 +1,7 @@
 import { useState, Suspense, lazy } from "react";
 import { GsapReveal, GsapStagger } from "../GsapReveal";
 
-const SkillScene = lazy(() => import("../SkillScene"));
+const Skill3D = lazy(() => import("../Skill3D"));
 
 const educationData = [
   { date: "2024 - 2026", title: "Associate Degree in Information Technology", institution: "Brawijaya University" },
@@ -125,20 +125,19 @@ export const About = () => {
                 )}
               </div>
 
-              {/* 3D Skill Scene */}
+              {/* 3D Skill Icons */}
               <div
                 style={{
                   width: '100%',
-                  height: '350px',
                   position: 'relative',
                 }}
               >
                 <Suspense fallback={
-                  <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <span style={{ fontFamily: 'var(--mono)', fontSize: '11px', color: 'var(--outline)' }}>Loading 3D...</span>
+                  <div style={{ width: '100%', height: '200px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <span style={{ fontFamily: 'var(--mono)', fontSize: '11px', color: 'var(--outline)' }}>Loading...</span>
                   </div>
                 }>
-                  <SkillScene
+                  <Skill3D
                     onHoverSkill={setHoveredSkill}
                     onUnhoverSkill={() => setHoveredSkill(null)}
                   />
