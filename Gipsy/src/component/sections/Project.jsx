@@ -180,7 +180,7 @@ const projectsData = [
     ],
   },
   {
-    title: "Threads Content Automation",
+    title: "ThreadsFlow",
     description: "AI-powered personal branding system with multi-agent pipeline (Strategist, Writer, Editor) for automated Threads content publishing. Features multi-persona content pillars, Telegram-based approval flow, and CLI tool for persona generation via Claude API.",
     tags: ["n8n", "Google Gemini", "Supabase", "Telegram API", "Claude API", "Zernio API"],
     imageUrl: threadsImg,

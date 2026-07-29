@@ -3,6 +3,35 @@ import { GsapReveal } from "../GsapReveal";
 
 const organizations = [
   {
+    name: "PT. Jogja Creative Production",
+    period: "Jul 2026 – Sekarang",
+    duration: "1 Bulan",
+    type: "Magang",
+    location: "Sleman, Yogyakarta",
+    roles: [
+      {
+        title: "Artificial Intelligence Engineer",
+        period: "Jul 2026 – Sekarang",
+        duration: "1 bln",
+        description:
+          "Designing and developing AI-powered applications by leveraging Large Language Models (LLMs), AI agents, and workflow automation. Responsible for integrating AI models into real-world systems, optimizing business processes, and building scalable intelligent solutions — including developing REST APIs and backend services, designing Retrieval-Augmented Generation (RAG) pipelines, and collaborating with cross-functional teams to deliver production-ready AI solutions.",
+        skills: [
+          "Python",
+          "FastAPI",
+          "LangChain",
+          "OpenAI API",
+          "Gemini API",
+          "Claude API",
+          "n8n",
+          "Docker",
+          "PostgreSQL",
+          "RAG",
+          "REST API",
+        ],
+      },
+    ],
+  },
+  {
     name: "HMPSTI VOKASI UB",
     period: "Jan 2025 – Des 2025",
     duration: "1 Tahun",
@@ -332,7 +361,7 @@ export const Organization = () => {
                 color: 'var(--on-surface)',
               }}
             >
-              Organizations<em style={{ fontStyle: 'italic', color: 'var(--on-surface-variant)' }}>.</em>
+              Organizations & Work<em style={{ fontStyle: 'italic', color: 'var(--on-surface-variant)' }}>.</em>
             </h2>
           </div>
         </GsapReveal>
