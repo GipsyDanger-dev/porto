@@ -1,7 +1,8 @@
-import { FaGithub, FaInstagram, FaWhatsapp, FaTwitter, FaDiscord } from "react-icons/fa";
+import { FaGithub, FaLinkedin, FaInstagram, FaWhatsapp, FaTwitter, FaDiscord } from "react-icons/fa";
 
 const socialLinks = [
   { href: "https://github.com/GipsyDanger-dev", Icon: FaGithub, name: "GitHub" },
+  { href: "https://www.linkedin.com/in/adamfairuz/", Icon: FaLinkedin, name: "LinkedIn" },
   { href: "https://www.instagram.com/adamfrzz_/?hl=id", Icon: FaInstagram, name: "Instagram" },
   { href: "https://discordapp.com/users/747396909399801856", Icon: FaDiscord, name: "Discord" },
   { href: "https://x.com/AdamF184953", Icon: FaTwitter, name: "Twitter" },
