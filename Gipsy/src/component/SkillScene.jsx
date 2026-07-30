@@ -1,4 +1,5 @@
-import { useRef, useState, useEffect, useCallback } from 'react';
+import { useRef, useState, useEffect, useLayoutEffect } from 'react';
+import gsap from 'gsap';
 import {
   SiReact,
   SiJavascript,
@@ -13,8 +14,8 @@ import {
   SiGit,
   SiTypescript,
   SiN8N,
+  SiClaude,
 } from "react-icons/si";
-import { FaRobot } from "react-icons/fa";
 
 const skills = [
   { name: "React", icon: SiReact, color: "#61DAFB", col: 0, row: 0, size: 48 },
@@ -30,11 +31,10 @@ const skills = [
   { name: "Docker", icon: SiDocker, color: "#2496ED", col: 0.5, row: 2, size: 38 },
   { name: "Supabase", icon: SiSupabase, color: "#3ECF8E", col: 1.5, row: 2, size: 36 },
   { name: "n8n", icon: SiN8N, color: "#EA4B71", col: 2.5, row: 2, size: 38 },
-  { name: "AI / ML", icon: FaRobot, color: "#FF640F", col: 3.5, row: 2, size: 42 },
+  { name: "Claude", icon: SiClaude, color: "#D97757", col: 3.5, row: 2, size: 42 },
 ];
 
-function FloatingLogo({ skill, mousePos, containerWidth, containerHeight }) {
-  const ref = useRef();
+function FloatingLogo({ skill, setRef, containerWidth, containerHeight }) {
   const [hovered, setHovered] = useState(false);
 
   const cols = 5;
@@ -50,19 +50,20 @@ function FloatingLogo({ skill, mousePos, containerWidth, containerHeight }) {
 
   return (
     <div
-      ref={ref}
+      ref={setRef}
       style={{
         position: 'absolute',
         left: `${baseX}px`,
         top: `${baseY}px`,
-        transform: 'translate(-50%, -50%)',
+        // gsap owns opacity + the centering transform (see SkillScene effect)
+        // so it can reveal each logo one by one and scale it without React
+        // re-renders (hover/zIndex) stomping the animated values.
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         gap: '10px',
         cursor: 'pointer',
         zIndex: hovered ? 10 : 1,
-        transition: 'transform 0.3s ease',
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -98,6 +99,7 @@ function FloatingLogo({ skill, mousePos, containerWidth, containerHeight }) {
 
 export default function SkillScene() {
   const containerRef = useRef();
+  const logoRefs = useRef([]);
   const [dimensions, setDimensions] = useState({ width: 800, height: 400 });
 
   useEffect(() => {
@@ -112,6 +114,45 @@ export default function SkillScene() {
     return () => window.removeEventListener('resize', updateDimensions);
   }, []);
 
+  // Entrance: reveal each logo one by one (stagger), triggered when the
+  // arsenal scrolls into view. Not a single global fade over the whole block.
+  // useLayoutEffect sets the hidden state before paint → no flash of visible logos.
+  useLayoutEffect(() => {
+    const els = logoRefs.current.filter(Boolean);
+    if (!els.length) return;
+
+    // gsap owns the centering transform so scale animates without breaking it.
+    gsap.set(els, { xPercent: -50, yPercent: -50 });
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) {
+      gsap.set(els, { opacity: 1, scale: 1 });
+      return;
+    }
+
+    gsap.set(els, { opacity: 0, scale: 0.4 });
+
+    let played = false;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !played) {
+          played = true;
+          gsap.to(els, {
+            opacity: 1,
+            scale: 1,
+            duration: 0.6,
+            stagger: 0.09, // each logo animates one after another
+            ease: 'back.out(1.7)',
+          });
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2 }
+    );
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div
       ref={containerRef}
@@ -121,11 +162,11 @@ export default function SkillScene() {
         position: 'relative',
       }}
     >
-      {skills.map((skill) => (
+      {skills.map((skill, i) => (
         <FloatingLogo
           key={skill.name}
           skill={skill}
-          mousePos={{ current: { x: 0, y: 0 } }}
+          setRef={(el) => { logoRefs.current[i] = el; }}
           containerWidth={dimensions.width}
           containerHeight={dimensions.height}
         />

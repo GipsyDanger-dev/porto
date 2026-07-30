@@ -91,30 +91,30 @@ export const About = () => {
           </GsapReveal>
 
           {/* Skills */}
-          <GsapReveal delay={0.3}>
-            <div>
+          <div>
+            <GsapReveal delay={0.3}>
               <h3 style={{ fontFamily: 'var(--mono)', fontSize: '11px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--secondary)', marginBottom: '24px' }}>
                 Arsenal
               </h3>
+            </GsapReveal>
 
-              {/* 3D Interactive Skills */}
-              <div
-                style={{
-                  width: '100%',
-                  height: '450px',
-                  position: 'relative',
-                }}
-              >
-                <Suspense fallback={
-                  <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <span style={{ fontFamily: 'var(--mono)', fontSize: '11px', color: 'var(--outline)' }}>Loading 3D...</span>
-                  </div>
-                }>
-                  <SkillScene />
-                </Suspense>
-              </div>
+            {/* 3D Interactive Skills — each logo animates in one by one */}
+            <div
+              style={{
+                width: '100%',
+                height: '450px',
+                position: 'relative',
+              }}
+            >
+              <Suspense fallback={
+                <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <span style={{ fontFamily: 'var(--mono)', fontSize: '11px', color: 'var(--outline)' }}>Loading 3D...</span>
+                </div>
+              }>
+                <SkillScene />
+              </Suspense>
             </div>
-          </GsapReveal>
+          </div>
         </div>
       </div>
     </section>
