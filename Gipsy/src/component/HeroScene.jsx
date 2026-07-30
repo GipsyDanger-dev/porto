@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unknown-property */
-import { useRef, useMemo } from 'react';
+import { useRef, useMemo, useState, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Float } from '@react-three/drei';
 
@@ -98,8 +98,27 @@ function WireframeIcosahedron() {
 }
 
 export default function HeroScene() {
+  const containerRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(true);
+
+  // Pause the render loop when the hero is scrolled off-screen so the GPU
+  // isn't animating three meshes behind the rest of the page.
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { threshold: 0 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div
+      ref={containerRef}
       className="absolute inset-0 z-0"
       style={{ pointerEvents: 'none' }}
     >
@@ -108,6 +127,7 @@ export default function HeroScene() {
         dpr={[1, 1.5]}
         gl={{ antialias: true, alpha: true }}
         style={{ background: 'transparent' }}
+        frameloop={isVisible ? 'always' : 'never'}
       >
         <ambientLight intensity={0.3} />
         <directionalLight position={[5, 5, 5]} intensity={0.4} />
