@@ -15,7 +15,30 @@ import {
   SiTypescript,
   SiN8N,
   SiClaude,
+  SiSolidity,
+  SiLangchain,
+  SiPolygon,
 } from "react-icons/si";
+
+// react-icons has no Circom / snarkjs glyph — small monogram marks that
+// still honor the `style` (fontSize + color) passed by FloatingLogo.
+function IconCircom(props) {
+  return (
+    <svg viewBox="0 0 24 24" width="1em" height="1em" {...props}>
+      <rect x="1.6" y="1.6" width="20.8" height="20.8" rx="5" fill="none" stroke="currentColor" strokeWidth="1.6" />
+      <text x="12" y="12.5" textAnchor="middle" dominantBaseline="central" fontSize="11" fontFamily="monospace" fontWeight="700" fill="currentColor">C</text>
+    </svg>
+  );
+}
+
+function IconSnarkjs(props) {
+  return (
+    <svg viewBox="0 0 24 24" width="1em" height="1em" {...props}>
+      <rect x="1.6" y="1.6" width="20.8" height="20.8" rx="5" fill="none" stroke="currentColor" strokeWidth="1.6" />
+      <text x="12" y="12.5" textAnchor="middle" dominantBaseline="central" fontSize="9" fontFamily="monospace" fontWeight="700" fill="currentColor">SJ</text>
+    </svg>
+  );
+}
 
 const skills = [
   { name: "React", icon: SiReact, color: "#61DAFB", col: 0, row: 0, size: 48 },
@@ -28,17 +51,22 @@ const skills = [
   { name: "Three.js", icon: SiThreedotjs, color: "#FFFFFF", col: 2, row: 1, size: 38 },
   { name: "TensorFlow", icon: SiTensorflow, color: "#FF6F00", col: 3, row: 1, size: 40 },
   { name: "Git", icon: SiGit, color: "#F05032", col: 4, row: 1, size: 36 },
-  { name: "Docker", icon: SiDocker, color: "#2496ED", col: 0.5, row: 2, size: 38 },
-  { name: "Supabase", icon: SiSupabase, color: "#3ECF8E", col: 1.5, row: 2, size: 36 },
-  { name: "n8n", icon: SiN8N, color: "#EA4B71", col: 2.5, row: 2, size: 38 },
-  { name: "Claude", icon: SiClaude, color: "#D97757", col: 3.5, row: 2, size: 42 },
+  { name: "Docker", icon: SiDocker, color: "#2496ED", col: 0, row: 2, size: 38 },
+  { name: "Supabase", icon: SiSupabase, color: "#3ECF8E", col: 1, row: 2, size: 36 },
+  { name: "n8n", icon: SiN8N, color: "#EA4B71", col: 2, row: 2, size: 38 },
+  { name: "Claude", icon: SiClaude, color: "#D97757", col: 3, row: 2, size: 42 },
+  { name: "Solidity", icon: SiSolidity, color: "#AAB2BD", col: 4, row: 2, size: 40 },
+  { name: "LangChain", icon: SiLangchain, color: "#3DD68C", col: 0.5, row: 3, size: 40 },
+  { name: "Polygon Amoy", icon: SiPolygon, color: "#8247E5", col: 1.5, row: 3, size: 40 },
+  { name: "Circom", icon: IconCircom, color: "#4E9A9A", col: 2.5, row: 3, size: 40 },
+  { name: "snarkjs", icon: IconSnarkjs, color: "#E8A33D", col: 3.5, row: 3, size: 40 },
 ];
 
 function FloatingLogo({ skill, setRef, containerWidth, containerHeight }) {
   const [hovered, setHovered] = useState(false);
 
   const cols = 5;
-  const rows = 3;
+  const rows = 4;
   const spacingX = containerWidth / (cols + 0.5);
   const spacingY = containerHeight / (rows + 0.5);
   const offsetX = spacingX * 0.25;
@@ -100,7 +128,7 @@ function FloatingLogo({ skill, setRef, containerWidth, containerHeight }) {
 export default function SkillScene() {
   const containerRef = useRef();
   const logoRefs = useRef([]);
-  const [dimensions, setDimensions] = useState({ width: 800, height: 400 });
+  const [dimensions, setDimensions] = useState({ width: 800, height: 520 });
 
   useEffect(() => {
     const updateDimensions = () => {
@@ -158,7 +186,7 @@ export default function SkillScene() {
       ref={containerRef}
       style={{
         width: '100%',
-        height: '400px',
+        height: '520px',
         position: 'relative',
       }}
     >
