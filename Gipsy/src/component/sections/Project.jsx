@@ -15,6 +15,26 @@ import threadsImg from "../../pct/ThreadsAutomation.webp";
 
 const projectsData = [
   {
+    title: "PT. Jogja Creative Production",
+    description: "Company profile website for a digital creative company from Yogyakarta covering visual production, branding, digital content, and event experiences. Six business units — North Production, North Creative, North Photobooth, Virtual Tour 360, Drone Training, and AI Kreasi Cerdas — each with dedicated detail pages, a filterable portfolio, and a WebGL floating-lines hero. Contact inquiries are stored in Supabase with Resend email notification.",
+    tags: ["Next.js 15", "React 19", "TypeScript", "Three.js", "Framer Motion", "Supabase", "Resend", "Sharp"],
+    imageUrl: null,
+    projectUrl: "",
+    githubUrl: "https://github.com/GipsyDanger-dev/JCP-Company-Profile",
+    status: "In Dev",
+    timeline: [
+      { date: "4 Aug 2026", title: "Project Started", desc: "Next.js 15 App Router foundation, TypeScript setup, light-first JCP landing page." },
+      { date: "4 Aug 2026", title: "Core Pages Built", desc: "Services, About, Portfolio with category filter, and contact inquiry routes plus detail pages for every service unit." },
+      { date: "4 Aug 2026", title: "Inquiry Backend", desc: "Supabase REST storage for inquiries, Resend email notification, secure environment configuration." },
+      { date: "4 Aug 2026", title: "Editorial Navigation", desc: "Capsule navbar replaced with editorial nav, shared services dropdown, dismissible announcement strip." },
+      { date: "4 Aug 2026", title: "WebGL Hero", desc: "Reusable Three.js floating lines component as full-bleed hero background, Framer Motion route transitions." },
+      { date: "5 Aug 2026", title: "Original Photography", desc: "Placeholder images swapped for original drone training, annual meeting, hospitality, and bimtek project photos." },
+      { date: "5 Aug 2026", title: "Mobile & Smart Nav", desc: "Responsive layouts, one-tap services dropdown, scroll-direction header visibility, glass overlay outside hero." },
+      { date: "5 Aug 2026", title: "Business Units Detailed", desc: "Content and unit logos for North Production, North Creative, North Photobooth, Virtual Tour 360, Drone Training, and AI Kreasi Cerdas." },
+      { date: "6 Aug 2026", title: "Galleries & Optimization", desc: "Portfolio-style service galleries, Sharp image optimization script, Instagram links per unit, magnet and glare logo effect." },
+    ],
+  },
+  {
     title: "Socrapper",
     description: "Social media sentiment scraper covering 9 platforms — Twitter, Reddit, News, StackOverflow, GitHub, YouTube, Instagram, TikTok, and Facebook. Keyword-based sentiment analysis in Indonesian and English, with engagement statistics and CSV export.",
     tags: ["Laravel", "React", "Vite", "Guzzle", "DOM Crawler"],
@@ -237,20 +257,25 @@ const ProjectEntry = ({ project, index, onSelect }) => {
             touchAction: 'manipulation',
           }}
         >
-          <img
-            src={project.imageUrl}
-            alt={project.title}
-            loading="lazy"
-            decoding="async"
-            style={{
-              width: '100%',
-              height: 'auto',
-              objectFit: 'contain',
-              display: 'block',
-              filter: 'saturate(0.82) brightness(0.88)',
-              transition: 'filter 0.55s ease, transform 0.65s cubic-bezier(0.4, 0, 0.2, 1)',
-            }}
-          />
+          {project.imageUrl ? (
+            <img
+              src={project.imageUrl}
+              alt={project.title}
+              loading="lazy"
+              decoding="async"
+              style={{
+                width: '100%',
+                height: 'auto',
+                objectFit: 'contain',
+                display: 'block',
+                filter: 'saturate(0.82) brightness(0.88)',
+                transition: 'filter 0.55s ease, transform 0.65s cubic-bezier(0.4, 0, 0.2, 1)',
+              }}
+            />
+          ) : (
+            // No screenshot yet — hold the frame instead of rendering a broken img
+            <div style={{ width: '100%', aspectRatio: '16 / 10' }} />
+          )}
           {/* Bottom fade overlay */}
           <div
             className="pointer-events-none absolute inset-0 z-1"
@@ -495,19 +520,23 @@ export const Project = () => {
                     lineHeight: 0,
                   }}
                 >
-                  <img
-                    src={project.imageUrl}
-                    alt={project.title}
-                    loading="lazy"
-                    decoding="async"
-                    style={{
-                      width: '100%',
-                      height: 'auto',
-                      objectFit: 'contain',
-                      display: 'block',
-                      filter: 'saturate(0.82) brightness(0.88)',
-                    }}
-                  />
+                  {project.imageUrl ? (
+                    <img
+                      src={project.imageUrl}
+                      alt={project.title}
+                      loading="lazy"
+                      decoding="async"
+                      style={{
+                        width: '100%',
+                        height: 'auto',
+                        objectFit: 'contain',
+                        display: 'block',
+                        filter: 'saturate(0.82) brightness(0.88)',
+                      }}
+                    />
+                  ) : (
+                    <div style={{ width: '100%', aspectRatio: '16 / 10' }} />
+                  )}
                   <div
                     className="pointer-events-none absolute inset-0 z-1"
                     style={{
@@ -675,9 +704,11 @@ export const Project = () => {
             onClick={e => e.stopPropagation()}
           >
             {/* Header Image */}
-            <div style={{ overflow: 'hidden', position: 'relative', background: 'var(--surface-high)' }}>
-              <img src={selected.popupImage || selected.imageUrl} alt={selected.title} style={{ width: '100%', height: 'auto', objectFit: 'contain', display: 'block', filter: 'saturate(0.8) brightness(0.85)' }} />
-            </div>
+            {(selected.popupImage || selected.imageUrl) && (
+              <div style={{ overflow: 'hidden', position: 'relative', background: 'var(--surface-high)' }}>
+                <img src={selected.popupImage || selected.imageUrl} alt={selected.title} style={{ width: '100%', height: 'auto', objectFit: 'contain', display: 'block', filter: 'saturate(0.8) brightness(0.85)' }} />
+              </div>
+            )}
 
             <div className="px-5 py-6 sm:px-12">
               {/* Title */}
