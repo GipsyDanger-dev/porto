@@ -77,6 +77,7 @@ export const Home = () => {
         alt="Gipsy.Dev"
         loading="eager"
         decoding="async"
+        fetchPriority="high"
         width={1200}
         height={1500}
         className="hidden lg:block absolute z-2 pointer-events-none"
@@ -183,12 +184,13 @@ export const Home = () => {
           <div className="lg:hidden flex justify-center mt-8 pb-8 px-4">
             <img
               src={fotoHomeImg}
-              alt="Gipsy.Dev"
-              loading="eager"
-              decoding="async"
-              width={1200}
-              height={1500}
-              className="w-full h-auto max-w-65 object-contain"
+        alt="Gipsy.Dev"
+        loading="eager"
+        decoding="async"
+        fetchPriority="high"
+        width={1200}
+        height={1500}
+        className="w-full h-auto max-w-65 object-contain"
               style={{
                 filter: 'grayscale(25%) brightness(0.9) contrast(1.05)',
                 maskImage: 'linear-gradient(to top, transparent 0%, black 10%, black 100%)',
