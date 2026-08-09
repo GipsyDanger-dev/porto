@@ -12,67 +12,10 @@ import socrapperImg from "../../pct/Socrapper.webp";
 import socrapperPopupImg from "../../pct/Scocrapper_PopUp.webp";
 import rtfImg from "../../pct/RTF.webp";
 import threadsImg from "../../pct/ThreadsAutomation.webp";
+import jcpImg from "../../pct/JCP.webp";
+import madebykarsaImg from "../../pct/MadebyKarsa.webp";
 
 const projectsData = [
-  {
-    title: "PT. Jogja Creative Production",
-    description: "Company profile website for a digital creative company from Yogyakarta covering visual production, branding, digital content, and event experiences. Six business units — North Production, North Creative, North Photobooth, Virtual Tour 360, Drone Training, and AI Kreasi Cerdas — each with dedicated detail pages, a filterable portfolio, and a WebGL floating-lines hero. Contact inquiries are stored in Supabase with Resend email notification.",
-    tags: ["Next.js 15", "React 19", "TypeScript", "Three.js", "Framer Motion", "Supabase", "Resend", "Sharp"],
-    imageUrl: null,
-    projectUrl: "",
-    githubUrl: "https://github.com/GipsyDanger-dev/JCP-Company-Profile",
-    status: "In Dev",
-    timeline: [
-      { date: "4 Aug 2026", title: "Project Started", desc: "Next.js 15 App Router foundation, TypeScript setup, light-first JCP landing page." },
-      { date: "4 Aug 2026", title: "Core Pages Built", desc: "Services, About, Portfolio with category filter, and contact inquiry routes plus detail pages for every service unit." },
-      { date: "4 Aug 2026", title: "Inquiry Backend", desc: "Supabase REST storage for inquiries, Resend email notification, secure environment configuration." },
-      { date: "4 Aug 2026", title: "Editorial Navigation", desc: "Capsule navbar replaced with editorial nav, shared services dropdown, dismissible announcement strip." },
-      { date: "4 Aug 2026", title: "WebGL Hero", desc: "Reusable Three.js floating lines component as full-bleed hero background, Framer Motion route transitions." },
-      { date: "5 Aug 2026", title: "Original Photography", desc: "Placeholder images swapped for original drone training, annual meeting, hospitality, and bimtek project photos." },
-      { date: "5 Aug 2026", title: "Mobile & Smart Nav", desc: "Responsive layouts, one-tap services dropdown, scroll-direction header visibility, glass overlay outside hero." },
-      { date: "5 Aug 2026", title: "Business Units Detailed", desc: "Content and unit logos for North Production, North Creative, North Photobooth, Virtual Tour 360, Drone Training, and AI Kreasi Cerdas." },
-      { date: "6 Aug 2026", title: "Galleries & Optimization", desc: "Portfolio-style service galleries, Sharp image optimization script, Instagram links per unit, magnet and glare logo effect." },
-    ],
-  },
-  {
-    title: "Socrapper",
-    description: "Social media sentiment scraper covering 9 platforms — Twitter, Reddit, News, StackOverflow, GitHub, YouTube, Instagram, TikTok, and Facebook. Keyword-based sentiment analysis in Indonesian and English, with engagement statistics and CSV export.",
-    tags: ["Laravel", "React", "Vite", "Guzzle", "DOM Crawler"],
-    imageUrl: socrapperImg,
-    popupImage: socrapperPopupImg,
-    projectUrl: "https://www.socrapper.my.id/",
-    githubUrl: "https://github.com/GipsyDanger-dev/Socrapper",
-    status: null,
-    timeline: [
-      { date: "9 May 2026", title: "Project Started", desc: "Initial commit, Laravel backend setup, scraping service architecture." },
-      { date: "12 May 2026", title: "Scraping Engine", desc: "Caching, Bing fallback, noise removal, HTTP retry utilities, rate limiter." },
-      { date: "15 May 2026", title: "Frontend & UI", desc: "React + Vite frontend, animated loading screen, warm parchment design system." },
-      { date: "20 May 2026", title: "Analytics Dashboard", desc: "Sentiment gauge, word frequency chart, platform breakdown, engagement stats." },
-      { date: "25 May 2026", title: "Multi-Platform Expansion", desc: "9 platform support: Twitter, Reddit, News, GitHub, YouTube, Instagram, TikTok, Facebook, StackOverflow." },
-      { date: "1 Jun 2026", title: "SEO & Deployment", desc: "Google Search Console, sitemap, robots.txt, GitHub Actions auto-deploy." },
-      { date: "13 Jun 2026", title: "YouTube & Sentiment", desc: "YouTube Data API integration, sentiment data merge, CSV export." },
-      { date: "14 Jun 2026", title: "Testing & Polish", desc: "130 pytest tests with full API coverage, bug fixes, DuckDuckGo fallback." },
-    ],
-  },
-  {
-    title: "RightToBeForgotten",
-    description: "Blockchain-based consent management platform enabling privacy-preserving authorization and GDPR-inspired data rights through Zero-Knowledge Proofs (ZKPs). Users can prove consent ownership without exposing personal identities, featuring encrypted local data storage, irreversible consent revocation, and on-chain verification on Polygon Amoy Testnet.",
-    tags: ["Solidity", "Hardhat", "Circom", "SnarkJS", "Groth16", "Polygon", "Next.js", "React", "TypeScript", "Wagmi", "AES-GCM"],
-    imageUrl: rtfImg,
-    projectUrl: "",
-    githubUrl: "https://github.com/GipsyDanger-dev/RightToBeForgotten",
-    status: null,
-    timeline: [
-      { date: "3 Jun 2026", title: "Project Started", desc: "Monorepo setup with npm workspaces, TypeScript, Hardhat, ESLint, Husky git hooks." },
-      { date: "4 Jun 2026", title: "Smart Contract", desc: "ConsentRegistry contract with register, revoke, verify functions. 20 unit tests passing." },
-      { date: "5 Jun 2026", title: "ZKP Circuit", desc: "Consent circuit with Poseidon hashing, auto-generated Groth16 Verifier on-chain." },
-      { date: "7 Jun 2026", title: "ZK Integration", desc: "On-chain proof verification, nullifier replay attack prevention, 252k gas per verify." },
-      { date: "8 Jun 2026", title: "User Vault App", desc: "Next.js frontend with PBKDF2+AES-GCM encryption, IndexedDB storage, consent management." },
-      { date: "9 Jun 2026", title: "Service Provider App", desc: "Demo verification flow, wallet connection via Wagmi v2 + ConnectKit, session state." },
-      { date: "9 Jun 2026", title: "Release Audit", desc: "Phase 12 audit complete — 43/43 contract tests passing, security review passed." },
-      { date: "16 Jun 2026", title: "Design System", desc: "RTF design system, landing page with Three.js 3D background, full UI redesign." },
-    ],
-  },
   {
     title: "StockPP",
     description: "Full-stack application using LSTM Deep Learning to predict stock prices. Real-time predictions, model versioning, and interactive charts.",
@@ -96,50 +39,89 @@ const projectsData = [
     ],
   },
   {
-    title: "PasarNgalam",
-    description: "Platform e-commerce berbasis web khusus Malang yang memberdayakan UMKM dan pelaku usaha lokal. Fokus pada usability, skalabilitas, dan transformasi digital pasar tradisional.",
-    tags: ["React", "Laravel", "TailwindCSS", "MySQL"],
-    imageUrl: pasarNgalamImg,
-    projectUrl: "https://pasarngalam-production.up.railway.app/",
-    githubUrl: "https://github.com/GipsyDanger-dev/PasarNgalam",
-    status: null,
-    timeline: [
-      { date: "1 Dec 2025", title: "Project Started", desc: "Login system, mitra (partner) integration, initial navigation structure." },
-      { date: "2 Dec 2025", title: "Merchant System", desc: "Merchant dashboard, partner management, order flow foundation." },
-      { date: "7 Dec 2025", title: "Core Features Built", desc: "Real-time order tracking with map, driver pickup confirmation, checkout system, profile editing for all actors." },
-      { date: "7 Dec 2025", title: "Merchant Dashboard", desc: "Financial recap, order history, order activities, confirm dialogs, access control." },
-      { date: "9 Dec 2025", title: "Dashboard Refinements", desc: "Customer profile, merchant dashboard polish, final adjustments." },
-      { date: "31 Dec 2025", title: "Production Ready", desc: "Security updates, payment method integration, final merge and deployment." },
-    ],
-  },
-  {
-    title: "Freshness FruitCheck",
-    description: "AI-powered fruit freshness detection with high accuracy using Convolutional Neural Network (CNN). Real-time classification with web-based interface.",
-    tags: ["Python", "TensorFlow", "Keras", "Flask"],
-    imageUrl: fruitCheckImg,
-    projectUrl: "https://fruitcheck.up.railway.app/",
-    githubUrl: "https://github.com/GipsyDanger-dev/AIprojectUAS",
-    status: null,
-    timeline: [
-      { date: "9 Dec 2025", title: "Project Started", desc: "First commit, index setup, initial AI model integration for fruit freshness detection." },
-      { date: "11 Dec 2025", title: "Model & Deployment", desc: "Model improvements, ngrok configuration for external access, deployment preparation." },
-      { date: "13 Dec 2025", title: "UI Polish", desc: "Layout fixes and refinements across multiple iterations for better user experience." },
-      { date: "23 May 2026", title: "Rebranding", desc: "Project renamed from AIprojectUAS to Freshness FruitCheck for clearer branding." },
-    ],
-  },
-  {
-    title: "RemindMe App",
-    description: "Smart task reminder app with real-time notifications and cross-device synchronization. Built with native Android and Firebase backend.",
-    tags: ["Kotlin", "Dart", "Firebase", "Room"],
-    imageUrl: remindMeImg,
+    title: "RightToBeForgotten",
+    description: "Blockchain-based consent management platform enabling privacy-preserving authorization and GDPR-inspired data rights through Zero-Knowledge Proofs (ZKPs). Users can prove consent ownership without exposing personal identities, featuring encrypted local data storage, irreversible consent revocation, and on-chain verification on Polygon Amoy Testnet.",
+    tags: ["Solidity", "Hardhat", "Circom", "SnarkJS", "Groth16", "Polygon", "Next.js", "React", "TypeScript", "Wagmi", "AES-GCM"],
+    imageUrl: rtfImg,
     projectUrl: "",
-    githubUrl: "https://github.com/GipsyDanger-dev/remind_new",
+    githubUrl: "https://github.com/GipsyDanger-dev/RightToBeForgotten",
     status: null,
     timeline: [
-      { date: "3 Dec 2025", title: "Project Started", desc: "Initial commit, core reminder functionality and data structure setup." },
-      { date: "7 Dec 2025", title: "Feature Development", desc: "Reminder scheduling, notification system, and UI components." },
-      { date: "8 Dec 2025", title: "First Complete Build", desc: "Functional reminder app with create, edit, and delete capabilities." },
-      { date: "9 Dec 2025", title: "Final Updates", desc: "Bug fixes, UI polish, and final refinements before submission." },
+      { date: "3 Jun 2026", title: "Project Started", desc: "Monorepo setup with npm workspaces, TypeScript, Hardhat, ESLint, Husky git hooks." },
+      { date: "4 Jun 2026", title: "Smart Contract", desc: "ConsentRegistry contract with register, revoke, verify functions. 20 unit tests passing." },
+      { date: "5 Jun 2026", title: "ZKP Circuit", desc: "Consent circuit with Poseidon hashing, auto-generated Groth16 Verifier on-chain." },
+      { date: "7 Jun 2026", title: "ZK Integration", desc: "On-chain proof verification, nullifier replay attack prevention, 252k gas per verify." },
+      { date: "8 Jun 2026", title: "User Vault App", desc: "Next.js frontend with PBKDF2+AES-GCM encryption, IndexedDB storage, consent management." },
+      { date: "9 Jun 2026", title: "Service Provider App", desc: "Demo verification flow, wallet connection via Wagmi v2 + ConnectKit, session state." },
+      { date: "9 Jun 2026", title: "Release Audit", desc: "Phase 12 audit complete — 43/43 contract tests passing, security review passed." },
+      { date: "16 Jun 2026", title: "Design System", desc: "RTF design system, landing page with Three.js 3D background, full UI redesign." },
+    ],
+  },
+  {
+    title: "Socrapper",
+    description: "Social media sentiment scraper covering 9 platforms — Twitter, Reddit, News, StackOverflow, GitHub, YouTube, Instagram, TikTok, and Facebook. Keyword-based sentiment analysis in Indonesian and English, with engagement statistics and CSV export.",
+    tags: ["Laravel", "React", "Vite", "Guzzle", "DOM Crawler"],
+    imageUrl: socrapperImg,
+    popupImage: socrapperPopupImg,
+    projectUrl: "https://www.socrapper.my.id/",
+    githubUrl: "https://github.com/GipsyDanger-dev/Socrapper",
+    status: null,
+    timeline: [
+      { date: "9 May 2026", title: "Project Started", desc: "Initial commit, Laravel backend setup, scraping service architecture." },
+      { date: "12 May 2026", title: "Scraping Engine", desc: "Caching, Bing fallback, noise removal, HTTP retry utilities, rate limiter." },
+      { date: "15 May 2026", title: "Frontend & UI", desc: "React + Vite frontend, animated loading screen, warm parchment design system." },
+      { date: "20 May 2026", title: "Analytics Dashboard", desc: "Sentiment gauge, word frequency chart, platform breakdown, engagement stats." },
+      { date: "25 May 2026", title: "Multi-Platform Expansion", desc: "9 platform support: Twitter, Reddit, News, GitHub, YouTube, Instagram, TikTok, Facebook, StackOverflow." },
+      { date: "1 Jun 2026", title: "SEO & Deployment", desc: "Google Search Console, sitemap, robots.txt, GitHub Actions auto-deploy." },
+      { date: "13 Jun 2026", title: "YouTube & Sentiment", desc: "YouTube Data API integration, sentiment data merge, CSV export." },
+      { date: "14 Jun 2026", title: "Testing & Polish", desc: "130 pytest tests with full API coverage, bug fixes, DuckDuckGo fallback." },
+    ],
+  },
+  {
+    title: "PT. Jogja Creative Production",
+    description: "Company profile website for a digital creative company from Yogyakarta covering visual production, branding, digital content, and event experiences. Six business units — North Production, North Creative, North Photobooth, Virtual Tour 360, Drone Training, and AI Kreasi Cerdas — each with dedicated detail pages, a filterable portfolio, and a WebGL floating-lines hero. Contact inquiries are stored in Supabase with Resend email notification.",
+    tags: ["Next.js 15", "React 19", "TypeScript", "Three.js", "Framer Motion", "Supabase", "Resend", "Sharp"],
+    imageUrl: jcpImg,
+    projectUrl: "https://jogjacreativepro.com/",
+    githubUrl: "https://github.com/GipsyDanger-dev/JCP-Company-Profile",
+    status: null,
+    timeline: [
+      { date: "4 Aug 2026", title: "Project Started", desc: "Next.js 15 App Router foundation, TypeScript setup, light-first JCP landing page." },
+      { date: "4 Aug 2026", title: "Core Pages Built", desc: "Services, About, Portfolio with category filter, and contact inquiry routes plus detail pages for every service unit." },
+      { date: "4 Aug 2026", title: "Inquiry Backend", desc: "Supabase REST storage for inquiries, Resend email notification, secure environment configuration." },
+      { date: "4 Aug 2026", title: "Editorial Navigation", desc: "Capsule navbar replaced with editorial nav, shared services dropdown, dismissible announcement strip." },
+      { date: "4 Aug 2026", title: "WebGL Hero", desc: "Reusable Three.js floating lines component as full-bleed hero background, Framer Motion route transitions." },
+      { date: "5 Aug 2026", title: "Original Photography", desc: "Placeholder images swapped for original drone training, annual meeting, hospitality, and bimtek project photos." },
+      { date: "5 Aug 2026", title: "Mobile & Smart Nav", desc: "Responsive layouts, one-tap services dropdown, scroll-direction header visibility, glass overlay outside hero." },
+      { date: "5 Aug 2026", title: "Business Units Detailed", desc: "Content and unit logos for North Production, North Creative, North Photobooth, Virtual Tour 360, Drone Training, and AI Kreasi Cerdas." },
+      { date: "6 Aug 2026", title: "Galleries & Optimization", desc: "Portfolio-style service galleries, Sharp image optimization script, Instagram links per unit, magnet and glare logo effect." },
+    ],
+  },
+    {
+    title: "MadebyKarsa",
+    description: "Autonomous digital media platform designed to discover, analyze, generate, validate, and publish concise, fact-based content around trending topics, AI, technology, business, and social phenomena. Built with an automated content pipeline combining LLMs, structured editorial rules, content architecture, and automated publishing workflows.",
+    tags: ["n8n", "LLM", "Supabase", "Instagram", "AI Automation", "Content Architecture", "Editorial System"],    imageUrl: madebykarsaImg,
+    projectUrl: "https://www.instagram.com/madebykarsa/",
+    linkLabel: "Visit Project",
+    githubUrl: "",
+    status: null,
+    timeline: [],
+  },
+  {
+    title: "ThreadsFlow",
+    description: "AI-powered personal branding system with multi-agent pipeline (Strategist, Writer, Editor) for automated Threads content publishing. Features multi-persona content pillars, Telegram-based approval flow, and CLI tool for persona generation via Claude API.",
+    tags: ["n8n", "Google Gemini", "Supabase", "Telegram API", "Claude API", "Zernio API"],
+    imageUrl: threadsImg,
+    projectUrl: "",
+    githubUrl: "https://github.com/GipsyDanger-dev/Threads-Automation-JCP",
+    status: null,
+    timeline: [
+      { date: "20 Jun 2026", title: "Architecture Design", desc: "Multi-agent pipeline architecture, n8n orchestration setup, Supabase schema design." },
+      { date: "22 Jun 2026", title: "Content Generation", desc: "Gemini API integration, persona-driven content generation, topic deduplication system." },
+      { date: "24 Jun 2026", title: "Approval Flow", desc: "Telegram bot integration, two-way revision system, manual and AI-assisted editing." },
+      { date: "26 Jun 2026", title: "Multi-Persona System", desc: "Dynamic persona selection, content pillar rotation, proportional identity representation." },
+      { date: "28 Jun 2026", title: "CLI Tool & Automation", desc: "Claude API persona generator, structural validation, Zernio API Threads publishing." },
+      { date: "30 Jun 2026", title: "Production Hardening", desc: "Duplicate-publish prevention, cross-platform API validation, queuing and reminder mechanism." },
     ],
   },
   {
@@ -158,6 +140,53 @@ const projectsData = [
       { date: "23 Nov 2025", title: "Customer Features", desc: "Service ordering for customers, admin messaging system, sidebar fixes." },
       { date: "27 Nov 2025", title: "Bug Fixes", desc: "Sidebar toggle fix, various UI bug fixes across the application." },
       { date: "7 Dec 2025", title: "Deployed", desc: "Railway configuration, production deployment, final polish." },
+    ],
+  },
+  {
+    title: "Freshness FruitCheck",
+    description: "AI-powered fruit freshness detection with high accuracy using Convolutional Neural Network (CNN). Real-time classification with web-based interface.",
+    tags: ["Python", "TensorFlow", "Keras", "Flask"],
+    imageUrl: fruitCheckImg,
+    projectUrl: "https://fruitcheck.up.railway.app/",
+    githubUrl: "https://github.com/GipsyDanger-dev/AIprojectUAS",
+    status: null,
+    timeline: [
+      { date: "9 Dec 2025", title: "Project Started", desc: "First commit, index setup, initial AI model integration for fruit freshness detection." },
+      { date: "11 Dec 2025", title: "Model & Deployment", desc: "Model improvements, ngrok configuration for external access, deployment preparation." },
+      { date: "13 Dec 2025", title: "UI Polish", desc: "Layout fixes and refinements across multiple iterations for better user experience." },
+      { date: "23 May 2026", title: "Rebranding", desc: "Project renamed from AIprojectUAS to Freshness FruitCheck for clearer branding." },
+    ],
+  },
+  {
+    title: "PasarNgalam",
+    description: "Platform e-commerce berbasis web khusus Malang yang memberdayakan UMKM dan pelaku usaha lokal. Fokus pada usability, skalabilitas, dan transformasi digital pasar tradisional.",
+    tags: ["React", "Laravel", "TailwindCSS", "MySQL"],
+    imageUrl: pasarNgalamImg,
+    projectUrl: "https://pasarngalam-production.up.railway.app/",
+    githubUrl: "https://github.com/GipsyDanger-dev/PasarNgalam",
+    status: null,
+    timeline: [
+      { date: "1 Dec 2025", title: "Project Started", desc: "Login system, mitra (partner) integration, initial navigation structure." },
+      { date: "2 Dec 2025", title: "Merchant System", desc: "Merchant dashboard, partner management, order flow foundation." },
+      { date: "7 Dec 2025", title: "Core Features Built", desc: "Real-time order tracking with map, driver pickup confirmation, checkout system, profile editing for all actors." },
+      { date: "7 Dec 2025", title: "Merchant Dashboard", desc: "Financial recap, order history, order activities, confirm dialogs, access control." },
+      { date: "9 Dec 2025", title: "Dashboard Refinements", desc: "Customer profile, merchant dashboard polish, final adjustments." },
+      { date: "31 Dec 2025", title: "Production Ready", desc: "Security updates, payment method integration, final merge and deployment." },
+    ],
+  },
+  {
+    title: "RemindMe App",
+    description: "Smart task reminder app with real-time notifications and cross-device synchronization. Built with native Android and Firebase backend.",
+    tags: ["Kotlin", "Dart", "Firebase", "Room"],
+    imageUrl: remindMeImg,
+    projectUrl: "",
+    githubUrl: "https://github.com/GipsyDanger-dev/remind_new",
+    status: null,
+    timeline: [
+      { date: "3 Dec 2025", title: "Project Started", desc: "Initial commit, core reminder functionality and data structure setup." },
+      { date: "7 Dec 2025", title: "Feature Development", desc: "Reminder scheduling, notification system, and UI components." },
+      { date: "8 Dec 2025", title: "First Complete Build", desc: "Functional reminder app with create, edit, and delete capabilities." },
+      { date: "9 Dec 2025", title: "Final Updates", desc: "Bug fixes, UI polish, and final refinements before submission." },
     ],
   },
   {
@@ -189,7 +218,7 @@ const projectsData = [
     imageUrl: sentinelImg,
     projectUrl: "",
     githubUrl: "https://github.com/GipsyDanger-dev/MiniProjectCC",
-    status: "In Dev",
+    status: null,
     timeline: [
       { date: "9 Apr 2026", title: "Project Started", desc: "First commit, Python simulator for sensor data generation, initial IoT architecture." },
       { date: "10 Apr 2026", title: "Backend & Automation", desc: "Python worker, command system, automatic actions, worker status tracking in database." },
@@ -198,33 +227,6 @@ const projectsData = [
       { date: "9 Jun 2026", title: "Major Features", desc: "ESP32 Serial bridge, API improvements, frontend real-time updates, admin login, emergency toggle, actuator fixes." },
       { date: "14 Jun 2026", title: "Design & Testing", desc: "xAI design system, 3D room model with Three.js, 23 system tests (100% pass), X-Banner design, deployment." },
     ],
-  },
-  {
-    title: "ThreadsFlow",
-    description: "AI-powered personal branding system with multi-agent pipeline (Strategist, Writer, Editor) for automated Threads content publishing. Features multi-persona content pillars, Telegram-based approval flow, and CLI tool for persona generation via Claude API.",
-    tags: ["n8n", "Google Gemini", "Supabase", "Telegram API", "Claude API", "Zernio API"],
-    imageUrl: threadsImg,
-    projectUrl: "",
-    githubUrl: "https://github.com/GipsyDanger-dev/Threads-Automation-JCP",
-    status: null,
-    timeline: [
-      { date: "20 Jun 2026", title: "Architecture Design", desc: "Multi-agent pipeline architecture, n8n orchestration setup, Supabase schema design." },
-      { date: "22 Jun 2026", title: "Content Generation", desc: "Gemini API integration, persona-driven content generation, topic deduplication system." },
-      { date: "24 Jun 2026", title: "Approval Flow", desc: "Telegram bot integration, two-way revision system, manual and AI-assisted editing." },
-      { date: "26 Jun 2026", title: "Multi-Persona System", desc: "Dynamic persona selection, content pillar rotation, proportional identity representation." },
-      { date: "28 Jun 2026", title: "CLI Tool & Automation", desc: "Claude API persona generator, structural validation, Zernio API Threads publishing." },
-      { date: "30 Jun 2026", title: "Production Hardening", desc: "Duplicate-publish prevention, cross-platform API validation, queuing and reminder mechanism." },
-    ],
-  },
-  {
-    title: "FlowsIT",
-    description: "Instagram feed content carousel automation system for streamlined social media content publishing and scheduling.",
-    tags: ["n8n", "Instagram API", "Automation"],
-    imageUrl: null,
-    projectUrl: "",
-    githubUrl: "",
-    status: "In Dev",
-    timeline: [],
   },
 ];
 
@@ -393,7 +395,7 @@ const ProjectEntry = ({ project, index, onSelect }) => {
                 onMouseEnter={e => { e.currentTarget.style.color = 'var(--secondary)'; e.currentTarget.style.gap = '12px'; }}
                 onMouseLeave={e => { e.currentTarget.style.color = 'var(--on-surface)'; e.currentTarget.style.gap = '8px'; }}
               >
-                Visit Website <span>&rarr;</span>
+                {project.linkLabel || "Visit Website"} <span>&rarr;</span>
               </a>
             )}
             {project.githubUrl && (
@@ -642,7 +644,7 @@ export const Project = () => {
                         textDecoration: 'none',
                       }}
                     >
-                      Visit Website &rarr;
+                      {project.linkLabel || "Visit Website"} &rarr;
                     </a>
                   )}
                   {project.githubUrl && (
@@ -763,7 +765,7 @@ export const Project = () => {
                       onMouseEnter={e => { e.currentTarget.style.background = '#d95a0e'; }}
                       onMouseLeave={e => { e.currentTarget.style.background = 'var(--secondary)'; }}
                     >
-                      Visit Website &rarr;
+                      {selected.linkLabel || "Visit Website"} &rarr;
                     </a>
                   )}
                 </div>
