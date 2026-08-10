@@ -147,7 +147,7 @@ const projectsData = [
     description: "AI-powered fruit freshness detection with high accuracy using Convolutional Neural Network (CNN). Real-time classification with web-based interface.",
     tags: ["Python", "TensorFlow", "Keras", "Flask"],
     imageUrl: fruitCheckImg,
-    projectUrl: "https://fruitcheck.up.railway.app/",
+    projectUrl: "https://fruitcheck.duckdns.org/",
     githubUrl: "https://github.com/GipsyDanger-dev/AIprojectUAS",
     status: null,
     timeline: [
