@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import { GsapReveal } from "../GsapReveal";
+import { GsapReveal, GsapStagger } from "../GsapReveal";
 
 // Images served from public/sertif/ — not bundled, loaded on demand
 const sertifImg = (name) => `./sertif/${name}.webp`;
@@ -29,9 +29,12 @@ const certifications = [
   { title: "Productivity with AI Bootcamp (Program Badan Ekraf Digital Talent 2026)", issuer: "Dicoding & BDT (Badan Ekraf Digital Talent)", issuedDate: "31st May 2026", credentialUrl: "https://srikandi.arsip.go.id/result-scan/tU7szXI35CHJZbxgUf4ERQ", image: sertifImg("Sertif21"), category: "AI" },
 ];
 
-const mono = { fontFamily: 'var(--mono)', letterSpacing: '0.08em', textTransform: 'uppercase' };
+// Enter/Space activation for the div-as-button cards and rows.
+const onActivate = (fn) => (e) => {
+  if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fn(); }
+};
 
-const CountUp = ({ target, suffix = '+' }) => {
+const CountUp = ({ target, suffix = '+', suffixStyle }) => {
   const ref = useRef(null);
   const [val, setVal] = useState(0);
   const animRef = useRef(null);
@@ -39,30 +42,43 @@ const CountUp = ({ target, suffix = '+' }) => {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    // One-shot: without unobserving, the count replays every time the stat
+    // scrolls back into view.
     const obs = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) {
-        // Cancel any running animation
-        if (animRef.current) cancelAnimationFrame(animRef.current);
-        const start = performance.now();
-        const dur = 1400;
-        const tick = (now) => {
-          const t = Math.min((now - start) / dur, 1);
-          setVal(Math.round((1 - Math.pow(1 - t, 3)) * target));
-          if (t < 1) animRef.current = requestAnimationFrame(tick);
-        };
-        animRef.current = requestAnimationFrame(tick);
-      } else {
-        // Reset when scrolled out of view
-        if (animRef.current) cancelAnimationFrame(animRef.current);
-        setVal(0);
-      }
+      if (!e.isIntersecting) return;
+      obs.unobserve(e.target);
+      const start = performance.now();
+      const dur = 1400;
+      const tick = (now) => {
+        const t = Math.min((now - start) / dur, 1);
+        setVal(Math.round((1 - Math.pow(1 - t, 3)) * target));
+        if (t < 1) animRef.current = requestAnimationFrame(tick);
+      };
+      animRef.current = requestAnimationFrame(tick);
     }, { threshold: 0.3 });
     obs.observe(el);
     return () => { obs.disconnect(); if (animRef.current) cancelAnimationFrame(animRef.current); };
   }, [target]);
 
-  return <span ref={ref}>{val}<span style={{ color: 'var(--secondary)' }}>{suffix}</span></span>;
+  return <span ref={ref}>{val}<span style={suffixStyle ?? { color: 'var(--secondary)' }}>{suffix}</span></span>;
 };
+
+// Prev/Next were two 13-line inline blocks with mirrored hover handlers.
+const PageButton = ({ onClick, disabled, children }) => (
+  <button className="label page-btn" onClick={onClick} disabled={disabled}>
+    {children}
+  </button>
+);
+
+// Three of these existed inline, byte-identical apart from their contents.
+const Stat = ({ caption, children }) => (
+  <div>
+    <div style={{ fontFamily: 'var(--serif)', fontSize: '44px', fontWeight: 700, letterSpacing: '-0.025em', lineHeight: 1 }}>
+      {children}
+    </div>
+    <div className="label" style={{ color: 'var(--outline)', marginTop: 'var(--space-2)' }}>{caption}</div>
+  </div>
+);
 
 const CertCard = ({ cert, onClick, large }) => {
   const [hover, setHover] = useState(false);
@@ -71,48 +87,52 @@ const CertCard = ({ cert, onClick, large }) => {
       role="button"
       tabIndex={0}
       onClick={() => onClick(cert)}
-      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(cert); } }}
+      onKeyDown={onActivate(() => onClick(cert))}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       style={{
         background: hover ? 'var(--surface)' : 'var(--bg)',
-        padding: large ? '40px 36px' : '32px 28px 28px',
+        padding: large ? 'var(--space-10) var(--space-8)' : 'var(--space-8) var(--space-6) var(--space-6)',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: large ? 'space-between' : 'flex-start',
         position: 'relative',
         overflow: 'hidden',
         cursor: 'pointer',
-        transition: 'background 0.3s',
+        transition: 'background var(--dur-fast) var(--ease-out)',
         touchAction: 'manipulation',
         minHeight: large ? '360px' : undefined,
       }}
     >
       {/* Orange left accent */}
-      <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '2px', background: 'var(--secondary)', transform: hover ? 'scaleY(1)' : 'scaleY(0)', transformOrigin: 'bottom', transition: 'transform 0.8s cubic-bezier(0.16,1,0.3,1)' }} />
+      <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '2px', background: 'var(--secondary)', transform: hover ? 'scaleY(1)' : 'scaleY(0)', transformOrigin: 'bottom', transition: 'transform var(--dur-slow) var(--ease-out)' }} />
 
       <div>
-        <div style={{ ...mono, fontSize: '9px', letterSpacing: '0.12em', color: 'var(--secondary)', marginBottom: '12px', fontWeight: 500 }}>{cert.category}</div>
-        <div style={{ fontFamily: 'var(--serif)', fontSize: large ? '30px' : '18px', fontWeight: 700, lineHeight: large ? 1.15 : 1.25, color: hover ? 'var(--secondary)' : 'var(--on-surface)', transition: 'color 0.5s ease', paddingBottom: large ? '24px' : '20px' }}>{cert.title}</div>
+        <div className="label-xs" style={{ color: 'var(--secondary)', marginBottom: 'var(--space-3)' }}>{cert.category}</div>
+        <div
+          className={large ? 'h3' : 'h4'}
+          style={{ color: hover ? 'var(--secondary)' : 'var(--on-surface)', transition: 'color var(--dur-base) var(--ease-out)', paddingBottom: large ? 'var(--space-6)' : 'var(--space-5)' }}
+        >
+          {cert.title}
+        </div>
       </div>
 
       {!large && cert.image && (
-        <div style={{ position: 'relative', overflow: 'hidden', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.06)', marginBottom: '22px', aspectRatio: '16/10', background: 'var(--surface-high)' }}>
-          <img src={cert.image} alt={cert.title} loading="lazy" width={400} height={250} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block', filter: hover ? 'saturate(0.82) brightness(0.92)' : 'saturate(0.55) brightness(0.8)', transition: 'filter 0.8s ease, transform 0.9s cubic-bezier(0.16,1,0.3,1)', transform: hover ? 'scale(1.04)' : 'scale(1)' }} />
-          <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', background: 'radial-gradient(ellipse at center, transparent 42%, rgba(16,20,23,0.45) 100%)' }} />
-          <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 1, background: 'linear-gradient(to bottom, transparent 50%, rgba(16,20,23,0.4) 100%)' }} />
+        <div style={{ position: 'relative', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.06)', marginBottom: 'var(--space-6)', aspectRatio: '16/10', background: 'var(--surface-high)' }}>
+          <img src={cert.image} alt={cert.title} loading="lazy" width={400} height={250} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block', filter: hover ? 'saturate(0.82) brightness(0.92)' : 'saturate(0.55) brightness(0.8)', transition: 'filter var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out)', transform: hover ? 'scale(1.04)' : 'scale(1)' }} />
+          <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', background: 'linear-gradient(to bottom, transparent 50%, rgba(16,20,23,0.4) 100%)' }} />
         </div>
       )}
 
       {large && (
-        <div style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: '14px', color: 'var(--on-surface-variant)', lineHeight: 1.7, borderLeft: '2px solid var(--secondary)', paddingLeft: '16px', marginBottom: '28px' }}>
+        <div style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 'var(--body)', color: 'var(--on-surface-variant)', lineHeight: 1.7, borderLeft: '2px solid var(--secondary)', paddingLeft: 'var(--space-4)', marginBottom: 'var(--space-6)' }}>
           &quot;Committed to mastering AI fundamentals, generative AI, and practical applications across multiple platforms.&quot;
         </div>
       )}
 
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid var(--outline-variant)', paddingTop: '16px', marginTop: 'auto' }}>
-        <div style={{ ...mono, fontSize: '10px', color: 'var(--outline)' }}>{cert.issuedDate}</div>
-        {cert.credentialUrl && <span style={{ ...mono, fontSize: '10px', letterSpacing: '0.08em', color: 'var(--secondary)', display: 'inline-flex', alignItems: 'center', gap: '5px' }}>Verify &rarr;</span>}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid var(--outline-variant)', paddingTop: 'var(--space-4)', marginTop: 'auto' }}>
+        <div className="label" style={{ color: 'var(--outline)' }}>{cert.issuedDate}</div>
+        {cert.credentialUrl && <span className="label verify-cue">Verify &rarr;</span>}
       </div>
     </div>
   );
@@ -126,38 +146,38 @@ const CertRow = ({ cert, onClick }) => {
       role="button"
       tabIndex={0}
       onClick={() => onClick(cert)}
-      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(cert); } }}
+      onKeyDown={onActivate(() => onClick(cert))}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       style={{
         display: 'grid',
         gridTemplateColumns: '3fr 1.4fr 1fr 0.8fr',
         alignItems: 'center',
-        gap: '24px',
+        gap: 'var(--space-6)',
         borderBottom: '1px solid var(--outline-variant)',
-        padding: '24px 0',
+        padding: 'var(--space-6) 0',
         position: 'relative',
         cursor: 'pointer',
         touchAction: 'manipulation',
       }}
     >
       {/* Orange bottom line on hover */}
-      <div style={{ position: 'absolute', bottom: '-1px', left: 0, right: 0, height: '1px', background: 'var(--secondary)', transform: hover ? 'scaleX(1)' : 'scaleX(0)', transformOrigin: 'left', transition: 'transform 0.7s cubic-bezier(0.16,1,0.3,1)' }} />
+      <div style={{ position: 'absolute', bottom: '-1px', left: 0, right: 0, height: '1px', background: 'var(--secondary)', transform: hover ? 'scaleX(1)' : 'scaleX(0)', transformOrigin: 'left', transition: 'transform var(--dur-slow) var(--ease-out)' }} />
 
       <div>
-        <div style={{ ...mono, fontSize: '9px', letterSpacing: '0.1em', color: 'var(--secondary)', marginBottom: '6px', fontWeight: 500 }}>{cert.category}</div>
-        <div style={{ fontFamily: 'var(--serif)', fontSize: '18px', fontWeight: 700, color: hover ? 'var(--secondary)' : 'var(--on-surface)', lineHeight: 1.2, letterSpacing: '-0.01em', transition: 'color 0.5s ease' }}>{cert.title}</div>
+        <div className="label-xs" style={{ color: 'var(--secondary)', marginBottom: 'var(--space-2)' }}>{cert.category}</div>
+        <div className="h4" style={{ color: hover ? 'var(--secondary)' : 'var(--on-surface)', transition: 'color var(--dur-base) var(--ease-out)' }}>{cert.title}</div>
       </div>
       <div className="cert-row-meta">
-        <div style={{ ...mono, fontSize: '9px', color: 'var(--outline)', marginBottom: '5px' }}>Issuer</div>
-        <div style={{ fontSize: '13px', color: 'var(--on-surface-variant)' }}>{cert.issuer}</div>
+        <div className="label-xs" style={{ color: 'var(--outline)', marginBottom: 'var(--space-1)' }}>Issuer</div>
+        <div className="small">{cert.issuer}</div>
       </div>
-      <div className="cert-row-meta" style={{ ...mono, fontSize: '11px', color: 'var(--on-surface-variant)' }}>{cert.issuedDate}</div>
+      <div className="cert-row-meta label" style={{ color: 'var(--outline)' }}>{cert.issuedDate}</div>
       <div style={{ textAlign: 'right' }}>
         {cert.credentialUrl ? (
-          <span style={{ ...mono, fontSize: '10px', letterSpacing: '0.08em', color: 'var(--secondary)', display: 'inline-flex', alignItems: 'center', gap: '5px' }}>Verify &rarr;</span>
+          <span className="label verify-cue">Verify &rarr;</span>
         ) : (
-          <span style={{ ...mono, fontSize: '10px', color: 'var(--outline)' }}>No. 24UBC10106040</span>
+          <span className="label" style={{ color: 'var(--outline)' }}>No. 24UBC10106040</span>
         )}
       </div>
     </div>
@@ -206,93 +226,69 @@ export const Certification = () => {
   return (
     <section id="certifications" style={{ padding: 'var(--section-gap) 0', position: 'relative' }}>
       <div className="max-w-6xl mx-auto px-6 md:px-16" style={{ position: 'relative' }}>
-        {/* Decorative number */}
-        <div className="hidden lg:block" style={{ position: 'absolute', right: '40px', top: '-20px', fontFamily: 'var(--serif)', fontSize: '220px', fontWeight: 700, lineHeight: 1, letterSpacing: '-0.05em', color: 'transparent', WebkitTextStroke: '1px rgba(68,71,72,0.25)', pointerEvents: 'none', userSelect: 'none', zIndex: 0 }}>
-          {String(certifications.length).padStart(2, '0')}
-        </div>
-
         {/* Header */}
         <GsapReveal>
-          <div style={{ position: 'relative', zIndex: 1, marginBottom: '72px' }}>
+          <div style={{ position: 'relative', zIndex: 1, marginBottom: 'var(--header-gap)' }}>
             <div className="section-label">Credentials</div>
-            <h2 style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(40px, 6vw, 64px)', fontWeight: 700, letterSpacing: '-0.02em', lineHeight: 1, color: 'var(--on-surface)', overflow: 'hidden', marginBottom: '40px' }}>
-              Certifications<em style={{ fontStyle: 'italic', color: 'var(--on-surface-variant)' }}>.</em>
+            <h2 className="h2" style={{ overflow: 'hidden', marginBottom: 'var(--space-10)' }}>
+              Certifications<em className="flourish">.</em>
             </h2>
-            <div className="flex flex-wrap gap-12 sm:gap-14" style={{ paddingTop: '40px', borderTop: '1px solid var(--outline-variant)' }}>
-              <div>
-                <div style={{ fontFamily: 'var(--serif)', fontSize: '44px', fontWeight: 700, letterSpacing: '-0.025em', lineHeight: 1 }}><CountUp target={certifications.length} /></div>
-                <div style={{ ...mono, fontSize: '10px', letterSpacing: '0.1em', color: 'var(--outline)', marginTop: '8px' }}>Total Credentials</div>
-              </div>
-              <div>
-                <div style={{ fontFamily: 'var(--serif)', fontSize: '44px', fontWeight: 700, letterSpacing: '-0.025em', lineHeight: 1 }}>{aiCerts.length}<span style={{ fontSize: '22px', color: 'var(--outline)' }}> AI</span></div>
-                <div style={{ ...mono, fontSize: '10px', letterSpacing: '0.1em', color: 'var(--outline)', marginTop: '8px' }}>AI Engineer Focus</div>
-              </div>
-              <div>
-                <div style={{ fontFamily: 'var(--serif)', fontSize: '44px', fontWeight: 700, letterSpacing: '-0.025em', lineHeight: 1 }}>2026</div>
-                <div style={{ ...mono, fontSize: '10px', letterSpacing: '0.1em', color: 'var(--outline)', marginTop: '8px' }}>Most Recent</div>
-              </div>
+            <div className="flex flex-wrap gap-12" style={{ paddingTop: 'var(--space-10)', borderTop: '1px solid var(--outline-variant)' }}>
+              <Stat caption="Total Credentials">
+                <CountUp target={certifications.length} />
+              </Stat>
+              <Stat caption="AI Engineer Focus">
+                <CountUp target={aiCerts.length} suffix=" AI" suffixStyle={{ fontSize: '22px', color: 'var(--outline)' }} />
+              </Stat>
+              {/* A year is a label, not a quantity — nothing to count toward. */}
+              <Stat caption="Most Recent">2026</Stat>
             </div>
           </div>
         </GsapReveal>
 
-        {/* Featured Grid */}
-        <GsapReveal delay={0.1}>
-          <div className="grid gap-px" style={{ background: 'var(--outline-variant)', border: '1px solid var(--outline-variant)', marginBottom: '1px', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
-            {featured.map((cert, i) => (
-              <CertCard key={i} cert={cert} onClick={setSelected} large={i === 0} delay={i * 0.12} />
-            ))}
-          </div>
-        </GsapReveal>
+        {/* Featured Grid — GsapStagger reveals each card in turn */}
+        <GsapStagger
+          className="grid gap-px"
+          style={{ background: 'var(--outline-variant)', border: '1px solid var(--outline-variant)', marginBottom: '1px', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}
+          stagger={0.08}
+        >
+          {featured.map((cert, i) => (
+            <CertCard key={i} cert={cert} onClick={setSelected} large={i === 0} />
+          ))}
+        </GsapStagger>
 
         {/* Table Rows */}
         <GsapReveal delay={0.2}>
           <div style={{ borderTop: '1px solid var(--outline-variant)' }}>
             <div key={fadeKey} style={{ animation: 'certFadeIn 0.35s ease-out' }}>
               {paginatedCerts.map((cert, i) => (
-                <CertRow key={currentPage * PER_PAGE + i} cert={cert} onClick={setSelected} delay={i * 0.06} />
+                <CertRow key={currentPage * PER_PAGE + i} cert={cert} onClick={setSelected} />
               ))}
             </div>
 
             {/* Pagination Controls */}
             {totalPages > 1 && (
-              <div className="flex items-center justify-between" style={{ padding: '28px 0 8px' }}>
-                <div style={{ ...mono, fontSize: '10px', color: 'var(--outline)' }}>
+              <div className="flex items-center justify-between" style={{ padding: 'var(--space-6) 0 var(--space-2)' }}>
+                <div className="label" style={{ color: 'var(--outline)' }}>
                   {currentPage * PER_PAGE + 1}–{Math.min((currentPage + 1) * PER_PAGE, remaining.length)} of {remaining.length}
                 </div>
                 <div className="flex items-center gap-4">
-                  <button
-                    onClick={() => goToPage(currentPage - 1)}
-                    disabled={currentPage === 0}
-                    style={{
-                      ...mono,
-                      fontSize: '10px',
-                      letterSpacing: '0.08em',
-                      color: currentPage === 0 ? 'var(--surface-high)' : 'var(--on-surface)',
-                      background: 'none',
-                      border: '1px solid var(--outline-variant)',
-                      padding: '8px 16px',
-                      cursor: currentPage === 0 ? 'default' : 'pointer',
-                      transition: 'all 0.25s ease',
-                      opacity: currentPage === 0 ? 0.4 : 1,
-                      touchAction: 'manipulation',
-                    }}
-                    onMouseEnter={e => { if (currentPage > 0) { e.currentTarget.style.borderColor = 'var(--secondary)'; e.currentTarget.style.color = 'var(--secondary)'; } }}
-                    onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--outline-variant)'; e.currentTarget.style.color = currentPage === 0 ? 'var(--surface-high)' : 'var(--on-surface)'; }}
-                  >Prev</button>
+                  <PageButton onClick={() => goToPage(currentPage - 1)} disabled={currentPage === 0}>Prev</PageButton>
 
                   <div className="flex items-center gap-2">
                     {Array.from({ length: totalPages }, (_, i) => (
                       <button
                         key={i}
                         onClick={() => goToPage(i)}
+                        aria-label={`Page ${i + 1}`}
+                        aria-current={i === currentPage ? 'true' : undefined}
                         style={{
                           width: i === currentPage ? '24px' : '8px',
                           height: '8px',
-                          borderRadius: '4px',
-                          background: i === currentPage ? 'var(--secondary)' : 'var(--outline-variant)',
+                          background: i === currentPage ? 'var(--secondary)' : 'var(--outline-interactive)',
                           border: 'none',
                           cursor: 'pointer',
-                          transition: 'all 0.35s cubic-bezier(0.16,1,0.3,1)',
+                          transition: 'width var(--dur-base) var(--ease-out), background var(--dur-base) var(--ease-out)',
                           padding: 0,
                           touchAction: 'manipulation',
                         }}
@@ -300,25 +296,7 @@ export const Certification = () => {
                     ))}
                   </div>
 
-                  <button
-                    onClick={() => goToPage(currentPage + 1)}
-                    disabled={currentPage === totalPages - 1}
-                    style={{
-                      ...mono,
-                      fontSize: '10px',
-                      letterSpacing: '0.08em',
-                      color: currentPage === totalPages - 1 ? 'var(--surface-high)' : 'var(--on-surface)',
-                      background: 'none',
-                      border: '1px solid var(--outline-variant)',
-                      padding: '8px 16px',
-                      cursor: currentPage === totalPages - 1 ? 'default' : 'pointer',
-                      transition: 'all 0.25s ease',
-                      opacity: currentPage === totalPages - 1 ? 0.4 : 1,
-                      touchAction: 'manipulation',
-                    }}
-                    onMouseEnter={e => { if (currentPage < totalPages - 1) { e.currentTarget.style.borderColor = 'var(--secondary)'; e.currentTarget.style.color = 'var(--secondary)'; } }}
-                    onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--outline-variant)'; e.currentTarget.style.color = currentPage === totalPages - 1 ? 'var(--surface-high)' : 'var(--on-surface)'; }}
-                  >Next</button>
+                  <PageButton onClick={() => goToPage(currentPage + 1)} disabled={currentPage === totalPages - 1}>Next</PageButton>
                 </div>
               </div>
             )}
@@ -334,20 +312,17 @@ export const Certification = () => {
               <img src={selected.image} alt={selected.title} style={{ width: '100%', height: 'auto', display: 'block', filter: 'saturate(0.9) brightness(0.95)' }} />
             </div>
             <div className="px-5 py-6 sm:px-8 sm:py-7">
-              <span style={{ ...mono, fontSize: '10px', fontWeight: 500, letterSpacing: '0.1em', color: 'var(--secondary)', display: 'block', marginBottom: '12px' }}>{selected.category}</span>
-              <h3 style={{ fontFamily: 'var(--serif)', fontSize: '24px', fontWeight: 700, color: 'var(--on-surface)', lineHeight: 1.25, marginBottom: '12px' }}>{selected.title}</h3>
-              <p style={{ fontSize: '15px', color: 'var(--on-surface-variant)', marginBottom: '8px' }}>{selected.issuer}</p>
-              <p style={{ ...mono, fontSize: '11px', color: 'var(--outline)', letterSpacing: '0.05em', marginBottom: '28px' }}>Issued {selected.issuedDate}</p>
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-0" style={{ borderTop: '1px solid var(--outline-variant)', paddingTop: '20px' }}>
-                <button onClick={closeOverlay} style={{ ...mono, fontSize: '11px', color: 'var(--outline)', background: 'none', border: 'none', cursor: 'pointer', padding: 0, touchAction: 'manipulation' }}>Close</button>
+              <span className="label" style={{ color: 'var(--secondary)', display: 'block', marginBottom: 'var(--space-3)' }}>{selected.category}</span>
+              <h3 className="h3" style={{ marginBottom: 'var(--space-3)' }}>{selected.title}</h3>
+              <p className="body" style={{ marginBottom: 'var(--space-2)' }}>{selected.issuer}</p>
+              <p className="label" style={{ color: 'var(--outline)', marginBottom: 'var(--space-6)' }}>Issued {selected.issuedDate}</p>
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-0" style={{ borderTop: '1px solid var(--outline-variant)', paddingTop: 'var(--space-5)' }}>
+                <button className="label quiet-btn" onClick={closeOverlay}>Close</button>
                 {selected.credentialUrl && (
-                  <a href={selected.credentialUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2" style={{ ...mono, fontSize: '11px', fontWeight: 500, color: 'var(--secondary)', textDecoration: 'none', background: 'rgba(242,100,15,0.08)', padding: '12px 24px', border: 'none', transition: 'background 0.2s' }}
-                    onMouseEnter={e => { e.currentTarget.style.background = 'rgba(242,100,15,0.15)'; }}
-                    onMouseLeave={e => { e.currentTarget.style.background = 'rgba(242,100,15,0.08)'; }}
-                  >Verify Credential &rarr;</a>
+                  <a href={selected.credentialUrl} target="_blank" rel="noopener noreferrer" className="label tint-btn">Verify Credential &rarr;</a>
                 )}
                 {!selected.credentialUrl && (
-                  <span style={{ ...mono, fontSize: '10px', color: 'var(--outline)', padding: '12px 24px' }}>Certificate No. 24UBC10106040</span>
+                  <span className="label" style={{ color: 'var(--outline)', padding: 'var(--space-3) var(--space-6)' }}>Certificate No. 24UBC10106040</span>
                 )}
               </div>
             </div>
@@ -358,8 +333,7 @@ export const Certification = () => {
 
       <style>{`
         @media (max-width: 768px) {
-          #certifications .cert-row-wrap { grid-template-columns: 1fr !important; gap: 8px !important; }
-          #certifications .cert-row { grid-template-columns: 1fr !important; gap: 6px !important; padding: 18px 0 !important; }
+          #certifications .cert-row { grid-template-columns: 1fr !important; gap: 8px !important; padding: 20px 0 !important; }
           #certifications .cert-row .cert-row-meta { display: none !important; }
         }
         @keyframes certFadeIn {

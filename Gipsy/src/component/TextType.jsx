@@ -1,6 +1,11 @@
 import { useEffect, useRef, useState, createElement, useMemo } from 'react';
 import { gsap } from 'gsap';
 
+// The CSS prefers-reduced-motion block cannot reach GSAP's repeat: -1 tweens or
+// the setTimeout typing loop, so this component has to opt out itself.
+const reduceMotion = () => typeof window !== 'undefined'
+  && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 const TextType = ({
   text,
   as: Component = 'div',
@@ -65,6 +70,10 @@ const TextType = ({
   // GSAP cursor blink
   useEffect(() => {
     if (!showCursor || !cursorRef.current) return;
+    if (reduceMotion()) {
+      gsap.set(cursorRef.current, { opacity: 1 });
+      return;
+    }
 
     gsap.set(cursorRef.current, { opacity: 1 });
     gsapTweenRef.current = gsap.to(cursorRef.current, {
@@ -88,6 +97,14 @@ const TextType = ({
     if (!isVisible) return;
 
     const currentText = textArray[currentTextIndex];
+
+    // Reduced motion: show the first phrase outright and never loop.
+    if (reduceMotion()) {
+      setDisplayedText(currentText);
+      setIsTyping(false);
+      return;
+    }
+
     const processedText = reverseMode ? currentText.split('').reverse().join('') : currentText;
     let charIndex = 0;
     let isDeleting = false;

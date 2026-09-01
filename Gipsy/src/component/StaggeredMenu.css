@@ -76,9 +76,8 @@
 }
 
 .sm-toggle:focus-visible {
-  outline: 2px solid rgba(242, 100, 15, 0.5);
+  outline: 2px solid var(--sm-accent, #f2640f);
   outline-offset: 4px;
-  border-radius: 4px;
 }
 
 .sm-toggle-textWrap {
@@ -217,8 +216,12 @@
   opacity: 1;
 }
 
+/* Spotlight dim is a pointer idiom: 0.55 floor keeps the unfocused siblings
+   legible (0.35 composited to ~2.3:1, an AA failure). It is deliberately NOT
+   applied to :focus-within — dimming the list while a keyboard user tabs
+   through it is hostile. */
 .sm-socials-list:hover .sm-socials-link {
-  opacity: 0.35;
+  opacity: 0.55;
 }
 
 .sm-socials-list:hover .sm-socials-link:hover {
@@ -228,14 +231,6 @@
 .sm-socials-link:focus-visible {
   outline: 2px solid var(--sm-accent, #f2640f);
   outline-offset: 3px;
-}
-
-.sm-socials-list:focus-within .sm-socials-link {
-  opacity: 0.35;
-}
-
-.sm-socials-list:focus-within .sm-socials-link:focus-visible {
-  opacity: 1;
 }
 
 .sm-socials-link {
@@ -329,11 +324,7 @@
 }
 
 .staggered-menu-panel .sm-socials-list:hover .sm-socials-link:not(:hover) {
-  opacity: 0.35;
-}
-
-.staggered-menu-panel .sm-socials-list:focus-within .sm-socials-link:not(:focus-visible) {
-  opacity: 0.35;
+  opacity: 0.55;
 }
 
 .staggered-menu-panel .sm-socials-list .sm-socials-link:hover,

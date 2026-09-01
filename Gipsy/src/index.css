@@ -14,13 +14,22 @@
   --on-surface:            #e0e2e8;
   --on-surface-variant:    #c4c7c7;
 
-  /* Borders */
+  /* Borders
+     --outline-variant is a whisper-thin structural hairline (~1.2:1) — fine for
+     dividers, too faint to be the only boundary on a control. Interactive
+     elements use --outline-interactive so they clear WCAG 1.4.11 (3:1). */
   --outline:               #8e9192;
   --outline-variant:       rgba(68, 71, 72, 0.35);
+  --outline-interactive:   #5f6266;
 
   /* Accent — Burnt Orange */
   --secondary:             #f2640f;
   --secondary-light:       #ffb595;
+  --secondary-tint:        rgba(242, 100, 15, 0.08);
+  --secondary-tint-strong: rgba(242, 100, 15, 0.15);
+  /* #fff on --secondary is 3.18:1 and fails AA; the dark surface reads ~8.9:1
+     and looks more editorial besides. */
+  --on-secondary:          #101417;
 
   /* Background alias */
   --background:            #101417;
@@ -30,9 +39,52 @@
   --sans:                  'Hanken Grotesk', system-ui, sans-serif;
   --mono:                  'JetBrains Mono', 'Fira Code', monospace;
 
-  /* Spacing */
+  /* Type scale — mono micro-labels.
+     Tracking widens as size shrinks; that inverse relationship is what makes a
+     label set read as deliberate rather than arbitrary. */
+  --label-xs:              9px;
+  --label-xs-track:        0.16em;
+  --label-sm:              10px;
+  --label-sm-track:        0.14em;
+  --label-lg:              11px;
+  --label-lg-track:        0.12em;
+
+  /* Type scale — serif display. Tracking tightens as size grows. */
+  --display:               clamp(48px, 8vw, 80px);
+  --h2:                    clamp(36px, 5vw, 56px);
+  --h3:                    clamp(24px, 3vw, 32px);
+  --h4:                    18px;
+  --h5:                    16px;
+
+  /* Type scale — sans body */
+  --lede:                  17px;
+  --lede-lh:               28px;
+  --body:                  15px;
+  --body-lh:               25px;
+  --small:                 13px;
+  --small-lh:              21px;
+
+  /* Spacing — 4px grid */
+  --space-1:               4px;
+  --space-2:               8px;
+  --space-3:               12px;
+  --space-4:               16px;
+  --space-5:               20px;
+  --space-6:               24px;
+  --space-8:               32px;
+  --space-10:              40px;
+  --space-12:              48px;
+  --space-16:              64px;
   --gutter:                64px;
   --section-gap:           160px;
+  /* Gap between a section's header block and its content */
+  --header-gap:            64px;
+
+  /* Motion — three tiers, one curve */
+  --dur-fast:              200ms;
+  --dur-base:              350ms;
+  --dur-slow:              650ms;
+  --ease-out:              cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* ── Base ── */
@@ -52,36 +104,71 @@ body {
   margin: 0;
   padding: 0;
   font-family: var(--sans);
-  font-size: 16px;
+  font-size: var(--body);
   line-height: 1.6;
   background: var(--bg);
   color: var(--on-surface);
 }
 
-/* ── Grain Texture Overlay ── */
+/* ── Focus ── */
 
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-  opacity: 0.035;
-  pointer-events: none;
-  z-index: 9998;
+/* Every interactive element gets a visible ring. Several controls previously
+   signalled state through colour alone via JS mouse handlers, which left
+   keyboard users with no affordance at all. */
+:where(a, button, input, textarea, select, [role="button"], [tabindex]):focus-visible {
+  outline: 2px solid var(--secondary);
+  outline-offset: 3px;
 }
+
+/* ── Typography helpers ── */
+
+.label-xs,
+.label,
+.label-lg {
+  font-family: var(--mono);
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.label-xs { font-size: var(--label-xs); letter-spacing: var(--label-xs-track); }
+.label    { font-size: var(--label-sm); letter-spacing: var(--label-sm-track); }
+.label-lg { font-size: var(--label-lg); letter-spacing: var(--label-lg-track); }
+
+.display, .h2, .h3, .h4, .h5 {
+  font-family: var(--serif);
+  font-weight: 700;
+  color: var(--on-surface);
+}
+
+.display { font-size: var(--display); letter-spacing: -0.03em;  line-height: 0.95; }
+.h2      { font-size: var(--h2);      letter-spacing: -0.025em; line-height: 1.05; }
+.h3      { font-size: var(--h3);      letter-spacing: -0.02em;  line-height: 1.15; }
+.h4      { font-size: var(--h4);      letter-spacing: -0.015em; line-height: 1.25; }
+.h5      { font-size: var(--h5);      letter-spacing: -0.01em;  line-height: 1.35; }
+
+/* The italic full-stop flourish that closes each section heading */
+.flourish {
+  font-style: italic;
+  color: var(--on-surface-variant);
+}
+
+.lede  { font-size: var(--lede);  line-height: var(--lede-lh);  color: var(--on-surface-variant); }
+.body  { font-size: var(--body);  line-height: var(--body-lh);  color: var(--on-surface-variant); }
+.small { font-size: var(--small); line-height: var(--small-lh); color: var(--on-surface-variant); }
 
 /* ── Section Label ── */
 
 .section-label {
   font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.12em;
+  font-size: var(--label-lg);
+  font-weight: 500;
+  letter-spacing: var(--label-lg-track);
   text-transform: uppercase;
   color: var(--secondary);
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 20px;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
 }
 
 .section-label::before {
@@ -92,76 +179,357 @@ body::after {
   background: var(--secondary);
 }
 
+/* ── Accent chip ── */
+
+.chip {
+  font-family: var(--mono);
+  font-size: var(--label-sm);
+  font-weight: 500;
+  letter-spacing: var(--label-sm-track);
+  text-transform: uppercase;
+  color: var(--secondary);
+  background: var(--secondary-tint);
+  padding: var(--space-1) var(--space-3);
+  display: inline-block;
+}
+
 /* ── Buttons ── */
 
-.btn-primary {
+.btn-primary,
+.btn-secondary,
+.btn-outline {
   font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.08em;
+  font-size: var(--label-lg);
+  font-weight: 500;
+  letter-spacing: var(--label-lg-track);
   text-transform: uppercase;
-  background: var(--secondary);
-  color: #fff;
-  padding: 14px 28px;
-  border: none;
+  padding: var(--space-4) var(--space-8);
   border-radius: 0;
   cursor: pointer;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  transition: background 0.3s ease, transform 0.3s ease;
+  gap: var(--space-2);
+}
+
+.btn-primary {
+  background: var(--secondary);
+  color: var(--on-secondary);
+  border: none;
+  transition: background var(--dur-fast) var(--ease-out), transform var(--dur-base) var(--ease-out);
 }
 
 .btn-primary:hover {
-  background: #d95a0e;
+  background: #ff7a2b;
   transform: translateY(-2px);
 }
 
 .btn-secondary {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
   background: transparent;
-  border: 1px solid var(--outline-variant);
+  border: 1px solid var(--outline-interactive);
   color: var(--on-surface);
-  padding: 14px 28px;
-  border-radius: 0;
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  transition: background 0.3s ease, border-color 0.3s ease;
+  transition: background var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
 }
 
 .btn-secondary:hover {
-  background: rgba(255,255,255,0.04);
-  border-color: var(--outline);
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--on-surface);
 }
 
 .btn-outline {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
   background: transparent;
   border: 1px solid var(--secondary);
   color: var(--secondary);
-  padding: 14px 28px;
-  border-radius: 0;
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+  transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out), transform var(--dur-base) var(--ease-out);
 }
 
 .btn-outline:hover {
   background: var(--secondary);
-  color: #fff;
+  color: var(--on-secondary);
   transform: translateY(-2px);
+}
+
+/* ── Quiet link (nav, footer, socials) ──
+   Was three near-identical pairs of onMouseEnter/onMouseLeave handlers writing
+   colour imperatively, which never fired for keyboard users. */
+
+.quiet-link {
+  color: var(--on-surface-variant);
+  text-decoration: none;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.quiet-link:hover,
+.quiet-link:focus-visible {
+  color: var(--secondary);
+}
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--label-sm);
+  font-weight: 500;
+  letter-spacing: var(--label-sm-track);
+  text-transform: uppercase;
+  color: var(--outline);
+  text-decoration: none;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.social-link:hover,
+.social-link:focus-visible {
+  color: var(--on-surface);
+}
+
+.social-link > span {
+  transition: transform var(--dur-base) var(--ease-out);
+}
+
+.social-link:hover > span,
+.social-link:focus-visible > span {
+  transform: translate(2px, -2px);
+}
+
+/* Project links */
+.visit-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--on-surface);
+  text-decoration: none;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.visit-link > span {
+  transition: transform var(--dur-base) var(--ease-out);
+}
+
+.visit-link:hover,
+.visit-link:focus-visible {
+  color: var(--secondary);
+}
+
+.visit-link:hover > span,
+.visit-link:focus-visible > span {
+  transform: translateX(4px);
+}
+
+.repo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--on-surface-variant);
+  text-decoration: none;
+  border: 1px solid var(--outline-interactive);
+  padding: var(--space-2) var(--space-4);
+  transition: color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out);
+}
+
+.repo-link:hover,
+.repo-link:focus-visible {
+  color: #fff;
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Submit button — inherits .btn-primary, adds a disabled state and arrow nudge */
+.send-btn {
+  padding: var(--space-4) var(--space-8);
+}
+
+.send-btn > span {
+  transition: transform var(--dur-base) var(--ease-out);
+}
+
+.send-btn:hover:not(:disabled) > span,
+.send-btn:focus-visible:not(:disabled) > span {
+  transform: translateX(4px);
+}
+
+.send-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.send-btn:disabled:hover {
+  background: var(--secondary);
+  transform: none;
+}
+
+/* Email link — underline sweeps in from the left on hover/focus */
+.email-link {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--on-surface);
+  text-decoration: none;
+  display: inline-block;
+  position: relative;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.email-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 1px;
+  background: var(--secondary);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+
+.email-link:hover,
+.email-link:focus-visible {
+  color: var(--secondary);
+}
+
+.email-link:hover::after,
+.email-link:focus-visible::after {
+  transform: scaleX(1);
+}
+
+/* Form fields — :focus-within tints the label, replacing JS that walked the
+   DOM to find .field-label. */
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.field-label {
+  color: var(--outline);
+  margin-bottom: var(--space-3);
+  display: block;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.field:focus-within .field-label {
+  color: var(--secondary);
+}
+
+.field input,
+.field textarea {
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+
+.field input:focus,
+.field textarea:focus {
+  border-bottom-color: var(--secondary);
+  outline: none;
+}
+
+.field input:focus-visible,
+.field textarea:focus-visible {
+  outline: none;
+}
+
+/* Text-only button (overlay "Close") */
+.quiet-btn {
+  color: var(--outline);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  touch-action: manipulation;
+  text-align: left;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.quiet-btn:hover,
+.quiet-btn:focus-visible {
+  color: var(--on-surface);
+}
+
+/* Accent-tinted CTA */
+.tint-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--secondary);
+  text-decoration: none;
+  background: var(--secondary-tint);
+  padding: var(--space-3) var(--space-6);
+  border: none;
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease-out);
+}
+
+.tint-btn:hover,
+.tint-btn:focus-visible {
+  background: var(--secondary-tint-strong);
+}
+
+/* Pagination button — :disabled replaces two mirrored JS hover handlers */
+.page-btn {
+  color: var(--on-surface);
+  background: none;
+  border: 1px solid var(--outline-interactive);
+  padding: var(--space-2) var(--space-4);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+}
+
+.page-btn:hover:not(:disabled),
+.page-btn:focus-visible:not(:disabled) {
+  color: var(--secondary);
+  border-color: var(--secondary);
+}
+
+.page-btn:disabled {
+  color: var(--outline);
+  border-color: var(--outline-variant);
+  cursor: default;
+  opacity: 0.5;
+}
+
+/* The "Verify →" affordance on certification cards and rows */
+.verify-cue {
+  color: var(--secondary);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+/* Scroll cue — was a clickable target with no affordance at all */
+.scroll-cue {
+  color: var(--outline);
+  display: block;
+  transition: color var(--dur-fast) var(--ease-out), transform var(--dur-base) var(--ease-out);
+}
+
+.scroll-cue:hover,
+.scroll-cue:focus-visible {
+  color: var(--secondary);
+  transform: translateY(3px);
+}
+
+.icon-link {
+  color: var(--outline);
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.icon-link:hover,
+.icon-link:focus-visible {
+  color: var(--on-surface);
+}
+
+/* ── Expand toggle ──
+   Previously animated `gap` on hover, which triggers layout; the arrow shifts
+   with a transform instead. */
+
+.expand-toggle > span {
+  transition: transform var(--dur-base) var(--ease-out);
+}
+
+.expand-toggle:hover > span,
+.expand-toggle:focus-visible > span {
+  transform: translateY(3px);
 }
 
 /* ── Marquee Animation ── */
@@ -173,6 +541,11 @@ body::after {
 
 .animate-marquee {
   animation: marquee 25s linear infinite;
+}
+
+/* Paused while scrolled out of view — see Marquee.jsx */
+.animate-marquee.is-paused {
+  animation-play-state: paused;
 }
 
 /* ── Loading Animation ── */
@@ -195,16 +568,23 @@ body::after {
   animation: loading 0.8s ease infinite;
 }
 
-/* ── Skill Bar Animation ── */
+/* ── Reveal for conditionally mounted blocks ──
+   Lifted out of Organization.jsx, where it was injected once per org card.
+   Height is not animated: max-height clipped anything taller than the cap. */
 
-@keyframes skill-fill {
-  from { width: 0; }
+@keyframes revealDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.reveal-down {
+  animation: revealDown var(--dur-base) var(--ease-out);
 }
 
 /* ── Project Card Hover ── */
 
 .proj-visual {
-  transition: box-shadow 0.55s ease, border-color 0.55s ease;
+  transition: box-shadow var(--dur-slow) var(--ease-out), border-color var(--dur-slow) var(--ease-out);
 }
 
 .proj-visual:hover {
@@ -213,7 +593,7 @@ body::after {
 }
 
 .proj-visual img {
-  transition: filter 0.55s ease, transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: filter var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out);
 }
 
 .proj-visual:hover img {
@@ -237,7 +617,7 @@ body::after {
   width: 48px;
   height: 2px;
   background: linear-gradient(90deg, var(--secondary), transparent);
-  margin-bottom: 16px;
+  margin-bottom: var(--space-4);
 }
 
 /* ── Mobile ── */
@@ -246,10 +626,14 @@ body::after {
   :root {
     --gutter: 24px;
     --section-gap: 80px;
+    --header-gap: 40px;
   }
 }
 
-/* ── Reduced Motion ── */
+/* ── Reduced Motion ──
+   This only reaches CSS. GSAP tweens with repeat: -1 ignore the media query
+   entirely, so GsapReveal, TextType, SkillScene and Contact each check
+   matchMedia themselves. */
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

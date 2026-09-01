@@ -7,27 +7,24 @@ import gsap from "gsap";
 const HeroScene = lazy(() => import("../HeroScene"));
 
 const ScrollIndicator = () => {
-  const svgRef = useRef(null);
   const lineRef = useRef(null);
 
   useEffect(() => {
-    const tl = gsap.timeline({ repeat: -1, yoyo: true });
-    tl.to(svgRef.current, { y: 8, duration: 1.2, ease: "power2.inOut" });
-
     const path = lineRef.current;
-    if (path) {
-      const length = path.getTotalLength();
-      gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
-      gsap.to(path, { strokeDashoffset: 0, duration: 1.5, ease: "power2.inOut", delay: 1 });
-    }
+    if (!path) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    return () => tl.kill();
+    const length = path.getTotalLength();
+    gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
+    const tween = gsap.to(path, { strokeDashoffset: 0, duration: 1.2, ease: 'power3.out', delay: 0.6 });
+
+    return () => tween.kill();
   }, []);
 
   return (
     <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 hidden md:block">
-      <a href="#about" style={{ color: 'var(--outline)', display: 'block' }}>
-        <svg ref={svgRef} xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <a href="#about" className="scroll-cue" aria-label="Scroll to about section">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
           <path ref={lineRef} strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
         </svg>
       </a>
@@ -59,18 +56,6 @@ export const Home = () => {
         }}
       />
 
-      {/* Orb — SVG circle with burnt orange stroke */}
-      <div className="hidden lg:flex absolute inset-0 items-center justify-center z-1 pointer-events-none">
-        <svg
-          viewBox="0 0 500 500"
-          style={{ width: '42vw', maxWidth: '520px', height: 'auto', opacity: 0.18 }}
-        >
-          <ellipse cx="250" cy="250" rx="220" ry="220" fill="none" stroke="#f2640f" strokeWidth="1" />
-          <ellipse cx="250" cy="250" rx="180" ry="180" fill="none" stroke="#f2640f" strokeWidth="0.5" opacity="0.5" />
-          <ellipse cx="250" cy="250" rx="140" ry="140" fill="none" stroke="#f2640f" strokeWidth="0.5" opacity="0.3" />
-        </svg>
-      </div>
-
       {/* Photo — absolute, anchored from bottom right */}
       <img
         src={fotoHomeImg}
@@ -99,18 +84,10 @@ export const Home = () => {
           <div className="lg:max-w-[55%] text-center lg:text-left">
             <GsapReveal delay={0.2}>
               <div
-                className="inline-flex items-center mb-8"
-                style={{
-                  fontFamily: 'var(--mono)',
-                  fontSize: '11px',
-                  fontWeight: 500,
-                  letterSpacing: '0.12em',
-                  textTransform: 'uppercase',
-                  color: 'var(--secondary)',
-                  gap: '8px',
-                }}
+                className="label-lg inline-flex items-center mb-6"
+                style={{ color: 'var(--secondary)', gap: 'var(--space-3)' }}
               >
-                <span style={{ display: 'block', width: '24px', height: '1px', background: 'var(--secondary)' }} />
+                <span style={{ display: 'block', width: '32px', height: '1px', background: 'var(--secondary)' }} />
                 <TextType
                   text={["Fullstack Engineer", "Web Developer", "AI Engineer"]}
                   typingSpeed={70}
@@ -125,46 +102,20 @@ export const Home = () => {
             </GsapReveal>
 
             <GsapReveal delay={0.4}>
-              <h1
-                style={{
-                  fontFamily: 'var(--serif)',
-                  fontSize: 'clamp(48px, 8vw, 80px)',
-                  fontWeight: 700,
-                  lineHeight: 0.95,
-                  letterSpacing: '-0.025em',
-                  color: 'var(--on-surface)',
-                  marginBottom: '24px',
-                }}
-              >
-                Hi, I&apos;m <em style={{ fontStyle: 'italic', color: 'var(--on-surface-variant)' }}>Gipsy.Dev</em>
+              <h1 className="display" style={{ marginBottom: 'var(--space-6)' }}>
+                Hi, I&apos;m <em className="flourish">Gipsy.Dev</em>
               </h1>
-              <p
-                style={{
-                  fontFamily: 'var(--mono)',
-                  fontSize: '12px',
-                  letterSpacing: '0.12em',
-                  textTransform: 'uppercase',
-                  color: 'var(--outline)',
-                  marginBottom: '24px',
-                }}
-              >
+              <p className="label" style={{ color: 'var(--outline)', marginBottom: 'var(--space-6)' }}>
                 Adam Fairuz Akmal Aryaguna
               </p>
             </GsapReveal>
 
             <GsapReveal delay={0.6}>
               <p
-                style={{
-                  fontFamily: 'var(--sans)',
-                  fontSize: '18px',
-                  lineHeight: '28px',
-                  color: 'var(--on-surface-variant)',
-                  maxWidth: '540px',
-                  marginBottom: '32px',
-                }}
-                className="mx-auto lg:mx-0"
+                className="lede mx-auto lg:mx-0"
+                style={{ maxWidth: '540px', marginBottom: 'var(--space-8)' }}
               >
-                A meticulous approach to software engineering and interface design. Building robust, scalable systems with high-end aesthetic precision.
+                I build AI-powered automation, full-stack dashboards, and production-ready web systems — from idea to deployment.
               </p>
             </GsapReveal>
 
@@ -190,11 +141,11 @@ export const Home = () => {
         fetchPriority="high"
         width={1200}
         height={1500}
-        className="w-full h-auto max-w-65 object-contain"
+        className="w-full h-auto max-w-64 object-contain"
               style={{
                 filter: 'grayscale(25%) brightness(0.9) contrast(1.05)',
-                maskImage: 'linear-gradient(to top, transparent 0%, black 10%, black 100%)',
-                WebkitMaskImage: 'linear-gradient(to top, transparent 0%, black 10%, black 100%)',
+                maskImage: 'linear-gradient(to top, transparent 0%, black 12%, black 100%)',
+                WebkitMaskImage: 'linear-gradient(to top, transparent 0%, black 12%, black 100%)',
               }}
             />
           </div>

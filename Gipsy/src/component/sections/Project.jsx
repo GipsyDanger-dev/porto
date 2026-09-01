@@ -296,62 +296,21 @@ const ProjectEntry = ({ project, index, onSelect }) => {
 
         {/* Info */}
         <div className={`proj-info ${isReverse ? 'order-1 pl-0 lg:pl-18' : 'order-2 pr-0 lg:pr-18'}`}>
-          <div
-            style={{
-              fontFamily: 'var(--mono)',
-              fontSize: '10px',
-              letterSpacing: '0.1em',
-              textTransform: 'uppercase',
-              color: 'var(--secondary)',
-              marginBottom: '20px',
-            }}
-          >
+          <div className="label" style={{ color: 'var(--secondary)', marginBottom: 'var(--space-5)' }}>
             {num}
           </div>
 
           {project.status && (
-            <span
-              className="inline-block mb-3"
-              style={{
-                fontFamily: 'var(--mono)',
-                fontSize: '10px',
-                fontWeight: 500,
-                letterSpacing: '0.1em',
-                textTransform: 'uppercase',
-                color: 'var(--secondary)',
-                background: 'rgba(242,100,15,0.08)',
-                padding: '5px 12px',
-              }}
-            >
+            <span className="chip mb-3">
               {project.status}
             </span>
           )}
 
-          <h3
-            className="transition-colors duration-300"
-            style={{
-              fontFamily: 'var(--serif)',
-              fontSize: '38px',
-              fontWeight: 700,
-              lineHeight: 1.15,
-              letterSpacing: '-0.015em',
-              color: 'var(--on-surface)',
-              marginBottom: '14px',
-            }}
-          >
+          <h3 className="h3" style={{ transition: 'color var(--dur-base) var(--ease-out)', marginBottom: 'var(--space-3)' }}>
             {project.title}
           </h3>
 
-          <p
-            style={{
-              fontFamily: 'var(--sans)',
-              fontSize: '14px',
-              lineHeight: '23px',
-              color: 'var(--on-surface-variant)',
-              letterSpacing: '-0.01em',
-              marginBottom: '24px',
-            }}
-          >
+          <p className="body" style={{ marginBottom: 'var(--space-6)' }}>
             {project.description}
           </p>
 
@@ -359,15 +318,11 @@ const ProjectEntry = ({ project, index, onSelect }) => {
             {project.tags.map((tag) => (
               <span
                 key={tag}
+                className="label-xs"
                 style={{
-                  fontFamily: 'var(--mono)',
-                  fontSize: '9px',
-                  fontWeight: 500,
-                  letterSpacing: '0.1em',
-                  textTransform: 'uppercase',
                   color: 'var(--on-surface-variant)',
                   background: 'var(--surface-high)',
-                  padding: '5px 10px',
+                  padding: 'var(--space-1) var(--space-2)',
                   border: '1px solid var(--outline-variant)',
                 }}
               >
@@ -382,20 +337,9 @@ const ProjectEntry = ({ project, index, onSelect }) => {
                 href={project.projectUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group/link inline-flex items-center gap-2 transition-all duration-200"
-                style={{
-                  fontFamily: 'var(--mono)',
-                  fontSize: '11px',
-                  fontWeight: 500,
-                  letterSpacing: '0.08em',
-                  textTransform: 'uppercase',
-                  color: 'var(--on-surface)',
-                  textDecoration: 'none',
-                }}
-                onMouseEnter={e => { e.currentTarget.style.color = 'var(--secondary)'; e.currentTarget.style.gap = '12px'; }}
-                onMouseLeave={e => { e.currentTarget.style.color = 'var(--on-surface)'; e.currentTarget.style.gap = '8px'; }}
+                className="label visit-link"
               >
-                {project.linkLabel || "Visit Website"} <span>&rarr;</span>
+                {project.linkLabel || "Visit Website"} <span aria-hidden="true">&rarr;</span>
               </a>
             )}
             {project.githubUrl && (
@@ -403,23 +347,9 @@ const ProjectEntry = ({ project, index, onSelect }) => {
                 href={project.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2"
-                style={{
-                  fontFamily: 'var(--mono)',
-                  fontSize: '11px',
-                  fontWeight: 500,
-                  letterSpacing: '0.08em',
-                  textTransform: 'uppercase',
-                  color: 'var(--on-surface-variant)',
-                  textDecoration: 'none',
-                  border: '1px solid var(--outline-variant)',
-                  padding: '8px 16px',
-                  transition: 'all 0.25s ease',
-                }}
-                onMouseEnter={e => { e.currentTarget.style.color = '#ffffff'; e.currentTarget.style.borderColor = '#ffffff'; e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; }}
-                onMouseLeave={e => { e.currentTarget.style.color = 'var(--on-surface-variant)'; e.currentTarget.style.borderColor = 'var(--outline-variant)'; e.currentTarget.style.background = 'transparent'; }}
+                className="label repo-link"
               >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
                 GitHub
               </a>
             )}
@@ -458,32 +388,14 @@ export const Project = () => {
     <section id="projects" style={{ padding: 'var(--section-gap) 0' }}>
       <div className="max-w-6xl mx-auto px-6 md:px-16">
         <GsapReveal>
-          <div className="flex justify-between items-end mb-20" style={{ marginBottom: '80px' }}>
+          <div className="flex justify-between items-end" style={{ marginBottom: 'var(--header-gap)' }}>
             <div>
               <div className="section-label">Selected Works</div>
-              <h2
-                style={{
-                  fontFamily: 'var(--serif)',
-                  fontSize: 'clamp(36px, 5vw, 52px)',
-                  fontWeight: 700,
-                  letterSpacing: '-0.015em',
-                  color: 'var(--on-surface)',
-                }}
-              >
-                Projects<em style={{ fontStyle: 'italic', color: 'var(--on-surface-variant)' }}>.</em>
+              <h2 className="h2">
+                Projects<em className="flourish">.</em>
               </h2>
             </div>
-            <p
-              className="hidden md:block"
-              style={{
-                maxWidth: '280px',
-                fontFamily: 'var(--sans)',
-                fontSize: '14px',
-                lineHeight: '23px',
-                color: 'var(--on-surface-variant)',
-                letterSpacing: '-0.01em',
-              }}
-            >
+            <p className="body hidden md:block" style={{ maxWidth: '280px' }}>
               A curated gallery of engineering and design, focusing on high-performance web applications and bespoke digital experiences.
             </p>
           </div>
@@ -553,73 +465,31 @@ export const Project = () => {
                   />
                 </div>
 
-                <div
-                  style={{
-                    fontFamily: 'var(--mono)',
-                    fontSize: '10px',
-                    letterSpacing: '0.1em',
-                    textTransform: 'uppercase',
-                    color: 'var(--secondary)',
-                    marginBottom: '12px',
-                  }}
-                >
+                <div className="label" style={{ color: 'var(--secondary)', marginBottom: 'var(--space-3)' }}>
                   {String(index + 1).padStart(2, '0')}
                 </div>
 
                 {project.status && (
-                  <span
-                    className="inline-block mb-3"
-                    style={{
-                      fontFamily: 'var(--mono)',
-                      fontSize: '10px',
-                      fontWeight: 500,
-                      letterSpacing: '0.1em',
-                      textTransform: 'uppercase',
-                      color: 'var(--secondary)',
-                      background: 'rgba(242,100,15,0.08)',
-                      padding: '5px 12px',
-                    }}
-                  >
+                  <span className="chip mb-3">
                     {project.status}
                   </span>
                 )}
 
-                <h3
-                  style={{
-                    fontFamily: 'var(--serif)',
-                    fontSize: '28px',
-                    fontWeight: 700,
-                    lineHeight: 1.15,
-                    color: 'var(--on-surface)',
-                    marginBottom: '12px',
-                  }}
-                >
+                <h3 className="h3" style={{ marginBottom: 'var(--space-3)' }}>
                   {project.title}
                 </h3>
-                <p
-                  style={{
-                    fontFamily: 'var(--sans)',
-                    fontSize: '14px',
-                    lineHeight: '22px',
-                    color: 'var(--on-surface-variant)',
-                    marginBottom: '16px',
-                  }}
-                >
+                <p className="body" style={{ marginBottom: 'var(--space-4)' }}>
                   {project.description}
                 </p>
                 <div className="flex flex-wrap gap-1.5 mb-5">
                   {project.tags.map((tag) => (
                     <span
                       key={tag}
+                      className="label-xs"
                       style={{
-                        fontFamily: 'var(--mono)',
-                        fontSize: '9px',
-                        fontWeight: 500,
-                        letterSpacing: '0.1em',
-                        textTransform: 'uppercase',
                         color: 'var(--on-surface-variant)',
                         background: 'var(--surface-high)',
-                        padding: '5px 10px',
+                        padding: 'var(--space-1) var(--space-2)',
                         border: '1px solid var(--outline-variant)',
                       }}
                     >
@@ -634,17 +504,9 @@ export const Project = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={e => e.stopPropagation()}
-                      style={{
-                        fontFamily: 'var(--mono)',
-                        fontSize: '11px',
-                        fontWeight: 500,
-                        letterSpacing: '0.08em',
-                        textTransform: 'uppercase',
-                        color: 'var(--on-surface)',
-                        textDecoration: 'none',
-                      }}
+                      className="label visit-link"
                     >
-                      {project.linkLabel || "Visit Website"} &rarr;
+                      {project.linkLabel || "Visit Website"} <span aria-hidden="true">&rarr;</span>
                     </a>
                   )}
                   {project.githubUrl && (
@@ -653,23 +515,9 @@ export const Project = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={e => e.stopPropagation()}
-                      className="inline-flex items-center gap-2"
-                      style={{
-                        fontFamily: 'var(--mono)',
-                        fontSize: '11px',
-                        fontWeight: 500,
-                        letterSpacing: '0.08em',
-                        textTransform: 'uppercase',
-                        color: 'var(--on-surface-variant)',
-                        textDecoration: 'none',
-                        border: '1px solid var(--outline-variant)',
-                        padding: '8px 16px',
-                        transition: 'all 0.25s ease',
-                      }}
-                      onMouseEnter={e => { e.currentTarget.style.color = '#ffffff'; e.currentTarget.style.borderColor = '#ffffff'; e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; }}
-                      onMouseLeave={e => { e.currentTarget.style.color = 'var(--on-surface-variant)'; e.currentTarget.style.borderColor = 'var(--outline-variant)'; e.currentTarget.style.background = 'transparent'; }}
+                      className="label repo-link"
                     >
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
                       GitHub
                     </a>
                   )}
@@ -714,58 +562,52 @@ export const Project = () => {
 
             <div className="px-5 py-6 sm:px-12">
               {/* Title */}
-              <div style={{ marginBottom: '32px' }}>
-                <h2 style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(28px, 4vw, 40px)', fontWeight: 700, color: 'var(--on-surface)', marginBottom: '12px' }}>{selected.title}</h2>
-                <p style={{ fontSize: '15px', color: 'var(--on-surface-variant)', lineHeight: '24px', maxWidth: '600px' }}>{selected.description}</p>
+              <div style={{ marginBottom: 'var(--space-8)' }}>
+                <h2 className="h3" style={{ marginBottom: 'var(--space-3)' }}>{selected.title}</h2>
+                <p className="body" style={{ maxWidth: '600px' }}>{selected.description}</p>
                 <div className="flex flex-wrap gap-2 mt-4">
                   {selected.tags.map(tag => (
-                    <span key={tag} style={{ fontFamily: 'var(--mono)', fontSize: '9px', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--on-surface-variant)', background: 'var(--surface-high)', padding: '4px 8px', border: '1px solid var(--outline-variant)' }}>{tag}</span>
+                    <span key={tag} className="label-xs" style={{ color: 'var(--on-surface-variant)', background: 'var(--surface-high)', padding: 'var(--space-1) var(--space-2)', border: '1px solid var(--outline-variant)' }}>{tag}</span>
                   ))}
                 </div>
               </div>
 
               {/* Timeline */}
-              <div style={{ borderTop: '1px solid var(--outline-variant)', paddingTop: '32px' }}>
+              <div style={{ borderTop: '1px solid var(--outline-variant)', paddingTop: 'var(--space-8)' }}>
                 <div className="flex items-center gap-3 mb-8">
-                  <span style={{ fontFamily: 'var(--mono)', fontSize: '11px', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--secondary)', fontWeight: 500 }}>Development Journey</span>
+                  <span className="label-lg" style={{ color: 'var(--secondary)' }}>Development Journey</span>
                 </div>
 
-                <div style={{ position: 'relative', paddingLeft: '28px' }}>
+                <div style={{ position: 'relative', paddingLeft: 'var(--space-6)' }}>
                   {/* Vertical line */}
                   <div style={{ position: 'absolute', left: '4px', top: '8px', bottom: '8px', width: '1px', background: 'var(--outline-variant)' }} />
 
                   {selected.timeline.map((item, i) => (
-                    <div key={i} style={{ position: 'relative', marginBottom: i < selected.timeline.length - 1 ? '28px' : 0 }}>
-                      {/* Dot */}
-                      <div style={{ position: 'absolute', left: '-28px', top: '6px', width: '9px', height: '9px', borderRadius: '50%', background: i === selected.timeline.length - 1 ? 'var(--secondary)' : 'var(--outline-variant)', border: i === selected.timeline.length - 1 ? '2px solid var(--secondary)' : 'none' }} />
+                    <div key={i} style={{ position: 'relative', marginBottom: i < selected.timeline.length - 1 ? 'var(--space-6)' : 0 }}>
+                      {/* Dot — square, like every other marker in the system */}
+                      <div style={{ position: 'absolute', left: '-24px', top: '7px', width: '8px', height: '8px', background: i === selected.timeline.length - 1 ? 'var(--secondary)' : 'var(--outline-interactive)' }} />
 
-                      <div style={{ fontFamily: 'var(--mono)', fontSize: '10px', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--outline)', marginBottom: '6px' }}>{item.date}</div>
-                      <div style={{ fontFamily: 'var(--serif)', fontSize: '16px', fontWeight: 700, color: 'var(--on-surface)', marginBottom: '4px' }}>{item.title}</div>
-                      <div style={{ fontSize: '13px', color: 'var(--on-surface-variant)', lineHeight: '20px' }}>{item.desc}</div>
+                      <div className="label" style={{ color: 'var(--outline)', marginBottom: 'var(--space-1)' }}>{item.date}</div>
+                      <div className="h5" style={{ marginBottom: 'var(--space-1)' }}>{item.title}</div>
+                      <div className="small">{item.desc}</div>
                     </div>
                   ))}
                 </div>
               </div>
 
               {/* Close + Links */}
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 mt-8" style={{ borderTop: '1px solid var(--outline-variant)', paddingTop: '24px' }}>
-                <button onClick={closeOverlay} style={{ fontFamily: 'var(--mono)', fontSize: '11px', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--outline)', background: 'none', border: 'none', cursor: 'pointer', padding: 0, touchAction: 'manipulation' }}>Close</button>
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 mt-8" style={{ borderTop: '1px solid var(--outline-variant)', paddingTop: 'var(--space-6)' }}>
+                <button className="label quiet-btn" onClick={closeOverlay}>Close</button>
                 <div className="flex gap-3">
                   {selected.githubUrl && (
-                    <a href={selected.githubUrl} target="_blank" rel="noopener noreferrer" style={{ fontFamily: 'var(--mono)', fontSize: '11px', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--on-surface-variant)', textDecoration: 'none', border: '1px solid var(--outline-variant)', padding: '10px 20px', display: 'inline-flex', alignItems: 'center', gap: '6px', transition: 'all 0.2s' }}
-                      onMouseEnter={e => { e.currentTarget.style.color = '#fff'; e.currentTarget.style.borderColor = '#fff'; }}
-                      onMouseLeave={e => { e.currentTarget.style.color = 'var(--on-surface-variant)'; e.currentTarget.style.borderColor = 'var(--outline-variant)'; }}
-                    >
-                      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                    <a href={selected.githubUrl} target="_blank" rel="noopener noreferrer" className="label repo-link">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
                       GitHub
                     </a>
                   )}
                   {selected.projectUrl && (
-                    <a href={selected.projectUrl} target="_blank" rel="noopener noreferrer" style={{ fontFamily: 'var(--mono)', fontSize: '11px', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#fff', textDecoration: 'none', background: 'var(--secondary)', padding: '10px 20px', display: 'inline-flex', alignItems: 'center', gap: '6px', transition: 'background 0.2s' }}
-                      onMouseEnter={e => { e.currentTarget.style.background = '#d95a0e'; }}
-                      onMouseLeave={e => { e.currentTarget.style.background = 'var(--secondary)'; }}
-                    >
-                      {selected.linkLabel || "Visit Website"} &rarr;
+                    <a href={selected.projectUrl} target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ padding: 'var(--space-3) var(--space-5)' }}>
+                      {selected.linkLabel || "Visit Website"} <span aria-hidden="true">&rarr;</span>
                     </a>
                   )}
                 </div>

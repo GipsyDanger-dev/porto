@@ -134,71 +134,36 @@ const organizations = [
 ];
 
 const RoleEntry = ({ role, isLast }) => (
-  <div style={{ paddingBottom: isLast ? 0 : '28px', marginBottom: isLast ? 0 : '28px', borderBottom: isLast ? 'none' : '1px solid var(--outline-variant)' }}>
+  <div style={{ paddingBottom: isLast ? 0 : 'var(--space-6)', marginBottom: isLast ? 0 : 'var(--space-6)', borderBottom: isLast ? 'none' : '1px solid var(--outline-variant)' }}>
     <div className="flex flex-wrap items-center gap-2 mb-2">
       <h4
         style={{
           fontFamily: 'var(--sans)',
-          fontSize: '15px',
+          fontSize: 'var(--body)',
           fontWeight: 600,
           color: 'var(--on-surface)',
-          lineHeight: 1.3,
+          lineHeight: 1.35,
         }}
       >
         {role.title}
       </h4>
     </div>
     <div className="flex flex-wrap items-center gap-2 mb-3">
-      <span
-        style={{
-          fontFamily: 'var(--mono)',
-          fontSize: '10px',
-          fontWeight: 500,
-          letterSpacing: '0.08em',
-          textTransform: 'uppercase',
-          color: 'var(--secondary)',
-          background: 'rgba(242,100,15,0.08)',
-          padding: '3px 10px',
-        }}
-      >
-        {role.period}
-      </span>
-      <span
-        style={{
-          fontFamily: 'var(--mono)',
-          fontSize: '10px',
-          letterSpacing: '0.08em',
-          textTransform: 'uppercase',
-          color: 'var(--outline)',
-        }}
-      >
-        {role.duration}
-      </span>
+      <span className="chip">{role.period}</span>
+      <span className="label" style={{ color: 'var(--outline)' }}>{role.duration}</span>
     </div>
-    <p
-      style={{
-        fontFamily: 'var(--sans)',
-        fontSize: '13px',
-        lineHeight: '21px',
-        color: 'var(--on-surface-variant)',
-        marginBottom: '12px',
-      }}
-    >
+    <p className="small" style={{ marginBottom: 'var(--space-3)' }}>
       {role.description}
     </p>
     <div className="flex flex-wrap gap-1.5">
       {role.skills.map((skill) => (
         <span
           key={skill}
+          className="label-xs"
           style={{
-            fontFamily: 'var(--mono)',
-            fontSize: '9px',
-            fontWeight: 500,
-            letterSpacing: '0.1em',
-            textTransform: 'uppercase',
             color: 'var(--on-surface-variant)',
             background: 'var(--surface-high)',
-            padding: '4px 8px',
+            padding: 'var(--space-1) var(--space-2)',
             border: '1px solid var(--outline-variant)',
           }}
         >
@@ -225,58 +190,16 @@ const OrgCard = ({ org, index }) => {
         {/* Org Header */}
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-8">
           <div>
-            <h3
-              style={{
-                fontFamily: 'var(--serif)',
-                fontSize: 'clamp(24px, 3vw, 32px)',
-                fontWeight: 700,
-                letterSpacing: '-0.015em',
-                color: 'var(--on-surface)',
-                marginBottom: '8px',
-              }}
-            >
+            <h3 className="h3" style={{ marginBottom: 'var(--space-2)' }}>
               {org.name}
             </h3>
             <div className="flex flex-wrap items-center gap-3">
-              <span
-                style={{
-                  fontFamily: 'var(--mono)',
-                  fontSize: '10px',
-                  letterSpacing: '0.08em',
-                  textTransform: 'uppercase',
-                  color: 'var(--outline)',
-                }}
-              >
-                {org.location}
-              </span>
+              <span className="label" style={{ color: 'var(--outline)' }}>{org.location}</span>
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <span
-              style={{
-                fontFamily: 'var(--mono)',
-                fontSize: '10px',
-                fontWeight: 500,
-                letterSpacing: '0.08em',
-                textTransform: 'uppercase',
-                color: 'var(--secondary)',
-                background: 'rgba(242,100,15,0.08)',
-                padding: '5px 12px',
-              }}
-            >
-              {org.type}
-            </span>
-            <span
-              style={{
-                fontFamily: 'var(--mono)',
-                fontSize: '10px',
-                letterSpacing: '0.08em',
-                textTransform: 'uppercase',
-                color: 'var(--outline)',
-              }}
-            >
-              {org.duration}
-            </span>
+            <span className="chip">{org.type}</span>
+            <span className="label" style={{ color: 'var(--outline)' }}>{org.duration}</span>
           </div>
         </div>
 
@@ -289,7 +212,7 @@ const OrgCard = ({ org, index }) => {
 
         {/* Other Roles (expanded) */}
         {hasOtherRoles && expanded && (
-          <div style={{ animation: 'slideDown 0.4s ease-out' }}>
+          <div className="reveal-down">
             {org.otherRoles.map((role, i) => (
               <RoleEntry key={`other-${i}`} role={role} isLast={i === org.otherRoles.length - 1} />
             ))}
@@ -300,47 +223,33 @@ const OrgCard = ({ org, index }) => {
         {hasOtherRoles && (
           <button
             onClick={() => setExpanded(!expanded)}
+            aria-expanded={expanded}
+            className="label-lg expand-toggle"
             style={{
-              fontFamily: 'var(--mono)',
-              fontSize: '11px',
-              fontWeight: 500,
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
               color: 'var(--secondary)',
               background: 'none',
               border: 'none',
               cursor: 'pointer',
-              padding: '16px 0',
+              padding: 'var(--space-4) 0',
               display: 'flex',
               alignItems: 'center',
-              gap: '8px',
-              transition: 'all 0.3s ease',
-            }}
-            onMouseEnter={e => {
-              e.currentTarget.style.gap = '12px';
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.gap = '8px';
+              gap: 'var(--space-2)',
             }}
           >
             {expanded ? 'Show Less' : `Show All (${org.otherRoles.length + featuredRoles.length} roles)`}
-            <span style={{
-              display: 'inline-block',
-              transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
-              transition: 'transform 0.3s ease',
-            }}>
+            <span
+              aria-hidden="true"
+              style={{
+                display: 'inline-block',
+                transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
+                transition: 'transform var(--dur-base) var(--ease-out)',
+              }}
+            >
               ↓
             </span>
           </button>
         )}
       </div>
-
-      <style>{`
-        @keyframes slideDown {
-          from { opacity: 0; max-height: 0; }
-          to { opacity: 1; max-height: 1000px; }
-        }
-      `}</style>
     </GsapReveal>
   );
 };
@@ -350,18 +259,10 @@ export const Organization = () => {
     <section id="experience" style={{ padding: 'var(--section-gap) 0' }}>
       <div className="max-w-5xl mx-auto px-6 md:px-16">
         <GsapReveal>
-          <div style={{ marginBottom: '64px' }}>
+          <div style={{ marginBottom: 'var(--header-gap)' }}>
             <div className="section-label">Experience</div>
-            <h2
-              style={{
-                fontFamily: 'var(--serif)',
-                fontSize: 'clamp(36px, 5vw, 52px)',
-                fontWeight: 700,
-                letterSpacing: '-0.015em',
-                color: 'var(--on-surface)',
-              }}
-            >
-              Organizations & Work<em style={{ fontStyle: 'italic', color: 'var(--on-surface-variant)' }}>.</em>
+            <h2 className="h2">
+              Organizations &amp; Work<em className="flourish">.</em>
             </h2>
           </div>
         </GsapReveal>

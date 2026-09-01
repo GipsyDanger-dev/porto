@@ -8,3 +8,4 @@ dist
 /.mimocode/
 /.cursor/
 /.copilot/
+.gstack/

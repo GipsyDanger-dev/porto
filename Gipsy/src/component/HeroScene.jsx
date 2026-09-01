@@ -16,14 +16,14 @@ function GlowingTorus() {
 
   return (
     <Float speed={1.5} rotationIntensity={0.3} floatIntensity={0.5}>
-      <mesh ref={meshRef} scale={1.8}>
+      <mesh ref={meshRef} position={[0, 0, -0.5]} scale={1.55}>
         <torusGeometry args={[1, 0.35, 32, 64]} />
         <meshStandardMaterial
           ref={materialRef}
           color="#f2640f"
           wireframe
           transparent
-          opacity={0.12}
+          opacity={0.065}
           emissive="#f2640f"
           emissiveIntensity={0.15}
         />
@@ -83,13 +83,13 @@ function WireframeIcosahedron() {
   });
 
   return (
-    <mesh ref={meshRef} position={[3, -1, -2]} scale={0.6}>
+    <mesh ref={meshRef} position={[3, -1, -2]} scale={0.5}>
       <icosahedronGeometry args={[1, 1]} />
       <meshStandardMaterial
         color="#f2640f"
         wireframe
         transparent
-        opacity={0.06}
+        opacity={0.035}
         emissive="#f2640f"
         emissiveIntensity={0.08}
       />

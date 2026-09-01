@@ -7,13 +7,19 @@ const COOLDOWN_SECONDS = 15;
 const MESSAGE_MIN_LENGTH = 10;
 const COOLDOWN_STORAGE_KEY = "contact_last_sent_at";
 
+const prefersReducedMotion = typeof window !== 'undefined'
+  && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 const MetaIcon = ({ children, accent }) => {
   const svgRef = useRef(null);
   const containerRef = useRef(null);
 
   useEffect(() => {
+    const container = containerRef.current;
     const paths = svgRef.current?.querySelectorAll('path, circle');
-    if (!paths) return;
+    if (!container || !paths) return;
+
+    if (prefersReducedMotion) return;
 
     paths.forEach(path => {
       const length = path.getTotalLength?.() || 0;
@@ -22,23 +28,15 @@ const MetaIcon = ({ children, accent }) => {
       }
     });
 
+    const tweens = [];
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           paths.forEach((path, i) => {
             const length = path.getTotalLength?.() || 0;
             if (length > 0) {
-              gsap.to(path, { strokeDashoffset: 0, duration: 1.2, delay: i * 0.2, ease: "power2.out" });
+              tweens.push(gsap.to(path, { strokeDashoffset: 0, duration: 0.9, delay: i * 0.12, ease: 'power3.out' }));
             }
-          });
-          // Subtle pulse on the container
-          gsap.to(containerRef.current, {
-            scale: 1.05,
-            duration: 0.6,
-            delay: 0.5,
-            ease: "power2.out",
-            yoyo: true,
-            repeat: 1,
           });
           observer.unobserve(entry.target);
         }
@@ -46,8 +44,11 @@ const MetaIcon = ({ children, accent }) => {
       { threshold: 0.5 }
     );
 
-    observer.observe(containerRef.current);
-    return () => observer.disconnect();
+    observer.observe(container);
+    return () => {
+      observer.disconnect();
+      tweens.forEach(t => t.kill());
+    };
   }, []);
 
   return (
@@ -79,47 +80,18 @@ const MetaIcon = ({ children, accent }) => {
   );
 };
 
-const SocialLink = ({ label, href }) => {
-  const arrowRef = useRef(null);
-
-  useEffect(() => {
-    // Subtle float animation on the arrow
-    gsap.to(arrowRef.current, {
-      y: -1,
-      duration: 1.5,
-      ease: "power1.inOut",
-      yoyo: true,
-      repeat: -1,
-    });
-  }, []);
-
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="group/social flex items-center gap-1.5 transition-colors duration-200"
-      style={{
-        fontFamily: 'var(--mono)',
-        fontSize: '10px',
-        letterSpacing: '0.08em',
-        textTransform: 'uppercase',
-        color: 'var(--outline)',
-        textDecoration: 'none',
-      }}
-      onMouseEnter={e => { e.currentTarget.style.color = 'var(--on-surface)'; }}
-      onMouseLeave={e => { e.currentTarget.style.color = 'var(--outline)'; }}
-    >
-      {label}
-      <span
-        ref={arrowRef}
-        className="inline-block transition-transform duration-200 group-hover/social:translate-x-0.5 group-hover/social:-translate-y-0.5"
-      >
-        &#8599;
-      </span>
-    </a>
-  );
-};
+const SocialLink = ({ label, href }) => (
+  <a
+    href={href}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="social-link"
+    style={{ fontFamily: 'var(--mono)' }}
+  >
+    {label}
+    <span aria-hidden="true">&#8599;</span>
+  </a>
+);
 
 export const Contact = () => {
   const [formData, setFormData] = useState({ name: "", email: "", subject: "", message: "", website: "" });
@@ -195,41 +167,15 @@ export const Contact = () => {
   const fieldStyle = {
     background: 'transparent',
     border: 'none',
-    borderBottom: '1px solid var(--outline-variant)',
+    borderBottom: '1px solid var(--outline-interactive)',
     color: 'var(--on-surface)',
     fontFamily: 'var(--sans)',
-    fontSize: '15px',
+    fontSize: 'var(--body)',
     fontWeight: 300,
     padding: '0 0 14px 0',
-    outline: 'none',
     width: '100%',
     letterSpacing: '-0.01em',
     borderRadius: 0,
-    transition: 'border-color 0.25s',
-  };
-
-  const labelStyle = {
-    fontFamily: 'var(--mono)',
-    fontSize: '10px',
-    fontWeight: 500,
-    letterSpacing: '0.12em',
-    textTransform: 'uppercase',
-    color: 'var(--outline)',
-    marginBottom: '12px',
-    display: 'block',
-    transition: 'color 0.25s',
-  };
-
-  const handleFocus = (e) => {
-    e.currentTarget.style.borderBottomColor = 'var(--secondary)';
-    const label = e.currentTarget.parentElement.querySelector('.field-label');
-    if (label) label.style.color = 'var(--secondary)';
-  };
-
-  const handleBlur = (e) => {
-    e.currentTarget.style.borderBottomColor = 'var(--outline-variant)';
-    const label = e.currentTarget.parentElement.querySelector('.field-label');
-    if (label) label.style.color = 'var(--outline)';
   };
 
   return (
@@ -248,80 +194,37 @@ export const Contact = () => {
               </GsapReveal>
 
               <GsapReveal delay={0.1}>
-                <h2
-                  style={{
-                    fontFamily: 'var(--serif)',
-                    fontSize: 'clamp(40px, 6vw, 56px)',
-                    fontWeight: 700,
-                    lineHeight: 1.05,
-                    letterSpacing: '-0.025em',
-                    color: 'var(--on-surface)',
-                    marginBottom: '48px',
-                  }}
-                >
+                <h2 className="h2" style={{ marginBottom: 'var(--space-12)' }}>
                   Let&apos;s Build<br />
-                  <em style={{ fontStyle: 'italic', color: 'var(--on-surface-variant)' }}>Something.</em>
+                  <em className="flourish">Something.</em>
                 </h2>
               </GsapReveal>
 
               <GsapReveal delay={0.2}>
-                <div style={{ width: '100%', height: '1px', background: 'var(--outline-variant)', marginBottom: '40px' }} />
+                <div style={{ width: '100%', height: '1px', background: 'var(--outline-variant)', marginBottom: 'var(--space-10)' }} />
               </GsapReveal>
 
               {/* Email */}
               <GsapReveal delay={0.2}>
-                <div style={{ marginBottom: '32px' }}>
-                  <div
-                    style={{
-                      fontFamily: 'var(--mono)',
-                      fontSize: '10px',
-                      letterSpacing: '0.1em',
-                      textTransform: 'uppercase',
-                      color: 'var(--outline)',
-                      marginBottom: '8px',
-                    }}
-                  >
+                <div style={{ marginBottom: 'var(--space-8)' }}>
+                  <div className="label" style={{ color: 'var(--outline)', marginBottom: 'var(--space-2)' }}>
                     Direct Email
                   </div>
-                  <a
-                    href="mailto:aryagunaadam@gmail.com"
-                    className="group/email"
-                    style={{
-                      fontFamily: 'var(--serif)',
-                      fontSize: '22px',
-                      fontWeight: 700,
-                      color: 'var(--on-surface)',
-                      textDecoration: 'none',
-                      letterSpacing: '-0.01em',
-                      display: 'inline-block',
-                      position: 'relative',
-                      transition: 'color 0.25s',
-                    }}
-                    onMouseEnter={e => { e.currentTarget.style.color = 'var(--secondary)'; }}
-                    onMouseLeave={e => { e.currentTarget.style.color = 'var(--on-surface)'; }}
-                  >
+                  <a href="mailto:aryagunaadam@gmail.com" className="email-link">
                     aryagunaadam@gmail.com
-                    <span
-                      className="absolute left-0 right-0 h-px origin-left transition-transform duration-400 group-hover/email:scale-x-100"
-                      style={{
-                        bottom: '-2px',
-                        background: 'var(--secondary)',
-                        transform: 'scaleX(0)',
-                      }}
-                    />
                   </a>
                 </div>
               </GsapReveal>
 
               {/* Meta info */}
               <GsapReveal delay={0.3}>
-                <div className="flex flex-col gap-3" style={{ marginTop: '40px' }}>
+                <div className="flex flex-col gap-3" style={{ marginTop: 'var(--space-10)' }}>
                   <div className="flex items-center gap-3.5">
                     <MetaIcon>
                       <path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
                       <path d="M12 2a7 7 0 0 1 7 7c0 5.25-7 13-7 13s-7-7.75-7-13a7 7 0 0 1 7-7z" />
                     </MetaIcon>
-                    <span style={{ fontFamily: 'var(--mono)', fontSize: '11px', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--on-surface-variant)' }}>
+                    <span className="label" style={{ color: 'var(--on-surface-variant)' }}>
                       Cilacap, Indonesia
                     </span>
                   </div>
@@ -330,7 +233,7 @@ export const Contact = () => {
                       <circle cx="12" cy="12" r="9" />
                       <path d="M12 8v4l2.5 2.5" />
                     </MetaIcon>
-                    <span style={{ fontFamily: 'var(--mono)', fontSize: '11px', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--on-surface-variant)' }}>
+                    <span className="label" style={{ color: 'var(--on-surface-variant)' }}>
                       GMT+7 (WIB)
                     </span>
                   </div>
@@ -339,7 +242,7 @@ export const Contact = () => {
                       <circle cx="12" cy="12" r="3" />
                       <path d="M12 2v2M12 20v2M2 12h2M20 12h2" />
                     </MetaIcon>
-                    <span style={{ fontFamily: 'var(--mono)', fontSize: '11px', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--secondary)' }}>
+                    <span className="label" style={{ color: 'var(--secondary)' }}>
                       Available for Work
                     </span>
                   </div>
@@ -350,7 +253,7 @@ export const Contact = () => {
               <GsapReveal delay={0.3}>
                 <div
                   className="flex gap-4"
-                  style={{ marginTop: '40px', paddingTop: '40px', borderTop: '1px solid var(--outline-variant)' }}
+                  style={{ marginTop: 'var(--space-10)', paddingTop: 'var(--space-10)', borderTop: '1px solid var(--outline-variant)' }}
                 >
                   {[
                     { label: 'GitHub', href: 'https://github.com/GipsyDanger-dev' },
@@ -366,29 +269,20 @@ export const Contact = () => {
             {/* RIGHT: Form */}
             <div>
               <GsapReveal>
-                <div
-                  style={{
-                    fontFamily: 'var(--serif)',
-                    fontSize: '20px',
-                    fontWeight: 700,
-                    color: 'var(--on-surface)',
-                    letterSpacing: '-0.01em',
-                    marginBottom: '40px',
-                  }}
-                >
+                <div className="h4" style={{ marginBottom: 'var(--space-10)' }}>
                   Send a message.
                 </div>
               </GsapReveal>
 
               {notice.message && (
                 <div
-                  className="mb-6 px-4 py-3"
+                  className="body mb-6 px-4 py-3"
+                  role="status"
+                  aria-live="polite"
                   style={{
                     border: `1px solid ${notice.type === 'success' ? '#10b981' : notice.type === 'error' ? '#ef4444' : '#3b82f6'}`,
                     background: notice.type === 'success' ? 'rgba(16,185,129,0.1)' : notice.type === 'error' ? 'rgba(239,68,68,0.1)' : 'rgba(59,130,246,0.1)',
                     color: notice.type === 'success' ? '#a7f3d0' : notice.type === 'error' ? '#fca5a5' : '#93c5fd',
-                    fontFamily: 'var(--sans)',
-                    fontSize: '14px',
                   }}
                 >
                   {notice.message}
@@ -397,9 +291,9 @@ export const Contact = () => {
 
               <form onSubmit={handleSubmit}>
                 <GsapReveal delay={0.1}>
-                  <div className="grid gap-8 grid-cols-1 sm:grid-cols-2" style={{ marginBottom: '32px' }}>
-                    <div className="flex flex-col">
-                      <label className="field-label" htmlFor="name" style={labelStyle}>Name</label>
+                  <div className="grid gap-8 grid-cols-1 sm:grid-cols-2" style={{ marginBottom: 'var(--space-8)' }}>
+                    <div className="field">
+                      <label className="field-label label" htmlFor="name">Name</label>
                       <input
                         id="name"
                         type="text"
@@ -407,14 +301,12 @@ export const Contact = () => {
                         value={formData.name}
                         onChange={e => setFormData({ ...formData, name: e.target.value })}
                         placeholder="Your full name"
-                        autoComplete="off"
+                        autoComplete="name"
                         style={fieldStyle}
-                        onFocus={handleFocus}
-                        onBlur={handleBlur}
                       />
                     </div>
-                    <div className="flex flex-col">
-                      <label className="field-label" htmlFor="email" style={labelStyle}>Email</label>
+                    <div className="field">
+                      <label className="field-label label" htmlFor="email">Email</label>
                       <input
                         id="email"
                         type="email"
@@ -422,18 +314,16 @@ export const Contact = () => {
                         value={formData.email}
                         onChange={e => setFormData({ ...formData, email: e.target.value })}
                         placeholder="your@email.com"
-                        autoComplete="off"
+                        autoComplete="email"
                         style={fieldStyle}
-                        onFocus={handleFocus}
-                        onBlur={handleBlur}
                       />
                     </div>
                   </div>
                 </GsapReveal>
 
                 <GsapReveal delay={0.2}>
-                  <div className="flex flex-col" style={{ marginBottom: '32px' }}>
-                    <label className="field-label" htmlFor="subject" style={labelStyle}>Subject</label>
+                  <div className="field" style={{ marginBottom: 'var(--space-8)' }}>
+                    <label className="field-label label" htmlFor="subject">Subject</label>
                     <input
                       id="subject"
                       type="text"
@@ -441,8 +331,6 @@ export const Contact = () => {
                       onChange={e => setFormData({ ...formData, subject: e.target.value })}
                       placeholder="Project inquiry, collaboration..."
                       style={fieldStyle}
-                      onFocus={handleFocus}
-                      onBlur={handleBlur}
                     />
                   </div>
                 </GsapReveal>
@@ -460,8 +348,8 @@ export const Contact = () => {
                 />
 
                 <GsapReveal delay={0.2}>
-                  <div className="flex flex-col" style={{ marginBottom: '0' }}>
-                    <label className="field-label" htmlFor="message" style={labelStyle}>Message</label>
+                  <div className="field">
+                    <label className="field-label label" htmlFor="message">Message</label>
                     <textarea
                       id="message"
                       required
@@ -471,8 +359,6 @@ export const Contact = () => {
                       onChange={e => setFormData({ ...formData, message: e.target.value })}
                       placeholder="Tell me about your project, timeline, and goals..."
                       style={{ ...fieldStyle, resize: 'none', minHeight: '120px', lineHeight: '26px' }}
-                      onFocus={handleFocus}
-                      onBlur={handleBlur}
                     />
                   </div>
                 </GsapReveal>
@@ -480,33 +366,18 @@ export const Contact = () => {
                 <GsapReveal delay={0.3}>
                   <div
                     className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-0"
-                    style={{ marginTop: '40px', paddingTop: '32px', borderTop: '1px solid var(--outline-variant)' }}
+                    style={{ marginTop: 'var(--space-10)', paddingTop: 'var(--space-8)', borderTop: '1px solid var(--outline-variant)' }}
                   >
-                    <span style={{ fontFamily: 'var(--mono)', fontSize: '10px', letterSpacing: '0.05em', color: 'var(--outline)' }}>
+                    <span className="label" style={{ color: 'var(--outline)' }}>
                       I&apos;ll reply within 24 hours.
                     </span>
                     <button
                       type="submit"
                       disabled={isSending || isInCooldown}
-                      className="group/btn flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
-                      style={{
-                        fontFamily: 'var(--mono)',
-                        fontSize: '11px',
-                        fontWeight: 500,
-                        letterSpacing: '0.1em',
-                        textTransform: 'uppercase',
-                        background: 'var(--secondary)',
-                        color: '#fff',
-                        border: 'none',
-                        padding: '16px 36px',
-                        cursor: 'pointer',
-                        transition: 'opacity 0.2s, transform 0.2s',
-                      }}
-                      onMouseEnter={e => { e.currentTarget.style.opacity = '0.88'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
-                      onMouseLeave={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'translateY(0)'; }}
+                      className="btn-primary send-btn"
                     >
                       {isSending ? "Sending..." : isInCooldown ? `Wait ${cooldownLeft}s` : "Send Message"}
-                      <span className="inline-block transition-transform duration-200 group-hover/btn:translate-x-1">&#8594;</span>
+                      <span aria-hidden="true">&#8594;</span>
                     </button>
                   </div>
                 </GsapReveal>

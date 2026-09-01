@@ -36,7 +36,10 @@ function App() {
     <>
       {!isLoaded && <LoadingScreen onComplete={() => setIsLoaded(true)} />}
       <div
-        className={`relative min-h-screen transition-opacity duration-700 ${isLoaded ? "opacity-100" : "opacity-0"}`}
+        // inert while loading: the content is invisible but was still focusable,
+        // so Tab walked into it behind the overlay.
+        inert={!isLoaded ? '' : undefined}
+        className={`relative min-h-screen transition-opacity duration-300 ${isLoaded ? "opacity-100" : "opacity-0"}`}
         style={{ background: 'var(--bg)', color: 'var(--on-surface)' }}
       >
         {/* Desktop nav */}
@@ -71,11 +74,11 @@ function App() {
         </a>
 
         <Home />
-        <Marquee />
         <main id="main-content">
           <ErrorBoundary>
             <Suspense fallback={null}>
               <About />
+              <Marquee />
               <Project />
               <Organization />
               <Certification />

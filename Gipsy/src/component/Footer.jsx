@@ -10,39 +10,22 @@ const socialLinks = [
 ];
 
 export const Footer = () => {
-  const monoStyle = {
-    fontFamily: 'var(--mono)',
-    fontSize: '10px',
-    fontWeight: 500,
-    letterSpacing: '0.08em',
-    color: 'var(--outline)',
-  };
-
   return (
     <footer
       style={{
         borderTop: '1px solid var(--outline-variant)',
-        padding: '32px 0',
+        padding: 'var(--space-8) 0',
       }}
     >
       <div className="max-w-7xl mx-auto px-6 md:px-16">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Logo */}
-          <a
-            href="#home"
-            style={{
-              fontFamily: 'var(--serif)',
-              fontSize: '16px',
-              fontWeight: 700,
-              color: 'var(--on-surface)',
-              textDecoration: 'none',
-            }}
-          >
+          <a href="#home" className="h5" style={{ textDecoration: 'none' }}>
             Gipsy<span style={{ color: 'var(--secondary)' }}>.Dev</span>
           </a>
 
           {/* Copyright */}
-          <span style={{ ...monoStyle, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+          <span className="label" style={{ color: 'var(--outline)' }}>
             &copy; {new Date().getFullYear()} GipsyDanger-dev. All Rights Reserved.
           </span>
 
@@ -54,9 +37,7 @@ export const Footer = () => {
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ color: 'var(--outline)', transition: 'color 0.3s' }}
-                onMouseEnter={e => { e.currentTarget.style.color = 'var(--on-surface)'; }}
-                onMouseLeave={e => { e.currentTarget.style.color = 'var(--outline)'; }}
+                className="icon-link"
                 aria-label={name}
               >
                 <Icon className="w-4 h-4" />

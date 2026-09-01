@@ -1,7 +1,7 @@
-import { useEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 
-const prefersReducedMotion = typeof window !== 'undefined'
+const reduceMotion = () => typeof window !== 'undefined'
   && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 // A single shared IntersectionObserver for every reveal on the page, instead
@@ -43,11 +43,14 @@ const observeOnce = (el, callback) => {
 export const GsapReveal = ({ children, className = '', delay = 0, direction = 'up' }) => {
   const ref = useRef(null);
 
-  useEffect(() => {
+  // useLayoutEffect, not useEffect: the hidden state has to be committed before
+  // the browser paints, otherwise every block flashes in at full opacity for a
+  // frame and then snaps back to opacity 0 to animate.
+  useLayoutEffect(() => {
     const el = ref.current;
     if (!el) return;
 
-    if (prefersReducedMotion) {
+    if (reduceMotion()) {
       gsap.set(el, { opacity: 1, y: 0, x: 0 });
       return;
     }
@@ -60,16 +63,25 @@ export const GsapReveal = ({ children, className = '', delay = 0, direction = 'u
       [isVertical ? 'y' : 'x']: distance,
     });
 
-    return observeOnce(el, () => {
-      gsap.to(el, {
+    let tween;
+    const unobserve = observeOnce(el, () => {
+      tween = gsap.to(el, {
         opacity: 1,
         y: 0,
         x: 0,
-        duration: 1,
+        duration: 0.65,
         delay,
+        // GSAP-native twin of the CSS --ease-out token; GSAP can't parse a raw
+        // cubic-bezier() string without CustomEase.
         ease: 'power3.out',
       });
     });
+
+    // Sections are lazy-loaded, so a reveal can unmount mid-tween.
+    return () => {
+      unobserve();
+      tween?.kill();
+    };
   }, [delay, direction]);
 
   return (
@@ -79,35 +91,41 @@ export const GsapReveal = ({ children, className = '', delay = 0, direction = 'u
   );
 };
 
-export const GsapStagger = ({ children, className = '', stagger = 0.1 }) => {
+export const GsapStagger = ({ children, className = '', style, stagger = 0.1 }) => {
   const ref = useRef(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const el = ref.current;
     if (!el) return;
 
-    if (prefersReducedMotion) {
-      gsap.set(el.children, { opacity: 1, y: 0 });
+    const childElements = el.children;
+
+    if (reduceMotion()) {
+      gsap.set(childElements, { opacity: 1, y: 0 });
       return;
     }
 
-    const childElements = el.children;
+    gsap.set(childElements, { opacity: 0, y: 24 });
 
-    gsap.set(childElements, { opacity: 0, y: 30 });
-
-    return observeOnce(el, () => {
-      gsap.to(childElements, {
+    let tween;
+    const unobserve = observeOnce(el, () => {
+      tween = gsap.to(childElements, {
         opacity: 1,
         y: 0,
-        duration: 0.8,
+        duration: 0.65,
         stagger,
         ease: 'power3.out',
       });
     });
+
+    return () => {
+      unobserve();
+      tween?.kill();
+    };
   }, [stagger]);
 
   return (
-    <div ref={ref} className={className}>
+    <div ref={ref} className={className} style={style}>
       {children}
     </div>
   );

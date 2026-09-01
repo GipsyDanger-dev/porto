@@ -14,18 +14,18 @@ const experienceData = [
 ];
 
 const TimelineItem = ({ date, title, institution }) => (
-  <div className="relative pl-6 group" style={{ borderLeft: '1px solid var(--outline-variant)' }}>
+  <div className="relative pl-6" style={{ borderLeft: '1px solid var(--outline-variant)' }}>
     <div
       className="absolute left-0 top-1 w-2 h-2 translate-x-[-4.5px]"
       style={{ background: 'var(--secondary)', borderRadius: 0 }}
     />
-    <p style={{ fontFamily: 'var(--mono)', fontSize: '11px', color: 'var(--outline)', marginBottom: '4px', letterSpacing: '0.05em' }}>
+    <p className="label" style={{ color: 'var(--outline)', marginBottom: 'var(--space-1)' }}>
       {date}
     </p>
-    <h4 style={{ fontFamily: 'var(--serif)', fontSize: '16px', fontWeight: 700, color: 'var(--on-surface)', marginBottom: '2px' }}>
+    <h4 className="h5" style={{ marginBottom: 'var(--space-1)' }}>
       {title}
     </h4>
-    <p style={{ fontFamily: 'var(--sans)', fontSize: '14px', color: 'var(--on-surface-variant)' }}>
+    <p className="small">
       {institution}
     </p>
   </div>
@@ -40,19 +40,10 @@ export const About = () => {
           <GsapReveal>
             <div className="max-w-3xl">
               <div className="section-label">About</div>
-              <h2
-                style={{
-                  fontFamily: 'var(--serif)',
-                  fontSize: 'clamp(36px, 5vw, 52px)',
-                  fontWeight: 700,
-                  letterSpacing: '-0.015em',
-                  color: 'var(--on-surface)',
-                  marginBottom: '32px',
-                }}
-              >
-                Craft <em style={{ fontStyle: 'italic', color: 'var(--on-surface-variant)' }}>&amp; Code</em>
+              <h2 className="h2" style={{ marginBottom: 'var(--space-8)' }}>
+                Craft <em className="flourish">&amp; Code</em>
               </h2>
-              <p style={{ fontFamily: 'var(--sans)', fontSize: '18px', lineHeight: '28px', color: 'var(--on-surface-variant)', marginBottom: '28px' }}>
+              <p className="lede" style={{ marginBottom: 'var(--space-8)' }}>
                 I&apos;m Adam — a full stack developer, video editor, and blockchain enthusiast. I enjoy the process from writing code to editing footage. Open for collaboration and new projects, let&apos;s connect.
               </p>
               <a
@@ -66,22 +57,22 @@ export const About = () => {
 
           {/* Timeline */}
           <GsapReveal delay={0.2}>
-            <div className="grid gap-16 lg:gap-24" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))' }}>
+            <div className="grid gap-12 lg:gap-16" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))' }}>
               <div>
-                <h3 style={{ fontFamily: 'var(--mono)', fontSize: '11px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--secondary)', marginBottom: '24px' }}>
+                <h3 className="label-lg" style={{ color: 'var(--secondary)', marginBottom: 'var(--space-6)' }}>
                   Education
                 </h3>
-                <GsapStagger className="space-y-8" stagger={0.15}>
+                <GsapStagger className="space-y-8" stagger={0.12}>
                   {educationData.map((item, i) => (
                     <TimelineItem key={i} {...item} />
                   ))}
                 </GsapStagger>
               </div>
               <div>
-                <h3 style={{ fontFamily: 'var(--mono)', fontSize: '11px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--secondary)', marginBottom: '24px' }}>
+                <h3 className="label-lg" style={{ color: 'var(--secondary)', marginBottom: 'var(--space-6)' }}>
                   Experience
                 </h3>
-                <GsapStagger className="space-y-8" stagger={0.15}>
+                <GsapStagger className="space-y-8" stagger={0.12}>
                   {experienceData.map((item, i) => (
                     <TimelineItem key={i} {...item} />
                   ))}
@@ -93,22 +84,23 @@ export const About = () => {
           {/* Skills */}
           <div>
             <GsapReveal delay={0.3}>
-              <h3 style={{ fontFamily: 'var(--mono)', fontSize: '11px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--secondary)', marginBottom: '24px' }}>
-                Arsenal
+              <h3 className="label-lg" style={{ color: 'var(--secondary)', marginBottom: 'var(--space-6)' }}>
+                Core Technologies
               </h3>
             </GsapReveal>
 
-            {/* 3D Interactive Skills — each logo animates in one by one */}
+            {/* 3D Interactive Skills — each logo animates in one by one.
+                Height must match SkillScene's own container or dead space appears. */}
             <div
               style={{
                 width: '100%',
-                height: '560px',
+                height: '520px',
                 position: 'relative',
               }}
             >
               <Suspense fallback={
                 <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <span style={{ fontFamily: 'var(--mono)', fontSize: '11px', color: 'var(--outline)' }}>Loading 3D...</span>
+                  <span className="label-lg" style={{ color: 'var(--outline)' }}>Loading&hellip;</span>
                 </div>
               }>
                 <SkillScene />

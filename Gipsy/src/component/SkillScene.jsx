@@ -19,47 +19,29 @@ import {
   SiLangchain,
   SiPolygon,
 } from "react-icons/si";
-
-// react-icons has no Circom / snarkjs glyph — small monogram marks that
-// still honor the `style` (fontSize + color) passed by FloatingLogo.
-function IconCircom(props) {
-  return (
-    <svg viewBox="0 0 24 24" width="1em" height="1em" {...props}>
-      <rect x="1.6" y="1.6" width="20.8" height="20.8" rx="5" fill="none" stroke="currentColor" strokeWidth="1.6" />
-      <text x="12" y="12.5" textAnchor="middle" dominantBaseline="central" fontSize="11" fontFamily="monospace" fontWeight="700" fill="currentColor">C</text>
-    </svg>
-  );
-}
-
-function IconSnarkjs(props) {
-  return (
-    <svg viewBox="0 0 24 24" width="1em" height="1em" {...props}>
-      <rect x="1.6" y="1.6" width="20.8" height="20.8" rx="5" fill="none" stroke="currentColor" strokeWidth="1.6" />
-      <text x="12" y="12.5" textAnchor="middle" dominantBaseline="central" fontSize="9" fontFamily="monospace" fontWeight="700" fill="currentColor">SJ</text>
-    </svg>
-  );
-}
+import circomLogo from "../pct/logos/circom.png";
+import snarkjsLogo from "../pct/logos/snarkjs.png";
 
 const skills = [
-  { name: "React", icon: SiReact, color: "#61DAFB", col: 0, row: 0, size: 48 },
-  { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E", col: 1, row: 0, size: 46 },
-  { name: "Python", icon: SiPython, color: "#306998", col: 2, row: 0, size: 48 },
-  { name: "Node.js", icon: SiNodedotjs, color: "#339933", col: 3, row: 0, size: 44 },
-  { name: "Tailwind", icon: SiTailwindcss, color: "#06B6D4", col: 4, row: 0, size: 42 },
-  { name: "TypeScript", icon: SiTypescript, color: "#3178C6", col: 0, row: 1, size: 40 },
-  { name: "Laravel", icon: SiLaravel, color: "#FF2D20", col: 1, row: 1, size: 42 },
-  { name: "Three.js", icon: SiThreedotjs, color: "#FFFFFF", col: 2, row: 1, size: 38 },
-  { name: "TensorFlow", icon: SiTensorflow, color: "#FF6F00", col: 3, row: 1, size: 40 },
-  { name: "Git", icon: SiGit, color: "#F05032", col: 4, row: 1, size: 36 },
-  { name: "Docker", icon: SiDocker, color: "#2496ED", col: 0, row: 2, size: 38 },
-  { name: "Supabase", icon: SiSupabase, color: "#3ECF8E", col: 1, row: 2, size: 36 },
-  { name: "n8n", icon: SiN8N, color: "#EA4B71", col: 2, row: 2, size: 38 },
-  { name: "Claude", icon: SiClaude, color: "#D97757", col: 3, row: 2, size: 42 },
-  { name: "Solidity", icon: SiSolidity, color: "#AAB2BD", col: 4, row: 2, size: 40 },
-  { name: "LangChain", icon: SiLangchain, color: "#3DD68C", col: 0.5, row: 3, size: 40 },
-  { name: "Polygon Amoy", icon: SiPolygon, color: "#8247E5", col: 1.5, row: 3, size: 40 },
-  { name: "Circom", icon: IconCircom, color: "#4E9A9A", col: 2.5, row: 3, size: 40 },
-  { name: "snarkjs", icon: IconSnarkjs, color: "#E8A33D", col: 3.5, row: 3, size: 40 },
+  { name: "React", icon: SiReact, col: 0, row: 0, size: 48 },
+  { name: "JavaScript", icon: SiJavascript, col: 1, row: 0, size: 46 },
+  { name: "Python", icon: SiPython, col: 2, row: 0, size: 48 },
+  { name: "Node.js", icon: SiNodedotjs, col: 3, row: 0, size: 44 },
+  { name: "Tailwind", icon: SiTailwindcss, col: 4, row: 0, size: 42 },
+  { name: "TypeScript", icon: SiTypescript, col: 0, row: 1, size: 40 },
+  { name: "Laravel", icon: SiLaravel, col: 1, row: 1, size: 42 },
+  { name: "Three.js", icon: SiThreedotjs, col: 2, row: 1, size: 38 },
+  { name: "TensorFlow", icon: SiTensorflow, col: 3, row: 1, size: 40 },
+  { name: "Git", icon: SiGit, col: 4, row: 1, size: 36 },
+  { name: "Docker", icon: SiDocker, col: 0, row: 2, size: 38 },
+  { name: "Supabase", icon: SiSupabase, col: 1, row: 2, size: 36 },
+  { name: "n8n", icon: SiN8N, col: 2, row: 2, size: 38 },
+  { name: "Claude", icon: SiClaude, col: 3, row: 2, size: 42 },
+  { name: "Solidity", icon: SiSolidity, col: 4, row: 2, size: 40 },
+  { name: "LangChain", icon: SiLangchain, col: 0.5, row: 3, size: 40 },
+  { name: "Polygon Amoy", icon: SiPolygon, col: 1.5, row: 3, size: 40 },
+  { name: "Circom", logo: circomLogo, col: 2.5, row: 3, width: 88, height: 32 },
+  { name: "snarkjs", logo: snarkjsLogo, logoMode: "image", col: 3.5, row: 3, size: 40 },
 ];
 
 function FloatingLogo({ skill, setRef, containerWidth, containerHeight }) {
@@ -75,6 +57,16 @@ function FloatingLogo({ skill, setRef, containerWidth, containerHeight }) {
   const baseY = spacingY * (skill.row + 0.5);
 
   const Icon = skill.icon;
+  const logoWidth = skill.width ?? skill.size;
+  const logoHeight = skill.height ?? skill.size;
+  const visualStyle = {
+    width: `${logoWidth}px`,
+    height: `${logoHeight}px`,
+    color: hovered ? 'var(--secondary)' : 'var(--outline)',
+    filter: hovered ? 'drop-shadow(0 0 14px rgba(242, 100, 15, 0.45))' : 'none',
+    transform: hovered ? 'scale(1.15)' : 'scale(1)',
+    transition: 'filter var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out), color var(--dur-fast) var(--ease-out)',
+  };
 
   return (
     <div
@@ -89,33 +81,60 @@ function FloatingLogo({ skill, setRef, containerWidth, containerHeight }) {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        gap: '10px',
+        gap: 'var(--space-3)',
         cursor: 'pointer',
         zIndex: hovered ? 10 : 1,
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <Icon
-        style={{
-          fontSize: `${skill.size}px`,
-          color: skill.color,
-          filter: hovered
-            ? `drop-shadow(0 0 16px ${skill.color}) drop-shadow(0 0 32px ${skill.color}55)`
-            : `drop-shadow(0 0 6px ${skill.color}44)`,
-          transition: 'all 0.4s ease',
-          transform: hovered ? 'scale(1.2)' : 'scale(1)',
-        }}
-      />
+      {skill.logoMode === 'image' ? (
+        <img
+          src={skill.logo}
+          alt=""
+          aria-hidden="true"
+          style={{
+            width: `${logoWidth}px`,
+            height: `${logoHeight}px`,
+            objectFit: 'contain',
+            mixBlendMode: 'screen',
+            filter: hovered
+              ? 'grayscale(1) sepia(1) saturate(7) hue-rotate(335deg) brightness(1.15) drop-shadow(0 0 14px rgba(242, 100, 15, 0.45))'
+              : 'grayscale(1) brightness(1.1)',
+            transform: hovered ? 'scale(1.15)' : 'scale(1)',
+            transition: 'filter var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out)',
+          }}
+        />
+      ) : skill.logo ? (
+        <span
+          aria-hidden="true"
+          style={{
+            ...visualStyle,
+            backgroundColor: 'currentColor',
+            maskImage: `url(${skill.logo})`,
+            maskPosition: 'center',
+            maskRepeat: 'no-repeat',
+            maskSize: 'contain',
+            WebkitMaskImage: `url(${skill.logo})`,
+            WebkitMaskPosition: 'center',
+            WebkitMaskRepeat: 'no-repeat',
+            WebkitMaskSize: 'contain',
+          }}
+        />
+      ) : (
+        <Icon
+          style={{
+            ...visualStyle,
+            fontSize: `${skill.size}px`,
+          }}
+        />
+      )}
       <span
+        className="label-xs"
         style={{
-          fontFamily: 'var(--mono)',
-          fontSize: '9px',
-          letterSpacing: '0.1em',
-          textTransform: 'uppercase',
-          color: hovered ? skill.color : 'var(--outline)',
-          opacity: hovered ? 1 : 0.5,
-          transition: 'all 0.3s ease',
+          color: hovered ? 'var(--secondary)' : 'var(--outline)',
+          opacity: hovered ? 1 : 0.55,
+          transition: 'color var(--dur-fast) var(--ease-out), opacity var(--dur-fast) var(--ease-out)',
           whiteSpace: 'nowrap',
         }}
       >
@@ -138,12 +157,21 @@ export default function SkillScene() {
       }
     };
     updateDimensions();
-    window.addEventListener('resize', updateDimensions);
-    return () => window.removeEventListener('resize', updateDimensions);
+    // Debounced: every raw resize event re-renders all 19 logos.
+    let frame;
+    const onResize = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(updateDimensions);
+    };
+    window.addEventListener('resize', onResize);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener('resize', onResize);
+    };
   }, []);
 
   // Entrance: reveal each logo one by one (stagger), triggered when the
-  // arsenal scrolls into view. Not a single global fade over the whole block.
+  // skills section scrolls into view. Not a single global fade over the whole block.
   // useLayoutEffect sets the hidden state before paint → no flash of visible logos.
   useLayoutEffect(() => {
     const els = logoRefs.current.filter(Boolean);
@@ -158,19 +186,22 @@ export default function SkillScene() {
       return;
     }
 
-    gsap.set(els, { opacity: 0, scale: 0.4 });
+    gsap.set(els, { opacity: 0, scale: 0.8 });
 
     let played = false;
+    let tween;
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !played) {
           played = true;
-          gsap.to(els, {
+          // power3.out, not back.out: overshoot made all 19 logos bounce past
+          // their resting size and settle back.
+          tween = gsap.to(els, {
             opacity: 1,
             scale: 1,
-            duration: 0.6,
-            stagger: 0.09, // each logo animates one after another
-            ease: 'back.out(1.7)',
+            duration: 0.5,
+            stagger: 0.05,
+            ease: 'power3.out',
           });
           observer.disconnect();
         }
@@ -178,7 +209,10 @@ export default function SkillScene() {
       { threshold: 0.2 }
     );
     observer.observe(containerRef.current);
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      tween?.kill();
+    };
   }, []);
 
   return (

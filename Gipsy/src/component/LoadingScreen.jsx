@@ -1,27 +1,35 @@
 import { useEffect, useState } from "react";
 
+const FULL_TEXT = "<Hello World/>";
+const CHAR_MS = 60;
+const HOLD_MS = 150;
+
 export const LoadingScreen = ({ onComplete }) => {
   const [text, setText] = useState("");
-  const fullText = "<Hello World/>";
 
   useEffect(() => {
     let index = 0;
+    let holdTimer;
     const interval = setInterval(() => {
-      setText(fullText.substring(0, index));
+      setText(FULL_TEXT.substring(0, index));
       index++;
-      if (index > fullText.length) {
+      if (index > FULL_TEXT.length) {
         clearInterval(interval);
-        setTimeout(() => onComplete(), 1000);
+        // A short beat to let the finished word land — not a full second of
+        // nothing, which is what this used to be.
+        holdTimer = setTimeout(() => onComplete(), HOLD_MS);
       }
-    }, 100);
+    }, CHAR_MS);
 
-    return () => clearInterval(interval);
+    return () => { clearInterval(interval); clearTimeout(holdTimer); };
   }, [onComplete]);
 
   return (
     <div
       className="fixed inset-0 z-50 flex flex-col items-center justify-center"
       style={{ background: 'var(--bg)' }}
+      role="status"
+      aria-label="Loading"
     >
       <div
         className="mb-4"
@@ -32,7 +40,7 @@ export const LoadingScreen = ({ onComplete }) => {
           color: 'var(--on-surface)',
         }}
       >
-        {text} <span className="animate-blink" style={{ color: 'var(--secondary)' }}>|</span>
+        {text} <span className="animate-blink" aria-hidden="true" style={{ color: 'var(--secondary)' }}>|</span>
       </div>
 
       <div
