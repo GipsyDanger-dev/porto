@@ -16,6 +16,7 @@ import threadsImg from "../../pct/ThreadsAutomation.webp";
 import jcpImg from "../../pct/JCP.webp";
 import madebykarsaImg from "../../pct/MadebyKarsa.webp";
 import edenGatewayImg from "../../pct/EDENGateway.webp";
+import marketLensImg from "../../pct/MarketLens.webp";
 
 const projectsData = [
   {
@@ -42,6 +43,31 @@ const projectsData = [
       { date: "8 Sep 2026", title: "Economy, Knowledge & Learning", desc: "Village economy, settlement observatory, knowledge claims, synchronized runtime v4 documentation, and learning-first citizen runtime." },
       { date: "8 Sep 2026", title: "3D Gateway", desc: "Landing layout and portal entry rebuilt around a fullscreen 3D gateway with camera traversal into the living world." },
       { date: "10 Sep 2026", title: "Pixel Observatory World", desc: "Shipped the current pixel observatory world and cleaned the viewing experience for continued development." },
+    ],
+  },
+  {
+    title: "MarketLens",
+    description: "Open-source, self-hostable local market intelligence platform that collects and normalizes place data into explainable market analytics, competitor research, geographic context, optional AI insights, and portable reports.",
+    tags: ["Next.js", "TypeScript", "PostgreSQL", "Prisma", "MapLibre", "OpenStreetMap", "Gemini", "Docker", "CLI"],
+    imageUrl: marketLensImg,
+    projectUrl: "",
+    githubUrl: "https://github.com/GipsyDanger-dev/MarketLens",
+    status: "Open Source",
+    metrics: [
+      { value: "262", label: "Commits recorded" },
+      { value: "v1.3.2", label: "Current release" },
+      { value: "3", label: "Export formats" },
+    ],
+    timeline: [
+      { date: "26 Aug 2026", title: "Product Foundation", desc: "MarketLens landing page, Next.js workspace, TypeScript setup, PostgreSQL and Prisma schema, Docker stack, and research domain foundation." },
+      { date: "26 Aug 2026", title: "Local Market Collection", desc: "Provider contracts, OpenStreetMap/Overpass adapter, default provider registry, persisted research projects, collection jobs, and progress UI." },
+      { date: "27 Aug 2026", title: "Normalization & Analytics", desc: "Canonical place normalization, cross-provider deduplication, deterministic market metrics, density calculations, and explainable competition signals." },
+      { date: "28 Aug 2026", title: "Dashboard & Map Intelligence", desc: "Responsive market dashboard, MapLibre research map, business markers, clustering, radius filters, competitor rankings, and score details." },
+      { date: "28 Aug 2026", title: "Optional AI Insights", desc: "Structured insight contract, safe runtime configuration, resilient Gemini provider, provider selection, and persisted research insights." },
+      { date: "28 Aug 2026", title: "Reports & Exports", desc: "Evidence-bound research snapshots, reproducible reports, JSON/CSV/PDF delivery, download controls, production image, and mutation guards." },
+      { date: "28-29 Aug 2026", title: "Local-First CLI", desc: "Published local configuration and lifecycle commands, interactive terminal dashboard, embedded PostgreSQL runtime, and Docker-free setup." },
+      { date: "31 Aug-2 Sep 2026", title: "Data & Security Hardening", desc: "Business contact sources, browser-backed maps collection, private access tokens, protected research reads and exports, URL and email safeguards." },
+      { date: "4–7 Sep 2026", title: "Quality & Release 1.3.2", desc: "Accessibility and workspace polish, browser and UI coverage, bounded collection budgets, dependency security fixes, and the 1.3.2 release workflow." },
     ],
   },
   {
