@@ -42,6 +42,7 @@ const certificateFilters = [
 
 const CREDLY_SCRIPT_SRC = 'https://cdn.credly.com/assets/utilities/embed.js';
 const CREDLY_BADGE_ID = '360350af-262c-4021-a423-e020bdadea2e';
+const CREDLY_BADGE_ID_SECOND = 'e64792a6-6ce8-425b-82b5-471fb283f890';
 
 // Enter/Space activation for the div-as-button cards and rows.
 const onActivate = (fn) => (e) => {
@@ -297,23 +298,43 @@ export const Certification = () => {
               <p className="body" style={{ marginTop: 'var(--space-2)', marginBottom: 'var(--space-3)' }}>
                 View my verified professional badge on Credly.
               </p>
-              <a
-                className="label visit-link"
-                href={`https://www.credly.com/badges/${CREDLY_BADGE_ID}/public_url`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Open on Credly <span aria-hidden="true">&rarr;</span>
-              </a>
+              <div className="flex flex-wrap gap-5">
+                <a
+                  className="label visit-link"
+                  href={`https://www.credly.com/badges/${CREDLY_BADGE_ID}/public_url`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Badge 01 <span aria-hidden="true">&rarr;</span>
+                </a>
+                <a
+                  className="label visit-link"
+                  href={`https://www.credly.com/badges/${CREDLY_BADGE_ID_SECOND}/public_url`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Badge 02 <span aria-hidden="true">&rarr;</span>
+                </a>
+              </div>
             </div>
-            <div
-              className="credly-badge-frame"
-              data-iframe-width="150"
-              data-iframe-height="270"
-              data-share-badge-id={CREDLY_BADGE_ID}
-              data-share-badge-host="https://www.credly.com"
-              aria-label="Credly verified badge"
-            />
+            <div className="credly-badge-list" style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--space-4)' }}>
+              <div
+                className="credly-badge-frame"
+                data-iframe-width="150"
+                data-iframe-height="270"
+                data-share-badge-id={CREDLY_BADGE_ID}
+                data-share-badge-host="https://www.credly.com"
+                aria-label="Credly verified badge one"
+              />
+              <div
+                className="credly-badge-frame"
+                data-iframe-width="150"
+                data-iframe-height="270"
+                data-share-badge-id={CREDLY_BADGE_ID_SECOND}
+                data-share-badge-host="https://www.credly.com"
+                aria-label="Credly verified badge two"
+              />
+            </div>
           </div>
         </GsapReveal>
 
@@ -446,6 +467,7 @@ export const Certification = () => {
           #certifications .cert-row { grid-template-columns: 1fr !important; gap: 8px !important; padding: 20px 0 !important; }
           #certifications .cert-row .cert-row-meta { display: none !important; }
           #certifications .credly-badge-row { flex-direction: column; align-items: flex-start !important; }
+          #certifications .credly-badge-list { align-self: center; flex-direction: column; align-items: center !important; }
           #certifications .credly-badge-frame { align-self: center; }
         }
         @keyframes certFadeIn {
