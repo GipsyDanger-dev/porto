@@ -27,7 +27,7 @@ const certifications = [
   { title: "Belajar Penggunaan Generative AI", issuer: "Dicoding Indonesia", issuedDate: "28th May 2026", credentialUrl: "https://www.dicoding.com/certificates/ERZRLDOR2ZYV", image: sertifImg("Sertif19"), category: "AI" },
   { title: "LLM-Based Tools and Gemini API Integration for Data Scientists", issuer: "Hacktiv8 Indonesia (Maju Bareng AI Program)", issuedDate: "26th June 2026", credentialUrl: "https://students.hacktiv8.com/certificates/17531927-319e-4b79-a21b-00e9999c50fa", image: sertifImg("Sertif20"), category: "AI" },
   { title: "Productivity with AI Bootcamp (Program Badan Ekraf Digital Talent 2026)", issuer: "Dicoding & BDT (Badan Ekraf Digital Talent)", issuedDate: "31st May 2026", credentialUrl: "https://srikandi.arsip.go.id/result-scan/tU7szXI35CHJZbxgUf4ERQ", image: sertifImg("Sertif21"), category: "AI" },
-  { title: "Intelligent by Design: Build an AI Agent", issuer: "IBM SkillsBuild", issuedDate: "3rd September 2026", credentialUrl: null, image: sertifImg("Sertif22"), category: "AI" },
+  { title: "Intelligent by Design: Build an AI Agent", issuer: "IBM SkillsBuild", issuedDate: "3rd September 2026", credentialUrl: "https://skills.yourlearning.ibm.com/certificate/share/c9d9067ca1ewogICJvYmplY3RUeXBlIiA6ICJBQ1RJVklUWSIsCiAgImxlYXJuZXJDTlVNIiA6ICI3NjYxMTI1UkVHIiwKICAib2JqZWN0SWQiIDogIkFMTS1DT1VSU0VfMzk0NjM1OSIKfQ72e4cc8de1-10", image: sertifImg("Sertif22"), category: "AI" },
   { title: "Introduction to Critical Infrastructure Protection", issuer: "OPSWAT Academy", issuedDate: "14th September 2026", credentialUrl: "https://learn.opswatacademy.com/certificate/5TQkd6gK4g", image: sertifImg("Sertif23"), category: "Cybersecurity" },
 ];
 
