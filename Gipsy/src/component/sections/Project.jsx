@@ -15,13 +15,14 @@ import rtfImg from "../../pct/RTF.webp";
 import threadsImg from "../../pct/ThreadsAutomation.webp";
 import jcpImg from "../../pct/JCP.webp";
 import madebykarsaImg from "../../pct/MadebyKarsa.webp";
+import edenGatewayImg from "../../pct/EDENGateway.png";
 
 const projectsData = [
   {
     title: "Project EDEN",
     description: "A server-authoritative simulation of a living digital society where AI citizens develop memory, goals, relationships, knowledge, and history without scripted events. The project combines deterministic simulation, bounded LLM reasoning, persistent world state, and a Three.js observatory for exploring the emergent world.",
     tags: ["TypeScript", "AI Agents", "Next.js", "Three.js", "Fastify", "WebSocket", "PostgreSQL", "LLM"],
-    imageUrl: "https://raw.githubusercontent.com/GipsyDanger-dev/Project-EDEN-Emergent-Digital-Ecosystem-Network-/main/apps/web/public/assets/characters/aria-archer.png",
+    imageUrl: edenGatewayImg,
     projectUrl: "",
     githubUrl: "https://github.com/GipsyDanger-dev/Project-EDEN-Emergent-Digital-Ecosystem-Network-",
     status: "Ongoing",
