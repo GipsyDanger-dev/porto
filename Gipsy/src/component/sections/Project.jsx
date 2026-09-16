@@ -15,7 +15,7 @@ import rtfImg from "../../pct/RTF.webp";
 import threadsImg from "../../pct/ThreadsAutomation.webp";
 import jcpImg from "../../pct/JCP.webp";
 import madebykarsaImg from "../../pct/MadebyKarsa.webp";
-import edenGatewayImg from "../../pct/EDENGateway.png";
+import edenGatewayImg from "../../pct/EDENGateway.webp";
 
 const projectsData = [
   {
