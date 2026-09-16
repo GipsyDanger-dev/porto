@@ -40,6 +40,9 @@ const certificateFilters = [
   { id: 'cybersecurity', label: 'Security', matches: ({ category }) => category === 'Cybersecurity' },
 ];
 
+const CREDLY_SCRIPT_SRC = 'https://cdn.credly.com/assets/utilities/embed.js';
+const CREDLY_BADGE_ID = '360350af-262c-4021-a423-e020bdadea2e';
+
 // Enter/Space activation for the div-as-button cards and rows.
 const onActivate = (fn) => (e) => {
   if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fn(); }
@@ -213,6 +216,14 @@ export const Certification = () => {
   const totalPages = Math.max(1, Math.ceil(remaining.length / PER_PAGE));
   const paginatedCerts = remaining.slice(currentPage * PER_PAGE, (currentPage + 1) * PER_PAGE);
 
+  useEffect(() => {
+    if (document.querySelector(`script[src="${CREDLY_SCRIPT_SRC}"]`)) return;
+    const script = document.createElement('script');
+    script.src = CREDLY_SCRIPT_SRC;
+    script.async = true;
+    document.body.appendChild(script);
+  }, []);
+
   const goToPage = useCallback((page) => {
     setCurrentPage(page);
     setFadeKey(k => k + 1);
@@ -264,6 +275,45 @@ export const Certification = () => {
               {/* A year is a label, not a quantity — nothing to count toward. */}
               <Stat caption="Most Recent">2026</Stat>
             </div>
+          </div>
+        </GsapReveal>
+
+        <GsapReveal delay={0.05}>
+          <div
+            className="credly-badge-row"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: 'var(--space-8)',
+              borderTop: '1px solid var(--outline-variant)',
+              borderBottom: '1px solid var(--outline-variant)',
+              marginBottom: 'var(--space-8)',
+              padding: 'var(--space-6) 0',
+            }}
+          >
+            <div style={{ maxWidth: '520px' }}>
+              <div className="section-label">Verified Credential</div>
+              <p className="body" style={{ marginTop: 'var(--space-2)', marginBottom: 'var(--space-3)' }}>
+                View my verified professional badge on Credly.
+              </p>
+              <a
+                className="label visit-link"
+                href={`https://www.credly.com/badges/${CREDLY_BADGE_ID}/public_url`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Open on Credly <span aria-hidden="true">&rarr;</span>
+              </a>
+            </div>
+            <div
+              className="credly-badge-frame"
+              data-iframe-width="150"
+              data-iframe-height="270"
+              data-share-badge-id={CREDLY_BADGE_ID}
+              data-share-badge-host="https://www.credly.com"
+              aria-label="Credly verified badge"
+            />
           </div>
         </GsapReveal>
 
@@ -395,6 +445,8 @@ export const Certification = () => {
         @media (max-width: 768px) {
           #certifications .cert-row { grid-template-columns: 1fr !important; gap: 8px !important; padding: 20px 0 !important; }
           #certifications .cert-row .cert-row-meta { display: none !important; }
+          #certifications .credly-badge-row { flex-direction: column; align-items: flex-start !important; }
+          #certifications .credly-badge-frame { align-self: center; }
         }
         @keyframes certFadeIn {
           from { opacity: 0; transform: translateY(12px); }
