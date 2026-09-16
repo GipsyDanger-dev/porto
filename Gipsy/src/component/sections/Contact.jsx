@@ -258,7 +258,6 @@ export const Contact = () => {
                   {[
                     { label: 'GitHub', href: 'https://github.com/GipsyDanger-dev' },
                     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/adamfairuz' },
-                    { label: 'Read.cv', href: '#' },
                   ].map(({ label, href }) => (
                     <SocialLink key={label} label={label} href={href} />
                   ))}

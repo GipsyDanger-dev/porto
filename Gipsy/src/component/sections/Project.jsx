@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
+import { FiX } from "react-icons/fi";
 import { GsapReveal } from "../GsapReveal";
 import fruitCheckImg from "../../pct/FruitCheck.webp";
 import itSolutionImg from "../../pct/IT-Solution.webp";
@@ -17,6 +18,32 @@ import madebykarsaImg from "../../pct/MadebyKarsa.webp";
 
 const projectsData = [
   {
+    title: "Project EDEN",
+    description: "A server-authoritative simulation of a living digital society where AI citizens develop memory, goals, relationships, knowledge, and history without scripted events. The project combines deterministic simulation, bounded LLM reasoning, persistent world state, and a Three.js observatory for exploring the emergent world.",
+    tags: ["TypeScript", "AI Agents", "Next.js", "Three.js", "Fastify", "WebSocket", "PostgreSQL", "LLM"],
+    imageUrl: "https://raw.githubusercontent.com/GipsyDanger-dev/Project-EDEN-Emergent-Digital-Ecosystem-Network-/main/apps/web/public/assets/characters/aria-archer.png",
+    projectUrl: "",
+    githubUrl: "https://github.com/GipsyDanger-dev/Project-EDEN-Emergent-Digital-Ecosystem-Network-",
+    status: "Ongoing",
+    metrics: [
+      { value: "60", label: "Commits recorded" },
+      { value: "100k", label: "Snapshot restore ticks" },
+      { value: "32x32", label: "World chunk size" },
+    ],
+    timeline: [
+      { date: "17 Jul 2026", title: "Project Foundation", desc: "Initial monorepo, project documentation, citizen identity and state, AI brain memory, drives, and goal systems." },
+      { date: "17 Jul 2026", title: "Simulation Core", desc: "World engine with map, time, and resources, deterministic tick lifecycle, event bus, history recording, and system integration." },
+      { date: "17 Jul 2026", title: "Three.js Observatory", desc: "First world scene and citizen panel for observing the simulation through a browser-based interface." },
+      { date: "18 Jul 2026", title: "LLM Citizen Reasoning", desc: "LLM-powered citizen brain with a local planner fallback, recorded thoughts, and live thought display in the web interface." },
+      { date: "18 Jul 2026", title: "Knowledge & Neural Systems", desc: "Obsidian Brain knowledge graph, citizen personality-driven decisions, vault export, graph view, and real-time neural network visualization." },
+      { date: "19 Jul 2026", title: "Authoritative Runtime", desc: "Deterministic server runtime, canonical citizen brain state, persisted living-world server, authoritative snapshots, and evolutionary civilization foundation." },
+      { date: "19 Jul 2026", title: "Pixel Observatory Interface", desc: "Expanded pixel world with characters, buildings, animals, resources, HUD zones, citizen inspector, and responsive neural dialog." },
+      { date: "8 Sep 2026", title: "Economy, Knowledge & Learning", desc: "Village economy, settlement observatory, knowledge claims, synchronized runtime v4 documentation, and learning-first citizen runtime." },
+      { date: "8 Sep 2026", title: "3D Gateway", desc: "Landing layout and portal entry rebuilt around a fullscreen 3D gateway with camera traversal into the living world." },
+      { date: "10 Sep 2026", title: "Pixel Observatory World", desc: "Shipped the current pixel observatory world and cleaned the viewing experience for continued development." },
+    ],
+  },
+  {
     title: "StockPP",
     description: "Full-stack application using LSTM Deep Learning to predict stock prices. Real-time predictions, model versioning, and interactive charts.",
     tags: ["React", "FastAPI", "TensorFlow", "LSTM", "Supabase", "Recharts"],
@@ -24,6 +51,11 @@ const projectsData = [
     projectUrl: "",
     githubUrl: "https://github.com/GipsyDanger-dev/StockPP",
     status: "In Dev",
+    metrics: [
+      { value: "LSTM", label: "Prediction model" },
+      { value: "Real-time", label: "Forecast updates" },
+      { value: "6", label: "Core technologies" },
+    ],
     timeline: [
       { date: "16 May 2026", title: "Project Started", desc: "Database setup, backend routes, first Analytics & Market pages, model testing." },
       { date: "18 May 2026", title: "Authentication System", desc: "Login, signup, reset password. API data fixes and backend configuration." },
@@ -46,6 +78,11 @@ const projectsData = [
     projectUrl: "",
     githubUrl: "https://github.com/GipsyDanger-dev/RightToBeForgotten",
     status: null,
+    metrics: [
+      { value: "43/43", label: "Contract tests passing" },
+      { value: "252k", label: "Gas per verification" },
+      { value: "Groth16", label: "Proof system" },
+    ],
     timeline: [
       { date: "3 Jun 2026", title: "Project Started", desc: "Monorepo setup with npm workspaces, TypeScript, Hardhat, ESLint, Husky git hooks." },
       { date: "4 Jun 2026", title: "Smart Contract", desc: "ConsentRegistry contract with register, revoke, verify functions. 20 unit tests passing." },
@@ -66,6 +103,11 @@ const projectsData = [
     projectUrl: "https://www.socrapper.my.id/",
     githubUrl: "https://github.com/GipsyDanger-dev/Socrapper",
     status: null,
+    metrics: [
+      { value: "9", label: "Platforms covered" },
+      { value: "2", label: "Analysis languages" },
+      { value: "130", label: "API tests" },
+    ],
     timeline: [
       { date: "9 May 2026", title: "Project Started", desc: "Initial commit, Laravel backend setup, scraping service architecture." },
       { date: "12 May 2026", title: "Scraping Engine", desc: "Caching, Bing fallback, noise removal, HTTP retry utilities, rate limiter." },
@@ -85,6 +127,11 @@ const projectsData = [
     projectUrl: "https://jogjacreativepro.com/",
     githubUrl: "https://github.com/GipsyDanger-dev/JCP-Company-Profile",
     status: null,
+    metrics: [
+      { value: "6", label: "Business units" },
+      { value: "Next.js 15", label: "Application framework" },
+      { value: "Supabase + Resend", label: "Inquiry system" },
+    ],
     timeline: [
       { date: "4 Aug 2026", title: "Project Started", desc: "Next.js 15 App Router foundation, TypeScript setup, light-first JCP landing page." },
       { date: "4 Aug 2026", title: "Core Pages Built", desc: "Services, About, Portfolio with category filter, and contact inquiry routes plus detail pages for every service unit." },
@@ -105,6 +152,11 @@ const projectsData = [
     linkLabel: "Visit Project",
     githubUrl: "",
     status: null,
+    metrics: [
+      { value: "5", label: "Pipeline stages" },
+      { value: "LLM", label: "Content engine" },
+      { value: "Automated", label: "Publishing workflow" },
+    ],
     timeline: [],
   },
   {
@@ -115,6 +167,11 @@ const projectsData = [
     projectUrl: "",
     githubUrl: "https://github.com/GipsyDanger-dev/Threads-Automation-JCP",
     status: null,
+    metrics: [
+      { value: "3", label: "Specialist agents" },
+      { value: "Telegram", label: "Approval workflow" },
+      { value: "Multi-persona", label: "Content system" },
+    ],
     timeline: [
       { date: "20 Jun 2026", title: "Architecture Design", desc: "Multi-agent pipeline architecture, n8n orchestration setup, Supabase schema design." },
       { date: "22 Jun 2026", title: "Content Generation", desc: "Gemini API integration, persona-driven content generation, topic deduplication system." },
@@ -132,6 +189,11 @@ const projectsData = [
     projectUrl: "https://itsolution.gipsy-dev.me/",
     githubUrl: "https://github.com/GipsyDanger-dev/it-solution-malang",
     status: null,
+    metrics: [
+      { value: "3", label: "User roles" },
+      { value: "6 weeks", label: "Build to deployment" },
+      { value: "Real-time", label: "Chat experience" },
+    ],
     timeline: [
       { date: "26 Oct 2025", title: "Project Started", desc: "Initial commit, base project structure for IT Solution company profile." },
       { date: "27 Oct 2025", title: "Navigation & Auth", desc: "Navbar routing, authentication pages (login, register, forgot password)." },
@@ -150,6 +212,11 @@ const projectsData = [
     projectUrl: "https://fruitcheck.duckdns.org/",
     githubUrl: "https://github.com/GipsyDanger-dev/AIprojectUAS",
     status: null,
+    metrics: [
+      { value: "CNN", label: "Classification model" },
+      { value: "Real-time", label: "Freshness analysis" },
+      { value: "Web", label: "Delivery platform" },
+    ],
     timeline: [
       { date: "9 Dec 2025", title: "Project Started", desc: "First commit, index setup, initial AI model integration for fruit freshness detection." },
       { date: "11 Dec 2025", title: "Model & Deployment", desc: "Model improvements, ngrok configuration for external access, deployment preparation." },
@@ -165,6 +232,11 @@ const projectsData = [
     projectUrl: "https://pasarngalam-production.up.railway.app/",
     githubUrl: "https://github.com/GipsyDanger-dev/PasarNgalam",
     status: null,
+    metrics: [
+      { value: "3", label: "User roles" },
+      { value: "Real-time", label: "Order tracking" },
+      { value: "Local", label: "UMKM focus" },
+    ],
     timeline: [
       { date: "1 Dec 2025", title: "Project Started", desc: "Login system, mitra (partner) integration, initial navigation structure." },
       { date: "2 Dec 2025", title: "Merchant System", desc: "Merchant dashboard, partner management, order flow foundation." },
@@ -182,6 +254,11 @@ const projectsData = [
     projectUrl: "",
     githubUrl: "https://github.com/GipsyDanger-dev/remind_new",
     status: null,
+    metrics: [
+      { value: "Native", label: "Android application" },
+      { value: "Real-time", label: "Notifications" },
+      { value: "Cross-device", label: "Synchronization" },
+    ],
     timeline: [
       { date: "3 Dec 2025", title: "Project Started", desc: "Initial commit, core reminder functionality and data structure setup." },
       { date: "7 Dec 2025", title: "Feature Development", desc: "Reminder scheduling, notification system, and UI components." },
@@ -197,6 +274,11 @@ const projectsData = [
     projectUrl: "https://gipsydanger-dev.github.io/porto/#",
     githubUrl: "https://github.com/GipsyDanger-dev/porto",
     status: null,
+    metrics: [
+      { value: "Three.js", label: "Interactive visual layer" },
+      { value: "GSAP", label: "Motion system" },
+      { value: "Responsive", label: "Device support" },
+    ],
     timeline: [
       { date: "24 Dec 2025", title: "Project Started", desc: "Initial portfolio structure, project containers, and basic layout." },
       { date: "26 Dec 2025", title: "Security & Deployment", desc: "Security updates, Node.js error fixes, deployment configuration." },
@@ -219,6 +301,11 @@ const projectsData = [
     projectUrl: "",
     githubUrl: "https://github.com/GipsyDanger-dev/MiniProjectCC",
     status: null,
+    metrics: [
+      { value: "23", label: "System tests" },
+      { value: "100%", label: "Tests passing" },
+      { value: "ESP32", label: "Sensor integration" },
+    ],
     timeline: [
       { date: "9 Apr 2026", title: "Project Started", desc: "First commit, Python simulator for sensor data generation, initial IoT architecture." },
       { date: "10 Apr 2026", title: "Backend & Automation", desc: "Python worker, command system, automatic actions, worker status tracking in database." },
@@ -246,8 +333,8 @@ const ProjectEntry = ({ project, index, onSelect }) => {
         }}
       >
         {/* Visual */}
-        <div
-          className={`proj-visual relative overflow-hidden ${isReverse ? 'order-2' : 'order-1'}`}
+          <div
+            className={`proj-visual relative overflow-hidden ${isReverse ? 'order-2' : 'order-1'}`}
           role={project.timeline ? "button" : undefined}
           tabIndex={project.timeline ? 0 : undefined}
           onClick={() => project.timeline && onSelect?.(project)}
@@ -292,6 +379,12 @@ const ProjectEntry = ({ project, index, onSelect }) => {
               background: 'radial-gradient(ellipse at center, transparent 55%, rgba(16,20,23,0.28) 100%)',
             }}
           />
+          {project.timeline && (
+            <div className="case-study-cue pointer-events-none absolute right-4 bottom-4 z-3 flex items-center gap-2">
+              <span>View case study</span>
+              <span aria-hidden="true">&rarr;</span>
+            </div>
+          )}
         </div>
 
         {/* Info */}
@@ -463,6 +556,12 @@ export const Project = () => {
                       background: 'radial-gradient(ellipse at center, transparent 55%, rgba(16,20,23,0.28) 100%)',
                     }}
                   />
+                  {project.timeline && (
+                    <div className="case-study-cue pointer-events-none absolute right-4 bottom-4 z-3 flex items-center gap-2">
+                      <span>View case study</span>
+                      <span aria-hidden="true">&rarr;</span>
+                    </div>
+                  )}
                 </div>
 
                 <div className="label" style={{ color: 'var(--secondary)', marginBottom: 'var(--space-3)' }}>
@@ -553,6 +652,15 @@ export const Project = () => {
             style={{ background: 'var(--surface)', border: '1px solid var(--outline-variant)', marginBottom: '40px' }}
             onClick={e => e.stopPropagation()}
           >
+            <button
+              type="button"
+              className="project-close"
+              onClick={closeOverlay}
+              aria-label="Close project details"
+              title="Close project details"
+            >
+              <FiX size={20} aria-hidden="true" />
+            </button>
             {/* Header Image */}
             {(selected.popupImage || selected.imageUrl) && (
               <div style={{ overflow: 'hidden', position: 'relative', background: 'var(--surface-high)' }}>
@@ -565,6 +673,33 @@ export const Project = () => {
               <div style={{ marginBottom: 'var(--space-8)' }}>
                 <h2 className="h3" style={{ marginBottom: 'var(--space-3)' }}>{selected.title}</h2>
                 <p className="body" style={{ maxWidth: '600px' }}>{selected.description}</p>
+                {selected.metrics?.length > 0 && (
+                  <dl
+                    aria-label="Project highlights"
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
+                      borderTop: '1px solid var(--outline-variant)',
+                      borderBottom: '1px solid var(--outline-variant)',
+                      marginTop: 'var(--space-6)',
+                      padding: 'var(--space-4) 0',
+                    }}
+                  >
+                    {selected.metrics.map((metric, index) => (
+                      <div
+                        key={metric.label}
+                        style={{
+                          minWidth: 0,
+                          padding: '0 var(--space-4)',
+                          borderLeft: index > 0 ? '1px solid var(--outline-variant)' : 'none',
+                        }}
+                      >
+                        <dt className="label-xs" style={{ color: 'var(--outline)', marginBottom: 'var(--space-1)' }}>{metric.label}</dt>
+                        <dd className="h5" style={{ margin: 0, overflowWrap: 'anywhere' }}>{metric.value}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                )}
                 <div className="flex flex-wrap gap-2 mt-4">
                   {selected.tags.map(tag => (
                     <span key={tag} className="label-xs" style={{ color: 'var(--on-surface-variant)', background: 'var(--surface-high)', padding: 'var(--space-1) var(--space-2)', border: '1px solid var(--outline-variant)' }}>{tag}</span>
@@ -573,6 +708,7 @@ export const Project = () => {
               </div>
 
               {/* Timeline */}
+              {selected.timeline.length > 0 && (
               <div style={{ borderTop: '1px solid var(--outline-variant)', paddingTop: 'var(--space-8)' }}>
                 <div className="flex items-center gap-3 mb-8">
                   <span className="label-lg" style={{ color: 'var(--secondary)' }}>Development Journey</span>
@@ -594,11 +730,11 @@ export const Project = () => {
                   ))}
                 </div>
               </div>
+              )}
 
-              {/* Close + Links */}
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 mt-8" style={{ borderTop: '1px solid var(--outline-variant)', paddingTop: 'var(--space-6)' }}>
-                <button className="label quiet-btn" onClick={closeOverlay}>Close</button>
-                <div className="flex gap-3">
+              {/* Project links */}
+              {(selected.githubUrl || selected.projectUrl) && (
+                <div className="flex justify-end gap-3 mt-8" style={{ borderTop: '1px solid var(--outline-variant)', paddingTop: 'var(--space-6)' }}>
                   {selected.githubUrl && (
                     <a href={selected.githubUrl} target="_blank" rel="noopener noreferrer" className="label repo-link">
                       <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
@@ -611,7 +747,7 @@ export const Project = () => {
                     </a>
                   )}
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>,

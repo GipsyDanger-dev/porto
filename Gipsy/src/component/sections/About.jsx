@@ -44,7 +44,9 @@ export const About = () => {
                 Craft <em className="flourish">&amp; Code</em>
               </h2>
               <p className="lede" style={{ marginBottom: 'var(--space-8)' }}>
-                I&apos;m Adam — a full stack developer, video editor, and blockchain enthusiast. I enjoy the process from writing code to editing footage. Open for collaboration and new projects, let&apos;s connect.
+                I&apos;m an AI Engineer and Software Developer focused on building intelligent, practical, and production-ready systems. I work across AI automation, machine learning, full-stack applications, and backend engineering.
+                <br /><br />
+                I enjoy turning ideas into real products by integrating AI models, building reliable software, and deploying applications for real-world use.
               </p>
               <a
                 href="#contact"

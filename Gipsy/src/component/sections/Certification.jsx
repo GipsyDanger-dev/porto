@@ -29,6 +29,14 @@ const certifications = [
   { title: "Productivity with AI Bootcamp (Program Badan Ekraf Digital Talent 2026)", issuer: "Dicoding & BDT (Badan Ekraf Digital Talent)", issuedDate: "31st May 2026", credentialUrl: "https://srikandi.arsip.go.id/result-scan/tU7szXI35CHJZbxgUf4ERQ", image: sertifImg("Sertif21"), category: "AI" },
 ];
 
+const certificateFilters = [
+  { id: 'all', label: 'All', matches: () => true },
+  { id: 'ai', label: 'AI', matches: ({ category }) => category === 'AI' || category === 'Cloud / AI' || category === 'Machine Learning' },
+  { id: 'cloud', label: 'Cloud', matches: ({ category }) => category === 'Cloud / AI' },
+  { id: 'data', label: 'Data', matches: ({ category }) => ['Data', 'Data Science', 'Analytics'].includes(category) },
+  { id: 'programming', label: 'Programming', matches: ({ category }) => ['Programming', 'Software Engineering'].includes(category) },
+];
+
 // Enter/Space activation for the div-as-button cards and rows.
 const onActivate = (fn) => (e) => {
   if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fn(); }
@@ -186,22 +194,32 @@ const CertRow = ({ cert, onClick }) => {
 
 export const Certification = () => {
   const [selected, setSelected] = useState(null);
+  const [activeFilter, setActiveFilter] = useState('all');
   const [currentPage, setCurrentPage] = useState(0);
   const [fadeKey, setFadeKey] = useState(0);
   const overlayOpenTime = useRef(0);
   const aiCerts = certifications.filter(c => c.category === 'AI');
-  const otherCerts = certifications.filter(c => c.category !== 'AI');
-  const featured = [aiCerts[0], aiCerts[1], aiCerts[2]].filter(Boolean);
-  const remaining = [...aiCerts.slice(3), ...otherCerts];
+  const activeFilterConfig = certificateFilters.find(filter => filter.id === activeFilter);
+  const filteredCerts = certifications.filter(activeFilterConfig.matches);
+  const featured = activeFilter === 'all' ? [aiCerts[0], aiCerts[1], aiCerts[2]].filter(Boolean) : [];
+  const remaining = activeFilter === 'all'
+    ? certifications.filter(cert => !featured.includes(cert))
+    : filteredCerts;
 
   const PER_PAGE = 5;
-  const totalPages = Math.ceil(remaining.length / PER_PAGE);
+  const totalPages = Math.max(1, Math.ceil(remaining.length / PER_PAGE));
   const paginatedCerts = remaining.slice(currentPage * PER_PAGE, (currentPage + 1) * PER_PAGE);
 
   const goToPage = useCallback((page) => {
     setCurrentPage(page);
     setFadeKey(k => k + 1);
   }, []);
+
+  const selectFilter = (filterId) => {
+    setActiveFilter(filterId);
+    setCurrentPage(0);
+    setFadeKey(k => k + 1);
+  };
 
   const closeOverlay = useCallback(() => {
     // Prevent closing if overlay just opened (mobile touch event bubbling)
@@ -246,16 +264,50 @@ export const Certification = () => {
           </div>
         </GsapReveal>
 
+        <GsapReveal delay={0.1}>
+          <div
+            className="flex flex-wrap gap-2"
+            role="group"
+            aria-label="Filter certifications by category"
+            style={{ marginBottom: 'var(--space-8)' }}
+          >
+            {certificateFilters.map(({ id, label }) => {
+              const isActive = activeFilter === id;
+              return (
+                <button
+                  key={id}
+                  type="button"
+                  className="label"
+                  onClick={() => selectFilter(id)}
+                  aria-pressed={isActive}
+                  style={{
+                    background: isActive ? 'var(--secondary)' : 'transparent',
+                    border: `1px solid ${isActive ? 'var(--secondary)' : 'var(--outline-interactive)'}`,
+                    color: isActive ? 'var(--on-secondary)' : 'var(--on-surface-variant)',
+                    cursor: 'pointer',
+                    padding: '10px 14px',
+                    transition: 'background var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out)',
+                  }}
+                >
+                  {label}
+                </button>
+              );
+            })}
+          </div>
+        </GsapReveal>
+
         {/* Featured Grid — GsapStagger reveals each card in turn */}
-        <GsapStagger
-          className="grid gap-px"
-          style={{ background: 'var(--outline-variant)', border: '1px solid var(--outline-variant)', marginBottom: '1px', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}
-          stagger={0.08}
-        >
-          {featured.map((cert, i) => (
-            <CertCard key={i} cert={cert} onClick={setSelected} large={i === 0} />
-          ))}
-        </GsapStagger>
+        {featured.length > 0 && (
+          <GsapStagger
+            className="grid gap-px"
+            style={{ background: 'var(--outline-variant)', border: '1px solid var(--outline-variant)', marginBottom: '1px', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}
+            stagger={0.08}
+          >
+            {featured.map((cert, i) => (
+              <CertCard key={cert.title} cert={cert} onClick={setSelected} large={i === 0} />
+            ))}
+          </GsapStagger>
+        )}
 
         {/* Table Rows */}
         <GsapReveal delay={0.2}>
@@ -264,6 +316,11 @@ export const Certification = () => {
               {paginatedCerts.map((cert, i) => (
                 <CertRow key={currentPage * PER_PAGE + i} cert={cert} onClick={setSelected} />
               ))}
+              {paginatedCerts.length === 0 && (
+                <p className="body" style={{ padding: 'var(--space-8) 0' }}>
+                  No certifications in this category yet.
+                </p>
+              )}
             </div>
 
             {/* Pagination Controls */}
