@@ -8,11 +8,6 @@ const educationData = [
   { date: "2021 - 2024", title: "Mathematics and Natural Sciences", institution: "State Senior High School 3 of Cilacap" },
 ];
 
-const experienceData = [
-  { date: "2025 - 2026", title: "Staff Expert of Research and Technology", institution: "HMPSTI Brawijaya University" },
-  { date: "2024", title: "Editor & Script Assistant", institution: "State Senior High School 3 of Cilacap" },
-];
-
 const TimelineItem = ({ date, title, institution }) => (
   <div className="relative pl-6" style={{ borderLeft: '1px solid var(--outline-variant)' }}>
     <div
@@ -57,7 +52,7 @@ export const About = () => {
             </div>
           </GsapReveal>
 
-          {/* Timeline */}
+          {/* Education */}
           <GsapReveal delay={0.2}>
             <div className="grid gap-12 lg:gap-16" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))' }}>
               <div>
@@ -66,16 +61,6 @@ export const About = () => {
                 </h3>
                 <GsapStagger className="space-y-8" stagger={0.12}>
                   {educationData.map((item, i) => (
-                    <TimelineItem key={i} {...item} />
-                  ))}
-                </GsapStagger>
-              </div>
-              <div>
-                <h3 className="label-lg" style={{ color: 'var(--secondary)', marginBottom: 'var(--space-6)' }}>
-                  Experience
-                </h3>
-                <GsapStagger className="space-y-8" stagger={0.12}>
-                  {experienceData.map((item, i) => (
                     <TimelineItem key={i} {...item} />
                   ))}
                 </GsapStagger>

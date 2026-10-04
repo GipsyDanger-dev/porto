@@ -6,6 +6,19 @@ import { GsapReveal, GsapStagger } from "../GsapReveal";
 const sertifImg = (name) => `./sertif/${name}.webp`;
 
 const certifications = [
+  {
+    title: "AWS Certified AI Practitioner",
+    issuer: "Amazon Web Services (AWS)",
+    issuedDate: "3rd October 2026",
+    expirationDate: "3rd October 2029",
+    validationNumber: "c0f405dcd31f416ea87e44958982025c",
+    credentialUrl: "https://aws.amazon.com/verification",
+    image: sertifImg("aws-certified-ai-practitioner"),
+    badgeImage: "./sertif/aws-certified-ai-practitioner-badge.png",
+    pdfUrl: "./sertif/aws-certified-ai-practitioner.pdf",
+    category: "Cloud / AI",
+    featured: true,
+  },
   { title: "Learn Power BI Data Modeling with DAX", issuer: "Simplilearn SkillUp", issuedDate: "23rd April 2026", credentialUrl: "https://simpli-web.app.link/e/su0diV4wT2b", image: sertifImg("Sertif1"), category: "Data" },
   { title: "Innovating with Google Cloud AI", issuer: "Simplilearn SkillUp (Google Cloud)", issuedDate: "21st April 2026", credentialUrl: "https://simpli-web.app.link/e/kBH5eFLrT2b", image: sertifImg("sertif2"), category: "AI" },
   { title: "Dive Deeper into GA4 Data and Reports", issuer: "Skillshop", issuedDate: "20th April 2026", credentialUrl: "https://www.credential.net/91b4ee1f-055f-4837-b66b-de64328ef20e", image: sertifImg("Sertif3"), category: "Analytics" },
@@ -41,6 +54,7 @@ const certificateFilters = [
 ];
 
 const CREDLY_SCRIPT_SRC = 'https://cdn.credly.com/assets/utilities/embed.js';
+const CREDLY_AWS_BADGE_ID = 'e219309b-2deb-409c-bf38-b45da25ba433';
 const CREDLY_BADGE_ID = '360350af-262c-4021-a423-e020bdadea2e';
 const CREDLY_BADGE_ID_SECOND = 'e64792a6-6ce8-425b-82b5-471fb283f890';
 
@@ -139,7 +153,11 @@ const CertCard = ({ cert, onClick, large }) => {
         </div>
       )}
 
-      {large && (
+      {large && cert.badgeImage && (
+        <img src={cert.badgeImage} alt={`${cert.title} — Foundational badge`} loading="lazy" width={150} height={150} style={{ width: '150px', height: '150px', objectFit: 'contain', alignSelf: 'center', marginBottom: 'var(--space-6)' }} />
+      )}
+
+      {large && !cert.badgeImage && (
         <div style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 'var(--body)', color: 'var(--on-surface-variant)', lineHeight: 1.7, borderLeft: '2px solid var(--secondary)', paddingLeft: 'var(--space-4)', marginBottom: 'var(--space-6)' }}>
           &quot;Committed to mastering AI fundamentals, generative AI, and practical applications across multiple platforms.&quot;
         </div>
@@ -205,10 +223,10 @@ export const Certification = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [fadeKey, setFadeKey] = useState(0);
   const overlayOpenTime = useRef(0);
-  const aiCerts = certifications.filter(c => c.category === 'AI');
+  const aiCerts = certifications.filter(c => c.category === 'AI' || c.category === 'Cloud / AI');
   const activeFilterConfig = certificateFilters.find(filter => filter.id === activeFilter);
   const filteredCerts = certifications.filter(activeFilterConfig.matches);
-  const featured = activeFilter === 'all' ? [aiCerts[0], aiCerts[1], aiCerts[2]].filter(Boolean) : [];
+  const featured = activeFilter === 'all' ? certifications.filter(c => c.featured || c.category === 'AI').slice(0, 3) : [];
   const remaining = activeFilter === 'all'
     ? certifications.filter(cert => !featured.includes(cert))
     : filteredCerts;
@@ -296,9 +314,17 @@ export const Certification = () => {
             <div style={{ maxWidth: '520px' }}>
               <div className="section-label">Verified Credential</div>
               <p className="body" style={{ marginTop: 'var(--space-2)', marginBottom: 'var(--space-3)' }}>
-                View my verified professional badge on Credly.
+                View my verified professional badges on Credly.
               </p>
               <div className="flex flex-wrap gap-5">
+                <a
+                  className="label visit-link"
+                  href={`https://www.credly.com/badges/${CREDLY_AWS_BADGE_ID}/public_url`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  AWS AI Practitioner <span aria-hidden="true">&rarr;</span>
+                </a>
                 <a
                   className="label visit-link"
                   href={`https://www.credly.com/badges/${CREDLY_BADGE_ID}/public_url`}
@@ -318,22 +344,33 @@ export const Certification = () => {
               </div>
             </div>
             <div className="credly-badge-list" style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--space-4)' }}>
+              <div className="credly-badge-frame">
               <div
-                className="credly-badge-frame"
+                data-iframe-width="150"
+                data-iframe-height="270"
+                data-share-badge-id={CREDLY_AWS_BADGE_ID}
+                data-share-badge-host="https://www.credly.com"
+                aria-label="Credly verified AWS Certified AI Practitioner badge"
+              />
+              </div>
+              <div className="credly-badge-frame">
+              <div
                 data-iframe-width="150"
                 data-iframe-height="270"
                 data-share-badge-id={CREDLY_BADGE_ID}
                 data-share-badge-host="https://www.credly.com"
                 aria-label="Credly verified badge one"
               />
+              </div>
+              <div className="credly-badge-frame">
               <div
-                className="credly-badge-frame"
                 data-iframe-width="150"
                 data-iframe-height="270"
                 data-share-badge-id={CREDLY_BADGE_ID_SECOND}
                 data-share-badge-host="https://www.credly.com"
                 aria-label="Credly verified badge two"
               />
+              </div>
             </div>
           </div>
         </GsapReveal>
@@ -447,6 +484,15 @@ export const Certification = () => {
               <h3 className="h3" style={{ marginBottom: 'var(--space-3)' }}>{selected.title}</h3>
               <p className="body" style={{ marginBottom: 'var(--space-2)' }}>{selected.issuer}</p>
               <p className="label" style={{ color: 'var(--outline)', marginBottom: 'var(--space-6)' }}>Issued {selected.issuedDate}</p>
+              {selected.expirationDate && (
+                <p className="label" style={{ color: 'var(--outline)', marginBottom: 'var(--space-3)' }}>Expires {selected.expirationDate}</p>
+              )}
+              {selected.validationNumber && (
+                <p className="label" style={{ color: 'var(--on-surface-variant)', overflowWrap: 'anywhere', marginBottom: 'var(--space-6)' }}>Validation ID: <span style={{ textTransform: 'none' }}>{selected.validationNumber}</span></p>
+              )}
+              {selected.pdfUrl && (
+                <a href={selected.pdfUrl} target="_blank" rel="noopener noreferrer" className="label visit-link" style={{ display: 'inline-block', marginBottom: 'var(--space-6)' }}>View Certificate PDF &rarr;</a>
+              )}
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-0" style={{ borderTop: '1px solid var(--outline-variant)', paddingTop: 'var(--space-5)' }}>
                 <button className="label quiet-btn" onClick={closeOverlay}>Close</button>
                 {selected.credentialUrl && (
@@ -463,6 +509,10 @@ export const Certification = () => {
       )}
 
       <style>{`
+        /* Crop Credly's internal border and 3px rounded corners while retaining
+           the badge, issuer and Credly footer. */
+        #certifications .credly-badge-frame { width: 144px; height: 234px; overflow: hidden; flex-shrink: 0; }
+        #certifications .credly-badge-frame iframe { border: 0; display: block; transform: translate(-3px, -3px); }
         @media (max-width: 768px) {
           #certifications .cert-row { grid-template-columns: 1fr !important; gap: 8px !important; padding: 20px 0 !important; }
           #certifications .cert-row .cert-row-meta { display: none !important; }

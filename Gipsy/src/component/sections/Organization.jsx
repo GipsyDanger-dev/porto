@@ -4,15 +4,15 @@ import { GsapReveal } from "../GsapReveal";
 const organizations = [
   {
     name: "PT. Jogja Creative Production",
-    period: "Jul 2026 – Sekarang",
-    duration: "1 Bulan",
+    period: "Jul 2026 – Sep 2026",
+    duration: "3 Bulan",
     type: "Magang",
     location: "Sleman, Yogyakarta",
     roles: [
       {
         title: "Artificial Intelligence Engineer",
-        period: "Jul 2026 – Sekarang",
-        duration: "1 bln",
+        period: "Jul 2026 – Sep 2026",
+        duration: "3 bln",
         description:
           "Designing and developing AI-powered applications by leveraging Large Language Models (LLMs), AI agents, and workflow automation. Responsible for integrating AI models into real-world systems, optimizing business processes, and building scalable intelligent solutions — including developing REST APIs and backend services, designing Retrieval-Augmented Generation (RAG) pipelines, and collaborating with cross-functional teams to deliver production-ready AI solutions.",
         skills: [
