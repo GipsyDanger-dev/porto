@@ -7,6 +7,19 @@ const sertifImg = (name) => `./sertif/${name}.webp`;
 
 const certifications = [
   {
+    title: "Sistem Manajemen Keselamatan dan Kesehatan Kerja Berbasis SNI ISO 45001:2018",
+    issuer: "Badan Standardisasi Nasional (BSN)",
+    issuedDate: "1st October 2026",
+    expirationDate: "1st October 2027",
+    certificateNumber: "ELSDS/BSN/22060/XXVI",
+    result: "Sangat Baik",
+    credentialUrl: null,
+    image: "./sertif/bsn-sni-iso-45001-2018.jpeg",
+    pdfUrl: "./sertif/bsn-sni-iso-45001-2018.pdf",
+    category: "Occupational Safety",
+    featured: true,
+  },
+  {
     title: "AWS Certified AI Practitioner",
     issuer: "Amazon Web Services (AWS)",
     issuedDate: "3rd October 2026",
@@ -146,9 +159,9 @@ const CertCard = ({ cert, onClick, large }) => {
         </div>
       </div>
 
-      {!large && cert.image && (
+      {(!large || (cert.featured && !cert.badgeImage)) && cert.image && (
         <div style={{ position: 'relative', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.06)', marginBottom: 'var(--space-6)', aspectRatio: '16/10', background: 'var(--surface-high)' }}>
-          <img src={cert.image} alt={cert.title} loading="lazy" width={400} height={250} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block', filter: hover ? 'saturate(0.82) brightness(0.92)' : 'saturate(0.55) brightness(0.8)', transition: 'filter var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out)', transform: hover ? 'scale(1.04)' : 'scale(1)' }} />
+          <img src={cert.image} alt={cert.title} loading="lazy" width={400} height={250} style={{ width: '100%', height: '100%', objectFit: cert.featured ? 'contain' : 'cover', objectPosition: 'center top', display: 'block', filter: hover ? 'saturate(0.82) brightness(0.92)' : 'saturate(0.55) brightness(0.8)', transition: 'filter var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out)', transform: hover ? 'scale(1.04)' : 'scale(1)' }} />
           <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', background: 'linear-gradient(to bottom, transparent 50%, rgba(16,20,23,0.4) 100%)' }} />
         </div>
       )}
@@ -157,7 +170,7 @@ const CertCard = ({ cert, onClick, large }) => {
         <img src={cert.badgeImage} alt={`${cert.title} — Foundational badge`} loading="lazy" width={150} height={150} style={{ width: '150px', height: '150px', objectFit: 'contain', alignSelf: 'center', marginBottom: 'var(--space-6)' }} />
       )}
 
-      {large && !cert.badgeImage && (
+      {large && !cert.badgeImage && !cert.featured && (
         <div style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 'var(--body)', color: 'var(--on-surface-variant)', lineHeight: 1.7, borderLeft: '2px solid var(--secondary)', paddingLeft: 'var(--space-4)', marginBottom: 'var(--space-6)' }}>
           &quot;Committed to mastering AI fundamentals, generative AI, and practical applications across multiple platforms.&quot;
         </div>
@@ -210,7 +223,7 @@ const CertRow = ({ cert, onClick }) => {
         {cert.credentialUrl ? (
           <span className="label verify-cue">Verify &rarr;</span>
         ) : (
-          <span className="label" style={{ color: 'var(--outline)' }}>No. 24UBC10106040</span>
+          <span className="label" style={{ color: 'var(--outline)', overflowWrap: 'anywhere' }}>No. {cert.certificateNumber || '24UBC10106040'}</span>
         )}
       </div>
     </div>
@@ -475,7 +488,7 @@ export const Certification = () => {
       {/* Detail Overlay — rendered to body via portal */}
       {selected && createPortal(
         <div style={{ position: 'fixed', inset: 0, zIndex: 99999, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(10, 12, 14, 0.85)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)', padding: '16px', touchAction: 'pan-y' }} onClick={closeOverlay}>
-          <div className="relative max-w-lg w-full" style={{ background: 'var(--surface)', border: '1px solid var(--outline-variant)' }} onClick={e => e.stopPropagation()}>
+          <div className="relative max-w-lg w-full" style={{ background: 'var(--surface)', border: '1px solid var(--outline-variant)', maxHeight: 'calc(100dvh - 32px)', overflowY: 'auto' }} onClick={e => e.stopPropagation()}>
             <div style={{ overflow: 'hidden' }}>
               <img src={selected.image} alt={selected.title} style={{ width: '100%', height: 'auto', display: 'block', filter: 'saturate(0.9) brightness(0.95)' }} />
             </div>
@@ -483,6 +496,9 @@ export const Certification = () => {
               <span className="label" style={{ color: 'var(--secondary)', display: 'block', marginBottom: 'var(--space-3)' }}>{selected.category}</span>
               <h3 className="h3" style={{ marginBottom: 'var(--space-3)' }}>{selected.title}</h3>
               <p className="body" style={{ marginBottom: 'var(--space-2)' }}>{selected.issuer}</p>
+              {selected.result && (
+                <p className="body" style={{ marginBottom: 'var(--space-2)' }}>Predikat: {selected.result}</p>
+              )}
               <p className="label" style={{ color: 'var(--outline)', marginBottom: 'var(--space-6)' }}>Issued {selected.issuedDate}</p>
               {selected.expirationDate && (
                 <p className="label" style={{ color: 'var(--outline)', marginBottom: 'var(--space-3)' }}>Expires {selected.expirationDate}</p>
@@ -499,7 +515,7 @@ export const Certification = () => {
                   <a href={selected.credentialUrl} target="_blank" rel="noopener noreferrer" className="label tint-btn">Verify Credential &rarr;</a>
                 )}
                 {!selected.credentialUrl && (
-                  <span className="label" style={{ color: 'var(--outline)', padding: 'var(--space-3) var(--space-6)' }}>Certificate No. 24UBC10106040</span>
+                  <span className="label" style={{ color: 'var(--outline)', padding: 'var(--space-3) var(--space-6)', overflowWrap: 'anywhere' }}>Certificate No. {selected.certificateNumber || '24UBC10106040'}</span>
                 )}
               </div>
             </div>
