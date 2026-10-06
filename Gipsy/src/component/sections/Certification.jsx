@@ -14,7 +14,7 @@ const certifications = [
     certificateNumber: "ELSDS/BSN/22060/XXVI",
     result: "Sangat Baik",
     credentialUrl: null,
-    image: "./sertif/bsn-sni-iso-45001-2018.jpeg",
+    image: sertifImg("bsn-sni-iso-45001-2018"),
     pdfUrl: "./sertif/bsn-sni-iso-45001-2018.pdf",
     category: "Occupational Safety",
     featured: true,
