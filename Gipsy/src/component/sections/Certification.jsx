@@ -15,6 +15,8 @@ const certifications = [
     result: "Sangat Baik",
     credentialUrl: null,
     image: sertifImg("bsn-sni-iso-45001-2018"),
+    imageWidth: 1191,
+    imageHeight: 1684,
     pdfUrl: "./sertif/bsn-sni-iso-45001-2018.pdf",
     category: "Occupational Safety",
     featured: true,
@@ -122,10 +124,11 @@ const Stat = ({ caption, children }) => (
   </div>
 );
 
-const CertCard = ({ cert, onClick, large }) => {
+const CertCard = ({ cert, onClick, primary }) => {
   const [hover, setHover] = useState(false);
   return (
     <div
+      className={`cert-featured-card${primary ? ' cert-featured-card--primary' : ''}`}
       role="button"
       tabIndex={0}
       onClick={() => onClick(cert)}
@@ -134,51 +137,37 @@ const CertCard = ({ cert, onClick, large }) => {
       onMouseLeave={() => setHover(false)}
       style={{
         background: hover ? 'var(--surface)' : 'var(--bg)',
-        padding: large ? 'var(--space-10) var(--space-8)' : 'var(--space-8) var(--space-6) var(--space-6)',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: large ? 'space-between' : 'flex-start',
         position: 'relative',
         overflow: 'hidden',
         cursor: 'pointer',
         transition: 'background var(--dur-fast) var(--ease-out)',
         touchAction: 'manipulation',
-        minHeight: large ? '360px' : undefined,
       }}
     >
       {/* Orange left accent */}
       <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '2px', background: 'var(--secondary)', transform: hover ? 'scaleY(1)' : 'scaleY(0)', transformOrigin: 'bottom', transition: 'transform var(--dur-slow) var(--ease-out)' }} />
 
-      <div>
+      <div className="cert-featured-heading">
         <div className="label-xs" style={{ color: 'var(--secondary)', marginBottom: 'var(--space-3)' }}>{cert.category}</div>
         <div
-          className={large ? 'h3' : 'h4'}
-          style={{ color: hover ? 'var(--secondary)' : 'var(--on-surface)', transition: 'color var(--dur-base) var(--ease-out)', paddingBottom: large ? 'var(--space-6)' : 'var(--space-5)' }}
+          className="cert-featured-title"
+          style={{ color: hover ? 'var(--secondary)' : 'var(--on-surface)', transition: 'color var(--dur-base) var(--ease-out)' }}
         >
           {cert.title}
         </div>
+        {primary && <p className="body cert-featured-issuer">{cert.issuer}</p>}
       </div>
 
-      {(!large || (cert.featured && !cert.badgeImage)) && cert.image && (
-        <div style={{ position: 'relative', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.06)', marginBottom: 'var(--space-6)', aspectRatio: '16/10', background: 'var(--surface-high)' }}>
-          <img src={cert.image} alt={cert.title} loading="lazy" width={400} height={250} style={{ width: '100%', height: '100%', objectFit: cert.featured ? 'contain' : 'cover', objectPosition: 'center top', display: 'block', filter: hover ? 'saturate(0.82) brightness(0.92)' : 'saturate(0.55) brightness(0.8)', transition: 'filter var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out)', transform: hover ? 'scale(1.04)' : 'scale(1)' }} />
-          <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', background: 'linear-gradient(to bottom, transparent 50%, rgba(16,20,23,0.4) 100%)' }} />
+      {cert.image && (
+        <div className="cert-featured-preview">
+          <img src={cert.image} alt={cert.title} loading="lazy" width={cert.imageWidth} height={cert.imageHeight} style={{ width: '100%', height: 'auto', display: 'block', filter: hover ? 'saturate(1) brightness(1)' : 'saturate(0.85) brightness(0.95)', transition: 'filter var(--dur-slow) var(--ease-out)' }} />
         </div>
       )}
 
-      {large && cert.badgeImage && (
-        <img src={cert.badgeImage} alt={`${cert.title} — Foundational badge`} loading="lazy" width={150} height={150} style={{ width: '150px', height: '150px', objectFit: 'contain', alignSelf: 'center', marginBottom: 'var(--space-6)' }} />
-      )}
-
-      {large && !cert.badgeImage && !cert.featured && (
-        <div style={{ fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 'var(--body)', color: 'var(--on-surface-variant)', lineHeight: 1.7, borderLeft: '2px solid var(--secondary)', paddingLeft: 'var(--space-4)', marginBottom: 'var(--space-6)' }}>
-          &quot;Committed to mastering AI fundamentals, generative AI, and practical applications across multiple platforms.&quot;
-        </div>
-      )}
-
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid var(--outline-variant)', paddingTop: 'var(--space-4)', marginTop: 'auto' }}>
+      <div className="cert-featured-footer">
         <div className="label" style={{ color: 'var(--outline)' }}>{cert.issuedDate}</div>
         {cert.credentialUrl && <span className="label verify-cue">Verify &rarr;</span>}
+        {!cert.credentialUrl && cert.pdfUrl && <span className="label verify-cue">View PDF &rarr;</span>}
       </div>
     </div>
   );
@@ -423,12 +412,11 @@ export const Certification = () => {
         {/* Featured Grid — GsapStagger reveals each card in turn */}
         {featured.length > 0 && (
           <GsapStagger
-            className="grid gap-px"
-            style={{ background: 'var(--outline-variant)', border: '1px solid var(--outline-variant)', marginBottom: '1px', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}
+            className="cert-featured-grid"
             stagger={0.08}
           >
             {featured.map((cert, i) => (
-              <CertCard key={cert.title} cert={cert} onClick={setSelected} large={i === 0} />
+              <CertCard key={cert.title} cert={cert} onClick={setSelected} primary={i === 0} />
             ))}
           </GsapStagger>
         )}
