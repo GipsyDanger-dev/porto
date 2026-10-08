@@ -44,6 +44,56 @@
   border-radius: inherit;
 }
 
+.project-gallery-preview {
+  position: relative;
+  display: block;
+  border-radius: inherit;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+
+.project-gallery-hover-cue {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: calc(100% - 24px);
+  padding: 10px 12px;
+  border-radius: 2px;
+  font-family: var(--sans);
+  font-size: 12px;
+  line-height: 18px;
+  letter-spacing: 0;
+  color: var(--on-surface);
+  background: rgba(16, 20, 23, 0.94);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity var(--dur-fast) var(--ease-out), transform var(--dur-base) var(--ease-out);
+}
+
+.project-gallery-hover-cue svg {
+  flex-shrink: 0;
+  color: var(--secondary-light);
+}
+
+.project-gallery-visual:focus-visible .project-gallery-hover-cue {
+  opacity: 1;
+  transform: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .project-gallery-visual:hover .project-gallery-preview {
+    transform: translateY(-4px);
+  }
+
+  .project-gallery-visual:hover .project-gallery-hover-cue {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 .project-gallery-navigation {
   display: flex;
   align-items: center;
@@ -98,6 +148,14 @@
   top: 15px;
   color: var(--on-surface-variant);
   pointer-events: none;
+}
+
+.project-gallery-picker select:hover {
+  color: var(--on-surface);
+}
+
+.project-gallery-picker select:hover + svg {
+  color: var(--secondary);
 }
 
 .project-gallery-arrows {
@@ -183,6 +241,16 @@
   cursor: pointer;
 }
 
+.project-gallery-case-link svg,
+.project-gallery-links .visit-link svg {
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.project-gallery-case-link:is(:hover, :focus-visible) svg,
+.project-gallery-links .visit-link:is(:hover, :focus-visible) svg {
+  transform: translateX(3px);
+}
+
 .project-gallery-tags {
   display: flex;
   flex-wrap: wrap;
@@ -262,7 +330,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .project-gallery-arrow svg {
+  .project-gallery-arrow svg,
+  .project-gallery-preview,
+  .project-gallery-hover-cue,
+  .project-gallery-case-link svg,
+  .project-gallery-links .visit-link svg {
     transition: none;
     transform: none !important;
   }

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import { gsap } from 'gsap';
-import { FiArrowLeft, FiArrowRight, FiChevronDown, FiGithub } from 'react-icons/fi';
+import { FiArrowLeft, FiArrowRight, FiArrowUpRight, FiChevronDown, FiGithub } from 'react-icons/fi';
 import './ProjectGallery.css';
 
 export const ProjectGallery = ({ projects, onSelect }) => {
@@ -134,7 +134,13 @@ export const ProjectGallery = ({ projects, onSelect }) => {
                     else goTo(index);
                   }}
                 >
-                  <img src={project.imageUrl} alt={project.title} loading={index === 0 ? 'eager' : 'lazy'} decoding="async" draggable={false} />
+                  <span className="project-gallery-preview">
+                    <img src={project.imageUrl} alt={project.title} loading={index === 0 ? 'eager' : 'lazy'} decoding="async" draggable={false} />
+                    <span className="project-gallery-hover-cue" aria-hidden="true">
+                      {isActive ? 'View case study' : 'Select project'}
+                      {isActive ? <FiArrowUpRight size={16} /> : <FiArrowRight size={16} />}
+                    </span>
+                  </span>
                 </button>
               </div>
             );
