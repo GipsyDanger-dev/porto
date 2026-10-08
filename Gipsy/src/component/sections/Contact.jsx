@@ -151,7 +151,7 @@ export const Contact = () => {
       reply_to: formData.email,
       subject: formData.subject,
       message: formData.message,
-    }, publicKey)
+    }, { publicKey })
       .then(() => {
         setFormData({ name: "", email: "", subject: "", message: "", website: "" });
         setCooldownLeft(COOLDOWN_SECONDS);

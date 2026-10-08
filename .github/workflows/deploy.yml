@@ -34,7 +34,14 @@ jobs:
 
       - name: Build
         working-directory: Gipsy
-        run: npm run build
+        run: |
+          for name in VITE_EMAILJS_SERVICE_ID VITE_EMAILJS_TEMPLATE_ID VITE_EMAILJS_PUBLIC_KEY VITE_CONTACT_TO_EMAIL; do
+            if [[ -z "${!name//[[:space:]]/}" ]]; then
+              echo "::error::Missing GitHub Secret: $name"
+              exit 1
+            fi
+          done
+          npm run build
         env:
           VITE_EMAILJS_SERVICE_ID: ${{ secrets.VITE_EMAILJS_SERVICE_ID }}
           VITE_EMAILJS_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}

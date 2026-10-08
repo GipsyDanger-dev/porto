@@ -36,6 +36,22 @@ If you skip `{{to_email}}`, EmailJS may still use default template recipient set
 
 5. Restart the dev server after changing `.env` so Vite can reload environment values.
 
+## Production Email Configuration
+
+The GitHub Pages workflow cannot read your ignored local `.env` file. Add the
+same five variables listed above as repository secrets under GitHub Settings >
+Secrets and variables > Actions. Do not commit `.env` or use an EmailJS private
+key in any `VITE_` variable.
+
+The workflow checks the four required values before building. After changing
+secrets, rerun the deployment workflow: Vite embeds these values at build time,
+so changing a secret does not update an already deployed website.
+
+In the EmailJS dashboard, keep the service connected and verify that the
+template's recipient and Reply-To match the variables listed above. If an
+origin allowlist is enabled, allow `https://gipsy-dev.me` and your local dev
+origin when testing locally.
+
 ## Editor Formatting
 
 This workspace now includes VS Code settings in `.vscode/settings.json` to keep files clean automatically:
