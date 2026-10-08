@@ -34,6 +34,19 @@ const certifications = [
     category: "Cloud / AI",
     featured: true,
   },
+  {
+    title: "Threat Modeling for Agentic AI: Attacks, Risks, Controls",
+    issuer: "Udemy",
+    issuedDate: "5th October 2026",
+    certificateNumber: "UC-b30380d4-24bc-436a-9951-118ae5475a95",
+    credentialUrl: "https://www.udemy.com/certificate/UC-b30380d4-24bc-436a-9951-118ae5475a95/",
+    image: sertifImg("threat-modeling-agentic-ai"),
+    imageWidth: 1600,
+    imageHeight: 1190,
+    pdfUrl: "./sertif/threat-modeling-agentic-ai.pdf",
+    category: "AI / Security",
+    featured: true,
+  },
   { title: "Learn Power BI Data Modeling with DAX", issuer: "Simplilearn SkillUp", issuedDate: "23rd April 2026", credentialUrl: "https://simpli-web.app.link/e/su0diV4wT2b", image: sertifImg("Sertif1"), category: "Data" },
   { title: "Innovating with Google Cloud AI", issuer: "Simplilearn SkillUp (Google Cloud)", issuedDate: "21st April 2026", credentialUrl: "https://simpli-web.app.link/e/kBH5eFLrT2b", image: sertifImg("sertif2"), category: "AI" },
   { title: "Dive Deeper into GA4 Data and Reports", issuer: "Skillshop", issuedDate: "20th April 2026", credentialUrl: "https://www.credential.net/91b4ee1f-055f-4837-b66b-de64328ef20e", image: sertifImg("Sertif3"), category: "Analytics" },
@@ -61,11 +74,11 @@ const certifications = [
 
 const certificateFilters = [
   { id: 'all', label: 'All', matches: () => true },
-  { id: 'ai', label: 'AI', matches: ({ category }) => category === 'AI' || category === 'Cloud / AI' || category === 'Machine Learning' },
+  { id: 'ai', label: 'AI', matches: ({ category }) => category === 'AI' || category === 'Cloud / AI' || category === 'Machine Learning' || category === 'AI / Security' },
   { id: 'cloud', label: 'Cloud', matches: ({ category }) => category === 'Cloud / AI' },
   { id: 'data', label: 'Data', matches: ({ category }) => ['Data', 'Data Science', 'Analytics'].includes(category) },
   { id: 'programming', label: 'Programming', matches: ({ category }) => ['Programming', 'Software Engineering'].includes(category) },
-  { id: 'cybersecurity', label: 'Security', matches: ({ category }) => category === 'Cybersecurity' },
+  { id: 'cybersecurity', label: 'Security', matches: ({ category }) => category === 'Cybersecurity' || category === 'AI / Security' },
 ];
 
 const CREDLY_SCRIPT_SRC = 'https://cdn.credly.com/assets/utilities/embed.js';
@@ -225,7 +238,7 @@ export const Certification = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [fadeKey, setFadeKey] = useState(0);
   const overlayOpenTime = useRef(0);
-  const aiCerts = certifications.filter(c => c.category === 'AI' || c.category === 'Cloud / AI');
+  const aiCerts = certifications.filter(c => c.category === 'AI' || c.category === 'Cloud / AI' || c.category === 'AI / Security');
   const activeFilterConfig = certificateFilters.find(filter => filter.id === activeFilter);
   const filteredCerts = certifications.filter(activeFilterConfig.matches);
   const featured = activeFilter === 'all' ? certifications.filter(c => c.featured || c.category === 'AI').slice(0, 3) : [];
