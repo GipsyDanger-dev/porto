@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { FiX } from "react-icons/fi";
 import { GsapReveal } from "../GsapReveal";
+import { ProjectGallery } from "../ProjectGallery";
 import fruitCheckImg from "../../pct/FruitCheck.webp";
 import itSolutionImg from "../../pct/IT-Solution.webp";
 import remindMeImg from "../../pct/RemindMe.webp";
@@ -344,145 +345,10 @@ const projectsData = [
   },
 ];
 
-const ProjectEntry = ({ project, index, onSelect }) => {
-  const isReverse = index % 2 === 1;
-  const num = String(index + 1).padStart(2, '0');
-
-  return (
-    <GsapReveal delay={0.1}>
-      <div
-        className="group grid items-center"
-        style={{
-          gridTemplateColumns: isReverse ? '5fr 7fr' : '7fr 5fr',
-          borderTop: '1px solid var(--outline-variant)',
-          padding: '72px 0',
-          gap: '72px',
-        }}
-      >
-        {/* Visual */}
-          <div
-            className={`proj-visual relative overflow-hidden ${isReverse ? 'order-2' : 'order-1'}`}
-          role={project.timeline ? "button" : undefined}
-          tabIndex={project.timeline ? 0 : undefined}
-          onClick={() => project.timeline && onSelect?.(project)}
-          onKeyDown={(e) => { if ((e.key === 'Enter' || e.key === ' ') && project.timeline) { e.preventDefault(); onSelect?.(project); } }}
-          style={{ borderRadius: '4px', cursor: project.timeline ? 'pointer' : 'default',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-            background: 'var(--surface-high)',
-            lineHeight: 0,
-            touchAction: 'manipulation',
-          }}
-        >
-          {project.imageUrl ? (
-            <img
-              src={project.imageUrl}
-              alt={project.title}
-              loading="lazy"
-              decoding="async"
-              style={{
-                width: '100%',
-                height: 'auto',
-                objectFit: 'contain',
-                display: 'block',
-                filter: 'saturate(0.82) brightness(0.88)',
-                transition: 'filter 0.55s ease, transform 0.65s cubic-bezier(0.4, 0, 0.2, 1)',
-              }}
-            />
-          ) : (
-            // No screenshot yet — hold the frame instead of rendering a broken img
-            <div style={{ width: '100%', aspectRatio: '16 / 10' }} />
-          )}
-          {/* Bottom fade overlay */}
-          <div
-            className="pointer-events-none absolute inset-0 z-1"
-            style={{
-              background: 'linear-gradient(to bottom, rgba(16,20,23,0.04) 0%, rgba(16,20,23,0.0) 35%, rgba(16,20,23,0.52) 100%)',
-            }}
-          />
-          {/* Side vignette */}
-          <div
-            className="pointer-events-none absolute inset-0 z-2"
-            style={{
-              background: 'radial-gradient(ellipse at center, transparent 55%, rgba(16,20,23,0.28) 100%)',
-            }}
-          />
-          {project.timeline && (
-            <div className="case-study-cue pointer-events-none absolute right-4 bottom-4 z-3 flex items-center gap-2">
-              <span>View case study</span>
-              <span aria-hidden="true">&rarr;</span>
-            </div>
-          )}
-        </div>
-
-        {/* Info */}
-        <div className={`proj-info ${isReverse ? 'order-1 pl-0 lg:pl-18' : 'order-2 pr-0 lg:pr-18'}`}>
-          <div className="label" style={{ color: 'var(--secondary)', marginBottom: 'var(--space-5)' }}>
-            {num}
-          </div>
-
-          {project.status && (
-            <span className="chip mb-3">
-              {project.status}
-            </span>
-          )}
-
-          <h3 className="h3" style={{ transition: 'color var(--dur-base) var(--ease-out)', marginBottom: 'var(--space-3)' }}>
-            {project.title}
-          </h3>
-
-          <p className="body" style={{ marginBottom: 'var(--space-6)' }}>
-            {project.description}
-          </p>
-
-          <div className="flex flex-wrap gap-1.5 mb-7">
-            {project.tags.map((tag) => (
-              <span
-                key={tag}
-                className="label-xs"
-                style={{
-                  color: 'var(--on-surface-variant)',
-                  background: 'var(--surface-high)',
-                  padding: 'var(--space-1) var(--space-2)',
-                  border: '1px solid var(--outline-variant)',
-                }}
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-
-          <div className="flex items-center gap-5">
-            {project.projectUrl && (
-              <a
-                href={project.projectUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="label visit-link"
-              >
-                {project.linkLabel || "Visit Website"} <span aria-hidden="true">&rarr;</span>
-              </a>
-            )}
-            {project.githubUrl && (
-              <a
-                href={project.githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="label repo-link"
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-                GitHub
-              </a>
-            )}
-          </div>
-        </div>
-      </div>
-    </GsapReveal>
-  );
-};
-
 export const Project = () => {
   const [selected, setSelected] = useState(null);
   const overlayOpenTime = useRef(0);
+  const dialogRef = useRef(null);
 
   const closeOverlay = useCallback(() => {
     // Prevent closing if overlay just opened (mobile touch event bubbling)
@@ -493,11 +359,31 @@ export const Project = () => {
   // Lock body scroll when overlay is open + Escape key handler
   useEffect(() => {
     if (selected) {
+      const returnFocus = document.activeElement;
       document.body.style.overflow = 'hidden';
       overlayOpenTime.current = Date.now();
-      const handleEsc = (e) => { if (e.key === 'Escape') closeOverlay(); };
-      window.addEventListener('keydown', handleEsc);
-      return () => { document.body.style.overflow = ''; window.removeEventListener('keydown', handleEsc); };
+      dialogRef.current?.querySelector('button')?.focus({ preventScroll: true });
+      const handleDialogKey = (e) => {
+        if (e.key === 'Escape') closeOverlay();
+        if (e.key !== 'Tab') return;
+        const controls = dialogRef.current?.querySelectorAll('button, a[href]');
+        if (!controls?.length) return;
+        const first = controls[0];
+        const last = controls[controls.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      };
+      window.addEventListener('keydown', handleDialogKey);
+      return () => {
+        document.body.style.overflow = '';
+        window.removeEventListener('keydown', handleDialogKey);
+        if (returnFocus?.isConnected) returnFocus.focus({ preventScroll: true });
+      };
     } else {
       document.body.style.overflow = '';
     }
@@ -520,139 +406,9 @@ export const Project = () => {
             </p>
           </div>
         </GsapReveal>
-
-        {/* Desktop */}
-        <div className="hidden md:block">
-          {projectsData.map((project, index) => (
-            <ProjectEntry key={index} project={project} index={index} onSelect={setSelected} />
-          ))}
-        </div>
-
-        {/* Mobile */}
-        <div className="md:hidden space-y-10">
-          {projectsData.map((project, index) => (
-            <GsapReveal key={index} delay={0.1}>
-              <div
-                role={project.timeline ? "button" : undefined}
-                tabIndex={project.timeline ? 0 : undefined}
-                onClick={() => project.timeline && setSelected(project)}
-                onKeyDown={(e) => { if ((e.key === 'Enter' || e.key === ' ') && project.timeline) { e.preventDefault(); setSelected(project); } }}
-                style={{
-                  borderTop: index > 0 ? '1px solid var(--outline-variant)' : 'none',
-                  paddingTop: index > 0 ? '32px' : 0,
-                  cursor: project.timeline ? 'pointer' : 'default',
-                  WebkitTapHighlightColor: 'transparent',
-                  touchAction: 'manipulation',
-                }}
-              >
-                <div
-                  className="proj-visual relative overflow-hidden mb-6"
-                  style={{
-                    borderRadius: '4px',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    background: 'var(--surface-high)',
-                    lineHeight: 0,
-                  }}
-                >
-                  {project.imageUrl ? (
-                    <img
-                      src={project.imageUrl}
-                      alt={project.title}
-                      loading="lazy"
-                      decoding="async"
-                      style={{
-                        width: '100%',
-                        height: 'auto',
-                        objectFit: 'contain',
-                        display: 'block',
-                        filter: 'saturate(0.82) brightness(0.88)',
-                      }}
-                    />
-                  ) : (
-                    <div style={{ width: '100%', aspectRatio: '16 / 10' }} />
-                  )}
-                  <div
-                    className="pointer-events-none absolute inset-0 z-1"
-                    style={{
-                      background: 'linear-gradient(to bottom, rgba(16,20,23,0.04) 0%, rgba(16,20,23,0.0) 35%, rgba(16,20,23,0.52) 100%)',
-                    }}
-                  />
-                  <div
-                    className="pointer-events-none absolute inset-0 z-2"
-                    style={{
-                      background: 'radial-gradient(ellipse at center, transparent 55%, rgba(16,20,23,0.28) 100%)',
-                    }}
-                  />
-                  {project.timeline && (
-                    <div className="case-study-cue pointer-events-none absolute right-4 bottom-4 z-3 flex items-center gap-2">
-                      <span>View case study</span>
-                      <span aria-hidden="true">&rarr;</span>
-                    </div>
-                  )}
-                </div>
-
-                <div className="label" style={{ color: 'var(--secondary)', marginBottom: 'var(--space-3)' }}>
-                  {String(index + 1).padStart(2, '0')}
-                </div>
-
-                {project.status && (
-                  <span className="chip mb-3">
-                    {project.status}
-                  </span>
-                )}
-
-                <h3 className="h3" style={{ marginBottom: 'var(--space-3)' }}>
-                  {project.title}
-                </h3>
-                <p className="body" style={{ marginBottom: 'var(--space-4)' }}>
-                  {project.description}
-                </p>
-                <div className="flex flex-wrap gap-1.5 mb-5">
-                  {project.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="label-xs"
-                      style={{
-                        color: 'var(--on-surface-variant)',
-                        background: 'var(--surface-high)',
-                        padding: 'var(--space-1) var(--space-2)',
-                        border: '1px solid var(--outline-variant)',
-                      }}
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                <div className="flex items-center gap-5">
-                  {project.projectUrl && (
-                    <a
-                      href={project.projectUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={e => e.stopPropagation()}
-                      className="label visit-link"
-                    >
-                      {project.linkLabel || "Visit Website"} <span aria-hidden="true">&rarr;</span>
-                    </a>
-                  )}
-                  {project.githubUrl && (
-                    <a
-                      href={project.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={e => e.stopPropagation()}
-                      className="label repo-link"
-                    >
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-                      GitHub
-                    </a>
-                  )}
-                </div>
-              </div>
-            </GsapReveal>
-          ))}
-        </div>
       </div>
+
+      <ProjectGallery projects={projectsData} onSelect={setSelected} />
 
       {/* Project Detail Overlay — rendered to body via portal */}
       {selected && createPortal(
@@ -675,6 +431,10 @@ export const Project = () => {
           onClick={closeOverlay}
         >
           <div
+            ref={dialogRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="project-dialog-title"
             className="relative max-w-4xl w-full"
             style={{ background: 'var(--surface)', border: '1px solid var(--outline-variant)', marginBottom: '40px' }}
             onClick={e => e.stopPropagation()}
@@ -698,7 +458,7 @@ export const Project = () => {
             <div className="px-5 py-6 sm:px-12">
               {/* Title */}
               <div style={{ marginBottom: 'var(--space-8)' }}>
-                <h2 className="h3" style={{ marginBottom: 'var(--space-3)' }}>{selected.title}</h2>
+                <h2 id="project-dialog-title" className="h3" style={{ marginBottom: 'var(--space-3)', overflowWrap: 'anywhere', letterSpacing: 0 }}>{selected.title}</h2>
                 <p className="body" style={{ maxWidth: '600px' }}>{selected.description}</p>
                 {selected.metrics?.length > 0 && (
                   <dl
