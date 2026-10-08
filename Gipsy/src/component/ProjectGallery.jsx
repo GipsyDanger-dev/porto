@@ -1,10 +1,14 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
-import { FiArrowLeft, FiArrowRight, FiGithub } from 'react-icons/fi';
+import { gsap } from 'gsap';
+import { FiArrowLeft, FiArrowRight, FiChevronDown, FiGithub } from 'react-icons/fi';
 import './ProjectGallery.css';
 
 export const ProjectGallery = ({ projects, onSelect }) => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const detailsRef = useRef(null);
+  const previousIndex = useRef(0);
+  const direction = useRef(1);
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
     align: 'center',
@@ -14,7 +18,12 @@ export const ProjectGallery = ({ projects, onSelect }) => {
   const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const syncSelection = useCallback((api) => {
-    setActiveIndex(api.selectedScrollSnap());
+    const index = api.selectedScrollSnap();
+    const count = api.scrollSnapList().length;
+    const forward = (index - previousIndex.current + count) % count;
+    if (forward) direction.current = forward <= count / 2 ? 1 : -1;
+    previousIndex.current = index;
+    setActiveIndex(index);
   }, []);
 
   useEffect(() => {
@@ -26,11 +35,74 @@ export const ProjectGallery = ({ projects, onSelect }) => {
     };
   }, [emblaApi, syncSelection]);
 
+  useEffect(() => {
+    if (!emblaApi) return;
+    const slides = emblaApi.slideNodes();
+    const visuals = slides.map(slide => slide.querySelector('.project-gallery-visual'));
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let frame;
+    const update = () => {
+      const viewport = emblaApi.rootNode().getBoundingClientRect();
+      const center = viewport.left + viewport.width / 2;
+      // Read positions together before writing emphasis styles during a drag.
+      const distances = slides.map(slide => {
+        const rect = slide.getBoundingClientRect();
+        return Math.min(1, Math.abs(rect.left + rect.width / 2 - center) / rect.width);
+      });
+      visuals.forEach((visual, index) => {
+        const distance = distances[index];
+        visual.style.setProperty('--slide-scale', motion.matches ? 1 : 1 - distance * 0.1);
+        visual.style.setProperty('--slide-opacity', 1 - distance * 0.4);
+        visual.style.setProperty('--slide-offset', `${motion.matches ? 0 : distance * 12}px`);
+      });
+    };
+    const schedule = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(update);
+    };
+    schedule();
+    emblaApi.on('scroll', schedule).on('select', schedule).on('slidesInView', schedule).on('reInit', schedule).on('settle', schedule);
+    motion.addEventListener('change', schedule);
+    return () => {
+      cancelAnimationFrame(frame);
+      emblaApi.off('scroll', schedule).off('select', schedule).off('slidesInView', schedule).off('reInit', schedule).off('settle', schedule);
+      motion.removeEventListener('change', schedule);
+      visuals.forEach(visual => {
+        ['--slide-scale', '--slide-opacity', '--slide-offset'].forEach(property => visual.style.removeProperty(property));
+      });
+    };
+  }, [emblaApi]);
+
+  useEffect(() => {
+    const context = gsap.context(() => {
+      const media = gsap.matchMedia();
+      media.add('(prefers-reduced-motion: no-preference)', () => {
+        gsap.from('.is-active .project-gallery-heading > *', {
+          x: direction.current * 18,
+          opacity: 0,
+          duration: 0.45,
+          stagger: 0.045,
+          ease: 'power3.out',
+        });
+        gsap.from('.is-active .project-gallery-copy > *', {
+          y: 10,
+          opacity: 0,
+          duration: 0.5,
+          stagger: 0.06,
+          delay: 0.08,
+          ease: 'power3.out',
+        });
+      });
+    }, detailsRef);
+    return () => context.revert();
+  }, [activeIndex]);
+
   const goTo = (index) => emblaApi?.scrollTo(index, reduceMotion());
   const previous = () => emblaApi?.scrollPrev(reduceMotion());
   const next = () => emblaApi?.scrollNext(reduceMotion());
 
   const handleKeyDown = (event) => {
+    if (event.target.tagName === 'SELECT') return;
     if (event.key === 'ArrowLeft') {
       event.preventDefault();
       previous();
@@ -63,7 +135,6 @@ export const ProjectGallery = ({ projects, onSelect }) => {
                   }}
                 >
                   <img src={project.imageUrl} alt={project.title} loading={index === 0 ? 'eager' : 'lazy'} decoding="async" draggable={false} />
-                  {isActive && <span className="case-study-cue"><span>View case study</span><FiArrowRight size={14} aria-hidden="true" /></span>}
                 </button>
               </div>
             );
@@ -74,8 +145,11 @@ export const ProjectGallery = ({ projects, onSelect }) => {
       <div className="max-w-6xl mx-auto px-6 md:px-16">
         <div className="project-gallery-navigation">
           <span className="label project-gallery-count" aria-hidden="true">{String(activeIndex + 1).padStart(2, '0')} <span>/ {String(projects.length).padStart(2, '0')}</span></span>
-          <div className="project-gallery-progress" aria-hidden="true">
-            {projects.map((project, index) => <span key={project.title} className={index === activeIndex ? 'is-active' : ''} />)}
+          <div className="project-gallery-picker">
+            <select aria-label="Choose a project" value={activeIndex} onChange={event => goTo(Number(event.target.value))}>
+              {projects.map((project, index) => <option key={project.title} value={index}>{project.title}</option>)}
+            </select>
+            <FiChevronDown size={14} aria-hidden="true" />
           </div>
           <div className="project-gallery-arrows">
             <button type="button" className="project-gallery-arrow" onClick={previous} aria-label="Previous project" title="Previous project"><FiArrowLeft size={20} aria-hidden="true" /></button>
@@ -85,7 +159,7 @@ export const ProjectGallery = ({ projects, onSelect }) => {
 
         <p className="sr-only" role="status" aria-live="polite">Project {activeIndex + 1} of {projects.length}: {projects[activeIndex].title}</p>
         {/* Overlapping grid panels reserve room for the longest description. */}
-        <div className="project-gallery-details">
+        <div className="project-gallery-details" ref={detailsRef}>
           {projects.map((project, index) => {
             const isActive = index === activeIndex;
             return (
