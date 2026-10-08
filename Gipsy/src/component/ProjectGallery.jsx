@@ -141,6 +141,7 @@ export const ProjectGallery = ({ projects, onSelect }) => {
                       {isActive ? <FiArrowUpRight size={16} /> : <FiArrowRight size={16} />}
                     </span>
                   </span>
+                  <span className="project-gallery-name" aria-hidden="true">{project.title}</span>
                 </button>
               </div>
             );
