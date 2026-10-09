@@ -2,6 +2,26 @@
 @import "./fonts.css";
 
 .loading-intro-text { font-size: 36px; white-space: nowrap; }
+.loading-intro-type {
+  display: inline-block;
+  position: relative;
+  padding-right: 1.5ch;
+  letter-spacing: 0;
+}
+.loading-intro-copy {
+  display: inline-block;
+  clip-path: inset(0 100% 0 0);
+  animation: intro-type calc(var(--intro-chars) * var(--intro-char-ms)) steps(var(--intro-chars), end) var(--intro-char-ms) forwards;
+}
+.loading-intro-cursor {
+  position: absolute;
+  left: 0.5ch;
+  top: 0;
+  animation: intro-cursor calc(var(--intro-chars) * var(--intro-char-ms)) steps(var(--intro-chars), end) var(--intro-char-ms) forwards;
+}
+@keyframes intro-type { to { clip-path: inset(0); } }
+@keyframes intro-cursor { to { transform: translateX(calc(var(--intro-chars) * 1ch)); } }
+[data-reveal-pending] > * { opacity: 0; transform: translateY(24px); }
 .text-type-cursor {
   animation: text-type-cursor 0.5s cubic-bezier(0.65, 0, 0.35, 1) infinite alternate;
 }
@@ -10,6 +30,7 @@
   to { opacity: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
+  .loading-intro-type { --intro-char-ms: 25ms !important; }
   .text-type-cursor { animation: none; opacity: 1; }
 }
 @media (max-width: 400px) {

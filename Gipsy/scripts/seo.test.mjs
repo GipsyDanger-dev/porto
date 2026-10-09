@@ -103,13 +103,27 @@ test('hero portraits and their preload use the same responsive sources', () => {
   const portraits = all.filter(node => node.tagName === 'img' && attr(node, 'alt')?.startsWith('Portrait of Adam'));
   assert.equal(portraits.length, 2);
   portraits.forEach(node => {
-    assert.equal(attr(node, 'sizes'), '(max-width: 1023px) 256px, 1200px');
+    assert.equal(attr(node, 'sizes'), '(max-width: 1023px) 256px, 70.4vh');
     assert.match(attr(node, 'srcset'), /512w, .*768w, .*1200w$/);
     assert.equal(attr(node, 'srcset'), attr(portraits[0], 'srcset'));
   });
   const preloads = all.filter(node => node.tagName === 'link' && attr(node, 'as') === 'image');
   assert.equal(preloads.length, 1);
   assert.equal(attr(preloads[0], 'imagesrcset'), attr(portraits[0], 'srcset'));
+});
+
+test('static reveals stay visible and featured certificates reserve image dimensions', () => {
+  assert.ok(!all.some(node => attr(node, 'data-reveal-pending') !== undefined));
+  const about = all.find(node => attr(node, 'id') === 'about');
+  assert.doesNotMatch(attr(about.childNodes.find(node => node.tagName === 'div'), 'style') ?? '', /opacity:\s*0/);
+  const cards = all.filter(node => hasClass(node, 'cert-featured-card'));
+  assert.equal(cards.length, 3);
+  cards.forEach(card => {
+    nodes(card).filter(node => node.tagName === 'img').forEach(node => {
+      assert.ok(Number(attr(node, 'width')) > 0);
+      assert.ok(Number(attr(node, 'height')) > 0);
+    });
+  });
 });
 
 test('robots and sitemap are deployed with the canonical site', async () => {

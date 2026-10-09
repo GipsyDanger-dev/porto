@@ -30,15 +30,17 @@ const socialItems = [
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(import.meta.env.SSR);
+  const [showIntro, setShowIntro] = useState(!import.meta.env.SSR);
   const completeLoading = useCallback(() => setIsLoaded(true), []);
+  const dismissIntro = useCallback(() => setShowIntro(false), []);
 
   return (
     <>
-      {!isLoaded && <LoadingScreen onComplete={completeLoading} />}
+      {showIntro && <LoadingScreen onReveal={completeLoading} onComplete={dismissIntro} />}
       <div
         // inert while loading: the content is invisible but was still focusable,
         // so Tab walked into it behind the overlay.
-        inert={!isLoaded}
+        inert={showIntro}
         className={`relative min-h-screen transition-opacity duration-300 ${isLoaded ? "opacity-100" : "opacity-0"}`}
         style={{ background: 'var(--bg)', color: 'var(--on-surface)' }}
       >
@@ -78,7 +80,7 @@ function App() {
           Skip to content
         </a>
 
-        <Home isLoaded={isLoaded} />
+        <Home isLoaded={isLoaded && !showIntro} />
         <main id="main-content">
           <ErrorBoundary>
             <Suspense fallback={null}>

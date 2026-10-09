@@ -29,6 +29,8 @@ const certifications = [
     validationNumber: "c0f405dcd31f416ea87e44958982025c",
     credentialUrl: "https://aws.amazon.com/verification",
     image: sertifImg("aws-certified-ai-practitioner"),
+    imageWidth: 1584,
+    imageHeight: 1224,
     badgeImage: "./sertif/aws-certified-ai-practitioner-badge.png",
     pdfUrl: "./sertif/aws-certified-ai-practitioner.pdf",
     category: "Cloud / AI",

@@ -8,7 +8,7 @@ import gsap from "gsap";
 
 const HeroScene = lazy(() => import("../HeroScene"));
 const portraitSources = `${fotoHomeSmall} 512w, ${fotoHomeMedium} 768w, ${fotoHomeImg} 1200w`;
-const portraitSizes = '(max-width: 1023px) 256px, 1200px';
+const portraitSizes = '(max-width: 1023px) 256px, 70.4vh';
 
 const ScrollIndicator = () => {
   const lineRef = useRef(null);

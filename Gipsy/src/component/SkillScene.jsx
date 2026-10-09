@@ -20,7 +20,7 @@ import {
   SiPolygon,
 } from "react-icons/si";
 import circomLogo from "../pct/logos/circom.webp";
-import snarkjsLogo from "../pct/logos/snarkjs.webp";
+import snarkjsLogo from "../pct/logos/snarkjs-120.webp";
 
 const skills = [
   { name: "React", icon: SiReact, col: 0, row: 0, size: 48 },
@@ -91,6 +91,8 @@ function FloatingLogo({ skill, setRef, containerWidth, containerHeight }) {
       {skill.logoMode === 'image' ? (
         <img
           src={skill.logo}
+          width={120}
+          height={120}
           alt=""
           aria-hidden="true"
           style={{
@@ -179,16 +181,10 @@ export default function SkillScene() {
     const els = logoRefs.current.filter(Boolean);
     if (!els.length) return;
 
-    // gsap owns the centering transform so scale animates without breaking it.
-    gsap.set(els, { xPercent: -50, yPercent: -50 });
-
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduce) {
-      gsap.set(els, { opacity: 1, scale: 1 });
-      return;
-    }
-
-    gsap.set(els, { opacity: 0, scale: 0.8 });
+    // Set the centering and entrance state in one batch.
+    gsap.set(els, { xPercent: -50, yPercent: -50, opacity: reduce ? 1 : 0, scale: reduce ? 1 : 0.8 });
+    if (reduce) return;
 
     let played = false;
     let tween;
