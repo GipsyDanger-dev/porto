@@ -2,9 +2,13 @@ import { Suspense, lazy, useEffect, useRef, useState } from "react";
 import { GsapReveal } from "../GsapReveal";
 import TextType from "../TextType";
 import fotoHomeImg from "../../pct/Foto_Home2.webp";
+import fotoHomeSmall from "../../pct/Foto_Home2-512.webp";
+import fotoHomeMedium from "../../pct/Foto_Home2-768.webp";
 import gsap from "gsap";
 
 const HeroScene = lazy(() => import("../HeroScene"));
+const portraitSources = `${fotoHomeSmall} 512w, ${fotoHomeMedium} 768w, ${fotoHomeImg} 1200w`;
+const portraitSizes = '(max-width: 1023px) 256px, 1200px';
 
 const ScrollIndicator = () => {
   const lineRef = useRef(null);
@@ -70,6 +74,8 @@ export const Home = ({ isLoaded = true }) => {
       {/* Photo — absolute, anchored from bottom right */}
       <img
         src={fotoHomeImg}
+        srcSet={portraitSources}
+        sizes={portraitSizes}
         alt="Portrait of Adam Fairuz Akmal Aryaguna (Gipsy.Dev)"
         loading="eager"
         decoding="async"
@@ -100,6 +106,7 @@ export const Home = ({ isLoaded = true }) => {
               >
                 <span style={{ display: 'block', width: '32px', height: '1px', background: 'var(--secondary)' }} />
                 <TextType
+                  enabled={isLoaded}
                   text={["AI Engineer", "Software Developer", "Fullstack Engineer"]}
                   typingSpeed={70}
                   pauseDuration={2000}
@@ -146,6 +153,8 @@ export const Home = ({ isLoaded = true }) => {
           <div className="lg:hidden flex justify-center mt-8 pb-8 px-4">
             <img
               src={fotoHomeImg}
+              srcSet={portraitSources}
+              sizes={portraitSizes}
         alt="Portrait of Adam Fairuz Akmal Aryaguna (Gipsy.Dev)"
         loading="eager"
         decoding="async"

@@ -60,8 +60,11 @@ test('metadata and linked identity graph match the visible profile', () => {
   assert.equal(graph.find(node => node['@type'] === 'ProfilePage').mainEntity['@id'], person['@id']);
   assert.equal(graph.find(node => node['@type'] === 'WebSite').publisher['@id'], person['@id']);
   assert.ok(all.some(node => node.tagName === 'img' && new URL(attr(node, 'src'), canonical).href === person.image));
+  const portrait = all.find(node => node.tagName === 'img' && new URL(attr(node, 'src'), canonical).href === person.image);
   assert.ok(all.some(node => node.tagName === 'link' && attr(node, 'as') === 'image'
-    && node.parentNode.tagName === 'head' && new URL(attr(node, 'href'), canonical).href === person.image));
+    && node.parentNode.tagName === 'head'
+    && attr(node, 'imagesrcset') === attr(portrait, 'srcset')
+    && attr(node, 'imagesizes') === attr(portrait, 'sizes')));
   assert.ok(all.some(node => node.tagName === 'a' && attr(node, 'href') === person.sameAs[0]));
 });
 
@@ -71,6 +74,8 @@ test('generated image, stylesheet, script, and document URLs exist', async () =>
     const src = attr(node, 'src');
     const href = attr(node, 'href');
     if (src && !src.startsWith('data:')) urls.add(new URL(src, canonical).href);
+    const sources = attr(node, 'srcset') || attr(node, 'imagesrcset');
+    if (sources) sources.split(',').forEach(source => urls.add(new URL(source.trim().split(/\s+/)[0], canonical).href));
     if (href && (node.tagName === 'link' || /\.(pdf|webp)$/.test(href))) urls.add(new URL(href, canonical).href);
     if (node.tagName === 'meta' && ['og:image', 'twitter:image'].includes(attr(node, 'property') || attr(node, 'name'))) {
       urls.add(attr(node, 'content'));
@@ -81,6 +86,19 @@ test('generated image, stylesheet, script, and document URLs exist', async () =>
     if (url.origin !== new URL(canonical).origin) continue;
     await access(join(dist, decodeURIComponent(url.pathname)));
   }
+});
+
+test('hero portraits and their preload use the same responsive sources', () => {
+  const portraits = all.filter(node => node.tagName === 'img' && attr(node, 'alt')?.startsWith('Portrait of Adam'));
+  assert.equal(portraits.length, 2);
+  portraits.forEach(node => {
+    assert.equal(attr(node, 'sizes'), '(max-width: 1023px) 256px, 1200px');
+    assert.match(attr(node, 'srcset'), /512w, .*768w, .*1200w$/);
+    assert.equal(attr(node, 'srcset'), attr(portraits[0], 'srcset'));
+  });
+  const preloads = all.filter(node => node.tagName === 'link' && attr(node, 'as') === 'image');
+  assert.equal(preloads.length, 1);
+  assert.equal(attr(preloads[0], 'imagesrcset'), attr(portraits[0], 'srcset'));
 });
 
 test('robots and sitemap are deployed with the canonical site', async () => {
