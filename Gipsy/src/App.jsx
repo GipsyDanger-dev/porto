@@ -1,4 +1,4 @@
-import { useState, lazy, Suspense } from 'react';
+import { useState, useCallback, lazy, Suspense } from 'react';
 import { LoadingScreen } from './component/LoadingScreen';
 import { Navbar } from './component/Navbar';
 import StaggeredMenu from './component/StaggeredMenu';
@@ -30,10 +30,11 @@ const socialItems = [
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(import.meta.env.SSR);
+  const completeLoading = useCallback(() => setIsLoaded(true), []);
 
   return (
     <>
-      {!isLoaded && <LoadingScreen onComplete={() => setIsLoaded(true)} />}
+      {!isLoaded && <LoadingScreen onComplete={completeLoading} />}
       <div
         // inert while loading: the content is invisible but was still focusable,
         // so Tab walked into it behind the overlay.
@@ -77,7 +78,7 @@ function App() {
           Skip to content
         </a>
 
-        <Home />
+        <Home isLoaded={isLoaded} />
         <main id="main-content">
           <ErrorBoundary>
             <Suspense fallback={null}>

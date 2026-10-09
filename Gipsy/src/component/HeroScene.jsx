@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unknown-property */
-import { useRef, useMemo, useState, useEffect } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { useRef, useMemo, useState, useEffect, useCallback } from 'react';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Float } from '@react-three/drei';
 
 function GlowingTorus() {
@@ -97,9 +97,28 @@ function WireframeIcosahedron() {
   );
 }
 
+function SceneWarmup({ onReady }) {
+  const { gl, scene, camera } = useThree();
+  useEffect(() => {
+    let cancelled = false;
+    // Avoid synchronously waiting on the GPU during the first animation frame.
+    gl.compileAsync(scene, camera).then(() => {
+      if (!cancelled) onReady();
+    }).catch(error => {
+      console.warn('Hero shader warmup failed; using normal rendering.', error);
+      if (!cancelled) onReady();
+    });
+    return () => { cancelled = true; };
+  }, [gl, scene, camera, onReady]);
+  return null;
+}
+
 export default function HeroScene() {
   const containerRef = useRef(null);
   const [isVisible, setIsVisible] = useState(true);
+  const [isReady, setIsReady] = useState(false);
+  const [pageVisible, setPageVisible] = useState(!document.hidden);
+  const ready = useCallback(() => setIsReady(true), []);
 
   // Pause the render loop when the hero is scrolled off-screen so the GPU
   // isn't animating three meshes behind the rest of the page.
@@ -113,7 +132,12 @@ export default function HeroScene() {
     );
 
     observer.observe(el);
-    return () => observer.disconnect();
+    const onVisibility = () => setPageVisible(!document.hidden);
+    document.addEventListener('visibilitychange', onVisibility);
+    return () => {
+      observer.disconnect();
+      document.removeEventListener('visibilitychange', onVisibility);
+    };
   }, []);
 
   return (
@@ -121,13 +145,15 @@ export default function HeroScene() {
       ref={containerRef}
       className="absolute inset-0 z-0"
       style={{ pointerEvents: 'none' }}
+      aria-hidden="true"
+      data-scene-ready={isReady}
     >
       <Canvas
         camera={{ position: [0, 0, 5], fov: 45 }}
         dpr={[1, 1.5]}
         gl={{ antialias: true, alpha: true }}
         style={{ background: 'transparent' }}
-        frameloop={isVisible ? 'always' : 'never'}
+        frameloop={isReady && isVisible && pageVisible ? 'always' : 'never'}
       >
         <ambientLight intensity={0.3} />
         <directionalLight position={[5, 5, 5]} intensity={0.4} />
@@ -136,6 +162,7 @@ export default function HeroScene() {
         <GlowingTorus />
         <FloatingParticles />
         <WireframeIcosahedron />
+        <SceneWarmup onReady={ready} />
       </Canvas>
     </div>
   );

@@ -103,3 +103,28 @@ test('the entry bundle does not depend on the 3D engine', async () => {
   }
   assert.ok(Object.values(manifest).some(entry => entry.file.includes('vendor-three')));
 });
+
+test('gallery images reserve their natural proportions without eager off-screen requests', () => {
+  const previews = all.filter(node => node.tagName === 'img' && hasClass(node.parentNode, 'project-gallery-preview'));
+  assert.equal(previews.length, 14);
+  previews.forEach(node => {
+    assert.ok(Number(attr(node, 'width')) > 0);
+    assert.ok(Number(attr(node, 'height')) > 0);
+    assert.equal(attr(node, 'loading'), 'lazy');
+  });
+});
+
+test('all critical fonts are local, preloaded, and distributed with their licenses', async () => {
+  assert.ok(!all.some(node => attr(node, 'href')?.includes('fonts.googleapis.com')));
+  const fonts = all.filter(node => attr(node, 'as') === 'font');
+  assert.equal(fonts.length, 4);
+  for (const font of fonts) {
+    assert.equal(attr(font, 'rel'), 'preload');
+    assert.equal(attr(font, 'type'), 'font/woff2');
+    await access(join(dist, attr(font, 'href')));
+  }
+  for (const name of ['hankengrotesk', 'jetbrainsmono', 'playfairdisplay']) {
+    const license = await readFile(join(dist, 'fonts', `${name}-OFL.txt`), 'utf8');
+    assert.match(license, /SIL OPEN FONT LICENSE/);
+  }
+});

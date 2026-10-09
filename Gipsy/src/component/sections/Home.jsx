@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect, useRef } from "react";
+import { Suspense, lazy, useEffect, useRef, useState } from "react";
 import { GsapReveal } from "../GsapReveal";
 import TextType from "../TextType";
 import fotoHomeImg from "../../pct/Foto_Home2.webp";
@@ -32,7 +32,18 @@ const ScrollIndicator = () => {
   );
 };
 
-export const Home = () => {
+export const Home = ({ isLoaded = true }) => {
+  const [sceneEnabled, setSceneEnabled] = useState(false);
+  useEffect(() => {
+    if (!isLoaded) return;
+    const enable = () => setSceneEnabled(true);
+    if ('requestIdleCallback' in window) {
+      const task = window.requestIdleCallback(enable, { timeout: 800 });
+      return () => window.cancelIdleCallback(task);
+    }
+    const task = window.setTimeout(enable, 100);
+    return () => window.clearTimeout(task);
+  }, [isLoaded]);
   return (
     <section
       id="home"
@@ -40,7 +51,7 @@ export const Home = () => {
       style={{ minHeight: '100vh' }}
     >
       {/* 3D Background */}
-      {!import.meta.env.SSR && <Suspense fallback={null}>
+      {!import.meta.env.SSR && sceneEnabled && <Suspense fallback={null}>
         <HeroScene />
       </Suspense>}
 
@@ -85,7 +96,7 @@ export const Home = () => {
             <GsapReveal delay={0.2}>
               <div
                 className="label-lg inline-flex items-center mb-6"
-                style={{ color: 'var(--secondary)', gap: 'var(--space-3)' }}
+                style={{ color: 'var(--secondary)', gap: 'var(--space-3)', minHeight: '18px' }}
               >
                 <span style={{ display: 'block', width: '32px', height: '1px', background: 'var(--secondary)' }} />
                 <TextType

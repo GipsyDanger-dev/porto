@@ -19,8 +19,8 @@ import {
   SiLangchain,
   SiPolygon,
 } from "react-icons/si";
-import circomLogo from "../pct/logos/circom.png";
-import snarkjsLogo from "../pct/logos/snarkjs.png";
+import circomLogo from "../pct/logos/circom.webp";
+import snarkjsLogo from "../pct/logos/snarkjs.webp";
 
 const skills = [
   { name: "React", icon: SiReact, col: 0, row: 0, size: 48 },
@@ -123,6 +123,8 @@ function FloatingLogo({ skill, setRef, containerWidth, containerHeight }) {
         />
       ) : (
         <Icon
+          aria-hidden="true"
+          focusable="false"
           style={{
             ...visualStyle,
             fontSize: `${skill.size}px`,

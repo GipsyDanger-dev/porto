@@ -255,11 +255,23 @@ export const Certification = () => {
   const paginatedCerts = import.meta.env.SSR ? remaining : remaining.slice(currentPage * PER_PAGE, (currentPage + 1) * PER_PAGE);
 
   useEffect(() => {
-    if (document.querySelector(`script[src="${CREDLY_SCRIPT_SRC}"]`)) return;
-    const script = document.createElement('script');
-    script.src = CREDLY_SCRIPT_SRC;
-    script.async = true;
-    document.body.appendChild(script);
+    const row = document.querySelector('.credly-badge-row');
+    if (!row) return;
+    const load = () => {
+      if (document.querySelector(`script[src="${CREDLY_SCRIPT_SRC}"]`)) return;
+      const script = document.createElement('script');
+      script.src = CREDLY_SCRIPT_SRC;
+      script.async = true;
+      document.body.appendChild(script);
+    };
+    if (!('IntersectionObserver' in window)) { load(); return; }
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      observer.disconnect();
+      load();
+    }, { rootMargin: '400px' });
+    observer.observe(row);
+    return () => observer.disconnect();
   }, []);
 
   const goToPage = useCallback((page) => {
@@ -369,6 +381,7 @@ export const Certification = () => {
                 data-iframe-height="270"
                 data-share-badge-id={CREDLY_AWS_BADGE_ID}
                 data-share-badge-host="https://www.credly.com"
+                role="group"
                 aria-label="Credly verified AWS Certified AI Practitioner badge"
               />
               </div>
@@ -378,6 +391,7 @@ export const Certification = () => {
                 data-iframe-height="270"
                 data-share-badge-id={CREDLY_BADGE_ID}
                 data-share-badge-host="https://www.credly.com"
+                role="group"
                 aria-label="Credly verified badge one"
               />
               </div>
@@ -387,6 +401,7 @@ export const Certification = () => {
                 data-iframe-height="270"
                 data-share-badge-id={CREDLY_BADGE_ID_SECOND}
                 data-share-badge-host="https://www.credly.com"
+                role="group"
                 aria-label="Credly verified badge two"
               />
               </div>

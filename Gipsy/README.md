@@ -2,6 +2,15 @@
 
 Portfolio website built with React + Vite.
 
+## Performance Checks
+
+Run `npm run build`, `npm run test:seo`, and `npm run preview` before auditing
+the production build. Use the same Lighthouse version and desktop/mobile mode
+when comparing reports; local results are not interchangeable with PageSpeed
+Insights results. The hero retains its geometry and materials, prepares shaders
+asynchronously, and pauses off-screen or in background tabs. Credly embeds load
+near the credentials section. Fonts are self-hosted with their OFL licenses.
+
 ## Setup
 
 1. Install dependencies:

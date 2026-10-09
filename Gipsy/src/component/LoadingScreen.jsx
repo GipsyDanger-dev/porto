@@ -51,10 +51,12 @@ export const LoadingScreen = ({ onComplete }) => {
       aria-live="polite"
     >
       <div
-        className="mb-4"
+        className="loading-intro-text mb-4"
         style={{
+          width: 'min(100%, 16ch)',
+          minHeight: '58px',
+          textAlign: 'center',
           fontFamily: 'var(--mono)',
-          fontSize: '36px',
           fontWeight: 700,
           color: 'var(--on-surface)',
         }}

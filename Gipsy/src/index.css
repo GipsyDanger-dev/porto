@@ -1,4 +1,10 @@
 @import "tailwindcss";
+@import "./fonts.css";
+
+.loading-intro-text { font-size: 36px; white-space: nowrap; }
+@media (max-width: 400px) {
+  .loading-intro-text { font-size: 28px; }
+}
 
 /* ── Midnight Editorial Design System ── */
 

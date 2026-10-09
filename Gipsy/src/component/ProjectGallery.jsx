@@ -153,7 +153,7 @@ export const ProjectGallery = ({ projects, onSelect, isDialogOpen = false }) => 
                   }}
                 >
                   <span className="project-gallery-preview">
-                    <img src={project.imageUrl} alt={project.title} loading={index === 0 ? 'eager' : 'lazy'} decoding="async" draggable={false} />
+                    <img src={project.imageUrl} alt={project.title} width={project.imageWidth} height={project.imageHeight} loading="lazy" decoding="async" draggable={false} />
                     <span className="project-gallery-hover-cue" aria-hidden="true">
                       {isActive ? 'View case study' : 'Select project'}
                       {isActive ? <FiArrowUpRight size={16} /> : <FiArrowRight size={16} />}
