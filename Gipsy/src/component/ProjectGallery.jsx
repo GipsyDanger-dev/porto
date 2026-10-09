@@ -206,9 +206,12 @@ export const ProjectGallery = ({ projects, onSelect, isDialogOpen = false }) => 
                 <div className="project-gallery-copy">
                   {project.status && <span className="label project-gallery-status">{project.status}</span>}
                   <p id={`project-description-${index}`} className="body">{project.description}</p>
-                  <ul className="project-gallery-tags" aria-label="Technologies">
-                    {project.tags.map(tag => <li className="label-xs" key={tag}>{tag}</li>)}
-                  </ul>
+                  <div className="project-gallery-stack">
+                    <span className="project-gallery-stack-label" aria-hidden="true">Built with</span>
+                    <ul className="project-gallery-tags" aria-label="Technologies">
+                      {project.tags.map(tag => <li key={tag}><span>{tag}</span></li>)}
+                    </ul>
+                  </div>
                   <div className="project-gallery-links">
                     <button type="button" className="label visit-link project-gallery-case-link" onClick={() => onSelect(project)}>View case study <FiArrowUpRight size={16} aria-hidden="true" /></button>
                     {project.projectUrl && <a href={project.projectUrl} target="_blank" rel="noopener noreferrer" className="label visit-link">{project.linkLabel || 'Visit Website'} <FiArrowRight size={14} aria-hidden="true" /></a>}
