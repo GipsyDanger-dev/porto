@@ -39,7 +39,7 @@ export const About = () => {
                 Craft <em className="flourish">&amp; Code</em>
               </h2>
               <p className="small" style={{ marginBottom: 'var(--space-6)' }}>
-                I&apos;m Adam Fairuz Akmal Aryaguna, also known as Adam Fairuz or Adam Aryaguna, the developer behind Gipsy.Dev.
+                I&apos;m Adam Fairuz Akmal Aryaguna, also known as Adam Fairuz, the developer behind Gipsy.Dev.
               </p>
               <p className="lede" style={{ marginBottom: 'var(--space-8)' }}>
                 I&apos;m an AI Engineer and Software Developer focused on building intelligent, practical, and production-ready systems. I work across AI automation, machine learning, full-stack applications, and backend engineering.

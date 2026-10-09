@@ -44,14 +44,18 @@ test('initial HTML includes readable, complete portfolio content', () => {
 test('metadata and linked identity graph match the visible profile', () => {
   assert.equal(attr(all.find(node => node.tagName === 'html'), 'lang'), 'en');
   const title = text(all.find(node => node.tagName === 'title'));
-  assert.ok(title.startsWith('Adam Fairuz Akmal Aryaguna |'));
+  assert.equal(title, 'Adam Fairuz | AI Engineer - Gipsy.Dev');
   assert.match(title, /Gipsy\.Dev/);
   assert.match(title, /AI Engineer/);
   const meta = (name) => all.find(node => node.tagName === 'meta' && (attr(node, 'name') === name || attr(node, 'property') === name));
   assert.equal(attr(meta('og:title'), 'content'), title);
   assert.equal(attr(meta('twitter:title'), 'content'), title);
   assert.ok(attr(meta('description'), 'content').length > 100);
-  assert.ok(attr(meta('description'), 'content').startsWith('Adam Fairuz Akmal Aryaguna'));
+  assert.ok(attr(meta('description'), 'content').startsWith('Adam Fairuz ('));
+  assert.ok(attr(meta('description'), 'content').includes('Adam Fairuz Akmal Aryaguna'));
+  assert.doesNotMatch(attr(meta('description'), 'content'), /Adam Aryaguna/);
+  assert.equal(attr(meta('og:description'), 'content'), attr(meta('description'), 'content'));
+  assert.equal(attr(meta('twitter:description'), 'content'), attr(meta('description'), 'content'));
   assert.equal(meta('keywords'), undefined, 'Identity must use readable content, not a keyword meta tag');
   assert.equal(attr(all.find(node => attr(node, 'rel') === 'canonical'), 'href'), canonical);
   assert.doesNotMatch(attr(meta('robots'), 'content'), /noindex/);
@@ -60,10 +64,11 @@ test('metadata and linked identity graph match the visible profile', () => {
   const graph = schema[0]['@graph'];
   const person = graph.find(node => node['@type'] === 'Person');
   assert.equal(person.name, 'Adam Fairuz Akmal Aryaguna');
-  assert.deepEqual(person.alternateName, ['Adam Fairuz', 'Adam Aryaguna', 'Gipsy.Dev', 'Gipsy Dev']);
+  assert.deepEqual(person.alternateName, ['Adam Fairuz', 'Gipsy.Dev', 'Gipsy Dev']);
   const about = all.find(node => attr(node, 'id') === 'about');
   assert.ok(text(about).includes(person.name));
-  person.alternateName.slice(0, 3).forEach(name => {
+  assert.doesNotMatch(text(about), /Adam Aryaguna/);
+  person.alternateName.slice(0, 2).forEach(name => {
     assert.ok(text(about).includes(name), `${name} must be visible in the biography`);
     assert.ok(attr(meta('description'), 'content').includes(name));
   });
