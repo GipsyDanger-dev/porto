@@ -4,6 +4,7 @@ import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import test from 'node:test';
 import { parse } from 'parse5';
+import postcss from 'postcss';
 
 const dist = fileURLToPath(new URL('../dist/', import.meta.url));
 const document = parse(await readFile(join(dist, 'index.html'), 'utf8'));
@@ -124,6 +125,23 @@ test('static reveals stay visible and featured certificates reserve image dimens
       assert.ok(Number(attr(node, 'height')) > 0);
     });
   });
+});
+
+test('intro keyframes use compositable properties rather than clipping or layout', () => {
+  const names = new Set(['blink', 'loading', 'intro-type', 'intro-cursor']);
+  const found = new Set();
+  all.filter(node => node.tagName === 'style').forEach(node => {
+    postcss.parse(text(node)).walkAtRules('keyframes', rule => {
+      if (!names.has(rule.params)) return;
+      found.add(rule.params);
+      rule.walkDecls(declaration => {
+        assert.ok(['transform', 'opacity'].includes(declaration.prop),
+          `${rule.params} must not animate ${declaration.prop}`);
+      });
+    });
+  });
+  assert.ok(found.has('blink'));
+  assert.ok(found.has('loading'));
 });
 
 test('robots and sitemap are deployed with the canonical site', async () => {

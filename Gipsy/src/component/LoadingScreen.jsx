@@ -5,26 +5,36 @@ const CHAR_MS = 90;
 const HOLD_MS = 650;
 const EXIT_MS = 400;
 
-export const LoadingScreen = ({ onReveal, onComplete }) => {
+export const LoadingScreen = ({ onComplete }) => {
+  const [text, setText] = useState("");
   const [isExiting, setIsExiting] = useState(false);
 
   useEffect(() => {
+    let index = 0;
+    let holdTimer;
     let exitTimer;
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const charMs = prefersReducedMotion ? 25 : CHAR_MS;
     const holdMs = prefersReducedMotion ? 100 : HOLD_MS;
     const exitMs = prefersReducedMotion ? 150 : EXIT_MS;
-    const holdTimer = setTimeout(() => {
-      setIsExiting(true);
-      onReveal();
-      exitTimer = setTimeout(onComplete, exitMs);
-    }, (FULL_TEXT.length + 1) * charMs + holdMs);
+    const interval = setInterval(() => {
+      setText(FULL_TEXT.substring(0, index));
+      index++;
+      if (index > FULL_TEXT.length) {
+        clearInterval(interval);
+        holdTimer = setTimeout(() => {
+          setIsExiting(true);
+          exitTimer = setTimeout(onComplete, exitMs);
+        }, holdMs);
+      }
+    }, charMs);
 
     return () => {
+      clearInterval(interval);
       clearTimeout(holdTimer);
       clearTimeout(exitTimer);
     };
-  }, [onReveal, onComplete]);
+  }, [onComplete]);
 
   return (
     <div
@@ -51,10 +61,7 @@ export const LoadingScreen = ({ onReveal, onComplete }) => {
           color: 'var(--on-surface)',
         }}
       >
-        <span className="loading-intro-type" aria-hidden="true" style={{ '--intro-chars': FULL_TEXT.length, '--intro-char-ms': `${CHAR_MS}ms` }}>
-          <span className="loading-intro-copy">{FULL_TEXT}</span>
-          <span className="loading-intro-cursor"><span className="animate-blink" style={{ color: 'var(--secondary)' }}>|</span></span>
-        </span>
+        {text} <span className="animate-blink" aria-hidden="true" style={{ color: 'var(--secondary)' }}>|</span>
       </div>
 
       <div

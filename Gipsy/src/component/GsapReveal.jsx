@@ -42,16 +42,26 @@ const observeOnce = (el, callback) => {
 
 export const GsapReveal = ({ children, className = '', delay = 0, direction = 'up' }) => {
   const ref = useRef(null);
-  const distance = direction === 'up' ? 40 : direction === 'down' ? -40 : direction === 'left' ? 40 : -40;
-  const isVertical = direction === 'up' || direction === 'down';
-  const pending = !import.meta.env.SSR && !reduceMotion();
 
-  // Initial styles are committed by React; only visible reveals need GSAP reads.
+  // useLayoutEffect, not useEffect: the hidden state has to be committed before
+  // the browser paints, otherwise every block flashes in at full opacity for a
+  // frame and then snaps back to opacity 0 to animate.
   useLayoutEffect(() => {
     const el = ref.current;
     if (!el) return;
 
-    if (reduceMotion()) return;
+    if (reduceMotion()) {
+      gsap.set(el, { opacity: 1, y: 0, x: 0 });
+      return;
+    }
+
+    const distance = direction === 'up' ? 40 : direction === 'down' ? -40 : direction === 'left' ? 40 : -40;
+    const isVertical = direction === 'up' || direction === 'down';
+
+    gsap.set(el, {
+      opacity: 0,
+      [isVertical ? 'y' : 'x']: distance,
+    });
 
     let tween;
     const unobserve = observeOnce(el, () => {
@@ -75,7 +85,7 @@ export const GsapReveal = ({ children, className = '', delay = 0, direction = 'u
   }, [delay, direction]);
 
   return (
-    <div ref={ref} className={className} style={pending ? { opacity: 0, transform: `translate(${isVertical ? 0 : distance}px, ${isVertical ? distance : 0}px)` } : undefined}>
+    <div ref={ref} className={className}>
       {children}
     </div>
   );
@@ -90,7 +100,12 @@ export const GsapStagger = ({ children, className = '', style, stagger = 0.1 }) 
 
     const childElements = el.children;
 
-    if (reduceMotion()) return;
+    if (reduceMotion()) {
+      gsap.set(childElements, { opacity: 1, y: 0 });
+      return;
+    }
+
+    gsap.set(childElements, { opacity: 0, y: 24 });
 
     let tween;
     const unobserve = observeOnce(el, () => {
@@ -110,7 +125,7 @@ export const GsapStagger = ({ children, className = '', style, stagger = 0.1 }) 
   }, [stagger]);
 
   return (
-    <div ref={ref} className={className} style={style} data-reveal-pending={!import.meta.env.SSR && !reduceMotion() ? '' : undefined}>
+    <div ref={ref} className={className} style={style}>
       {children}
     </div>
   );
