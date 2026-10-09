@@ -1,17 +1,17 @@
 .project-gallery {
-  --project-caption-space: 66px;
+  --project-caption-space: 76px;
 }
 
 .project-gallery-viewport {
   overflow: hidden;
-  padding: 8px 0;
+  padding: 12px 0;
   touch-action: pan-y pinch-zoom;
 }
 
 .project-gallery-track {
   display: flex;
   align-items: center;
-  height: calc(340px + var(--project-caption-space));
+  height: calc(320px + var(--project-caption-space));
 }
 
 .project-gallery-slide {
@@ -21,7 +21,7 @@
 }
 
 .project-gallery-visual {
-  --slide-scale: 0.9;
+  --slide-scale: 0.86;
   --slide-opacity: 0.6;
   --slide-offset: 12px;
   display: block;
@@ -55,14 +55,22 @@
   transition: transform var(--dur-base) var(--ease-out);
 }
 
+.project-gallery-caption {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 24px;
+  gap: 12px;
+  margin-top: 16px;
+  text-align: left;
+  align-items: start;
+}
+
 .project-gallery-name {
   display: block;
-  min-height: calc(var(--project-caption-space) - 14px);
-  margin-top: 14px;
-  font-family: var(--sans);
-  font-size: 20px;
+  min-height: calc(var(--project-caption-space) - 16px);
+  font-family: var(--serif);
+  font-size: 24px;
   font-weight: 600;
-  line-height: 26px;
+  line-height: 30px;
   letter-spacing: 0;
   text-align: left;
   overflow-wrap: anywhere;
@@ -71,6 +79,16 @@
 
 .project-gallery-visual.is-active .project-gallery-name {
   color: var(--on-surface);
+}
+
+.project-gallery-caption-arrow {
+  margin-top: 6px;
+  color: var(--on-surface-variant);
+  transition: transform var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+
+.project-gallery-visual.is-active .project-gallery-caption-arrow {
+  color: var(--secondary-light);
 }
 
 .project-gallery-hover-cue {
@@ -114,14 +132,46 @@
     opacity: 1;
     transform: none;
   }
+
+  .project-gallery-visual.is-active:hover .project-gallery-caption-arrow {
+    transform: translate(2px, -2px);
+  }
 }
 
 .project-gallery-navigation {
   display: flex;
   align-items: center;
   gap: var(--space-6);
-  padding: var(--space-4) 0;
+  padding: var(--space-3) 0;
   border-bottom: 1px solid var(--outline-variant);
+}
+
+.project-gallery-position {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  flex-shrink: 0;
+}
+
+.project-gallery-timer {
+  display: block;
+  width: 100px;
+  height: 2px;
+  background: var(--outline-interactive);
+  overflow: hidden;
+}
+
+.project-gallery-timer > span {
+  display: block;
+  height: 100%;
+  background: var(--secondary);
+  transform-origin: left;
+  animation: projectGalleryTimer linear forwards;
+}
+
+@keyframes projectGalleryTimer {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
 }
 
 .project-gallery-count {
@@ -139,7 +189,7 @@
 .project-gallery-picker {
   position: relative;
   margin-left: auto;
-  width: 240px;
+  width: 170px;
   min-width: 0;
 }
 
@@ -147,7 +197,7 @@
   display: block;
   width: 100%;
   min-height: 44px;
-  padding: 8px 28px 8px 8px;
+  padding: 8px 28px 8px 36px;
   appearance: none;
   font-family: var(--sans);
   font-size: 13px;
@@ -166,10 +216,23 @@
 
 .project-gallery-picker svg {
   position: absolute;
-  right: 8px;
-  top: 15px;
+  top: 14px;
   color: var(--on-surface-variant);
   pointer-events: none;
+}
+
+.project-gallery-picker-icon {
+  left: 10px;
+}
+
+.project-gallery-picker-chevron {
+  right: 8px;
+}
+
+.project-gallery-picker option {
+  font-size: 14px;
+  color: var(--on-surface);
+  background: var(--surface);
 }
 
 .project-gallery-picker select:hover {
@@ -207,24 +270,32 @@
   transition: transform var(--dur-fast) var(--ease-out);
 }
 
-.project-gallery-arrow:first-child:hover svg {
+.project-gallery-previous:hover svg {
   transform: translateX(-3px);
 }
 
-.project-gallery-arrow:last-child:hover svg {
+.project-gallery-next:hover svg {
   transform: translateX(3px);
+}
+
+.project-gallery-playback {
+  color: var(--secondary-light);
+}
+
+.project-gallery-playback:hover {
+  color: var(--on-surface);
 }
 
 .project-gallery-details {
   display: grid;
-  padding-top: var(--space-8);
+  max-width: 880px;
+  margin: 0 auto;
+  padding-top: var(--space-6);
 }
 
 .project-gallery-panel {
   grid-area: 1 / 1;
-  display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
-  gap: var(--space-12);
+  min-width: 0;
   visibility: hidden;
   pointer-events: none;
 }
@@ -234,19 +305,10 @@
   pointer-events: auto;
 }
 
-.project-gallery-title {
-  font-family: var(--serif);
-  font-size: 32px;
-  font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: 0;
-  overflow-wrap: anywhere;
-}
-
 .project-gallery-status {
   display: block;
   color: var(--secondary-light);
-  margin-bottom: var(--space-3);
+  margin-bottom: var(--space-2);
   letter-spacing: 0;
 }
 
@@ -258,7 +320,8 @@
   border: none;
   background: transparent;
   padding: 0;
-  margin-top: var(--space-3);
+  margin-top: 0;
+  color: var(--secondary-light);
   letter-spacing: 0;
   cursor: pointer;
 }
@@ -279,7 +342,7 @@
   gap: 8px 16px;
   list-style: none;
   padding: 0;
-  margin: var(--space-5) 0;
+  margin: var(--space-4) 0 var(--space-2);
   color: var(--on-surface-variant);
 }
 
@@ -315,6 +378,10 @@
 }
 
 @media (max-width: 767px) {
+  .project-gallery {
+    --project-caption-space: 66px;
+  }
+
   .project-gallery-track {
     height: calc(min(56vw, 340px) + var(--project-caption-space));
   }
@@ -324,14 +391,16 @@
     padding: 0 12px;
   }
 
-  .project-gallery-panel {
-    grid-template-columns: minmax(0, 1fr);
-    align-content: start;
-    gap: var(--space-4);
+  .project-gallery-caption {
+    margin-top: 14px;
+    gap: 8px;
   }
 
-  .project-gallery-title {
-    font-size: 26px;
+  .project-gallery-name {
+    min-height: calc(var(--project-caption-space) - 14px);
+    font-family: var(--sans);
+    font-size: 20px;
+    line-height: 26px;
   }
 
   .project-gallery-navigation {
@@ -339,7 +408,21 @@
   }
 
   .project-gallery-picker {
-    flex: 1;
+    width: 44px;
+  }
+
+  .project-gallery-picker select {
+    padding: 0;
+    font-size: 0;
+  }
+
+  .project-gallery-picker-icon {
+    left: 14px;
+  }
+
+  .project-gallery-picker-chevron,
+  .project-gallery-timer {
+    display: none;
   }
 
   .project-gallery-arrows {
@@ -347,17 +430,26 @@
   }
 
   .project-gallery-details {
-    padding-top: var(--space-6);
+    padding-top: var(--space-5);
+  }
+
+  .project-gallery-links {
+    gap: 8px 20px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .project-gallery-arrow svg,
+  .project-gallery-caption-arrow,
   .project-gallery-preview,
   .project-gallery-hover-cue,
   .project-gallery-case-link svg,
   .project-gallery-links .visit-link svg {
     transition: none;
     transform: none !important;
+  }
+
+  .project-gallery-timer {
+    visibility: hidden;
   }
 }

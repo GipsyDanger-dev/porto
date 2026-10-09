@@ -394,7 +394,7 @@ export const Project = () => {
     <section id="projects" style={{ padding: 'var(--section-gap) 0' }}>
       <div className="max-w-6xl mx-auto px-6 md:px-16">
         <GsapReveal>
-          <div className="flex justify-between items-end" style={{ marginBottom: 'var(--header-gap)' }}>
+          <div className="flex justify-between items-end" style={{ marginBottom: 'var(--space-8)' }}>
             <div>
               <div className="section-label">Selected Works</div>
               <h2 className="h2">
@@ -402,13 +402,13 @@ export const Project = () => {
               </h2>
             </div>
             <p className="body hidden md:block" style={{ maxWidth: '280px' }}>
-              A curated gallery of engineering and design, focusing on high-performance web applications and bespoke digital experiences.
+              AI, software, and digital experiences.
             </p>
           </div>
         </GsapReveal>
       </div>
 
-      <ProjectGallery projects={projectsData} onSelect={setSelected} />
+      <ProjectGallery projects={projectsData} onSelect={setSelected} isDialogOpen={Boolean(selected)} />
 
       {/* Project Detail Overlay — rendered to body via portal */}
       {selected && createPortal(
