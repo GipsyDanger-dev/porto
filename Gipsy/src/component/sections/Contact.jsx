@@ -186,7 +186,7 @@ export const Contact = () => {
           style={{ gridTemplateColumns: '1fr', gap: '80px' }}
         >
           {/* 2-column asymmetric layout: 5fr left (info), 7fr right (form) */}
-          <div className="grid items-start lg:grid-cols-[5fr_7fr] grid-cols-1" style={{ gap: '80px' }}>
+          <div className="contact-grid grid items-start lg:grid-cols-[5fr_7fr] grid-cols-1" style={{ gap: '80px' }}>
             {/* LEFT: Info */}
             <div>
               <GsapReveal>
@@ -266,7 +266,7 @@ export const Contact = () => {
             </div>
 
             {/* RIGHT: Form */}
-            <div>
+            <div className="contact-form">
               <GsapReveal>
                 <div className="h4" style={{ marginBottom: 'var(--space-10)' }}>
                   Send a message.

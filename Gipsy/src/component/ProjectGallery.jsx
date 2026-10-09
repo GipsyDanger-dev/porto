@@ -134,7 +134,7 @@ export const ProjectGallery = ({ projects, onSelect, isDialogOpen = false }) => 
   };
 
   return (
-    <div className="project-gallery" ref={galleryRef} data-autoplay-running={autoplay.isPlaying} role="region" aria-roledescription="carousel" aria-label="Portfolio projects" onKeyDown={handleKeyDown}>
+    <div className="project-gallery" ref={galleryRef} data-autoplay-running={autoplay.isPlaying} role="region" aria-roledescription={import.meta.env.SSR ? undefined : 'carousel'} aria-label="Portfolio projects" onKeyDown={handleKeyDown}>
       <div className="project-gallery-viewport" ref={emblaRef}>
         <div className="project-gallery-track">
           {projects.map((project, index) => {
@@ -201,7 +201,7 @@ export const ProjectGallery = ({ projects, onSelect, isDialogOpen = false }) => 
           {projects.map((project, index) => {
             const isActive = index === activeIndex;
             return (
-              <div className={`project-gallery-panel${isActive ? ' is-active' : ''}`} key={project.title} aria-hidden={!isActive} inert={!isActive}>
+              <div className={`project-gallery-panel${isActive ? ' is-active' : ''}`} key={project.title} aria-hidden={!import.meta.env.SSR && !isActive} inert={!import.meta.env.SSR && !isActive}>
                 <h3 className="sr-only">{project.title}</h3>
                 <div className="project-gallery-copy">
                   {project.status && <span className="label project-gallery-status">{project.status}</span>}

@@ -27,7 +27,7 @@ const TextType = ({
   reverseMode = false,
   ...props
 }) => {
-  const [displayedText, setDisplayedText] = useState('');
+  const [displayedText, setDisplayedText] = useState(import.meta.env.SSR ? (Array.isArray(text) ? text[0] : text) : '');
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const [isTyping, setIsTyping] = useState(false);
   const [isVisible, setIsVisible] = useState(!startOnVisible);

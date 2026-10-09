@@ -9,10 +9,12 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: {
-          'vendor-react': ['react', 'react-dom'],
-          'vendor-gsap': ['gsap'],
-          'vendor-three': ['three', '@react-three/fiber', '@react-three/drei'],
+        onlyExplicitManualChunks: true,
+        manualChunks(id) {
+          // Keep shared runtimes out of the lazy 3D bundle.
+          if (id.includes('commonjsHelpers') || /node_modules[/\\](react|react-dom|scheduler)[/\\]/.test(id)) return 'vendor-react';
+          if (/node_modules[/\\]gsap[/\\]/.test(id)) return 'vendor-gsap';
+          if (/node_modules[/\\](three[/\\]|@react-three[/\\])/.test(id)) return 'vendor-three';
         },
       },
     },

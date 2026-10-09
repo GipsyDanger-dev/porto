@@ -81,7 +81,7 @@ export const About = () => {
             <div
               style={{
                 width: '100%',
-                height: '520px',
+              height: import.meta.env.SSR ? 'auto' : '520px',
                 position: 'relative',
               }}
             >

@@ -40,9 +40,9 @@ export const Home = () => {
       style={{ minHeight: '100vh' }}
     >
       {/* 3D Background */}
-      <Suspense fallback={null}>
+      {!import.meta.env.SSR && <Suspense fallback={null}>
         <HeroScene />
-      </Suspense>
+      </Suspense>}
 
       {/* Orange glow behind photo */}
       <div
@@ -59,7 +59,7 @@ export const Home = () => {
       {/* Photo — absolute, anchored from bottom right */}
       <img
         src={fotoHomeImg}
-        alt="Gipsy.Dev"
+        alt="Portrait of Adam Fairuz Akmal Aryaguna (Gipsy.Dev)"
         loading="eager"
         decoding="async"
         fetchPriority="high"
@@ -89,7 +89,7 @@ export const Home = () => {
               >
                 <span style={{ display: 'block', width: '32px', height: '1px', background: 'var(--secondary)' }} />
                 <TextType
-                  text={["Fullstack Engineer", "Web Developer", "AI Engineer"]}
+                  text={["AI Engineer", "Software Developer", "Fullstack Engineer"]}
                   typingSpeed={70}
                   pauseDuration={2000}
                   deletingSpeed={40}
@@ -115,7 +115,7 @@ export const Home = () => {
                 className="lede mx-auto lg:mx-0"
                 style={{ maxWidth: '540px', marginBottom: 'var(--space-8)' }}
               >
-                I build AI-powered automation, full-stack dashboards, and production-ready web systems — from idea to deployment.
+                I build AI agents, intelligent automation, and production-ready software, from machine learning models to full-stack applications.
               </p>
             </GsapReveal>
 
@@ -135,7 +135,7 @@ export const Home = () => {
           <div className="lg:hidden flex justify-center mt-8 pb-8 px-4">
             <img
               src={fotoHomeImg}
-        alt="Gipsy.Dev"
+        alt="Portrait of Adam Fairuz Akmal Aryaguna (Gipsy.Dev)"
         loading="eager"
         decoding="async"
         fetchPriority="high"

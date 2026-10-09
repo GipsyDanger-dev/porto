@@ -29,7 +29,7 @@ const socialItems = [
 ];
 
 function App() {
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(import.meta.env.SSR);
 
   return (
     <>
@@ -43,6 +43,11 @@ function App() {
       >
         {/* Desktop nav */}
         <Navbar />
+        <noscript>
+          <nav className="static-navigation" aria-label="Portfolio sections">
+            {menuItems.map(item => <a key={item.link} href={item.link}>{item.label}</a>)}
+          </nav>
+        </noscript>
 
         {/* Mobile nav — StaggeredMenu */}
         <div className="md:hidden">

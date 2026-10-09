@@ -75,6 +75,26 @@ Recommended extension:
 
 - `npm run dev` - Run local development server
 - `npm run lint` - Run ESLint
-- `npm run build` - Build production assets
+- `npm run build` - Build client assets and statically render the portfolio into `dist/index.html`
+- `npm run test:seo` - Check built content, metadata, structured data, and asset URLs
 - `npm run preview` - Preview production build locally
 - `npm run deploy` - Deploy `dist` to GitHub Pages
+
+## SEO Build
+
+The production build renders the same React components on the server at build
+time. No server is required on GitHub Pages, and no crawler-specific content is
+served. The initial HTML includes the bio, projects, credentials, and contact
+links. JavaScript mounts the existing animated application normally.
+
+The `data-static` attribute enables a readable fallback without JavaScript:
+project descriptions are expanded, all credentials link directly to their
+verification page or document, and the direct email link remains available.
+The client removes this attribute when it starts. Development mode still uses
+Vite's normal client rendering; use `npm run build` followed by
+`npm run preview` to inspect the static output.
+
+After deploying SEO changes, inspect `https://gipsy-dev.me/` in Google Search
+Console, test the live URL, and request indexing. Track clicks, impressions,
+CTR, and position separately for each target query over comparable date ranges.
+Technical changes do not guarantee a ranking increase.

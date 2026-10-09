@@ -215,6 +215,10 @@ export default function SkillScene() {
     };
   }, []);
 
+  if (import.meta.env.SSR) {
+    return <div className="flex flex-wrap gap-6">{skills.map(skill => <span className="small" key={skill.name}>{skill.name}</span>)}</div>;
+  }
+
   return (
     <div
       ref={containerRef}

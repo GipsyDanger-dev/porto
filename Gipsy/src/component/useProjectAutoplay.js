@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 export const useProjectAutoplay = (emblaApi, galleryRef, isDialogOpen) => {
-  const [enabled, setEnabled] = useState(() => !window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  const [enabled, setEnabled] = useState(() => typeof window !== 'undefined'
+    && !window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   const [isPlaying, setIsPlaying] = useState(false);
   const [timer, setTimer] = useState(null);
   const explicitPlay = useRef(false);

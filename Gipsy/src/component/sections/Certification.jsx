@@ -93,7 +93,7 @@ const onActivate = (fn) => (e) => {
 
 const CountUp = ({ target, suffix = '+', suffixStyle }) => {
   const ref = useRef(null);
-  const [val, setVal] = useState(0);
+  const [val, setVal] = useState(import.meta.env.SSR ? target : 0);
   const animRef = useRef(null);
 
   useEffect(() => {
@@ -139,11 +139,13 @@ const Stat = ({ caption, children }) => (
 
 const CertCard = ({ cert, onClick, primary }) => {
   const [hover, setHover] = useState(false);
+  const Element = import.meta.env.SSR ? 'a' : 'div';
   return (
-    <div
+    <Element
       className={`cert-featured-card${primary ? ' cert-featured-card--primary' : ''}`}
-      role="button"
-      tabIndex={0}
+      href={import.meta.env.SSR ? cert.credentialUrl || cert.pdfUrl || cert.image : undefined}
+      role={import.meta.env.SSR ? undefined : 'button'}
+      tabIndex={import.meta.env.SSR ? undefined : 0}
       onClick={() => onClick(cert)}
       onKeyDown={onActivate(() => onClick(cert))}
       onMouseEnter={() => setHover(true)}
@@ -182,17 +184,19 @@ const CertCard = ({ cert, onClick, primary }) => {
         {cert.credentialUrl && <span className="label verify-cue">Verify &rarr;</span>}
         {!cert.credentialUrl && cert.pdfUrl && <span className="label verify-cue">View PDF &rarr;</span>}
       </div>
-    </div>
+    </Element>
   );
 };
 
 const CertRow = ({ cert, onClick }) => {
   const [hover, setHover] = useState(false);
+  const Element = import.meta.env.SSR ? 'a' : 'div';
   return (
-    <div
+    <Element
       className="cert-row"
-      role="button"
-      tabIndex={0}
+      href={import.meta.env.SSR ? cert.credentialUrl || cert.pdfUrl || cert.image : undefined}
+      role={import.meta.env.SSR ? undefined : 'button'}
+      tabIndex={import.meta.env.SSR ? undefined : 0}
       onClick={() => onClick(cert)}
       onKeyDown={onActivate(() => onClick(cert))}
       onMouseEnter={() => setHover(true)}
@@ -228,7 +232,7 @@ const CertRow = ({ cert, onClick }) => {
           <span className="label" style={{ color: 'var(--outline)', overflowWrap: 'anywhere' }}>No. {cert.certificateNumber || '24UBC10106040'}</span>
         )}
       </div>
-    </div>
+    </Element>
   );
 };
 
@@ -248,7 +252,7 @@ export const Certification = () => {
 
   const PER_PAGE = 5;
   const totalPages = Math.max(1, Math.ceil(remaining.length / PER_PAGE));
-  const paginatedCerts = remaining.slice(currentPage * PER_PAGE, (currentPage + 1) * PER_PAGE);
+  const paginatedCerts = import.meta.env.SSR ? remaining : remaining.slice(currentPage * PER_PAGE, (currentPage + 1) * PER_PAGE);
 
   useEffect(() => {
     if (document.querySelector(`script[src="${CREDLY_SCRIPT_SRC}"]`)) return;
@@ -392,7 +396,7 @@ export const Certification = () => {
 
         <GsapReveal delay={0.1}>
           <div
-            className="flex flex-wrap gap-2"
+            className="cert-filters flex flex-wrap gap-2"
             role="group"
             aria-label="Filter certifications by category"
             style={{ marginBottom: 'var(--space-8)' }}
@@ -450,7 +454,7 @@ export const Certification = () => {
 
             {/* Pagination Controls */}
             {totalPages > 1 && (
-              <div className="flex items-center justify-between" style={{ padding: 'var(--space-6) 0 var(--space-2)' }}>
+              <div className="cert-pagination flex items-center justify-between" style={{ padding: 'var(--space-6) 0 var(--space-2)' }}>
                 <div className="label" style={{ color: 'var(--outline)' }}>
                   {currentPage * PER_PAGE + 1}–{Math.min((currentPage + 1) * PER_PAGE, remaining.length)} of {remaining.length}
                 </div>

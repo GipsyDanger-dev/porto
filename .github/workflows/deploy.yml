@@ -49,6 +49,10 @@ jobs:
           VITE_CONTACT_TO_EMAIL: ${{ secrets.VITE_CONTACT_TO_EMAIL }}
           VITE_CONTACT_TO_NAME: ${{ secrets.VITE_CONTACT_TO_NAME }}
 
+      - name: Validate SEO build
+        working-directory: Gipsy
+        run: npm run test:seo
+
       - name: Copy CNAME to dist
         run: cp CNAME Gipsy/dist/CNAME
 

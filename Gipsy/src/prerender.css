@@ -1,0 +1,54 @@
+/* The static document stays readable when JavaScript is disabled or fails to load. */
+html[data-static] .staggered-menu-wrapper,
+html[data-static] .project-gallery-viewport,
+html[data-static] .project-gallery-navigation,
+html[data-static] .credly-badge-list,
+html[data-static] .cert-filters,
+html[data-static] .cert-pagination,
+html[data-static] .contact-form,
+html[data-static] #root button {
+  display: none !important;
+}
+
+html[data-static] .project-gallery-details {
+  display: block;
+}
+
+html[data-static] .project-gallery-panel {
+  visibility: visible;
+  pointer-events: auto;
+  padding: var(--space-6) 0;
+  border-bottom: 1px solid var(--outline-variant);
+}
+
+html[data-static] .project-gallery-panel h3 {
+  position: static;
+  width: auto;
+  height: auto;
+  margin: 0 0 var(--space-3);
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+  font-family: var(--serif);
+  font-size: 24px;
+  line-height: 32px;
+}
+
+html[data-static] .contact-grid {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+html[data-static] .static-navigation {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  padding: 24px;
+  font-family: var(--sans);
+  font-size: 14px;
+}
+
+html[data-static] .cert-featured-card,
+html[data-static] .cert-row {
+  text-decoration: none;
+}

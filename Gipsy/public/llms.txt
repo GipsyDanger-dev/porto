@@ -1,37 +1,42 @@
 # Gipsy.Dev — Adam Fairuz Akmal Aryaguna
 
-> Portfolio website of Adam Fairuz Akmal Aryaguna (Gipsy.Dev), a Fullstack Engineer, Web Developer, and AI Engineer based in Malang, Indonesia. Built with React, Vite, and Tailwind CSS featuring a Midnight Editorial design system.
+> Portfolio website of Adam Fairuz Akmal Aryaguna (Gipsy.Dev), an AI Engineer and Software Developer based in Cilacap, Indonesia. Built with React, Vite, and Tailwind CSS featuring a Midnight Editorial design system.
 
-The site showcases projects, professional experience, certifications, and contact information. All content is in a single-page application format.
+The site showcases projects, professional experience, certifications, and contact information. The single-page website provides statically rendered HTML and an interactive React experience.
 
 ## Main Sections
 
 - [Home](https://gipsy-dev.me/#home): Hero section with name, role, and introduction
 - [About](https://gipsy-dev.me/#about): Bio, education timeline, skills, and technical expertise
-- [Projects](https://gipsy-dev.me/#projects): 9 software projects including Socrapper, RightToBeForgotten, Threads Content Automation, StockPP, PasarNgalam, SentinelIoT, FruitCheck, RemindMe, IT Solution, and Gipsy.Dev portfolio
+- [Projects](https://gipsy-dev.me/#projects): AI agents, automation, machine learning, full-stack software, and blockchain projects
 - [Experience](https://gipsy-dev.me/#experience): Organizational roles at HMPSTI VOKASI UB and DPM Vokasi Universitas Brawijaya
-- [Certifications](https://gipsy-dev.me/#certifications): 21 professional certifications in AI, Data Science, Cloud Computing, Programming, and more
+- [Certifications](https://gipsy-dev.me/#certifications): Professional credentials in AI, data, cloud, programming, security, and occupational safety
 - [Contact](https://gipsy-dev.me/#contact): Contact form and social links
 
 ## Projects
 
+- **Project EDEN**: Ongoing server-authoritative simulation of a digital society with AI citizens, persistent world state, and a Three.js observatory
+- **MarketLens**: Local business research with map-based discovery, AI analysis, and a CLI
 - **Socrapper**: Social media sentiment scraper covering 9 platforms with keyword-based sentiment analysis
 - **RightToBeForgotten**: Blockchain-based consent management with Zero-Knowledge Proofs on Polygon
-- **Threads Content Automation**: AI-powered personal branding system with multi-agent pipeline
+- **PT. Jogja Creative Production**: Company profile and portfolio with Supabase contact inquiries
+- **MadebyKarsa**: AI-assisted personal branding and content automation
+- **ThreadsFlow**: Threads content automation using n8n, language models, and APIs
 - **StockPP**: LSTM Deep Learning stock price prediction with real-time charts
 - **PasarNgalam**: E-commerce platform for local MSMEs in Malang
 - **SentinelIoT**: Real-time IoT monitoring dashboard for fire/gas hazard detection
 - **FruitCheck**: AI-powered fruit freshness detection using CNN
 - **RemindMe App**: Smart task reminder with cross-device sync
 - **IT Solution Website**: Modern company profile with responsive design
+- **Gipsy.Dev**: Personal portfolio featuring projects, credentials, and professional experience
 
 ## Technical Skills
 
-- Frontend: React, Vue, Next.js, Tailwind CSS, Three.js, GSAP
+- Frontend: React, Next.js, Tailwind CSS, Three.js, GSAP
 - Backend: Node.js, Laravel, Python, FastAPI
-- AI/ML: TensorFlow, PyTorch, Gemini API, Claude API
-- Database: MySQL, PostgreSQL, Supabase, MongoDB
-- DevOps: Docker, GitHub Actions, Railway, Vercel
+- AI/ML: TensorFlow, Gemini API, Claude API, LangChain, n8n
+- Database: MySQL, PostgreSQL, Supabase
+- Development tools: Docker, Git, GitHub Actions
 
 ## Social Profiles
 
