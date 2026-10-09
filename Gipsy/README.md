@@ -107,3 +107,16 @@ After deploying SEO changes, inspect `https://gipsy-dev.me/` in Google Search
 Console, test the live URL, and request indexing. Track clicks, impressions,
 CTR, and position separately for each target query over comparable date ranges.
 Technical changes do not guarantee a ranking increase.
+
+## Rendering And Performance
+
+The hero renders the same React Three Fiber scene in an OffscreenCanvas worker.
+Browsers without worker WebGL support, or with a failed worker, load the regular
+Canvas fallback. Both paths pause outside the viewport and in hidden tabs.
+The typing cursor uses CSS; the typing timer pauses with the hero.
+
+Production CSS is inlined during the static build, with CSS asset URLs rebased
+for the document. Responsive portrait images share their source set with the
+head preload. `npm run test:seo` checks these build contracts alongside content
+and metadata. Verify motion, resizing, and the fallback in a browser as well;
+Lighthouse scores vary by device, network, and rendering backend.

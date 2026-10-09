@@ -1,124 +1,79 @@
-/* eslint-disable react/no-unknown-property */
-import { useRef, useMemo, useState, useEffect, useCallback } from 'react';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { Float } from '@react-three/drei';
+import { lazy, Suspense, useRef, useState, useEffect, useCallback } from 'react';
 
-function GlowingTorus() {
-  const meshRef = useRef();
-  const materialRef = useRef();
-
-  useFrame((state) => {
-    const t = state.clock.getElapsedTime();
-    meshRef.current.rotation.x = Math.sin(t * 0.3) * 0.2;
-    meshRef.current.rotation.y = t * 0.15;
-    meshRef.current.rotation.z = Math.cos(t * 0.2) * 0.1;
-  });
-
-  return (
-    <Float speed={1.5} rotationIntensity={0.3} floatIntensity={0.5}>
-      <mesh ref={meshRef} position={[0, 0, -0.5]} scale={1.55}>
-        <torusGeometry args={[1, 0.35, 32, 64]} />
-        <meshStandardMaterial
-          ref={materialRef}
-          color="#f2640f"
-          wireframe
-          transparent
-          opacity={0.065}
-          emissive="#f2640f"
-          emissiveIntensity={0.15}
-        />
-      </mesh>
-    </Float>
-  );
-}
-
-function FloatingParticles({ count = 60 }) {
-  const meshRef = useRef();
-
-  const particles = useMemo(() => {
-    const positions = new Float32Array(count * 3);
-    for (let i = 0; i < count; i++) {
-      positions[i * 3] = (Math.random() - 0.5) * 10;
-      positions[i * 3 + 1] = (Math.random() - 0.5) * 10;
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 6;
-    }
-    return positions;
-  }, [count]);
-
-  useFrame((state) => {
-    const t = state.clock.getElapsedTime();
-    meshRef.current.rotation.y = t * 0.02;
-    meshRef.current.rotation.x = Math.sin(t * 0.1) * 0.05;
-  });
-
-  return (
-    <points ref={meshRef}>
-      <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          count={count}
-          array={particles}
-          itemSize={3}
-        />
-      </bufferGeometry>
-      <pointsMaterial
-        size={0.02}
-        color="#f2640f"
-        transparent
-        opacity={0.4}
-        sizeAttenuation
-      />
-    </points>
-  );
-}
-
-function WireframeIcosahedron() {
-  const meshRef = useRef();
-
-  useFrame((state) => {
-    const t = state.clock.getElapsedTime();
-    meshRef.current.rotation.x = t * 0.08;
-    meshRef.current.rotation.y = t * 0.12;
-    meshRef.current.position.y = Math.sin(t * 0.5) * 0.2;
-  });
-
-  return (
-    <mesh ref={meshRef} position={[3, -1, -2]} scale={0.5}>
-      <icosahedronGeometry args={[1, 1]} />
-      <meshStandardMaterial
-        color="#f2640f"
-        wireframe
-        transparent
-        opacity={0.035}
-        emissive="#f2640f"
-        emissiveIntensity={0.08}
-      />
-    </mesh>
-  );
-}
-
-function SceneWarmup({ onReady }) {
-  const { gl, scene, camera } = useThree();
-  useEffect(() => {
-    let cancelled = false;
-    // Avoid synchronously waiting on the GPU during the first animation frame.
-    gl.compileAsync(scene, camera).then(() => {
-      if (!cancelled) onReady();
-    }).catch(error => {
-      console.warn('Hero shader warmup failed; using normal rendering.', error);
-      if (!cancelled) onReady();
-    });
-    return () => { cancelled = true; };
-  }, [gl, scene, camera, onReady]);
-  return null;
-}
+const HeroSceneFallback = lazy(() => import('./HeroSceneFallback'));
 
 export default function HeroScene() {
   const containerRef = useRef(null);
+  const surfaceRef = useRef(null);
+  const workerRef = useRef(null);
+  const [fallback, setFallback] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [isReady, setIsReady] = useState(false);
   const [pageVisible, setPageVisible] = useState(!document.hidden);
   const ready = useCallback(() => setIsReady(true), []);
+
+  useEffect(() => {
+    if (!window.Worker || !HTMLCanvasElement.prototype.transferControlToOffscreen) {
+      setFallback(true);
+      return;
+    }
+    // A fresh canvas per effect also handles React StrictMode's setup/cleanup.
+    const surface = surfaceRef.current;
+    const canvas = document.createElement('canvas');
+    Object.assign(canvas.style, { width: '100%', height: '100%', display: 'block' });
+    surface.appendChild(canvas);
+    let worker;
+    let observer;
+    let resize;
+    let stopped = false;
+    const stop = () => {
+      stopped = true;
+      observer?.disconnect();
+      if (resize) window.removeEventListener('resize', resize);
+      worker?.terminate();
+      workerRef.current = null;
+      canvas.remove();
+    };
+    const recover = error => {
+      if (stopped) return;
+      console.warn('Hero worker unavailable; using the regular 3D renderer.', error);
+      stop();
+      setIsReady(false);
+      setFallback(true);
+    };
+    try {
+      worker = new Worker(new URL('./hero-scene.worker.jsx', import.meta.url), { type: 'module' });
+      workerRef.current = worker;
+      worker.addEventListener('message', ({ data }) => {
+        if (stopped) return;
+        if (data.type === 'ready') ready();
+        if (data.type === 'error') recover(data.message);
+      });
+      worker.addEventListener('error', event => {
+        event.preventDefault();
+        recover(event.message);
+      });
+      const drawingSurface = canvas.transferControlToOffscreen();
+      worker.postMessage({
+        type: 'init', canvas: drawingSurface,
+        width: surface.clientWidth, height: surface.clientHeight,
+        dpr: window.devicePixelRatio, active: !document.hidden,
+      }, [drawingSurface]);
+      resize = () => {
+        worker.postMessage({ type: 'resize', width: surface.clientWidth, height: surface.clientHeight, dpr: window.devicePixelRatio });
+      };
+      observer = new ResizeObserver(resize);
+      observer.observe(surface);
+      window.addEventListener('resize', resize);
+    } catch (error) {
+      recover(error);
+    }
+    return stop;
+  }, [ready]);
+
+  useEffect(() => {
+    workerRef.current?.postMessage({ type: 'active', active: isVisible && pageVisible });
+  }, [isVisible, pageVisible]);
 
   // Pause the render loop when the hero is scrolled off-screen so the GPU
   // isn't animating three meshes behind the rest of the page.
@@ -147,23 +102,11 @@ export default function HeroScene() {
       style={{ pointerEvents: 'none' }}
       aria-hidden="true"
       data-scene-ready={isReady}
+      data-scene-renderer={fallback ? 'main' : 'worker'}
     >
-      <Canvas
-        camera={{ position: [0, 0, 5], fov: 45 }}
-        dpr={[1, 1.5]}
-        gl={{ antialias: true, alpha: true }}
-        style={{ background: 'transparent' }}
-        frameloop={isReady && isVisible && pageVisible ? 'always' : 'never'}
-      >
-        <ambientLight intensity={0.3} />
-        <directionalLight position={[5, 5, 5]} intensity={0.4} />
-        <pointLight position={[-3, 2, 2]} intensity={0.2} color="#f2640f" />
-
-        <GlowingTorus />
-        <FloatingParticles />
-        <WireframeIcosahedron />
-        <SceneWarmup onReady={ready} />
-      </Canvas>
+      {fallback ? <Suspense fallback={null}>
+        <HeroSceneFallback active={isReady && isVisible && pageVisible} onReady={ready} />
+      </Suspense> : <div ref={surfaceRef} className="absolute inset-0" />}
     </div>
   );
 }

@@ -38,7 +38,7 @@ function App() {
       <div
         // inert while loading: the content is invisible but was still focusable,
         // so Tab walked into it behind the overlay.
-        inert={!isLoaded ? '' : undefined}
+        inert={!isLoaded}
         className={`relative min-h-screen transition-opacity duration-300 ${isLoaded ? "opacity-100" : "opacity-0"}`}
         style={{ background: 'var(--bg)', color: 'var(--on-surface)' }}
       >

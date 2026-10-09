@@ -4,9 +4,12 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  // React Refresh depends on window, which is unavailable inside a worker.
+  plugins: [react({ exclude: /(?:hero-scene\.worker|HeroSceneContent)\.jsx$/ }), tailwindcss()],
+  esbuild: { jsx: 'automatic' },
   appType: 'mpa',
   base: "./",
+  worker: { format: 'es' },
   build: {
     rollupOptions: {
       output: {

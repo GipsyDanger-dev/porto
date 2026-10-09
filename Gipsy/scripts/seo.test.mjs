@@ -124,6 +124,28 @@ test('the entry bundle does not depend on the 3D engine', async () => {
   assert.ok(Object.values(manifest).some(entry => entry.file.includes('vendor-three')));
 });
 
+test('the hero loads its 3D runtime in a worker, with a separate lazy fallback', async () => {
+  const manifest = JSON.parse(await readFile(join(dist, '.vite', 'manifest.json'), 'utf8'));
+  const hero = manifest['src/component/HeroScene.jsx'];
+  assert.ok(hero);
+  const pending = [...(hero.imports ?? [])];
+  const visited = new Set();
+  while (pending.length) {
+    const key = pending.pop();
+    if (visited.has(key)) continue;
+    visited.add(key);
+    const entry = manifest[key];
+    assert.ok(entry);
+    assert.doesNotMatch(entry.file, /vendor-three/);
+    pending.push(...(entry.imports ?? []));
+  }
+  assert.ok(hero.dynamicImports.some(key => manifest[key]?.name === 'HeroSceneFallback'));
+  const source = await readFile(join(dist, hero.file), 'utf8');
+  const worker = source.match(/hero-scene\.worker-[\w-]+\.js/);
+  assert.ok(worker);
+  await access(join(dist, 'assets', worker[0]));
+});
+
 test('gallery images reserve their natural proportions without eager off-screen requests', () => {
   const previews = all.filter(node => node.tagName === 'img' && hasClass(node.parentNode, 'project-gallery-preview'));
   assert.equal(previews.length, 14);
@@ -147,4 +169,15 @@ test('all critical fonts are local, preloaded, and distributed with their licens
     const license = await readFile(join(dist, 'fonts', `${name}-OFL.txt`), 'utf8');
     assert.match(license, /SIL OPEN FONT LICENSE/);
   }
+});
+
+test('production CSS is inlined with working font URLs', () => {
+  assert.equal(all.filter(node => node.tagName === 'link' && attr(node, 'rel') === 'stylesheet').length, 0);
+  const styles = all.filter(node => node.tagName === 'style' && attr(node, 'data-stylesheet'));
+  assert.equal(styles.length, 2);
+  styles.forEach(node => assert.equal(node.parentNode.tagName, 'head'));
+  const css = styles.map(text).join('');
+  assert.match(css, /url\(\.\/fonts\/hanken-grotesk-latin\.woff2\)/);
+  assert.match(css, /\.project-gallery/);
+  assert.match(css, /\.text-type-cursor/);
 });

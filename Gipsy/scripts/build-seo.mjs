@@ -3,6 +3,8 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { build } from 'vite';
 import { parse, parseFragment, serialize } from 'parse5';
+import postcss from 'postcss';
+import valueParser from 'postcss-value-parser';
 import viteConfig from '../vite.config.js';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
@@ -67,6 +69,31 @@ try {
     const link = parseFragment(`<link rel="stylesheet" href="${href}">`).childNodes[0];
     link.parentNode = head;
     head.childNodes.push(link);
+  }
+  // This single-page portfolio ships its small stylesheets with the HTML,
+  // avoiding a render-blocking round trip without changing any styles.
+  for (let index = 0; index < head.childNodes.length; index++) {
+    const link = head.childNodes[index];
+    if (link.tagName !== 'link' || attribute(link, 'rel') !== 'stylesheet') continue;
+    const href = attribute(link, 'href');
+    const cssURL = new URL(href, 'https://portfolio.invalid/');
+    const css = postcss.parse(await readFile(join(dist, decodeURIComponent(cssURL.pathname)), 'utf8'));
+    css.walkDecls(declaration => {
+      const value = valueParser(declaration.value);
+      value.walk(node => {
+        if (node.type !== 'function' || node.value !== 'url') return;
+        const resource = node.nodes.find(child => child.type === 'word' || child.type === 'string');
+        if (!resource || /^(?:[a-z]+:|\/|#)/i.test(resource.value)) return;
+        const resolved = new URL(resource.value, cssURL);
+        resource.value = `.${resolved.pathname}${resolved.search}${resolved.hash}`;
+      });
+      declaration.value = value.toString();
+    });
+    const style = parseFragment('<style></style>').childNodes[0];
+    style.attrs.push({ name: 'data-stylesheet', value: href });
+    style.childNodes = [{ nodeName: '#text', value: css.toString(), parentNode: style }];
+    style.parentNode = head;
+    head.childNodes[index] = style;
   }
   for (const id of ['home', 'about', 'projects', 'experience', 'certifications', 'contact']) {
     if (!find(appRoot, node => attribute(node, 'id') === id)) {
