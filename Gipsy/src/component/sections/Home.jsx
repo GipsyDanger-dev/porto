@@ -120,7 +120,7 @@ export const Home = ({ isLoaded = true }) => {
             </GsapReveal>
 
             <GsapReveal delay={0.4}>
-              <h1 className="display" style={{ marginBottom: 'var(--space-6)' }}>
+              <h1 className="display hero-heading" style={{ marginBottom: 'var(--space-6)' }}>
                 Hi, I&apos;m <em className="flourish">Gipsy.Dev</em>
               </h1>
               <p className="label" style={{ color: 'var(--outline)', marginBottom: 'var(--space-6)' }}>

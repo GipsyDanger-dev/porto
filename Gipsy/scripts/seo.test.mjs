@@ -180,4 +180,6 @@ test('production CSS is inlined with working font URLs', () => {
   assert.match(css, /url\(\.\/fonts\/hanken-grotesk-latin\.woff2\)/);
   assert.match(css, /\.project-gallery/);
   assert.match(css, /\.text-type-cursor/);
+  assert.match(css, /size-adjust:87\.19%/);
+  assert.ok(hasClass(all.find(node => node.tagName === 'h1'), 'hero-heading'));
 });

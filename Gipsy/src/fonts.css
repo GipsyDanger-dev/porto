@@ -1,3 +1,44 @@
+/* Match the hero's fallback glyph widths and vertical metrics before Playfair loads. */
+@font-face {
+  font-family: 'Hero Georgia';
+  src: local('Georgia Bold');
+  font-weight: 700;
+  font-style: normal;
+  size-adjust: 87.19%;
+  ascent-override: 124.10%;
+  descent-override: 28.79%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Hero Georgia';
+  src: local('Georgia Bold Italic');
+  font-weight: 700;
+  font-style: italic;
+  size-adjust: 85.74%;
+  ascent-override: 126.20%;
+  descent-override: 29.27%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Hero Times';
+  src: local('Times New Roman Bold'), local('Liberation Serif Bold');
+  font-weight: 700;
+  font-style: normal;
+  size-adjust: 101.10%;
+  ascent-override: 107.02%;
+  descent-override: 24.83%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Hero Times';
+  src: local('Times New Roman Bold Italic'), local('Liberation Serif Bold Italic');
+  font-weight: 700;
+  font-style: italic;
+  size-adjust: 110.45%;
+  ascent-override: 97.96%;
+  descent-override: 22.73%;
+  line-gap-override: 0%;
+}
 @font-face {
   font-family: 'Hanken Grotesk';
   font-style: normal;
