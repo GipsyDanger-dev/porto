@@ -43,12 +43,15 @@ test('initial HTML includes readable, complete portfolio content', () => {
 test('metadata and linked identity graph match the visible profile', () => {
   assert.equal(attr(all.find(node => node.tagName === 'html'), 'lang'), 'en');
   const title = text(all.find(node => node.tagName === 'title'));
+  assert.ok(title.startsWith('Adam Fairuz Akmal Aryaguna |'));
   assert.match(title, /Gipsy\.Dev/);
   assert.match(title, /AI Engineer/);
   const meta = (name) => all.find(node => node.tagName === 'meta' && (attr(node, 'name') === name || attr(node, 'property') === name));
   assert.equal(attr(meta('og:title'), 'content'), title);
   assert.equal(attr(meta('twitter:title'), 'content'), title);
   assert.ok(attr(meta('description'), 'content').length > 100);
+  assert.ok(attr(meta('description'), 'content').startsWith('Adam Fairuz Akmal Aryaguna'));
+  assert.equal(meta('keywords'), undefined, 'Identity must use readable content, not a keyword meta tag');
   assert.equal(attr(all.find(node => attr(node, 'rel') === 'canonical'), 'href'), canonical);
   assert.doesNotMatch(attr(meta('robots'), 'content'), /noindex/);
   const schema = all.filter(node => attr(node, 'type') === 'application/ld+json').map(node => JSON.parse(text(node)));
@@ -56,7 +59,15 @@ test('metadata and linked identity graph match the visible profile', () => {
   const graph = schema[0]['@graph'];
   const person = graph.find(node => node['@type'] === 'Person');
   assert.equal(person.name, 'Adam Fairuz Akmal Aryaguna');
+  assert.deepEqual(person.alternateName, ['Adam Fairuz', 'Adam Aryaguna', 'Gipsy.Dev', 'Gipsy Dev']);
+  const about = all.find(node => attr(node, 'id') === 'about');
+  assert.ok(text(about).includes(person.name));
+  person.alternateName.slice(0, 3).forEach(name => {
+    assert.ok(text(about).includes(name), `${name} must be visible in the biography`);
+    assert.ok(attr(meta('description'), 'content').includes(name));
+  });
   assert.match(person.jobTitle, /AI Engineer/);
+  assert.equal(graph.find(node => node['@type'] === 'ProfilePage').name, title);
   assert.equal(graph.find(node => node['@type'] === 'ProfilePage').mainEntity['@id'], person['@id']);
   assert.equal(graph.find(node => node['@type'] === 'WebSite').publisher['@id'], person['@id']);
   assert.ok(all.some(node => node.tagName === 'img' && new URL(attr(node, 'src'), canonical).href === person.image));
