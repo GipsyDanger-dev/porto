@@ -339,7 +339,7 @@
 .project-gallery-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px 16px;
+  gap: 8px;
   list-style: none;
   padding: 0;
   margin: var(--space-4) 0 var(--space-2);
@@ -354,7 +354,14 @@
 }
 
 .project-gallery-tags li {
+  max-width: 100%;
+  padding: 4px 8px;
+  font-size: 11px;
+  line-height: 18px;
   letter-spacing: 0;
+  overflow-wrap: anywhere;
+  color: var(--secondary-light);
+  background: var(--secondary-tint-strong);
 }
 
 .project-gallery-links a {
