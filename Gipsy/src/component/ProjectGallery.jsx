@@ -178,21 +178,21 @@ export const ProjectGallery = ({ projects, onSelect, isDialogOpen = false }) => 
               {autoplay.timer && <span key={autoplay.timer.key} style={{ animationDuration: `${autoplay.timer.duration}ms` }} />}
             </span>
           </div>
-          <div className="project-gallery-picker">
+          {/* <div className="project-gallery-picker">
             <FiGrid className="project-gallery-picker-icon" size={16} aria-hidden="true" />
             <select aria-label="Choose a project" title="Choose a project" value="" onChange={event => goTo(Number(event.target.value))}>
               <option value="" disabled hidden>All projects</option>
               {projects.map((project, index) => <option key={project.title} value={index}>{project.title}</option>)}
             </select>
             <FiChevronDown className="project-gallery-picker-chevron" size={14} aria-hidden="true" />
-          </div>
-          <div className="project-gallery-arrows">
+          </div> */}
+          {/* <div className="project-gallery-arrows">
             <button type="button" className="project-gallery-arrow project-gallery-previous" onClick={previous} aria-label="Previous project" title="Previous project"><FiArrowLeft size={20} aria-hidden="true" /></button>
             <button type="button" className="project-gallery-arrow project-gallery-next" onClick={next} aria-label="Next project" title="Next project"><FiArrowRight size={20} aria-hidden="true" /></button>
             <button type="button" className="project-gallery-arrow project-gallery-playback" data-autoplay-control onClick={autoplay.toggle} aria-label={autoplay.enabled ? 'Pause automatic scrolling' : 'Start automatic scrolling'} title={autoplay.enabled ? 'Pause automatic scrolling' : 'Start automatic scrolling'}>
               {autoplay.enabled ? <FiPause size={18} aria-hidden="true" /> : <FiPlay size={18} aria-hidden="true" />}
             </button>
-          </div>
+          </div> */}
         </div>
 
         <p className="sr-only" role="status" aria-live={autoplay.isPlaying ? 'off' : 'polite'}>Project {activeIndex + 1} of {projects.length}: {projects[activeIndex].title}</p>
