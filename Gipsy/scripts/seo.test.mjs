@@ -60,6 +60,8 @@ test('metadata and linked identity graph match the visible profile', () => {
   assert.equal(graph.find(node => node['@type'] === 'ProfilePage').mainEntity['@id'], person['@id']);
   assert.equal(graph.find(node => node['@type'] === 'WebSite').publisher['@id'], person['@id']);
   assert.ok(all.some(node => node.tagName === 'img' && new URL(attr(node, 'src'), canonical).href === person.image));
+  assert.ok(all.some(node => node.tagName === 'link' && attr(node, 'as') === 'image'
+    && node.parentNode.tagName === 'head' && new URL(attr(node, 'href'), canonical).href === person.image));
   assert.ok(all.some(node => node.tagName === 'a' && attr(node, 'href') === person.sameAs[0]));
 });
 

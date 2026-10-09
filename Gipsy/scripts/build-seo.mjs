@@ -43,6 +43,13 @@ try {
   appRoot.childNodes.forEach(node => { node.parentNode = appRoot; });
   html.attrs.push({ name: 'data-static', value: '' });
 
+  // React emits image preloads next to the SSR root; discover them in the head.
+  const imagePreloads = appRoot.childNodes.filter(node => node.tagName === 'link'
+    && attribute(node, 'rel') === 'preload' && attribute(node, 'as') === 'image');
+  appRoot.childNodes = appRoot.childNodes.filter(node => !imagePreloads.includes(node));
+  imagePreloads.forEach(node => { node.parentNode = head; });
+  head.childNodes.unshift(...imagePreloads);
+
   const structuredData = find(head, node => attribute(node, 'type') === 'application/ld+json');
   const graph = JSON.parse(structuredData.childNodes[0].value);
   const person = graph['@graph'].find(entity => entity['@type'] === 'Person');

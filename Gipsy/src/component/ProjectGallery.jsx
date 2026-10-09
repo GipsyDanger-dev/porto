@@ -8,6 +8,7 @@ import './ProjectGallery.css';
 
 export const ProjectGallery = ({ projects, onSelect, isDialogOpen = false }) => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [loadImages, setLoadImages] = useState(import.meta.env.SSR);
   const galleryRef = useRef(null);
   const previousIndex = useRef(0);
   const direction = useRef(1);
@@ -26,6 +27,20 @@ export const ProjectGallery = ({ projects, onSelect, isDialogOpen = false }) => 
   }, plugins);
   const autoplay = useProjectAutoplay(emblaApi, galleryRef, isDialogOpen);
   const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  useEffect(() => {
+    const gallery = galleryRef.current;
+    if (!gallery) return;
+    if (!('IntersectionObserver' in window)) { setLoadImages(true); return; }
+    // Native lazy loading can fetch carousel images several screens ahead.
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      setLoadImages(true);
+      observer.disconnect();
+    }, { rootMargin: '600px' });
+    observer.observe(gallery);
+    return () => observer.disconnect();
+  }, []);
 
   const syncSelection = useCallback((api) => {
     const index = api.selectedScrollSnap();
@@ -153,7 +168,7 @@ export const ProjectGallery = ({ projects, onSelect, isDialogOpen = false }) => 
                   }}
                 >
                   <span className="project-gallery-preview">
-                    <img src={project.imageUrl} alt={project.title} width={project.imageWidth} height={project.imageHeight} loading="lazy" decoding="async" draggable={false} />
+                    <img src={loadImages ? project.imageUrl : undefined} alt={project.title} width={project.imageWidth} height={project.imageHeight} loading="lazy" decoding="async" draggable={false} />
                     <span className="project-gallery-hover-cue" aria-hidden="true">
                       {isActive ? 'View case study' : 'Select project'}
                       {isActive ? <FiArrowUpRight size={16} /> : <FiArrowRight size={16} />}
